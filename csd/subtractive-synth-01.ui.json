@@ -1,0 +1,54 @@
+{
+    "cabbage-output-config": {
+        "debug": false
+    },
+    "ui": {
+        "type": "form",
+        "name": "Subtractive Synth 01",
+        "height": 450,
+        "width": 1400,
+        "border": 1,
+        "border-color": "rgba(127, 127, 255, 127)",
+        "background": "black",
+        "color": "white",
+        "id": "ss01",
+        "children": [{
+            "type": "styled-tab-group",
+            "id": "main-tabs",
+            "width": "100%",
+            "height": "100%",
+            "tab-height": 25,
+            "children": [{
+                "comment": "UI tab",
+                "type": "styled-tab-child",
+                "height": "100%",
+                "width": "100%",
+                "layout": "TopToBottom",
+                "tab": {
+                    "type": "styled-tab",
+                    "text": "UI",
+                    "height": "(inherit('tab-height'))",
+                    "width": 50
+                },
+                "children": [
+                ]
+            }, {
+                "comment": "Console tab",
+                "type": "styled-tab-child",
+                "height": "100%",
+                "width": "100%",
+                "tab": {
+                    "type": "styled-tab",
+                    "text": "Console",
+                    "height": "(inherit('tab-height'))",
+                    "width": 80
+                },
+                "children": [{
+                    "type": "styled-console",
+                    "width": "100%",
+                    "height": "100%"
+                }]
+            }]
+        }]
+    }
+}

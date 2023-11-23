@@ -17,9 +17,13 @@ message("\n-- Running CsoundTemplating npm install - done")
 
 add_csound_templates(
     PACKAGES
+        cabbage-core
+        cabbage-tab-group
         csound-core
     SOURCES
+        "csd/subtractive-synth-01.csd"
     JSON
+        "csd/subtractive-synth-01.ui.json"
         "styles/default.json"
 )
 
