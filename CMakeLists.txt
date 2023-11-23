@@ -6,14 +6,9 @@ include(FetchContent)
 FetchContent_Declare(
     CsoundTemplating
     GIT_REPOSITORY https://github.com/docEdub/CsoundTemplating.git
-    GIT_TAG b986979cc8e0e61b3e3c2bb13dd42256f5c057b0
+    GIT_TAG 121c2ba88596d2f087fed52c4def044d97b62912
 )
 FetchContent_MakeAvailable(CsoundTemplating)
-find_package(CsoundTemplating REQUIRED PATHS "${csoundtemplating_SOURCE_DIR}")
-
-message("-- Running CsoundTemplating npm install ...\n")
-execute_process(COMMAND npm --prefix "${csoundtemplating_SOURCE_DIR}" install)
-message("\n-- Running CsoundTemplating npm install - done")
 
 add_csound_templates(
     PACKAGES
