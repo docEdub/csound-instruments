@@ -6,7 +6,7 @@ include(FetchContent)
 FetchContent_Declare(
     CsoundTemplating
     GIT_REPOSITORY https://github.com/docEdub/CsoundTemplating.git
-    GIT_TAG 5feba8b2b462de639c36a0147b59898099465088
+    GIT_TAG b986979cc8e0e61b3e3c2bb13dd42256f5c057b0
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 find_package(CsoundTemplating REQUIRED PATHS "${csoundtemplating_SOURCE_DIR}")
