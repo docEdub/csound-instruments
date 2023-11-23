@@ -20,6 +20,7 @@ add_csound_templates(
         csound-core
     SOURCES
     JSON
+        "styles/default.json"
 )
 
 generate_csound_templates()
