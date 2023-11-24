@@ -10,16 +10,22 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 
-add_csound_templates(
-    PACKAGES
-        cabbage-core
-        cabbage-tab-group
-        csound-core
-    SYNTH_SOURCES
-        "csd/subtractive-synth-01.csd"
-    JSON
-        "csd/subtractive-synth-01.ui.json"
-        "styles/default.json"
+set(synth_sources
+    "csd/subtractive-synth-01"
 )
+
+foreach(synth_source ${synth_sources})
+    add_csound_templates(
+        PACKAGES
+            cabbage-core
+            cabbage-tab-group
+            csound-core
+        SYNTH_SOURCES
+            "${synth_source}.csd"
+        JSON
+            "${synth_source}.ui.json"
+            "styles/default.json"
+    )
+endforeach()
 
 generate_csound_templates()
