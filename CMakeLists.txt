@@ -6,7 +6,7 @@ include(FetchContent)
 FetchContent_Declare(
     CsoundTemplating
     GIT_REPOSITORY https://github.com/docEdub/CsoundTemplating.git
-    GIT_TAG e4f3320fae197a13b591d03723d608eed0cda997
+    GIT_TAG b976b448a0dfcf663bd7b0bac18a8ff616648bca
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 
@@ -15,7 +15,7 @@ add_csound_templates(
         cabbage-core
         cabbage-tab-group
         csound-core
-    SOURCES
+    SYNTH_SOURCES
         "csd/subtractive-synth-01.csd"
     JSON
         "csd/subtractive-synth-01.ui.json"
