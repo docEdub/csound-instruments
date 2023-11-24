@@ -1,6 +1,14 @@
 {
     "uiTypes": [
         {
+            "type": "styled-checkbox",
+            "extends": "checkbox",
+            "border": "(inherit())",
+            "border-color": "(inherit())",
+            "background-color-active": "rgb(255, 0, 0)",
+            "background-color-inactive": "rgb(31, 31, 31)"
+        },
+        {
             "type": "styled-tab-group",
             "extends": "tab-group",
             "border": "(inherit())",
@@ -47,7 +55,8 @@
             "type": "styled-spacer",
             "extends": "label",
             "background": "(inherit())",
-            "color": "(inherit())"
+            "text": "",
+            "font-size": 0
         },
         {
             "type": "borderless-number-box-slider",

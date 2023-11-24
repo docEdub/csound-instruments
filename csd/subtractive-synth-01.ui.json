@@ -2,11 +2,142 @@
     "cabbage-output-config": {
         "debug": false
     },
+    "uiTypes": [{
+        "type": "filter-control-checkbox",
+        "extends": "styled-checkbox",
+        "height": "100%"
+    }, {
+        "type": "filter-control-label",
+        "extends": "styled-label",
+        "height": "100%",
+        "color": "grey",
+        "font-size": 12
+    }, {
+        "type": "filter-control-amplitude-input",
+        "extends": "styled-number-box-slider",
+        "height": "100%",
+        "children": [{
+            "type": "borderless-number-box-slider",
+            "width": "100%",
+            "height": "100%",
+            "color": "(inherit())",
+            "channel": "(inherit('slider-channel'))",
+            "font-size": 12,
+            "range": {
+                "min": 0,
+                "max": 1,
+                "increment": 0.001
+            }
+        }]
+    }, {
+        "type": "filter-control-bandwidth-input",
+        "extends": "styled-number-box-slider",
+        "height": "100%",
+        "children": [{
+            "type": "borderless-number-box-slider",
+            "width": "100%",
+            "height": "100%",
+            "color": "(inherit())",
+            "channel": "(inherit('slider-channel'))",
+            "font-size": 12,
+            "range": {
+                "min": 0,
+                "max": 1000,
+                "increment": 1
+            }
+        }]
+    }, {
+        "type": "filter-control-multiplier-input",
+        "extends": "styled-number-box-slider",
+        "height": "100%",
+        "children": [{
+            "type": "borderless-number-box-slider",
+            "width": "100%",
+            "height": "100%",
+            "color": "(inherit())",
+            "channel": "(inherit('slider-channel'))",
+            "font-size": 12,
+            "range": {
+                "min": 0,
+                "max": 10,
+                "increment": 0.001
+            }
+        }]
+    }, {
+        "type": "filter-control-ratio-input",
+        "extends": "styled-number-box-slider",
+        "height": "100%",
+        "children": [{
+            "type": "borderless-number-box-slider",
+            "width": "100%",
+            "height": "100%",
+            "color": "(inherit())",
+            "channel": "(inherit('slider-channel'))",
+            "font-size": 12,
+            "range": {
+                "min": 0,
+                "max": 50,
+                "increment": 0.0000001
+            }
+        }]
+    }, {
+        "type": "filter-control-spacer",
+        "extends": "styled-spacer",
+        "height": "100%"
+    }, {
+        "type": "filter-control",
+        "extends": "styled-group",
+        "width": "100%",
+        "height": 22,
+        "layout": "LeftToRight",
+        "children": [{
+            "type": "filter-control-label",
+            "width": 20,
+            "text": "(parent.childIndex + 1)"
+        }, {
+            "type": "filter-control-checkbox",
+            "width": 20,
+            "channel": "(`filter-` + (parent.childIndex + 1) + `-enabled`)"
+        }, {
+            "type": "filter-control-spacer",
+            "width": 12
+        }, {
+            "type": "filter-control-label",
+            "width": 40,
+            "text": "ratio"
+        }, {
+            "type": "filter-control-ratio-input",
+            "width": 72,
+            "slider-channel": "(`filter-` + (parent.childIndex + 1) + `-ratio`)"
+        }, {
+            "type": "filter-control-spacer",
+            "width": 12
+        }, {
+            "type": "filter-control-label",
+            "width": 64,
+            "text": "bandwidth"
+        }, {
+            "type": "filter-control-bandwidth-input",
+            "width": 32,
+            "slider-channel": "(`filter-` + (parent.childIndex + 1) + `-bandwidth`)"
+        }, {
+            "type": "filter-control-spacer",
+            "width": 12
+        }, {
+            "type": "filter-control-label",
+            "width": 64,
+            "text": "amplitude"
+        }, {
+            "type": "filter-control-amplitude-input",
+            "width": 48,
+            "slider-channel": "(`filter-` + (parent.childIndex + 1) + `-amplitude`)"
+        }]
+    }],
     "ui": {
         "type": "form",
         "name": "Subtractive Synth 01",
-        "height": 450,
-        "width": 1400,
+        "height": 488,
+        "width": 420,
         "border": 1,
         "border-color": "rgba(127, 127, 255, 127)",
         "background": "black",
@@ -28,10 +159,73 @@
                     "type": "styled-tab",
                     "text": "UI",
                     "height": "(inherit('tab-height'))",
-                    "width": 50
+                    "width": 100
                 },
-                "children": [
-                ]
+                "children": [{
+                    "type": "styled-group",
+                    "width": 283,
+                    "height": 20,
+                    "layout": "LeftToRight",
+                    "children": [{
+                        "type": "filter-control-spacer",
+                        "width": 113
+                    }, {
+                        "type": "filter-control-label",
+                        "width": 128,
+                        "text": "bandwidth multiplier"
+                    }, {
+                        "type": "filter-control-multiplier-input",
+                        "width": 40,
+                        "slider-channel": "filter-bandwidth-multiplier"
+                    }]
+                }, {
+                    "comment": "Filters",
+                    "type": "styled-group",
+                    "width": 500,
+                    "height": "100%",
+                    "layout": "TopToBottom",
+                    "children": [{
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }, {
+                        "type": "filter-control"
+                    }]
+                }]
             }, {
                 "comment": "Console tab",
                 "type": "styled-tab-child",
