@@ -6,26 +6,23 @@ include(FetchContent)
 FetchContent_Declare(
     CsoundTemplating
     GIT_REPOSITORY https://github.com/docEdub/CsoundTemplating.git
-    GIT_TAG b976b448a0dfcf663bd7b0bac18a8ff616648bca
+    GIT_TAG 81bd934152c61f4804a93a5726a5d29d94aa35ea
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 
-set(synth_sources
-    "csd/subtractive-synth-01"
+add_csound_templates(
+    PACKAGES
+        cabbage-core
+        cabbage-tab-group
+        csound-core
+    OPCODES
+        "components/oscillator-01.orc"
+    SYNTH_SOURCES
+        "instruments/subtractive-synth-01.csd"
+    JSON
+        "components/oscillator-01.ui.json"
+        "instruments/subtractive-synth-01.ui.json"
+        "styles/default.json"
 )
-
-foreach(synth_source ${synth_sources})
-    add_csound_templates(
-        PACKAGES
-            cabbage-core
-            cabbage-tab-group
-            csound-core
-        SYNTH_SOURCES
-            "${synth_source}.csd"
-        JSON
-            "${synth_source}.ui.json"
-            "styles/default.json"
-    )
-endforeach()
 
 generate_csound_templates()
