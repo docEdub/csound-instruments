@@ -1,0 +1,8 @@
+{
+    "oscillator": {
+        "shape": {
+            "Sawtooth": 0,
+            "Square": 1
+        }
+    }
+}
