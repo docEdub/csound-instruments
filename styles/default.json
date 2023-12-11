@@ -64,7 +64,8 @@
             "type": "styled-label",
             "extends": "label",
             "background": "(inherit())",
-            "color": "(inherit())"
+            "color": "(inherit())",
+            "font-size": 15
         },
         {
             "type": "styled-spacer",
