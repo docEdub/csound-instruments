@@ -23,7 +23,7 @@
             "type": "styled-group",
             "width": "100%",
             "height": 30,
-            "paddingLeft": 10,
+            "padding-left": 10,
             "layout": "LeftToRight",
             "children": [{
                 "type": "styled-label",
