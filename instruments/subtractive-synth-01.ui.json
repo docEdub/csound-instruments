@@ -8,7 +8,7 @@
         "width": 800,
         "height": 500,
         "border": 1,
-        "border-color": "rgba(127, 127, 255, 127)",
+        "border-color": "(global.json.colors.Border)",
         "background": "black",
         "color": "white",
         "id": "ss01",

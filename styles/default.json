@@ -1,18 +1,27 @@
 {
+    "colors": {
+        "Active": "rgb(255, 0, 0)",
+        "Background": "rgb(31, 31, 31)",
+        "Border": "rgb(0, 63, 127)",
+        "Inactive": "rgb(31, 31, 31)",
+        "Main": "rgb(0, 63, 127)"
+    },
     "uiTypes": [
         {
             "type": "styled-checkbox",
             "extends": "checkbox",
             "border": "(inherit())",
             "border-color": "(inherit())",
-            "background-color-active": "rgb(255, 0, 0)",
-            "background-color-inactive": "rgb(31, 31, 31)"
+            "background-color-active": "(global.json.colors.Active)",
+            "background-color-inactive": "(global.json.colors.Inactive)"
         },
         {
             "type": "styled-combobox",
             "extends": "combobox",
             "border": "(inherit())",
-            "border-color": "(inherit())"
+            "border-color": "(inherit())",
+            "background-color-active": "(global.json.colors.Main)",
+            "background-color-inactive": "(global.json.colors.Inactive)"
         },
         {
             "type": "styled-tab-group",
@@ -32,7 +41,7 @@
             "type": "styled-tab",
             "extends": "tab",
             "background-disabled": "(inherit('background'))",
-            "background-enabled": "rgb(0, 0, 128)",
+            "background-enabled": "(global.json.colors.Main)",
             "font-size": 20,
             "value": "(keyParent.childIndex === 0 ? 1 : 0)"
         },
