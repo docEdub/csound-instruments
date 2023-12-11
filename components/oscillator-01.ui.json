@@ -1,8 +1,24 @@
 {
     "oscillator": {
-        "shape": {
+        "wave": {
             "Sawtooth": 0,
             "Square": 1
         }
-    }
+    },
+    "uiTypes": [{
+        "type": "oscillator-component",
+        "comment": "Oscillator component",
+        "extends": "styled-group",
+        "width": 200,
+        "height": "100%",
+        "channel-prefix": "(tryInherit('channel-prefix') ?? 'oscillator')",
+        "children": [{
+            "comment": "Wave",
+            "type": "styled-combobox",
+            "width": 130,
+            "height": 30,
+            "items": "(Object.keys(global.json.oscillator.wave))",
+            "channel": "(inherit('channel-prefix') + '_wave_1')"
+        }]
+    }]
 }

@@ -140,8 +140,8 @@
     "ui": {
         "type": "form",
         "name": "Subtractive Synth 01",
-        "height": 488,
-        "width": 452,
+        "width": 800,
+        "height": 500,
         "border": 1,
         "border-color": "rgba(127, 127, 255, 127)",
         "background": "black",
@@ -166,68 +166,13 @@
                     "width": 100
                 },
                 "children": [{
+                    "comment": "Components",
                     "type": "styled-group",
-                    "width": 307,
-                    "height": 20,
+                    "width": "100%",
+                    "height": "100%",
                     "layout": "LeftToRight",
                     "children": [{
-                        "type": "filter-control-spacer",
-                        "width": 113
-                    }, {
-                        "type": "filter-control-label",
-                        "width": 128,
-                        "text": "bandwidth multiplier"
-                    }, {
-                        "type": "filter-control-multiplier-input",
-                        "width": 64,
-                        "slider-channel": "filter-bandwidth-multiplier"
-                    }]
-                }, {
-                    "comment": "Filters",
-                    "type": "styled-group",
-                    "width": 532,
-                    "height": "100%",
-                    "layout": "TopToBottom",
-                    "children": [{
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
-                    }, {
-                        "type": "filter-control"
+                        "type": "oscillator-component"
                     }]
                 }]
             }, {

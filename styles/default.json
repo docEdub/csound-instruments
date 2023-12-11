@@ -9,6 +9,12 @@
             "background-color-inactive": "rgb(31, 31, 31)"
         },
         {
+            "type": "styled-combobox",
+            "extends": "combobox",
+            "border": "(inherit())",
+            "border-color": "(inherit())"
+        },
+        {
             "type": "styled-tab-group",
             "extends": "tab-group",
             "border": "(inherit())",
