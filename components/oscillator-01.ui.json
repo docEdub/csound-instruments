@@ -14,12 +14,12 @@
         "channel-prefix": "(tryInherit('channel-prefix') ?? 'oscillator')",
         "layout": "TopToBottom",
         "children": [{
-            "comment": "Wave 1",
             "type": "styled-label",
             "width": "100%",
             "height": 30,
             "text": "Oscillator 1"
         }, {
+            "comment": "Wave 1",
             "type": "styled-group",
             "width": "100%",
             "height": 30,
