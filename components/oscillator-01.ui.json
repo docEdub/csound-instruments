@@ -46,6 +46,50 @@
             "label": "Fine",
             "value-range": { "min": 0, "max": 50, "value": 0, "step": 1 },
             "value-channel": "(inherit('channel-prefix') + '_fine_1')"
+        }, {
+            "type": "component-row-spacer"
+        }, {
+            "comment": "Mix",
+            "type": "component-number-box-slider",
+            "label": "Mix",
+            "value-range": { "min": 0, "max": 1, "value": 0.5, "step": 0.01 },
+            "value-channel": "(inherit('channel-prefix') + '_mix')"
+        }, {
+            "comment": "Link",
+            "type": "component-checkbox",
+            "label": "Link",
+            "value-channel": "(inherit('channel-prefix') + '_link')"
+        }, {
+            "type": "component-row-spacer"
+        }, {
+            "type": "styled-label",
+            "width": "100%",
+            "height": "(inherit('row-height'))",
+            "text": "Oscillator 2"
+        }, {
+            "comment": "Wave 2",
+            "type": "component-combobox",
+            "label": "Wave",
+            "value-items": "(Object.keys(global.json.oscillator.wave))",
+            "value-channel": "(inherit('channel-prefix') + '_wave_2')"
+        }, {
+            "comment": "Pulse Width 2",
+            "type": "component-number-box-slider",
+            "label": "PW",
+            "value-range": { "min": 0.01, "max": 0.5, "value": 0.5, "step": 0.01 },
+            "value-channel": "(inherit('channel-prefix') + '_pulseWidth_2')"
+        }, {
+            "comment": "Semitone 2",
+            "type": "component-number-box-slider",
+            "label": "Semi",
+            "value-range": { "min": 0, "max": 36, "value": 0, "step": 1 },
+            "value-channel": "(inherit('channel-prefix') + '_semi_2')"
+        }, {
+            "comment": "Fine 2",
+            "type": "component-number-box-slider",
+            "label": "Fine",
+            "value-range": { "min": -50, "max": 0, "value": 0, "step": 1 },
+            "value-channel": "(inherit('channel-prefix') + '_fine_2')"
         }]
     }]
 }

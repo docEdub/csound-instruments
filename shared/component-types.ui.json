@@ -1,5 +1,33 @@
 {
     "uiTypes": [{
+        "type": "component-checkbox",
+        "extends": "styled-group",
+        "width": "100%",
+        "height": "(inherit('row-height'))",
+        "padding-left": "(inherit('row-label-padding'))",
+        "layout": "LeftToRight",
+        "children": [{
+            "type": "styled-label",
+            "width": "(inherit('row-label-width'))",
+            "height": "100%",
+            "text": "(inherit('label'))",
+            "align": "left"
+        }, {
+            "type": "styled-group",
+            "width": "(inherit('row-value-width'))",
+            "height": "100%",
+            "layout": "LeftToRight",
+            "children": [{
+                "type": "styled-spacer",
+                "width": "35%"
+            }, {
+                "type": "styled-checkbox",
+                "width": "30%",
+                "height": "100%",
+                "channel": "(inherit('value-channel'))"
+            }]
+        }]
+    }, {
         "type": "component-combobox",
         "extends": "styled-group",
         "width": "100%",
@@ -39,5 +67,9 @@
             "slider-range": "(inherit('value-range'))",
             "slider-channel": "(inherit('value-channel'))"
         }]
+    }, {
+        "type": "component-row-spacer",
+        "extends": "styled-spacer",
+        "height": "(inherit('row-height') / 2)"
     }]
 }
