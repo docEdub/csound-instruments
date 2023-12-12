@@ -53,6 +53,12 @@
             "label": "Semitone",
             "value-range": { "min": 0, "max": 36, "value": 0, "step": 1 },
             "value-channel": "(inherit('channel-prefix') + '_semi_1')"
+        }, {
+            "comment": "Fine 1",
+            "type": "component-number-box-slider",
+            "label": "Fine",
+            "value-range": { "min": 0, "max": 50, "value": 0, "step": 1 },
+            "value-channel": "(inherit('channel-prefix') + '_fine_1')"
         }]
     }]
 }
