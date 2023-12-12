@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "watch": "nodemon --exec \"cmake --build .build\""
+  },
+  "devDependencies": {
+    "nodemon": "3.0.2"
+  }
+}
