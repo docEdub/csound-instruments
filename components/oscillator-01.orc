@@ -4,8 +4,8 @@ opcode _oscillator_component_, a, S
 
     iHost_wave_1        = {{getHostValue}}:i(strcat(SChannelPrefix, "_wave_1")) - 1
     iHost_wave_2        = {{getHostValue}}:i(strcat(SChannelPrefix, "_wave_2")) - 1
-    kHost_pulseWidth_1  = {{getHostValue}}:k(strcat(SChannelPrefix, "_pulsewidth_1"))
-    kHost_pulseWidth_2  = {{getHostValue}}:k(strcat(SChannelPrefix, "_pulsewidth_2"))
+    kHost_pulseWidth_1  = {{getHostValue}}:k(strcat(SChannelPrefix, "_pulseWidth_1"))
+    kHost_pulseWidth_2  = {{getHostValue}}:k(strcat(SChannelPrefix, "_pulseWidth_2"))
     kHost_semi_1        = {{getHostValue}}:k(strcat(SChannelPrefix, "_semi_1"))
     kHost_semi_2        = {{getHostValue}}:k(strcat(SChannelPrefix, "_semi_2"))
     kHost_fine_1        = {{getHostValue}}:k(strcat(SChannelPrefix, "_fine_1"))
