@@ -1,6 +1,6 @@
 {
     "component": {
-        "RowHeight": 30,
+        "RowHeight": 25,
         "RowLabelColumnWidth": "50%",
         "RowValueColumnWidth": "50%",
         "RowLeftPadding": 10
@@ -16,7 +16,7 @@
             "type": "styled-label",
             "width": "(global.json.component.RowLabelColumnWidth)",
             "height": "100%",
-            "text": "(inherit('text'))",
+            "text": "(inherit('label'))",
             "align": "left"
         }, {
             "type": "styled-number-box-slider",
