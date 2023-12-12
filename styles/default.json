@@ -93,8 +93,8 @@
                 "height": "100%",
                 "background": "(global.json.colors.TextInputBackground)",
                 "color": "(global.json.colors.TextInput)",
-                "channel": "(inherit('slider-channel'))",
-                "range": "(tryInherit('slider-range', { min: 0, max: 1, increment: 0.001 }))"
+                "channel": "(inherit('value-channel'))",
+                "range": "(tryInherit('value-range', { min: 0, max: 1, increment: 0.001 }))"
             }]
         }
     ]

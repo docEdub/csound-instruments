@@ -16,7 +16,7 @@
             "type": "styled-checkbox",
             "width": "20%",
             "height": "100%",
-            "channel": "(inherit('value-channel'))",
+            "channel": "(inherit('channel-prefix') + '_' + inherit('value-channel'))",
             "checked": "(inherit('value-default'))"
         }]
     }, {
@@ -37,7 +37,7 @@
             "width": "(inherit('row-value-width'))",
             "height": "100%",
             "items": "(inherit('value-items'))",
-            "channel": "(inherit('value-channel'))"
+            "channel": "(inherit('channel-prefix') + '_' + inherit('value-channel'))"
         }]
     }, {
         "type": "component-number-box-slider",
@@ -56,8 +56,8 @@
             "type": "styled-number-box-slider",
             "width": "(inherit('row-value-width'))",
             "height": "100%",
-            "slider-range": "(inherit('value-range'))",
-            "slider-channel": "(inherit('value-channel'))"
+            "value-range": "(inherit('value-range'))",
+            "value-channel": "(inherit('channel-prefix') + '_' + inherit('value-channel'))"
         }]
     }, {
         "type": "component-full-row-spacer",
