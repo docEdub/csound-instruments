@@ -9,48 +9,35 @@
         "type": "oscillator-component",
         "comment": "Oscillator component",
         "extends": "styled-group",
-        "width": 200,
+        "width": 150,
         "height": "100%",
         "channel-prefix": "(tryInherit('channel-prefix') ?? 'oscillator')",
         "layout": "TopToBottom",
-        "left-column-padding": 10,
-        "left-column-width": "50%",
-        "right-column-width": "50%",
+        "row-height": "(tryInherit() ?? 27)",
+        "row-label-padding": "(tryInherit() ?? 10)",
+        "row-label-width": "(tryInherit() ?? '40%')",
+        "row-value-width": "(tryInherit() ?? '60%')",
         "children": [{
             "type": "styled-label",
             "width": "100%",
-            "height": 30,
+            "height": "(inherit('row-height'))",
             "text": "Oscillator 1"
         }, {
             "comment": "Wave 1",
-            "type": "styled-group",
-            "width": "100%",
-            "height": 30,
-            "padding-left": "(inherit('left-column-padding'))",
-            "layout": "LeftToRight",
-            "children": [{
-                "type": "styled-label",
-                "width": "(inherit('left-column-width'))",
-                "height": "100%",
-                "text": "Wave",
-                "align": "left"
-            }, {
-                "type": "styled-combobox",
-                "width": "(inherit('right-column-width'))",
-                "height": "100%",
-                "items": "(Object.keys(global.json.oscillator.wave))",
-                "channel": "(inherit('channel-prefix') + '_wave_1')"
-            }]
+            "type": "component-combobox",
+            "label": "Wave",
+            "value-items": "(Object.keys(global.json.oscillator.wave))",
+            "value-channel": "(inherit('channel-prefix') + '_wave_1')"
         }, {
             "comment": "Pulse Width 1",
             "type": "component-number-box-slider",
-            "label": "Pulse Width",
+            "label": "PW",
             "value-range": { "min": 0.01, "max": 0.5, "value": 0.5, "step": 0.01 },
             "value-channel": "(inherit('channel-prefix') + '_pulseWidth_1')"
         }, {
             "comment": "Semitone 1",
             "type": "component-number-box-slider",
-            "label": "Semitone",
+            "label": "Semi",
             "value-range": { "min": 0, "max": 36, "value": 0, "step": 1 },
             "value-channel": "(inherit('channel-prefix') + '_semi_1')"
         }, {

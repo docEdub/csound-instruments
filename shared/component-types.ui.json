@@ -1,26 +1,40 @@
 {
-    "component": {
-        "RowHeight": 25,
-        "RowLabelColumnWidth": "50%",
-        "RowValueColumnWidth": "50%",
-        "RowLeftPadding": 10
-    },
     "uiTypes": [{
-        "type": "component-number-box-slider",
+        "type": "component-combobox",
         "extends": "styled-group",
         "width": "100%",
-        "height": "(global.json.component.RowHeight)",
-        "padding-left": "(global.json.component.RowLeftPadding)",
+        "height": "(inherit('row-height'))",
+        "padding-left": "(inherit('row-label-padding'))",
         "layout": "LeftToRight",
         "children": [{
             "type": "styled-label",
-            "width": "(global.json.component.RowLabelColumnWidth)",
+            "width": "(inherit('row-label-width'))",
+            "height": "100%",
+            "text": "(inherit('label'))",
+            "align": "left"
+        }, {
+            "type": "styled-combobox",
+            "width": "(inherit('row-value-width'))",
+            "height": "100%",
+            "items": "(inherit('value-items'))",
+            "channel": "(inherit('value-channel'))"
+        }]
+    }, {
+        "type": "component-number-box-slider",
+        "extends": "styled-group",
+        "width": "100%",
+        "height": "(inherit('row-height'))",
+        "padding-left": "(inherit('row-label-padding'))",
+        "layout": "LeftToRight",
+        "children": [{
+            "type": "styled-label",
+            "width": "(inherit('row-label-width'))",
             "height": "100%",
             "text": "(inherit('label'))",
             "align": "left"
         }, {
             "type": "styled-number-box-slider",
-            "width": "(global.json.component.RowValueColumnWidth)",
+            "width": "(inherit('row-value-width'))",
             "height": "100%",
             "slider-range": "(inherit('value-range'))",
             "slider-channel": "(inherit('value-channel'))"
