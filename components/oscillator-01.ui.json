@@ -1,7 +1,7 @@
 {
     "oscillator": {
         "wave": {
-            "Sawtooth": 0,
+            "Saw": 0,
             "Square": 1
         }
     },

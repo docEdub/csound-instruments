@@ -51,7 +51,7 @@ opcode _oscillator_component_, a, S
     kNoteNumber init notnum()
 
     kNoteNumber_1 = kNoteNumber + kHost_semi_1 + kHost_fine_1 / 100
-    iMode_1 = iHost_wave_1 == {{oscillator.wave.Sawtooth}} ? {{vco2.mode.Sawtooth}} : {{vco2.mode.Square}}
+    iMode_1 = iHost_wave_1 == {{oscillator.wave.Saw}} ? {{vco2.mode.Sawtooth}} : {{vco2.mode.Square}}
     aOut = vco2(kHost_mix, cpsmidinn(kNoteNumber_1), iMode_1, kHost_pulseWidth_1)
     ; {{LogDebug_k '("kHost_mix = %f", kHost_mix)'}}
     ; {{LogDebug_k '("kNoteNumber_1 = %f", kNoteNumber_1)'}}
@@ -59,7 +59,7 @@ opcode _oscillator_component_, a, S
     ; {{LogDebug_k '("kHost_pulseWidth_1 = %f", kHost_pulseWidth_1)'}}
 
     kNoteNumber_2 = kNoteNumber + kHost_semi_2 + kHost_fine_2 / 100
-    iMode_2 = iHost_wave_2 == {{oscillator.wave.Sawtooth}} ? {{vco2.mode.Sawtooth}} : {{vco2.mode.Square}}
+    iMode_2 = iHost_wave_2 == {{oscillator.wave.Saw}} ? {{vco2.mode.Sawtooth}} : {{vco2.mode.Square}}
     aOut += vco2(k(1) - kHost_mix, cpsmidinn(kNoteNumber_2), iMode_2, kHost_pulseWidth_2)
     ; {{LogDebug_k '("kHost_mix = %f", kHost_mix)'}}
     ; {{LogDebug_k '("kNoteNumber_2 = %f", kNoteNumber_2)'}}
