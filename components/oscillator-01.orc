@@ -29,7 +29,7 @@ opcode _oscillator_component_on_channel_, a, S
     ; {{LogDebug_i '("iMode_2 = %f", iMode_2)'}}
     ; {{LogDebug_k '("kHost_pulseWidth_2 = %f", kHost_pulseWidth_2)'}}
 
-    xout(aOut)
+    xout(aOut * 0.1)
 endop
 
 opcode _oscillator_component_, a, 0
