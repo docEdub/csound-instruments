@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "watch": "nodemon --exec \"cmake --build .build\""
+    "watch": "nodemon --exec \"cmake --build .build\" -e csd,js,json,txt,orc,ts"
   },
   "devDependencies": {
     "nodemon": "3.0.2"
