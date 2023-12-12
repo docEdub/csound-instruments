@@ -1,8 +1,8 @@
 {
     "oscillator": {
         "wave": {
-            "Saw": 0,
-            "Square": 1
+            "Saw": 1,
+            "Square": 2
         }
     },
     "uiTypes": [{
@@ -20,10 +20,11 @@
         "children": [{
             "type": "component-half-row-spacer"
         }, {
-            "type": "styled-label",
-            "width": "100%",
-            "height": "(inherit('row-height'))",
-            "text": "Oscillator 1"
+            "comment": "Oscillator 1",
+            "type": "component-checkbox",
+            "label": "Oscillator 1",
+            "value-channel": "(inherit('channel-prefix') + '_enabled_1')",
+            "value-default": true
         }, {
             "comment": "Wave 1",
             "type": "component-combobox",
@@ -59,10 +60,11 @@
         }, {
             "type": "component-full-row-spacer"
         }, {
-            "type": "styled-label",
-            "width": "100%",
-            "height": "(inherit('row-height'))",
-            "text": "Oscillator 2"
+            "comment": "Oscillator 2",
+            "type": "component-checkbox",
+            "label": "Oscillator 2",
+            "value-channel": "(inherit('channel-prefix') + '_enabled_2')",
+            "value-default": false
         }, {
             "comment": "Wave 2",
             "type": "component-combobox",

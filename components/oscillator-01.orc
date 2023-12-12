@@ -2,8 +2,15 @@
 opcode _oscillator_component_on_channel_, a, S
     SChannelPrefix xin
 
-    iHost_wave_1        = {{getHostValue}}:i(strcat(SChannelPrefix, "_wave_1")) - 1
-    iHost_wave_2        = {{getHostValue}}:i(strcat(SChannelPrefix, "_wave_2")) - 1
+    kHost_enabled_1     = {{getHostValue}}:k(strcat(SChannelPrefix, "_enabled_1"))
+    kHost_enabled_2     = {{getHostValue}}:k(strcat(SChannelPrefix, "_enabled_2"))
+
+    if (kHost_enabled_1 == {{false}} && kHost_enabled_2 == {{false}}) then
+        kgoto end
+    endif
+
+    iHost_wave_1        = {{getHostValue}}:i(strcat(SChannelPrefix, "_wave_1"))
+    iHost_wave_2        = {{getHostValue}}:i(strcat(SChannelPrefix, "_wave_2"))
     kHost_pulseWidth_1  = {{getHostValue}}:k(strcat(SChannelPrefix, "_pulseWidth_1"))
     kHost_pulseWidth_2  = {{getHostValue}}:k(strcat(SChannelPrefix, "_pulseWidth_2"))
     kHost_semi_2        = {{getHostValue}}:k(strcat(SChannelPrefix, "_semi_2"))
@@ -12,24 +19,30 @@ opcode _oscillator_component_on_channel_, a, S
     kHost_mix           = {{getHostValue}}:k(strcat(SChannelPrefix, "_mix"))
 
     kNoteNumber init notnum()
+    aOut = 0
 
-    kNoteNumber_1 = kNoteNumber + kHost_fine_1 / 100
-    iMode_1 = iHost_wave_1 == {{oscillator.wave.Saw}} ? {{vco2.mode.Sawtooth}} : {{vco2.mode.Square}}
-    aOut = vco2(kHost_mix, cpsmidinn(kNoteNumber_1), iMode_1, kHost_pulseWidth_1)
-    ; {{LogDebug_k '("kHost_mix = %f", kHost_mix)'}}
-    ; {{LogDebug_k '("kNoteNumber_1 = %f", kNoteNumber_1)'}}
-    ; {{LogDebug_i '("iMode_1 = %f", iMode_1)'}}
-    ; {{LogDebug_k '("kHost_pulseWidth_1 = %f", kHost_pulseWidth_1)'}}
+    if (kHost_enabled_1 == {{true}}) then
+        kNoteNumber_1 = kNoteNumber + kHost_fine_1 / 100
+        iMode_1 = iHost_wave_1 == {{oscillator.wave.Saw}} ? {{vco2.mode.Sawtooth}} : {{vco2.mode.Square}}
+        aOut += vco2(kHost_mix, cpsmidinn(kNoteNumber_1), iMode_1, kHost_pulseWidth_1)
+        ; {{LogDebug_k '("kHost_mix = %f", kHost_mix)'}}
+        ; {{LogDebug_k '("kNoteNumber_1 = %f", kNoteNumber_1)'}}
+        ; {{LogDebug_i '("iMode_1 = %f", iMode_1)'}}
+        ; {{LogDebug_k '("kHost_pulseWidth_1 = %f", kHost_pulseWidth_1)'}}
+    endif
 
-    kNoteNumber_2 = kNoteNumber + kHost_semi_2 + kHost_fine_2 / 100
-    iMode_2 = iHost_wave_2 == {{oscillator.wave.Saw}} ? {{vco2.mode.Sawtooth}} : {{vco2.mode.Square}}
-    aOut += vco2(k(1) - kHost_mix, cpsmidinn(kNoteNumber_2), iMode_2, kHost_pulseWidth_2)
-    ; {{LogDebug_k '("kHost_mix = %f", kHost_mix)'}}
-    ; {{LogDebug_k '("kNoteNumber_2 = %f", kNoteNumber_2)'}}
-    ; {{LogDebug_i '("iMode_2 = %f", iMode_2)'}}
-    ; {{LogDebug_k '("kHost_pulseWidth_2 = %f", kHost_pulseWidth_2)'}}
+    if (kHost_enabled_2 == {{true}}) then
+        kNoteNumber_2 = kNoteNumber + kHost_semi_2 + kHost_fine_2 / 100
+        iMode_2 = iHost_wave_2 == {{oscillator.wave.Saw}} ? {{vco2.mode.Sawtooth}} : {{vco2.mode.Square}}
+        aOut += vco2(k(1) - kHost_mix, cpsmidinn(kNoteNumber_2), iMode_2, kHost_pulseWidth_2)
+        ; {{LogDebug_k '("kHost_mix = %f", kHost_mix)'}}
+        ; {{LogDebug_k '("kNoteNumber_2 = %f", kNoteNumber_2)'}}
+        ; {{LogDebug_i '("iMode_2 = %f", iMode_2)'}}
+        ; {{LogDebug_k '("kHost_pulseWidth_2 = %f", kHost_pulseWidth_2)'}}
+    endif
 
     xout(aOut * 0.1)
+end:
 endop
 
 opcode _oscillator_component_, a, 0
@@ -54,8 +67,8 @@ instr _oscillator_component_on_channel_
     kLast_fine_2        init 0
 
     if ({{getHostValue}}:k(strcat(SChannelPrefix, "_link")) == {{true}}) then
-        kHost_wave_1        = {{getHostValue}}:k(strcat(SChannelPrefix, "_wave_1")) - 1
-        kHost_wave_2        = {{getHostValue}}:k(strcat(SChannelPrefix, "_wave_2")) - 1
+        kHost_wave_1        = {{getHostValue}}:k(strcat(SChannelPrefix, "_wave_1"))
+        kHost_wave_2        = {{getHostValue}}:k(strcat(SChannelPrefix, "_wave_2"))
         kHost_pulseWidth_1  = {{getHostValue}}:k(strcat(SChannelPrefix, "_pulseWidth_1"))
         kHost_pulseWidth_2  = {{getHostValue}}:k(strcat(SChannelPrefix, "_pulseWidth_2"))
         kHost_fine_1        = {{getHostValue}}:k(strcat(SChannelPrefix, "_fine_1"))
@@ -63,10 +76,10 @@ instr _oscillator_component_on_channel_
 
         if (kHost_wave_1 != kLast_wave_1) then
             kHost_wave_2 = kHost_wave_1
-            {{setHostValue}}(strcat(SChannelPrefix, "_wave_2"), kHost_wave_2 + 1)
+            {{setHostValue}}(strcat(SChannelPrefix, "_wave_2"), kHost_wave_2)
         elseif (kHost_wave_2 != kLast_wave_2) then
             kHost_wave_1 = kHost_wave_2
-            {{setHostValue}}(strcat(SChannelPrefix, "_wave_1"), kHost_wave_1 + 1)
+            {{setHostValue}}(strcat(SChannelPrefix, "_wave_1"), kHost_wave_1)
         endif
 
         if (kHost_pulseWidth_1 != kLast_pulseWidth_1) then
