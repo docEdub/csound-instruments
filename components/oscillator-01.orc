@@ -3,20 +3,21 @@ opcode _oscillator_component_on_channel_, a, S
     SChannelPrefix xin
 
     kHost_enabled_1     = {{getHostValue}}:k(strcat(SChannelPrefix, "_enabled_1"))
-    kHost_enabled_2     = {{getHostValue}}:k(strcat(SChannelPrefix, "_enabled_2"))
-
-    if (kHost_enabled_1 == {{false}} && kHost_enabled_2 == {{false}}) then
-        kgoto end
-    endif
-
     iHost_wave_1        = {{getHostValue}}:i(strcat(SChannelPrefix, "_wave_1"))
-    iHost_wave_2        = {{getHostValue}}:i(strcat(SChannelPrefix, "_wave_2"))
     kHost_pulseWidth_1  = {{getHostValue}}:k(strcat(SChannelPrefix, "_pulseWidth_1"))
+    kHost_fine_1        = {{getHostValue}}:k(strcat(SChannelPrefix, "_fine_1"))
+
+    kHost_mix           = {{getHostValue}}:k(strcat(SChannelPrefix, "_mix"))
+
+    kHost_enabled_2     = {{getHostValue}}:k(strcat(SChannelPrefix, "_enabled_2"))
+    iHost_wave_2        = {{getHostValue}}:i(strcat(SChannelPrefix, "_wave_2"))
     kHost_pulseWidth_2  = {{getHostValue}}:k(strcat(SChannelPrefix, "_pulseWidth_2"))
     kHost_semi_2        = {{getHostValue}}:k(strcat(SChannelPrefix, "_semi_2"))
-    kHost_fine_1        = {{getHostValue}}:k(strcat(SChannelPrefix, "_fine_1"))
     kHost_fine_2        = {{getHostValue}}:k(strcat(SChannelPrefix, "_fine_2"))
-    kHost_mix           = {{getHostValue}}:k(strcat(SChannelPrefix, "_mix"))
+
+    kHost_sub_enabled   = {{getHostValue}}:k(strcat(SChannelPrefix, "_sub_enabled"))
+    iHost_sub_wave      = {{getHostValue}}:i(strcat(SChannelPrefix, "_sub_wave"))
+    kHost_sub_amp       = {{getHostValue}}:k(strcat(SChannelPrefix, "_sub_amp"))
 
     kNoteNumber init notnum()
     aOut = 0
@@ -39,6 +40,16 @@ opcode _oscillator_component_on_channel_, a, S
         ; {{LogDebug_k '("kNoteNumber_2 = %f", kNoteNumber_2)'}}
         ; {{LogDebug_i '("iMode_2 = %f", iMode_2)'}}
         ; {{LogDebug_k '("kHost_pulseWidth_2 = %f", kHost_pulseWidth_2)'}}
+    endif
+
+    if (kHost_sub_enabled == {{true}}) then
+        if (iHost_sub_wave == {{oscillator.sub.wave.Pulse}}) then
+            iMode_sub = {{vco2.mode.SquareWaveNoPWM}}
+        elseif (iHost_sub_wave == {{oscillator.sub.wave.Triangle}}) then
+            iMode_sub = {{vco2.mode.TriangleNoRamp}}
+        endif
+        aOut += vco2(kHost_sub_amp, cpsmidinn(kNoteNumber - 12), iMode_sub)
+        ; {{LogDebug_i '("iMode_sub = %f", iMode_sub)'}}
     endif
 
     xout(aOut * 0.1)
