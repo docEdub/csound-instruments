@@ -2,7 +2,9 @@
     "oscillator": {
         "wave": {
             "Saw": 1,
-            "Pulse": 2
+            "Pulse": 2,
+            "Triangle": 3,
+            "Sine": 4
         },
         "sub": {
             "wave": {
