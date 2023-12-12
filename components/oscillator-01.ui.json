@@ -54,7 +54,8 @@
             "comment": "Link",
             "type": "component-checkbox",
             "label": "Link",
-            "value-channel": "(inherit('channel-prefix') + '_link')"
+            "value-channel": "(inherit('channel-prefix') + '_link')",
+            "value-default": true
         }, {
             "type": "component-full-row-spacer"
         }, {

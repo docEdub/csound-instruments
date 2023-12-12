@@ -24,7 +24,8 @@
                 "type": "styled-checkbox",
                 "width": "30%",
                 "height": "100%",
-                "channel": "(inherit('value-channel'))"
+                "channel": "(inherit('value-channel'))",
+                "checked": "(inherit('value-default'))"
             }]
         }]
     }, {

@@ -6,7 +6,7 @@ include(FetchContent)
 FetchContent_Declare(
     CsoundTemplating
     GIT_REPOSITORY https://github.com/docEdub/CsoundTemplating.git
-    GIT_TAG 536c27b4e73f0a45382937797913643589248e73
+    GIT_TAG a8447494af762f2675b54d47611c438d933401e9
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 

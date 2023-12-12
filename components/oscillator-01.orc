@@ -1,5 +1,5 @@
 
-opcode _oscillator_component_, a, S
+opcode _oscillator_component_on_channel_, a, S
     SChannelPrefix xin
 
     iHost_wave_1        = {{getHostValue}}:i(strcat(SChannelPrefix, "_wave_1")) - 1
@@ -10,42 +10,6 @@ opcode _oscillator_component_, a, S
     kHost_fine_1        = {{getHostValue}}:k(strcat(SChannelPrefix, "_fine_1"))
     kHost_fine_2        = {{getHostValue}}:k(strcat(SChannelPrefix, "_fine_2"))
     kHost_mix           = {{getHostValue}}:k(strcat(SChannelPrefix, "_mix"))
-
-    iHost_link          = {{getHostValue}}:i(strcat(SChannelPrefix, "_link"))
-    kHost_link          = {{getHostValue}}:k(strcat(SChannelPrefix, "_link"))
-
-    if (iHost_link == {{true}}) then
-        iHost_wave_2 = iHost_wave_1 + 1
-        {{setHostValue}}(strcat(SChannelPrefix, "_wave_2"), iHost_wave_2)
-    endif
-
-    kLast_pulseWidth_1  init 0
-    kLast_pulseWidth_2  init 0
-    kLast_fine_1        init 0
-    kLast_fine_2        init 0
-
-    if (kHost_link == {{true}}) then
-        if (kHost_pulseWidth_1 != kLast_pulseWidth_1) then
-            kHost_pulseWidth_2 = kHost_pulseWidth_1
-            {{setHostValue}}(strcat(SChannelPrefix, "_pulseWidth_2"), kHost_pulseWidth_2)
-        elseif (kHost_pulseWidth_2 != kLast_pulseWidth_2) then
-            kHost_pulseWidth_1 = kHost_pulseWidth_2
-            {{setHostValue}}(strcat(SChannelPrefix, "_pulseWidth_1"), kHost_pulseWidth_1)
-        endif
-
-        if (kHost_fine_1 != kLast_fine_1) then
-            kHost_fine_2 = -kHost_fine_1
-            {{setHostValue}}(strcat(SChannelPrefix, "_fine_2"), kHost_fine_2)
-        elseif (kHost_fine_2 != kLast_fine_2) then
-            kHost_fine_1 = -kHost_fine_2
-            {{setHostValue}}(strcat(SChannelPrefix, "_fine_1"), kHost_fine_1)
-        endif
-
-        kLast_pulseWidth_1 = kHost_pulseWidth_1
-        kLast_pulseWidth_2 = kHost_pulseWidth_2
-        kLast_fine_1 = kHost_fine_1
-        kLast_fine_2 = kHost_fine_2
-    endif
 
     kNoteNumber init notnum()
 
@@ -69,5 +33,68 @@ opcode _oscillator_component_, a, S
 endop
 
 opcode _oscillator_component_, a, 0
-    xout(_oscillator_component_("oscillator"))
+    xout(_oscillator_component_on_channel_("oscillator"))
 endop
+
+instr _oscillator_component_on_channel_
+    SChannelPrefix = p4
+
+    if (frac(p1) == 0) then
+        // Retrigger this instrument with a fractional instrument number so it doesn't get turned off if another
+        // instance of this instrument is started with a non-fractional instrument number.
+        scoreline_i(sprintf("i%d.%d 0 -1 \"%s\"", p1, active(p1), SChannelPrefix))
+        turnoff()
+    endif
+
+    kLast_wave_1        init 0
+    kLast_wave_2        init 0
+    kLast_pulseWidth_1  init 0
+    kLast_pulseWidth_2  init 0
+    kLast_fine_1        init 0
+    kLast_fine_2        init 0
+
+    if ({{getHostValue}}:k(strcat(SChannelPrefix, "_link")) == {{true}}) then
+        kHost_wave_1        = {{getHostValue}}:k(strcat(SChannelPrefix, "_wave_1")) - 1
+        kHost_wave_2        = {{getHostValue}}:k(strcat(SChannelPrefix, "_wave_2")) - 1
+        kHost_pulseWidth_1  = {{getHostValue}}:k(strcat(SChannelPrefix, "_pulseWidth_1"))
+        kHost_pulseWidth_2  = {{getHostValue}}:k(strcat(SChannelPrefix, "_pulseWidth_2"))
+        kHost_fine_1        = {{getHostValue}}:k(strcat(SChannelPrefix, "_fine_1"))
+        kHost_fine_2        = {{getHostValue}}:k(strcat(SChannelPrefix, "_fine_2"))
+
+        if (kHost_wave_1 != kLast_wave_1) then
+            kHost_wave_2 = kHost_wave_1
+            {{setHostValue}}(strcat(SChannelPrefix, "_wave_2"), kHost_wave_2 + 1)
+        elseif (kHost_wave_2 != kLast_wave_2) then
+            kHost_wave_1 = kHost_wave_2
+            {{setHostValue}}(strcat(SChannelPrefix, "_wave_1"), kHost_wave_1 + 1)
+        endif
+
+        if (kHost_pulseWidth_1 != kLast_pulseWidth_1) then
+            kHost_pulseWidth_2 = kHost_pulseWidth_1
+            {{setHostValue}}(strcat(SChannelPrefix, "_pulseWidth_2"), kHost_pulseWidth_2)
+        elseif (kHost_pulseWidth_2 != kLast_pulseWidth_2) then
+            kHost_pulseWidth_1 = kHost_pulseWidth_2
+            {{setHostValue}}(strcat(SChannelPrefix, "_pulseWidth_1"), kHost_pulseWidth_1)
+        endif
+
+        if (kHost_fine_1 != kLast_fine_1) then
+            kHost_fine_2 = -kHost_fine_1
+            {{setHostValue}}(strcat(SChannelPrefix, "_fine_2"), kHost_fine_2)
+        elseif (kHost_fine_2 != kLast_fine_2) then
+            kHost_fine_1 = -kHost_fine_2
+            {{setHostValue}}(strcat(SChannelPrefix, "_fine_1"), kHost_fine_1)
+        endif
+
+        kLast_wave_1 = kHost_wave_1
+        kLast_wave_2 = kHost_wave_2
+        kLast_pulseWidth_1 = kHost_pulseWidth_1
+        kLast_pulseWidth_2 = kHost_pulseWidth_2
+        kLast_fine_1 = kHost_fine_1
+        kLast_fine_2 = kHost_fine_2
+    endif
+endin
+
+instr _oscillator_component_
+    scoreline_i("i\"_oscillator_component_on_channel_\" 0 -1 \"oscillator\"")
+    turnoff()
+endin

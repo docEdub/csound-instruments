@@ -25,6 +25,8 @@ instr 2
     outall(aOut * 0.1)
 endin
 
+alwayson("_oscillator_component_")
+
 </CsInstruments>
 <CsScore>
 
