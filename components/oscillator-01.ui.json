@@ -18,6 +18,8 @@
         "row-label-width": "(tryInherit() ?? '40%')",
         "row-value-width": "(tryInherit() ?? '60%')",
         "children": [{
+            "type": "component-half-row-spacer"
+        }, {
             "type": "styled-label",
             "width": "100%",
             "height": "(inherit('row-height'))",
@@ -47,7 +49,7 @@
             "value-range": { "min": 0, "max": 50, "value": 0, "step": 1 },
             "value-channel": "(inherit('channel-prefix') + '_fine_1')"
         }, {
-            "type": "component-row-spacer"
+            "type": "component-full-row-spacer"
         }, {
             "comment": "Mix",
             "type": "component-number-box-slider",
@@ -60,7 +62,7 @@
             "label": "Link",
             "value-channel": "(inherit('channel-prefix') + '_link')"
         }, {
-            "type": "component-row-spacer"
+            "type": "component-full-row-spacer"
         }, {
             "type": "styled-label",
             "width": "100%",

@@ -68,7 +68,11 @@
             "slider-channel": "(inherit('value-channel'))"
         }]
     }, {
-        "type": "component-row-spacer",
+        "type": "component-full-row-spacer",
+        "extends": "styled-spacer",
+        "height": "(inherit('row-height'))"
+    }, {
+        "type": "component-half-row-spacer",
         "extends": "styled-spacer",
         "height": "(inherit('row-height') / 2)"
     }]
