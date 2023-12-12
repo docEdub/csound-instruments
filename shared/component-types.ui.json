@@ -1,0 +1,29 @@
+{
+    "component": {
+        "RowHeight": 30,
+        "RowLabelColumnWidth": "50%",
+        "RowValueColumnWidth": "50%",
+        "RowLeftPadding": 10
+    },
+    "uiTypes": [{
+        "type": "component-number-box-slider",
+        "extends": "styled-group",
+        "width": "100%",
+        "height": "(global.json.component.RowHeight)",
+        "padding-left": "(global.json.component.RowLeftPadding)",
+        "layout": "LeftToRight",
+        "children": [{
+            "type": "styled-label",
+            "width": "(global.json.component.RowLabelColumnWidth)",
+            "height": "100%",
+            "text": "(inherit('text'))",
+            "align": "left"
+        }, {
+            "type": "styled-number-box-slider",
+            "width": "(global.json.component.RowValueColumnWidth)",
+            "height": "100%",
+            "slider-range": "(inherit('value-range'))",
+            "slider-channel": "(inherit('value-channel'))"
+        }]
+    }]
+}

@@ -14,7 +14,7 @@ opcode _oscillator_component_, a, S
 
     kNoteNumber init notnum()
 
-    kNoteNumber_1 = kNoteNumber + kHost_semi_1 * 100 + kHost_fine_1
+    kNoteNumber_1 = kNoteNumber + kHost_semi_1 + kHost_fine_1 / 100
     iMode_1 = iHost_wave_1 == {{oscillator.wave.Sawtooth}} ? {{vco2.mode.Sawtooth}} : {{vco2.mode.Square}}
     kHost_pulseWidth_1 = max(0.01, min(kHost_pulseWidth_1, 0.99))
 
@@ -35,7 +35,7 @@ opcode _oscillator_component_, a, S
     ; {{LogDebug_k '("kOscillator2Enabled = %f", kOscillator2Enabled)'}}
 
     if (kOscillator2Enabled == {{true}}) then
-        kNoteNumber_2 = kNoteNumber + kHost_semi_2 * 100 + kHost_fine_2
+        kNoteNumber_2 = kNoteNumber + kHost_semi_2 + kHost_fine_2 / 100
         iMode_2 = iHost_wave_2 == {{oscillator.wave.Sawtooth}} ? {{vco2.mode.Sawtooth}} : {{vco2.mode.Square}}
         kHost_pulseWidth_2 = max(0.01, min(kHost_pulseWidth_2, 0.99))
 

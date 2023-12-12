@@ -6,7 +6,7 @@ include(FetchContent)
 FetchContent_Declare(
     CsoundTemplating
     GIT_REPOSITORY https://github.com/docEdub/CsoundTemplating.git
-    GIT_TAG af4f9ab3bfc2d1ac8a936696eca9c4701fc196ea
+    GIT_TAG 536c27b4e73f0a45382937797913643589248e73
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 
@@ -22,6 +22,7 @@ add_csound_templates(
     JSON
         "components/oscillator-01.ui.json"
         "instruments/subtractive-synth-01.ui.json"
+        "shared/component-types.ui.json"
         "styles/default.json"
 )
 
