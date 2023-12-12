@@ -8,25 +8,16 @@
         "layout": "LeftToRight",
         "children": [{
             "type": "styled-label",
-            "width": "(inherit('row-label-width'))",
+            "width": "80%",
             "height": "100%",
             "text": "(inherit('label'))",
             "align": "left"
         }, {
-            "type": "styled-group",
-            "width": "(inherit('row-value-width'))",
+            "type": "styled-checkbox",
+            "width": "20%",
             "height": "100%",
-            "layout": "LeftToRight",
-            "children": [{
-                "type": "styled-spacer",
-                "width": "35%"
-            }, {
-                "type": "styled-checkbox",
-                "width": "30%",
-                "height": "100%",
-                "channel": "(inherit('value-channel'))",
-                "checked": "(inherit('value-default'))"
-            }]
+            "channel": "(inherit('value-channel'))",
+            "checked": "(inherit('value-default'))"
         }]
     }, {
         "type": "component-combobox",
