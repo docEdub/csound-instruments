@@ -1,4 +1,25 @@
 
+opcode _oscillator_component_audio_generator_, a, kkiV
+    kAmp, kCps, iMode, kPulseWidth xin
+
+    if (iMode == {{oscillator.wave.Sine}}) then
+        aOut = poscil3(kAmp, kCps)
+    else
+        iVco2Mode = \
+            iMode == {{oscillator.wave.Saw}} ? {{vco2.mode.Sawtooth}} : \
+            iMode == {{oscillator.wave.Pulse}} ? {{vco2.mode.Square}} : \
+            iMode == {{oscillator.wave.Triangle}} ? {{vco2.mode.SawtoothTriangleRamp}} : \
+            -1
+        aOut = vco2(kAmp, kCps, iVco2Mode, kPulseWidth)
+        ; {{LogDebug_k '("kAmp = %f", kAmp)'}}
+        ; {{LogDebug_k '("kNoteNumber_1 = %f", kNoteNumber_1)'}}
+        ; {{LogDebug_i '("iVco2Mode = %f", iVco2Mode)'}}
+        ; {{LogDebug_k '("kPulseWidth = %f", kPulseWidth)'}}
+    endif
+
+    xout(aOut)
+endop
+
 opcode _oscillator_component_on_channel_, a, S
     SChannelPrefix xin
 
@@ -24,40 +45,20 @@ opcode _oscillator_component_on_channel_, a, S
 
     if (kHost_enabled_1 == {{true}}) then
         kNoteNumber_1 = kNoteNumber + kHost_fine_1 / 100
-
-        if (iHost_wave_1 == {{oscillator.wave.Sine}}) then
-            aOut += poscil3(kHost_mix, cpsmidinn(kNoteNumber_1))
-        else
-            iMode_1 = \
-                iHost_wave_1 == {{oscillator.wave.Saw}} ? {{vco2.mode.Sawtooth}} : \
-                iHost_wave_1 == {{oscillator.wave.Pulse}} ? {{vco2.mode.Square}} : \
-                iHost_wave_1 == {{oscillator.wave.Triangle}} ? {{vco2.mode.SawtoothTriangleRamp}} : \
-                -1
-            aOut += vco2(kHost_mix, cpsmidinn(kNoteNumber_1), iMode_1, kHost_pulseWidth_1)
-            ; {{LogDebug_k '("kHost_mix = %f", kHost_mix)'}}
-            ; {{LogDebug_k '("kNoteNumber_1 = %f", kNoteNumber_1)'}}
-            ; {{LogDebug_i '("iMode_1 = %f", iMode_1)'}}
-            ; {{LogDebug_k '("kHost_pulseWidth_1 = %f", kHost_pulseWidth_1)'}}
-        endif
+        aOut += _oscillator_component_audio_generator_(kHost_mix, cpsmidinn(kNoteNumber_1), iHost_wave_1, kHost_pulseWidth_1)
+        ; {{LogDebug_k '("kHost_mix = %f", kHost_mix)'}}
+        ; {{LogDebug_k '("kNoteNumber_1 = %f", kNoteNumber_1)'}}
+        ; {{LogDebug_i '("iHost_wave_1 = %f", iHost_wave_1)'}}
+        ; {{LogDebug_k '("kHost_pulseWidth_1 = %f", kHost_pulseWidth_1)'}}
     endif
 
     if (kHost_enabled_2 == {{true}}) then
         kNoteNumber_2 = kNoteNumber + kHost_semi_2 + kHost_fine_2 / 100
-
-        if (iHost_wave_2 == {{oscillator.wave.Sine}}) then
-            aOut += poscil3(kHost_mix, cpsmidinn(kNoteNumber_2))
-        else
-            iMode_2 = \
-                iHost_wave_2 == {{oscillator.wave.Saw}} ? {{vco2.mode.Sawtooth}} : \
-                iHost_wave_2 == {{oscillator.wave.Pulse}} ? {{vco2.mode.Square}} : \
-                iHost_wave_2 == {{oscillator.wave.Triangle}} ? {{vco2.mode.SawtoothTriangleRamp}} : \
-                -1
-            aOut += vco2(kHost_mix, cpsmidinn(kNoteNumber_2), iMode_2, kHost_pulseWidth_2)
-            ; {{LogDebug_k '("kHost_mix = %f", kHost_mix)'}}
-            ; {{LogDebug_k '("kNoteNumber_2 = %f", kNoteNumber_2)'}}
-            ; {{LogDebug_i '("iMode_2 = %f", iMode_2)'}}
-            ; {{LogDebug_k '("kHost_pulseWidth_2 = %f", kHost_pulseWidth_2)'}}
-        endif
+        aOut += _oscillator_component_audio_generator_(k(1) - kHost_mix, cpsmidinn(kNoteNumber_2), iHost_wave_2, kHost_pulseWidth_2)
+        ; {{LogDebug_k '("kHost_mix = %f", kHost_mix)'}}
+        ; {{LogDebug_k '("kNoteNumber_2 = %f", kNoteNumber_2)'}}
+        ; {{LogDebug_i '("iHost_wave_2 = %f", iHost_wave_2)'}}
+        ; {{LogDebug_k '("kHost_pulseWidth_2 = %f", kHost_pulseWidth_2)'}}
     endif
 
     if (kHost_sub_enabled == {{true}}) then
