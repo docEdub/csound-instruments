@@ -14,16 +14,16 @@
             "extends": "checkbox",
             "border": "(inherit())",
             "border-color": "(inherit())",
-            "background-color-active": "(global.json.colors.Active)",
-            "background-color-inactive": "(global.json.colors.Inactive)"
+            "background-color-active": "(constants.colors.Active)",
+            "background-color-inactive": "(constants.colors.Inactive)"
         },
         {
             "type": "styled-combobox",
             "extends": "combobox",
             "border": "(inherit())",
             "border-color": "(inherit())",
-            "background-color-active": "(global.json.colors.Main)",
-            "background-color-inactive": "(global.json.colors.Inactive)"
+            "background-color-active": "(constants.colors.Main)",
+            "background-color-inactive": "(constants.colors.Inactive)"
         },
         {
             "type": "styled-tab-group",
@@ -43,7 +43,7 @@
             "type": "styled-tab",
             "extends": "tab",
             "background-disabled": "(inherit('background'))",
-            "background-enabled": "(global.json.colors.Main)",
+            "background-enabled": "(constants.colors.Main)",
             "font-size": 20,
             "value": "(keyParent.childIndex === 0 ? 1 : 0)"
         },
@@ -91,8 +91,8 @@
                 "type": "borderless-number-box-slider",
                 "width": "100%",
                 "height": "100%",
-                "background": "(global.json.colors.TextInputBackground)",
-                "color": "(global.json.colors.TextInput)",
+                "background": "(constants.colors.TextInputBackground)",
+                "color": "(constants.colors.TextInput)",
                 "channel": "(inherit('value-channel'))",
                 "range": "(tryInherit('value-range', { min: 0, max: 1, increment: 0.001 }))"
             }]
