@@ -79,15 +79,22 @@ opcode _oscillator_component_, a, 0
     xout(_oscillator_component_on_channel_("oscillator"))
 endop
 
+gi_oscillator_component_instance_count init 0
+
 instr _oscillator_component_on_channel_
     SChannelPrefix = p4
 
     if (frac(p1) == 0) then
         // Retrigger this instrument with a fractional instrument number so it doesn't get turned off if another
         // instance of this instrument is started with a non-fractional instrument number.
-        scoreline_i(sprintf("i%d.%d 0 -1 \"%s\"", p1, active(p1), SChannelPrefix))
+        gi_oscillator_component_instance_count += 1
+        {{LogTrace_i '("Retriggering instrument %d with channel prefix \"%s\" ...", p1, SChannelPrefix)'}}
+        {{LogDebug_i '("i%d.%d 0 -1 \"%s\"", p1, gi_oscillator_component_instance_count, SChannelPrefix)'}}
+        scoreline_i(sprintf("i%d.%d 0 -1 \"%s\"", p1, gi_oscillator_component_instance_count, SChannelPrefix))
         turnoff()
     endif
+
+    ; {{LogTrace_k '("Running %d with channel prefix \"%s\" ...", p1, SChannelPrefix)'}}
 
     kLast_wave_1        init 0
     kLast_wave_2        init 0
