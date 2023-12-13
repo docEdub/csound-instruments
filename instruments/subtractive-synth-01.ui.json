@@ -37,6 +37,9 @@
                     "height": "100%",
                     "layout": "LeftToRight",
                     "children": [{
+                        "type": "oscillator-component",
+                        "channel-prefix": "audio_source_2"
+                    }, {
                         "type": "oscillator-component"
                     }]
                 }]
