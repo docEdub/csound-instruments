@@ -1,6 +1,6 @@
 {
     "colors": {
-        "Active": "rgb(255, 0, 0)",
+        "Active": "rgb(0, 255, 0)",
         "Background": "rgb(31, 31, 31)",
         "Border": "rgb(0, 63, 127)",
         "Inactive": "rgb(31, 31, 31)",
