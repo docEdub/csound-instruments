@@ -16,13 +16,14 @@ add_csound_templates(
         cabbage-tab-group
         csound-core
     OPCODES
-        "components/oscillator-01.orc"
+        "modules/source-01.orc"
     SYNTH_SOURCES
-        "instruments/subtractive-synth-01.csd"
+        "instruments/subtract-synth-01.csd"
     JSON
-        "components/oscillator-01.ui.json"
-        "instruments/subtractive-synth-01.ui.json"
-        "shared/component-types.ui.json"
+        "modules/source-01.ui.json"
+        "instruments/subtract-synth-01.ui.json"
+        "shared/module-constants.json"
+        "shared/module-ui-types.json"
         "styles/default.json"
 )
 

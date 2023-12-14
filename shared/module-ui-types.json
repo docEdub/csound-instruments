@@ -1,15 +1,4 @@
 {
-    "component": {
-        "color": {
-            "MainLabel": "rgb(128, 0, 0)",
-
-            "BlueGroup": "rgb(32, 32, 96)",
-            "GreenGroup": "rgb(0, 48, 0)",
-            "GreyGroup": "rgb(56, 56, 56)",
-            "PurpleGroup": "rgb(48, 0, 48)",
-            "RedGroup": "rgb(48, 0, 0)"
-        }
-    },
     "uiTypes": [{
         "type": "component-checkbox",
         "extends": "styled-group",
