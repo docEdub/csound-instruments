@@ -16,15 +16,15 @@ massign 0, 2
 pgmassign 0, 0
 
 instr 2
-    a_audio_source_1 = _oscillator_component_on_channel_("audio_source_1")
-    a_audio_source_2 = _oscillator_component_on_channel_("audio_source_2")
-    a_audio_source_3 = _oscillator_component_on_channel_("audio_source_3")
-    outall(a_audio_source_1 + a_audio_source_2 + a_audio_source_3)
+    a_source_1 = AF_oscillator_component("source_1")
+    a_source_2 = AF_oscillator_component("source_2")
+    a_source_3 = AF_oscillator_component("source_3")
+    outall(a_source_1 + a_source_2 + a_source_3)
 endin
 
-alwayson("_oscillator_component_on_channel_", "audio_source_1")
-alwayson("_oscillator_component_on_channel_", "audio_source_2")
-alwayson("_oscillator_component_on_channel_", "audio_source_3")
+alwayson("AF_oscillator_component", "source_1")
+alwayson("AF_oscillator_component", "source_2")
+alwayson("AF_oscillator_component", "source_3")
 
 </CsInstruments>
 <CsScore>

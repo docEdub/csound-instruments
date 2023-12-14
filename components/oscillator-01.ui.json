@@ -15,108 +15,121 @@
     },
     "uiTypes": [{
         "type": "oscillator-component",
-        "comment": "Oscillator component",
+        "comment": "(json['name'])",
         "extends": "styled-group",
         "width": 150,
         "height": "100%",
-        "channel-prefix": "(tryInherit('channel-prefix') ?? 'oscillator')",
+        "channel-prefix": "(tryInherit('channel-prefix') ?? 'audio_source')",
         "layout": "TopToBottom",
         "row-height": "(tryInherit() ?? 27)",
-        "row-label-padding": "(tryInherit() ?? 10)",
         "row-label-width": "(tryInherit() ?? '40%')",
         "row-value-width": "(tryInherit() ?? '60%')",
         "children": [{
-            "type": "component-half-row-spacer"
+            "type": "component-main-label-and-enabled-checkbox"
         }, {
             "comment": "Oscillator 1",
-            "type": "component-checkbox",
-            "label": "Oscillator 1",
-            "value-channel": "enabled_1",
-            "value-default": true
-        }, {
-            "comment": "Wave 1",
-            "type": "component-combobox",
-            "label": "Wave",
-            "value-items": "(Object.keys(constants.oscillator.wave))",
-            "value-channel": "wave_1"
-        }, {
-            "comment": "Pulse Width 1",
-            "type": "component-number-box-slider",
-            "label": "PW",
-            "value-range": { "min": 0.01, "max": 0.5, "value": 0.5, "step": 0.01 },
-            "value-channel": "pulseWidth_1"
-        }, {
-            "comment": "Fine 1",
-            "type": "component-number-box-slider",
-            "label": "Fine",
-            "value-range": { "min": 0, "max": 30, "value": 0, "step": 1 },
-            "value-channel": "fine_1"
-        }, {
-            "type": "component-full-row-spacer"
+            "type": "component-group",
+            "background": "(constants.component.color.BlueGroup)",
+            "row-count": 4,
+            "children": [{
+                "type": "component-checkbox",
+                "label": "Oscillator 1",
+                "value-channel": "enabled_1",
+                "value-default": true
+            }, {
+                "comment": "Wave 1",
+                "type": "component-combobox",
+                "label": "Wave",
+                "value-items": "(Object.keys(constants.oscillator.wave))",
+                "value-channel": "wave_1"
+            }, {
+                "comment": "Pulse Width 1",
+                "type": "component-number-box-slider",
+                "label": "PW",
+                "value-range": { "min": 0.01, "max": 0.5, "value": 0.5, "step": 0.01 },
+                "value-channel": "pulseWidth_1"
+            }, {
+                "comment": "Fine 1",
+                "type": "component-number-box-slider",
+                "label": "Fine",
+                "value-range": { "min": 0, "max": 30, "value": 0, "step": 1 },
+                "value-channel": "fine_1"
+            }]
         }, {
             "comment": "Mix",
-            "type": "component-number-box-slider",
-            "label": "Mix",
-            "value-range": { "min": 0, "max": 1, "value": 0.5, "step": 0.01 },
-            "value-channel": "mix"
-        }, {
-            "comment": "Link",
-            "type": "component-checkbox",
-            "label": "Link",
-            "value-channel": "link",
-            "value-default": true
-        }, {
-            "type": "component-full-row-spacer"
+            "type": "component-group",
+            "background": "(constants.component.color.GreenGroup)",
+            "row-count": 1,
+            "children": [{
+                "type": "component-number-box-slider",
+                "label": "Mix",
+                "value-range": { "min": 0, "max": 1, "value": 0.5, "step": 0.01 },
+                "value-channel": "mix"
+            }]
         }, {
             "comment": "Oscillator 2",
-            "type": "component-checkbox",
-            "label": "Oscillator 2",
-            "value-channel": "enabled_2",
-            "value-default": false
-        }, {
-            "comment": "Wave 2",
-            "type": "component-combobox",
-            "label": "Wave",
-            "value-items": "(Object.keys(constants.oscillator.wave))",
-            "value-channel": "wave_2"
-        }, {
-            "comment": "Pulse Width 2",
-            "type": "component-number-box-slider",
-            "label": "PW",
-            "value-range": { "min": 0.01, "max": 0.5, "value": 0.5, "step": 0.01 },
-            "value-channel": "pulseWidth_2"
-        }, {
-            "comment": "Semitone 2",
-            "type": "component-number-box-slider",
-            "label": "Semi",
-            "value-range": { "min": 0, "max": 36, "value": 0, "step": 1 },
-            "value-channel": "semi_2"
-        }, {
-            "comment": "Fine 2",
-            "type": "component-number-box-slider",
-            "label": "Fine",
-            "value-range": { "min": -30, "max": 0, "value": 0, "step": 1 },
-            "value-channel": "fine_2"
-        }, {
-            "type": "component-full-row-spacer"
+            "type": "component-group",
+            "background": "(constants.component.color.PurpleGroup)",
+            "row-count": 6,
+            "children": [{
+                "type": "component-checkbox",
+                "label": "Oscillator 2",
+                "value-channel": "enabled_2",
+                "value-default": true
+            }, {
+                "comment": "Link",
+                "type": "component-checkbox",
+                "label": "Link",
+                "value-channel": "link",
+                "value-default": true
+            }, {
+                "comment": "Wave 2",
+                "type": "component-combobox",
+                "label": "Wave",
+                "value-items": "(Object.keys(constants.oscillator.wave))",
+                "value-channel": "wave_2"
+            }, {
+                "comment": "Pulse Width 2",
+                "type": "component-number-box-slider",
+                "label": "PW",
+                "value-range": { "min": 0.01, "max": 0.5, "value": 0.5, "step": 0.01 },
+                "value-channel": "pulseWidth_2"
+            }, {
+                "comment": "Semitone 2",
+                "type": "component-number-box-slider",
+                "label": "Semi",
+                "value-range": { "min": 0, "max": 36, "value": 0, "step": 1 },
+                "value-channel": "semi_2"
+            }, {
+                "comment": "Fine 2",
+                "type": "component-number-box-slider",
+                "label": "Fine",
+                "value-range": { "min": -30, "max": 0, "value": 0, "step": 1 },
+                "value-channel": "fine_2"
+            }]
         }, {
             "comment": "Sub",
-            "type": "component-checkbox",
-            "label": "Sub",
-            "value-channel": "sub_enabled",
-            "value-default": false
-        }, {
-            "comment": "Sub Wave",
-            "type": "component-combobox",
-            "label": "Wave",
-            "value-items": "(Object.keys(constants.oscillator.sub.wave))",
-            "value-channel": "sub_wave"
-        }, {
-            "comment": "Sub Amp",
-            "type": "component-number-box-slider",
-            "label": "Amp",
-            "value-range": { "min": 0, "max": 2, "value": 0.5, "step": 0.01 },
-            "value-channel": "sub_amp"
+            "type": "component-group",
+            "background": "(constants.component.color.GreyGroup)",
+            "row-count": 3,
+            "children": [{
+                "type": "component-checkbox",
+                "label": "Sub",
+                "value-channel": "sub_enabled",
+                "value-default": false
+            }, {
+                "comment": "Sub Wave",
+                "type": "component-combobox",
+                "label": "Wave",
+                "value-items": "(Object.keys(constants.oscillator.sub.wave))",
+                "value-channel": "sub_wave"
+            }, {
+                "comment": "Sub Amp",
+                "type": "component-number-box-slider",
+                "label": "Amp",
+                "value-range": { "min": 0, "max": 2, "value": 0.5, "step": 0.01 },
+                "value-channel": "sub_amp"
+            }]
         }]
     }]
 }
