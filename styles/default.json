@@ -1,5 +1,5 @@
 {
-    "colors": {
+    "color": {
         "Active": "rgb(0, 255, 0)",
         "Background": "rgb(31, 31, 31)",
         "Border": "rgb(0, 63, 127)",
@@ -14,16 +14,16 @@
             "extends": "checkbox",
             "border": "(inherit())",
             "border-color": "(inherit())",
-            "background-color-active": "(constants.colors.Active)",
-            "background-color-inactive": "(constants.colors.Inactive)"
+            "background-color-active": "(constants.color.Active)",
+            "background-color-inactive": "(constants.color.Inactive)"
         },
         {
             "type": "styled-combobox",
             "extends": "combobox",
             "border": "(inherit())",
             "border-color": "(inherit())",
-            "background-color-active": "(constants.colors.Main)",
-            "background-color-inactive": "(constants.colors.Inactive)"
+            "background-color-active": "(constants.color.Main)",
+            "background-color-inactive": "(constants.color.Inactive)"
         },
         {
             "type": "styled-tab-group",
@@ -43,7 +43,7 @@
             "type": "styled-tab",
             "extends": "tab",
             "background-disabled": "(inherit('background'))",
-            "background-enabled": "(constants.colors.Main)",
+            "background-enabled": "(constants.color.Main)",
             "font-size": 20,
             "value": "(keyParent.childIndex === 0 ? 1 : 0)"
         },
@@ -91,8 +91,8 @@
                 "type": "borderless-number-box-slider",
                 "width": "100%",
                 "height": "100%",
-                "background": "(constants.colors.TextInputBackground)",
-                "color": "(constants.colors.TextInput)",
+                "background": "(constants.color.TextInputBackground)",
+                "color": "(constants.color.TextInput)",
                 "channel": "(inherit('value-channel'))",
                 "range": "(tryInherit('value-range', { min: 0, max: 1, increment: 0.001 }))"
             }]
