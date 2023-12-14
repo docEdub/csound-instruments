@@ -37,15 +37,15 @@
                     "height": "100%",
                     "layout": "LeftToRight",
                     "children": [{
-                        "type": "oscillator-component",
+                        "type": "source-01-module",
                         "name": "Source 1",
                         "channel-prefix": "source_1"
                     }, {
-                        "type": "oscillator-component",
+                        "type": "source-01-module",
                         "name": "Source 2",
                         "channel-prefix": "source_2"
                     }, {
-                        "type": "oscillator-component",
+                        "type": "source-01-module",
                         "name": "Source 3",
                         "channel-prefix": "source_3"
                     }]

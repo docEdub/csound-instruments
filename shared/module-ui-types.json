@@ -1,6 +1,6 @@
 {
     "uiTypes": [{
-        "type": "component-checkbox",
+        "type": "module-checkbox",
         "extends": "styled-group",
         "width": "100%",
         "height": "(inherit('row-height'))",
@@ -19,7 +19,7 @@
             "checked": "(inherit('value-default'))"
         }]
     }, {
-        "type": "component-combobox",
+        "type": "module-combobox",
         "extends": "styled-group",
         "width": "100%",
         "height": "(inherit('row-height'))",
@@ -38,11 +38,11 @@
             "channel": "(inherit('channel-prefix') + '_' + inherit('value-channel'))"
         }]
     }, {
-        "type": "component-full-row-spacer",
+        "type": "module-full-row-spacer",
         "extends": "styled-spacer",
         "height": "(inherit('row-height'))"
     }, {
-        "type": "component-group",
+        "type": "module-group",
         "extends": "styled-group",
         "width": "100%",
         "height": "((json['row-count'] + 0.5) * inherit('row-height'))",
@@ -52,11 +52,11 @@
         "padding-right": 5,
         "layout": "TopToBottom"
     }, {
-        "type": "component-half-row-spacer",
+        "type": "module-half-row-spacer",
         "extends": "styled-spacer",
         "height": "(inherit('row-height') / 2)"
     }, {
-        "type": "component-main-label-and-enabled-checkbox",
+        "type": "module-main-label-and-enabled-checkbox",
         "extends": "styled-group",
         "comment": "Main Label",
         "width": "100%",
@@ -66,15 +66,15 @@
         "padding-left": 8,
         "padding-right": 5,
         "layout": "TopToBottom",
-        "background":"(constants.component.color.MainLabel)",
+        "background":"(constants.module.color.MainLabel)",
         "children": [{
-            "type": "component-checkbox",
+            "type": "module-checkbox",
             "label": "(inherit('name'))",
             "value-channel": "enabled",
             "value-default": true
         }]
     }, {
-        "type": "component-number-box-slider",
+        "type": "module-number-box-slider",
         "extends": "styled-group",
         "width": "100%",
         "height": "(inherit('row-height'))",
