@@ -37,6 +37,11 @@ endop
 ///
 opcode AF_source_01_module, a, S
     SChannelPrefix xin
+    aOut = 0
+
+    if ({{getHostValue}}:k(strcat(SChannelPrefix, "_enabled")) == {{false}}) then
+        kgoto end
+    endif
 
     kHost_enabled_1     = {{getHostValue}}:k(strcat(SChannelPrefix, "_enabled_1"))
     iHost_wave_1        = {{getHostValue}}:i(strcat(SChannelPrefix, "_wave_1"))
@@ -56,7 +61,6 @@ opcode AF_source_01_module, a, S
     kHost_sub_amp       = {{getHostValue}}:k(strcat(SChannelPrefix, "_sub_amp"))
 
     kNoteNumber init notnum()
-    aOut = 0
 
     if (kHost_enabled_1 == {{true}}) then
         kNoteNumber_1 = kNoteNumber + kHost_fine_1 / 100
@@ -86,8 +90,8 @@ opcode AF_source_01_module, a, S
         ; {{LogDebug_i '("iMode_sub = %f", iMode_sub)'}}
     endif
 
-    xout(aOut * 0.1)
 end:
+    xout(aOut * 0.1)
 endop
 
 
