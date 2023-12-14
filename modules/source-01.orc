@@ -8,7 +8,7 @@
  */
 
 /// @internal
-opcode _AF_source_01_module_audio_generator, a, kkiV
+opcode _source_01_module_audio_generator, a, kkiV
     kAmp, kCps, iMode, kPulseWidth xin
 
     if (iMode == {{source_01.wave.Sine}}) then
@@ -64,7 +64,7 @@ opcode AF_source_01_module, a, S
 
     if (kHost_enabled_1 == {{true}}) then
         kNoteNumber_1 = kNoteNumber + kHost_fine_1 / 100
-        aOut += _AF_source_01_module_audio_generator(kHost_mix, cpsmidinn(kNoteNumber_1), iHost_wave_1, kHost_pulseWidth_1)
+        aOut += _source_01_module_audio_generator(kHost_mix, cpsmidinn(kNoteNumber_1), iHost_wave_1, kHost_pulseWidth_1)
         ; {{LogDebug_k '("kHost_mix = %f", kHost_mix)'}}
         ; {{LogDebug_k '("kNoteNumber_1 = %f", kNoteNumber_1)'}}
         ; {{LogDebug_i '("iHost_wave_1 = %f", iHost_wave_1)'}}
@@ -73,7 +73,7 @@ opcode AF_source_01_module, a, S
 
     if (kHost_enabled_2 == {{true}}) then
         kNoteNumber_2 = kNoteNumber + kHost_semi_2 + kHost_fine_2 / 100
-        aOut += _AF_source_01_module_audio_generator(k(1) - kHost_mix, cpsmidinn(kNoteNumber_2), iHost_wave_2, kHost_pulseWidth_2)
+        aOut += _source_01_module_audio_generator(k(1) - kHost_mix, cpsmidinn(kNoteNumber_2), iHost_wave_2, kHost_pulseWidth_2)
         ; {{LogDebug_k '("kHost_mix = %f", kHost_mix)'}}
         ; {{LogDebug_k '("kNoteNumber_2 = %f", kNoteNumber_2)'}}
         ; {{LogDebug_i '("iHost_wave_2 = %f", iHost_wave_2)'}}
@@ -98,7 +98,8 @@ endop
 gi_source_01_module_instance_count init 0
 
 
-/// Always-on instrument for the `AF_source_01_module` opcode.
+/// Always-on instrument for the `source_01` module.
+/// @param 4 Channel prefix used for the host automation parameters. Should match the channel prefix used for the `AF_source_01_module` opcode.
 ///
 instr AF_source_01_module
     SChannelPrefix = p4
