@@ -9,7 +9,7 @@
     "verbose": true,
     "watch": [
       ".build/_deps/csoundtemplating-src",
-      "components",
+      "modules",
       "instruments",
       "shared",
       "styles",
