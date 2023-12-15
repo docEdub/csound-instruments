@@ -15,15 +15,7 @@
     },
     "uiTypes": [{
         "type": "source-01-module",
-        "comment": "(json['name'])",
-        "extends": "styled-group",
-        "width": 150,
-        "height": "100%",
-        "channel-prefix": "(inherit('channel-prefix'))",
-        "layout": "TopToBottom",
-        "row-height": "(tryInherit() ?? 27)",
-        "row-label-width": "(tryInherit() ?? '40%')",
-        "row-value-width": "(tryInherit() ?? '60%')",
+        "extends": "module",
         "children": [{
             "type": "module-main-label-and-enabled-checkbox"
         }, {
