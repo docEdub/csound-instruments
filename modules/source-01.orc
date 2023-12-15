@@ -1,8 +1,8 @@
 
 /*
- *  _source_01_.orc
+ *  source-01.orc
  *
- *  Audio source module with two oscillators and a sub-oscillator:
+ *  Audio source module with two oscillators and a sub-oscillator.
  *
  *  The `poscil3` opcode is used for sine waves and the `vco2` opcode is used for other waveforms.
  */
