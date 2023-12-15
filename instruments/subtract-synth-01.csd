@@ -19,7 +19,11 @@ instr 2
     a_source_1 = AF_source_01_module("source_1")
     a_source_2 = AF_source_01_module("source_2")
     a_source_3 = AF_source_01_module("source_3")
-    outall(a_source_1 + a_source_2 + a_source_3)
+    a_sources = sum(a_source_1, a_source_2, a_source_3)
+
+    a_envelope_1 = AF_envelope_01_module("envelope_1")
+
+    outall(a_sources * a_envelope_1)
 endin
 
 alwayson("AF_source_01_module", "source_1")

@@ -1,0 +1,76 @@
+{
+    "uiTypes": [
+        {
+            "type": "envelope-01-module",
+            "comment": "(json['name'])",
+            "extends": "styled-group",
+            "width": 150,
+            "height": "100%",
+            "channel-prefix": "(inherit('channel-prefix'))",
+            "layout": "TopToBottom",
+            "row-height": "(tryInherit() ?? 27)",
+            "row-label-width": "(tryInherit() ?? '40%')",
+            "row-value-width": "(tryInherit() ?? '60%')",
+            "children": [
+                {
+                    "type": "module-main-label-and-enabled-checkbox"
+                },
+                {
+                    "type": "module-group",
+                    "background": "(constants.module.color.GreyGroup)",
+                    "row-count": 4,
+                    "children": [
+                        {
+                            "comment": "Attack",
+                            "type": "module-number-box-slider",
+                            "label": "A",
+                            "value-range": {
+                                "min": 0.001,
+                                "max": 10,
+                                "value": 0.01,
+                                "step": 0.01
+                            },
+                            "value-channel": "attack"
+                        },
+                        {
+                            "comment": "Decay",
+                            "type": "module-number-box-slider",
+                            "label": "D",
+                            "value-range": {
+                                "min": 0,
+                                "max": 10,
+                                "value": 0.01,
+                                "step": 0.01
+                            },
+                            "value-channel": "decay"
+                        },
+                        {
+                            "comment": "Sustain",
+                            "type": "module-number-box-slider",
+                            "label": "S",
+                            "value-range": {
+                                "min": 0,
+                                "max": 1,
+                                "value": 0.5,
+                                "step": 0.01
+                            },
+                            "value-channel": "sustain"
+                        },
+                        {
+                            "comment": "Attack",
+                            "type": "module-number-box-slider",
+                            "label": "R",
+                            "value-range": {
+                                "min": 0,
+                                "max": 10,
+                                "value": 0.01,
+                                "step": 0.01
+                            },
+                            "value-channel": "release"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
