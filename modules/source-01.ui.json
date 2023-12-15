@@ -28,7 +28,7 @@
             "type": "module-main-label-and-enabled-checkbox"
         }, {
             "comment": "Oscillator 1",
-            "type": "module-group",
+            "type": "module-row-group",
             "background": "(constants.module.color.BlueGroup)",
             "row-count": 4,
             "children": [{
@@ -57,7 +57,7 @@
             }]
         }, {
             "comment": "Mix",
-            "type": "module-group",
+            "type": "module-row-group",
             "background": "(constants.module.color.GreenGroup)",
             "row-count": 1,
             "children": [{
@@ -68,7 +68,7 @@
             }]
         }, {
             "comment": "Oscillator 2",
-            "type": "module-group",
+            "type": "module-row-group",
             "background": "(constants.module.color.PurpleGroup)",
             "row-count": 6,
             "children": [{
@@ -109,7 +109,7 @@
             }]
         }, {
             "comment": "Sub",
-            "type": "module-group",
+            "type": "module-row-group",
             "background": "(constants.module.color.GreyGroup)",
             "row-count": 3,
             "children": [{

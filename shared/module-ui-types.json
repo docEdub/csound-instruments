@@ -42,16 +42,6 @@
         "extends": "styled-spacer",
         "height": "(inherit('row-height'))"
     }, {
-        "type": "module-group",
-        "extends": "styled-group",
-        "width": "100%",
-        "height": "((json['row-count'] + 0.5) * inherit('row-height'))",
-        "border": 0,
-        "padding-top": "(inherit('row-height') * 0.25)",
-        "padding-left": 8,
-        "padding-right": 5,
-        "layout": "TopToBottom"
-    }, {
         "type": "module-half-row-spacer",
         "extends": "styled-spacer",
         "height": "(inherit('row-height') / 2)"
@@ -92,5 +82,15 @@
             "value-range": "(inherit('value-range'))",
             "value-channel": "(inherit('channel-prefix') + '_' + inherit('value-channel'))"
         }]
+    }, {
+        "type": "module-row-group",
+        "extends": "styled-group",
+        "width": "100%",
+        "height": "((json['row-count'] + 0.5) * inherit('row-height'))",
+        "border": 0,
+        "padding-top": "(inherit('row-height') * 0.25)",
+        "padding-left": 8,
+        "padding-right": 5,
+        "layout": "TopToBottom"
     }]
 }

@@ -16,7 +16,7 @@
                     "type": "module-main-label-and-enabled-checkbox"
                 },
                 {
-                    "type": "module-group",
+                    "type": "module-row-group",
                     "background": "(constants.module.color.GreyGroup)",
                     "row-count": 4,
                     "children": [
