@@ -38,14 +38,6 @@
             "channel": "(inherit('channel-prefix') + '_' + inherit('value-channel'))"
         }]
     }, {
-        "type": "module-full-row-spacer",
-        "extends": "styled-spacer",
-        "height": "(inherit('row-height'))"
-    }, {
-        "type": "module-half-row-spacer",
-        "extends": "styled-spacer",
-        "height": "(inherit('row-height') / 2)"
-    }, {
         "type": "module-main-label-and-enabled-checkbox",
         "extends": "styled-group",
         "comment": "Main Label",
