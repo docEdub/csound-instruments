@@ -49,10 +49,7 @@
                         "name": "Source 3",
                         "channel-prefix": "source_3"
                     }, {
-                        "type": "styled-group",
-                        "width": "100%",
-                        "height": "100%",
-                        "layout": "TopToBottom",
+                        "type": "module-group",
                         "children": [{
                             "type": "envelope-01-module",
                             "name": "Envelope 1",
