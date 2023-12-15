@@ -19,7 +19,7 @@
         "extends": "styled-group",
         "width": 150,
         "height": "100%",
-        "channel-prefix": "(tryInherit('channel-prefix') ?? 'audio_source')",
+        "channel-prefix": "(inherit('channel-prefix'))",
         "layout": "TopToBottom",
         "row-height": "(tryInherit() ?? 27)",
         "row-label-width": "(tryInherit() ?? '40%')",
