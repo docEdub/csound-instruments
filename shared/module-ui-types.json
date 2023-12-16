@@ -109,5 +109,10 @@
         "padding-left": 8,
         "padding-right": 5,
         "layout": "TopToBottom"
+    }, {
+        "type": "module-row-spacer",
+        "extends": "styled-spacer",
+        "width": "100%",
+        "height": "((tryInherit('row-height') ?? 27) / 2)"
     }]
 }
