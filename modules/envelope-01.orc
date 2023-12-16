@@ -22,7 +22,7 @@ opcode AF_envelope_01_module, a, S
     iS = {{getHostValue}}:i(strcat(SChannelPrefix, "_sustain"))
     iR = {{getHostValue}}:i(strcat(SChannelPrefix, "_release"))
 
-    aOut = mxadsr:a(iA, iD, iS, iR);
+    aOut = mxadsr:a(iA, iD, iS, iR) - 0.001;
 
 end:
     xout(aOut)
