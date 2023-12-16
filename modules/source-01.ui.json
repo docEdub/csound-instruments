@@ -19,6 +19,17 @@
         "children": [{
             "type": "module-main-label-and-enabled-checkbox"
         }, {
+            "comment": "Main Amp",
+            "type": "module-row-group",
+            "background": "(constants.module.color.RedGroup)",
+            "row-count": 1,
+            "children": [{
+                "type": "module-number-box-slider",
+                "label": "Amp",
+                "value-range": { "min": 0, "max": 1, "value": 0.25, "step": 0.01 },
+                "value-channel": "main_amp"
+            }]
+        }, {
             "comment": "Oscillator 1",
             "type": "module-row-group",
             "background": "(constants.module.color.BlueGroup)",

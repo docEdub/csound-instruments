@@ -43,6 +43,8 @@ opcode AF_source_01_module, a, S
         kgoto end
     endif
 
+    kHost_main_amp     = {{getHostValue}}:k(strcat(SChannelPrefix, "_main_amp"))
+
     kHost_enabled_1     = {{getHostValue}}:k(strcat(SChannelPrefix, "_enabled_1"))
     iHost_wave_1        = {{getHostValue}}:i(strcat(SChannelPrefix, "_wave_1"))
     kHost_pulseWidth_1  = {{getHostValue}}:k(strcat(SChannelPrefix, "_pulseWidth_1"))
@@ -91,7 +93,7 @@ opcode AF_source_01_module, a, S
     endif
 
 end:
-    xout(aOut * 0.1)
+    xout(aOut * kHost_main_amp * 0.1)
 endop
 
 
