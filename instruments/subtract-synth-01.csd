@@ -3,7 +3,6 @@
 {{CsOptions}}
 {{HostOptions}}
 --nodisplays
---messagelevel=0
 </CsOptions>
 <CsInstruments>
 
@@ -28,9 +27,9 @@ instr 2
     outall(aOut * a_envelope_1)
 endin
 
-alwayson("AF_source_01_module", "source_1")
-alwayson("AF_source_01_module", "source_2")
-alwayson("AF_source_01_module", "source_3")
+{{InitializeModule "AF_source_01_module" "source_1"}}
+{{InitializeModule "AF_source_01_module" "source_2"}}
+{{InitializeModule "AF_source_01_module" "source_3"}}
 
 </CsInstruments>
 <CsScore>
