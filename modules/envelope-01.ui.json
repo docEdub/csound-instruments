@@ -50,7 +50,7 @@
                             "value-channel": "sustain"
                         },
                         {
-                            "comment": "Attack",
+                            "comment": "Release",
                             "type": "module-number-box-slider",
                             "label": "R",
                             "value-range": {
