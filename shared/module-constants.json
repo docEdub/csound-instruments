@@ -8,6 +8,7 @@
             "GreyGroup": "rgb(56, 56, 56)",
             "PurpleGroup": "rgb(48, 0, 48)",
             "RedGroup": "rgb(96, 0, 0)"
-        }
+        },
+        "Width": 150
     }
 }

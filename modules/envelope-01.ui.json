@@ -3,6 +3,7 @@
         {
             "type": "envelope-01-module",
             "extends": "module",
+            "height": 160,
             "children": [
                 {
                     "type": "module-main-label-and-enabled-checkbox"

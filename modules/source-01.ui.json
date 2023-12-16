@@ -16,6 +16,7 @@
     "uiTypes": [{
         "type": "source-01-module",
         "extends": "module",
+        "height": 513,
         "children": [{
             "type": "module-main-label-and-enabled-checkbox"
         }, {

@@ -3,8 +3,7 @@
         "type": "module",
         "comment": "(json['name'])",
         "extends": "styled-group",
-        "width": 150,
-        "height": "100%",
+        "width": "(constants.module.Width)",
         "border": 1,
         "channel-prefix": "(inherit('channel-prefix'))",
         "layout": "TopToBottom",
@@ -52,7 +51,7 @@
     }, {
         "type": "module-group",
         "extends": "styled-group",
-        "width": "100%",
+        "width": "(constants.module.Width)",
         "height": "100%",
         "border": 0,
         "layout": "TopToBottom"
