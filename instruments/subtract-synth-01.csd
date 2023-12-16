@@ -3,6 +3,7 @@
 {{CsOptions}}
 {{HostOptions}}
 --nodisplays
+--messagelevel=0
 </CsOptions>
 <CsInstruments>
 
