@@ -20,7 +20,7 @@
             "type": "styled-label",
             "width": "80%",
             "height": "100%",
-            "text": "(inherit('label'))",
+            "text": "(tryInherit('label') ?? '')",
             "align": "left"
         }, {
             "type": "styled-checkbox",
@@ -39,7 +39,7 @@
             "type": "styled-label",
             "width": "(inherit('row-label-width'))",
             "height": "100%",
-            "text": "(inherit('label'))",
+            "text": "(tryInherit('label') ?? '')",
             "align": "left"
         }, {
             "type": "styled-combobox",
@@ -83,7 +83,7 @@
             "type": "styled-label",
             "width": "(inherit('row-label-width'))",
             "height": "100%",
-            "text": "(inherit('label'))",
+            "text": "(tryInherit('label') ?? '')",
             "align": "left"
         }, {
             "type": "styled-number-box-slider",
