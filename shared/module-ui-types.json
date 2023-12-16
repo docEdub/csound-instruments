@@ -56,6 +56,13 @@
         "border": 0,
         "layout": "TopToBottom"
     }, {
+        "type": "module-label",
+        "extends": "styled-label",
+        "width": "100%",
+        "height":"(inherit('row-height'))",
+        "text": "(json['label'])",
+        "align": "left"
+    }, {
         "type": "module-main-label-and-enabled-checkbox",
         "extends": "styled-group",
         "comment": "Main Label",
