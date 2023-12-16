@@ -17,11 +17,13 @@ add_csound_templates(
         csound-core
     OPCODES
         "modules/envelope-01.orc"
+        "modules/filter-01.orc"
         "modules/source-01.orc"
     SYNTH_SOURCES
         "instruments/subtract-synth-01.csd"
     JSON
         "modules/envelope-01.ui.json"
+        "modules/filter-01.ui.json"
         "modules/source-01.ui.json"
         "instruments/subtract-synth-01.ui.json"
         "shared/module-constants.json"

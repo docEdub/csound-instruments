@@ -54,6 +54,10 @@
                             "type": "envelope-01-module",
                             "name": "Envelope 1",
                             "channel-prefix": "envelope_1"
+                        }, {
+                            "type": "filter-01-module",
+                            "name": "Filter 1",
+                            "channel-prefix": "filter_1"
                         }]
                     }]
                 }]
