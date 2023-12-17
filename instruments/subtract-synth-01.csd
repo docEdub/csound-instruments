@@ -30,6 +30,8 @@ endin
 {{InitializeModule "AF_source_01_module" "source_1"}}
 {{InitializeModule "AF_source_01_module" "source_2"}}
 {{InitializeModule "AF_source_01_module" "source_3"}}
+{{InitializeModule "AF_envelope_01_module" "envelope_1"}}
+{{InitializeModule "AF_filter_01_module" "filter_1"}}
 
 </CsInstruments>
 <CsScore>

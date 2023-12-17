@@ -1,5 +1,18 @@
 {
     "filter_01": {
+        "channel": {
+            "Enabled": 1,
+            "FilterType": 2,
+            "Cutoff": 3,
+            "Q": 4,
+            "ProcessingType": 5,
+            "Saturation": 6,
+            "EnvelopeAmount": 7,
+            "EnvelopeAttack": 8,
+            "EnvelopeDecay": 9,
+            "EnvelopeSustain": 10,
+            "EnvelopeRelease": 11
+        },
         "filter_type": {
             "LowPass": 1,
             "HighPass": 2
@@ -16,43 +29,35 @@
             "height": 403,
             "children": [
                 {
-                    "type": "module-main-label-and-enabled-checkbox"
+                    "type": "module-main-label-and-enabled-checkbox",
+                    "value-channel": "Enabled",
+                    "value-default": true
                 },
                 {
                     "type": "module-row-group",
-                    "background": "(constants.module.color.PurpleGroup)",
+                    "background": "eval '(constants.module.color.PurpleGroup)'",
                     "row-count": 13,
                     "children": [
                         {
                             "comment": "Type",
                             "type": "module-combobox",
                             "label": "Type",
-                            "value-items": "(Object.keys(constants.filter_01.filter_type))",
-                            "value-channel": "filter_type"
+                            "value-channel": "FilterType",
+                            "value-items": "eval '(Object.keys(constants.filter_01.filter_type))'"
                         },
                         {
                             "comment": "Cutoff",
                             "type": "module-number-box-slider",
                             "label": "Cutoff",
-                            "value-range": {
-                                "min": 0,
-                                "max": 1,
-                                "value": 1,
-                                "step": 0.001
-                            },
-                            "value-channel": "cutoff"
+                            "value-channel": "Cutoff",
+                            "value-range": { "min": 0, "max": 1, "value": 1, "step": 0.001 }
                         },
                         {
                             "comment": "Q",
                             "type": "module-number-box-slider",
                             "label": "Q",
-                            "value-range": {
-                                "min": 1,
-                                "max": 10,
-                                "value": 1,
-                                "step": 0.01
-                            },
-                            "value-channel": "q"
+                            "value-channel": "Q",
+                            "value-range": { "min": 1, "max": 10, "value": 1, "step": 0.01 }
                         },
                         {
                             "type": "module-row-spacer"
@@ -63,8 +68,8 @@
                             "label": "Processing"
                         }, {
                             "type": "module-combobox",
-                            "value-items": "(Object.keys(constants.filter_01.processing_type))",
-                            "value-channel": "processing_type"
+                            "value-channel": "ProcessingType",
+                            "value-items": "eval '(Object.keys(constants.filter_01.processing_type))'"
                         },
                         {
                             "comment": "Saturation",
@@ -73,13 +78,8 @@
                         },
                         {
                             "type": "module-number-box-slider",
-                            "value-range": {
-                                "min": 1,
-                                "max": 10,
-                                "value": 1,
-                                "step": 0.01
-                            },
-                            "value-channel": "saturation"
+                            "value-channel": "Saturation",
+                            "value-range": { "min": 1, "max": 10, "value": 1, "step": 0.01 }
                         },
                         {
                             "type": "module-row-spacer"
@@ -88,61 +88,36 @@
                             "comment": "Envelope Amount",
                             "type": "module-number-box-slider",
                             "label": "Env",
-                            "value-range": {
-                                "min": 0,
-                                "max": 1,
-                                "value": 0,
-                                "step": 0.01
-                            },
-                            "value-channel": "envelope_amount"
+                            "value-channel": "EnvelopeAmount",
+                            "value-range": { "min": 0, "max": 1, "value": 0, "step": 0.01 }
                         },
                         {
                             "comment": "Attack",
                             "type": "module-number-box-slider",
                             "label": "A",
-                            "value-range": {
-                                "min": 0.001,
-                                "max": 10,
-                                "value": 0.01,
-                                "step": 0.01
-                            },
-                            "value-channel": "envelope_attack"
+                            "value-channel": "EnvelopeAttack",
+                            "value-range": { "min": 0.001, "max": 10, "value": 0.01, "step": 0.01 }
                         },
                         {
                             "comment": "Decay",
                             "type": "module-number-box-slider",
                             "label": "D",
-                            "value-range": {
-                                "min": 0,
-                                "max": 10,
-                                "value": 0.01,
-                                "step": 0.01
-                            },
-                            "value-channel": "envelope_decay"
+                            "value-channel": "EnvelopeDecay",
+                            "value-range": { "min": 0, "max": 10, "value": 0.01, "step": 0.01 }
                         },
                         {
                             "comment": "Sustain",
                             "type": "module-number-box-slider",
                             "label": "S",
-                            "value-range": {
-                                "min": 0,
-                                "max": 1,
-                                "value": 1,
-                                "step": 1
-                            },
-                            "value-channel": "envelope_sustain"
+                            "value-channel": "EnvelopeSustain",
+                            "value-range": { "min": 0, "max": 1, "value": 1, "step": 1 }
                         },
                         {
                             "comment": "Release",
                             "type": "module-number-box-slider",
                             "label": "R",
-                            "value-range": {
-                                "min": 0,
-                                "max": 10,
-                                "value": 0.01,
-                                "step": 0.01
-                            },
-                            "value-channel": "envelope_release"
+                            "value-channel": "EnvelopeRelease",
+                            "value-range": { "min": 0, "max": 10, "value": 0.01, "step": 0.01 }
                         }
                     ]
                 }

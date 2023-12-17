@@ -1,4 +1,13 @@
 {
+    "envelope_01": {
+        "channel": {
+            "Enabled": 1,
+            "Attack": 2,
+            "Decay": 3,
+            "Sustain": 4,
+            "Release": 5
+        }
+    },
     "uiTypes": [
         {
             "type": "envelope-01-module",
@@ -6,60 +15,42 @@
             "height": 160,
             "children": [
                 {
-                    "type": "module-main-label-and-enabled-checkbox"
+                    "type": "module-main-label-and-enabled-checkbox",
+                    "value-channel": "Enabled",
+                    "value-default": true
                 },
                 {
                     "type": "module-row-group",
-                    "background": "(constants.module.color.GreyGroup)",
+                    "background": "eval '(constants.module.color.GreyGroup)'",
                     "row-count": 4,
                     "children": [
                         {
                             "comment": "Attack",
                             "type": "module-number-box-slider",
                             "label": "A",
-                            "value-range": {
-                                "min": 0.001,
-                                "max": 10,
-                                "value": 0.01,
-                                "step": 0.01
-                            },
-                            "value-channel": "attack"
+                            "value-channel": "Attack",
+                            "value-range": { "min": 0.001, "max": 10, "value": 0.01, "step": 0.01 }
                         },
                         {
                             "comment": "Decay",
                             "type": "module-number-box-slider",
                             "label": "D",
-                            "value-range": {
-                                "min": 0,
-                                "max": 10,
-                                "value": 0.01,
-                                "step": 0.01
-                            },
-                            "value-channel": "decay"
+                            "value-channel": "Decay",
+                            "value-range": { "min": 0, "max": 10, "value": 0.01, "step": 0.01 }
                         },
                         {
                             "comment": "Sustain",
                             "type": "module-number-box-slider",
                             "label": "S",
-                            "value-range": {
-                                "min": 0,
-                                "max": 1,
-                                "value": 0.5,
-                                "step": 0.01
-                            },
-                            "value-channel": "sustain"
+                            "value-channel": "Sustain",
+                            "value-range": { "min": 0, "max": 1, "value": 0.5, "step": 0.01 }
                         },
                         {
                             "comment": "Release",
                             "type": "module-number-box-slider",
                             "label": "R",
-                            "value-range": {
-                                "min": 0,
-                                "max": 10,
-                                "value": 0.01,
-                                "step": 0.01
-                            },
-                            "value-channel": "release"
+                            "value-channel": "Release",
+                            "value-range": { "min": 0, "max": 10, "value": 0.01, "step": 0.01 }
                         }
                     ]
                 }

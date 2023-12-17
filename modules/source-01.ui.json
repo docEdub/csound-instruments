@@ -1,10 +1,30 @@
 {
     "source_01": {
-        "wave": {
-            "Saw": 1,
-            "Pulse": 2,
-            "Triangle": 3,
-            "Sine": 4
+        "channel": {
+            "Enabled": 1,
+            "MainAmp": 2,
+            "Osc1Enabled": 3,
+            "Osc1Wave": 4,
+            "Osc1PulseWidth": 5,
+            "Osc1Fine": 6,
+            "OscMix": 7,
+            "Osc2Enabled": 8,
+            "Osc2Link": 9,
+            "Osc2Wave": 10,
+            "Osc2PulseWidth": 11,
+            "Osc2Semi": 12,
+            "Osc2Fine": 13,
+            "SubEnabled": 14,
+            "SubWave": 15,
+            "SubAmp": 16
+        },
+        "osc": {
+            "wave": {
+                "Saw": 1,
+                "Pulse": 2,
+                "Triangle": 3,
+                "Sine": 4
+            }
         },
         "sub": {
             "wave": {
@@ -18,121 +38,123 @@
         "extends": "module",
         "height": 513,
         "children": [{
-            "type": "module-main-label-and-enabled-checkbox"
+            "type": "module-main-label-and-enabled-checkbox",
+            "value-channel": "Enabled",
+            "value-default": true
         }, {
             "comment": "Main Amp",
             "type": "module-row-group",
-            "background": "(constants.module.color.RedGroup)",
+            "background": "eval '(constants.module.color.RedGroup)'",
             "row-count": 1,
             "children": [{
                 "type": "module-number-box-slider",
                 "label": "Amp",
-                "value-range": { "min": 0, "max": 1, "value": 0.25, "step": 0.01 },
-                "value-channel": "main_amp"
+                "value-channel": "MainAmp",
+                "value-range": { "min": 0, "max": 1, "value": 0.25, "step": 0.01 }
             }]
         }, {
             "comment": "Oscillator 1",
             "type": "module-row-group",
-            "background": "(constants.module.color.BlueGroup)",
+            "background": "eval '(constants.module.color.BlueGroup)'",
             "row-count": 4,
             "children": [{
                 "type": "module-checkbox",
                 "label": "Oscillator 1",
-                "value-channel": "enabled_1",
-                "value-default": true
+                "value-default": true,
+                "value-channel": "Osc1Enabled"
             }, {
                 "comment": "Wave 1",
                 "type": "module-combobox",
                 "label": "Wave",
-                "value-items": "(Object.keys(constants.source_01.wave))",
-                "value-channel": "wave_1"
+                "value-channel": "Osc1Wave",
+                "value-items": "eval '(Object.keys(constants.source_01.osc.wave))'"
             }, {
                 "comment": "Pulse Width 1",
                 "type": "module-number-box-slider",
                 "label": "PW",
-                "value-range": { "min": 0.01, "max": 0.5, "value": 0.5, "step": 0.01 },
-                "value-channel": "pulseWidth_1"
+                "value-channel": "Osc1PulseWidth",
+                "value-range": { "min": 0.01, "max": 0.5, "value": 0.5, "step": 0.01 }
             }, {
                 "comment": "Fine 1",
                 "type": "module-number-box-slider",
                 "label": "Fine",
-                "value-range": { "min": 0, "max": 30, "value": 0, "step": 1 },
-                "value-channel": "fine_1"
+                "value-channel": "Osc1Fine",
+                "value-range": { "min": 0, "max": 30, "value": 0, "step": 1 }
             }]
         }, {
             "comment": "Mix",
             "type": "module-row-group",
-            "background": "(constants.module.color.GreenGroup)",
+            "background": "eval '(constants.module.color.GreenGroup)'",
             "row-count": 1,
             "children": [{
                 "type": "module-number-box-slider",
                 "label": "Mix",
-                "value-range": { "min": 0, "max": 1, "value": 0.5, "step": 0.01 },
-                "value-channel": "mix"
+                "value-channel": "OscMix",
+                "value-range": { "min": 0, "max": 1, "value": 0.5, "step": 0.01 }
             }]
         }, {
             "comment": "Oscillator 2",
             "type": "module-row-group",
-            "background": "(constants.module.color.PurpleGroup)",
+            "background": "eval '(constants.module.color.PurpleGroup)'",
             "row-count": 6,
             "children": [{
                 "type": "module-checkbox",
                 "label": "Oscillator 2",
-                "value-channel": "enabled_2",
+                "value-channel": "Osc2Enabled",
                 "value-default": true
             }, {
                 "comment": "Link",
                 "type": "module-checkbox",
                 "label": "Link",
-                "value-channel": "link",
+                "value-channel": "Osc2Link",
                 "value-default": true
             }, {
                 "comment": "Wave 2",
                 "type": "module-combobox",
                 "label": "Wave",
-                "value-items": "(Object.keys(constants.source_01.wave))",
-                "value-channel": "wave_2"
+                "value-channel": "Osc2Wave",
+                "value-items": "eval '(Object.keys(constants.source_01.osc.wave))'"
             }, {
                 "comment": "Pulse Width 2",
                 "type": "module-number-box-slider",
                 "label": "PW",
-                "value-range": { "min": 0.01, "max": 0.5, "value": 0.5, "step": 0.01 },
-                "value-channel": "pulseWidth_2"
+                "value-channel": "Osc2PulseWidth",
+                "value-range": { "min": 0.01, "max": 0.5, "value": 0.5, "step": 0.01 }
             }, {
                 "comment": "Semitone 2",
                 "type": "module-number-box-slider",
                 "label": "Semi",
-                "value-range": { "min": 0, "max": 36, "value": 0, "step": 1 },
-                "value-channel": "semi_2"
+                "value-channel": "Osc2Semi",
+                "value-range": { "min": 0, "max": 36, "value": 0, "step": 1 }
             }, {
                 "comment": "Fine 2",
                 "type": "module-number-box-slider",
                 "label": "Fine",
-                "value-range": { "min": -30, "max": 0, "value": 0, "step": 1 },
-                "value-channel": "fine_2"
+                "value-channel": "Osc2Fine",
+                "value-range": { "min": -30, "max": 0, "value": 0, "step": 1 }
             }]
         }, {
             "comment": "Sub",
             "type": "module-row-group",
-            "background": "(constants.module.color.GreyGroup)",
+            "background": "eval '(constants.module.color.GreyGroup)'",
             "row-count": 3,
             "children": [{
                 "type": "module-checkbox",
                 "label": "Sub",
-                "value-channel": "sub_enabled",
+                "value-channel": "SubEnabled",
                 "value-default": false
             }, {
                 "comment": "Sub Wave",
                 "type": "module-combobox",
                 "label": "Wave",
-                "value-items": "(Object.keys(constants.source_01.sub.wave))",
-                "value-channel": "sub_wave"
+                "value-channel": "SubWave",
+                "value-items": "eval '(Object.keys(constants.source_01.sub.wave))'"
             }, {
                 "comment": "Sub Amp",
                 "type": "module-number-box-slider",
                 "label": "Amp",
-                "value-range": { "min": 0, "max": 2, "value": 0.5, "step": 0.01 },
-                "value-channel": "sub_amp"
+                "value-channel": "SubAmp",
+                "value-range": { "min": 0, "max": 2, "value": 0.5, "step": 0.01 }
             }]
         }]
     }]

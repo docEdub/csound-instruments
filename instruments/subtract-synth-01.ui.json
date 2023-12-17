@@ -8,7 +8,7 @@
         "width": 800,
         "height": 600,
         "border": 1,
-        "border-color": "(constants.color.Border)",
+        "border-color": "eval '(constants.color.Border)'",
         "background": "black",
         "color": "white",
         "id": "ss01",
@@ -27,7 +27,7 @@
                 "tab": {
                     "type": "styled-tab",
                     "text": "UI",
-                    "height": "(inherit('tab-height'))",
+                    "height": "eval '(inherit('tab-height'))'",
                     "width": 100
                 },
                 "children": [{
@@ -69,7 +69,7 @@
                 "tab": {
                     "type": "styled-tab",
                     "text": "Console",
-                    "height": "(inherit('tab-height'))",
+                    "height": "eval '(inherit('tab-height'))'",
                     "width": 80
                 },
                 "children": [{
