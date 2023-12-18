@@ -1,7 +1,7 @@
 {
   "nodemonConfig": {
     "exec": "cmake --build .build",
-    "ext": "csd,js,json,txt,orc,ts",
+    "ext": "cmake,csd,js,json,txt,orc,ts",
     "ignore": [
       ".git",
       "**/node_modules"

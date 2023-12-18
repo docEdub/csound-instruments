@@ -6,7 +6,7 @@ include(FetchContent)
 FetchContent_Declare(
     CsoundTemplating
     GIT_REPOSITORY https://github.com/docEdub/CsoundTemplating.git
-    GIT_TAG d281b39f4b78201fdc63611c8aab488c16b02948
+    GIT_TAG e6aacfe2985fb61fd60fc5eb1d05f5f179950ebb
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 
@@ -15,6 +15,7 @@ add_csound_templates(
         cabbage-core
         cabbage-tab-group
         csound-core
+        csound-module
     OPCODES
         "modules/envelope-01.orc"
         "modules/filter-01.orc"
