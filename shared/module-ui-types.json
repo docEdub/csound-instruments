@@ -3,7 +3,7 @@
         "type": "module",
         "comment": "eval '(json['name'])'",
         "extends": "styled-group",
-        "width": "eval '(constants.module.Width)'",
+        "width": "eval '(Constants.Module.Width)'",
         "border": 1,
         "channel-prefix": "eval '(json['name'])'",
         "layout": "TopToBottom",
@@ -51,7 +51,7 @@
     }, {
         "type": "module-group",
         "extends": "styled-group",
-        "width": "eval '(constants.module.Width)'",
+        "width": "eval '(Constants.Module.Width)'",
         "height": "100%",
         "border": 0,
         "layout": "TopToBottom"
@@ -73,7 +73,7 @@
         "padding-left": 8,
         "padding-right": 5,
         "layout": "TopToBottom",
-        "background":"eval '(constants.module.color.MainLabel)'",
+        "background":"eval '(Constants.Module.Color.MainLabel)'",
         "children": [{
             "type": "module-checkbox",
             "label": "eval '(inherit('name'))'",

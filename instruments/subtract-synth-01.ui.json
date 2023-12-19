@@ -8,7 +8,7 @@
         "width": 800,
         "height": 600,
         "border": 1,
-        "border-color": "eval '(constants.color.Border)'",
+        "border-color": "eval '(Constants.Color.Border)'",
         "background": "black",
         "color": "white",
         "id": "ss01",
@@ -37,22 +37,22 @@
                     "height": "100%",
                     "layout": "LeftToRight",
                     "children": [{
-                        "type": "source-01-module",
-                        "name": "Source 1"
+                        "type": "source-a-module",
+                        "name": "Source_1"
                     }, {
-                        "type": "source-01-module",
-                        "name": "Source 2"
+                        "type": "source-a-module",
+                        "name": "Source_2"
                     }, {
-                        "type": "source-01-module",
-                        "name": "Source 3"
+                        "type": "source-a-module",
+                        "name": "Source_3"
                     }, {
                         "type": "module-group",
                         "children": [{
-                            "type": "envelope-01-module",
-                            "name": "Envelope 1"
+                            "type": "envelope-a-module",
+                            "name": "Envelope_1"
                         }, {
-                            "type": "filter-01-module",
-                            "name": "Filter 1"
+                            "type": "filter-a-module",
+                            "name": "Filter_1"
                         }]
                     }]
                 }]

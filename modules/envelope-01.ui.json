@@ -1,6 +1,6 @@
 {
-    "envelope_01": {
-        "channel": {
+    "Envelope_A": {
+        "Channel": {
             "Enabled": 1,
             "Attack": 2,
             "Decay": 3,
@@ -10,7 +10,7 @@
     },
     "uiTypes": [
         {
-            "type": "envelope-01-module",
+            "type": "envelope-a-module",
             "extends": "module",
             "height": 160,
             "children": [
@@ -21,7 +21,7 @@
                 },
                 {
                     "type": "module-row-group",
-                    "background": "eval '(constants.module.color.GreyGroup)'",
+                    "background": "eval '(Constants.Module.Color.GreyGroup)'",
                     "row-count": 4,
                     "children": [
                         {

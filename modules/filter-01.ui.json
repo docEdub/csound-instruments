@@ -1,6 +1,6 @@
 {
-    "filter_01": {
-        "channel": {
+    "Filter_A": {
+        "Channel": {
             "Enabled": 1,
             "FilterType": 2,
             "Cutoff": 3,
@@ -13,18 +13,18 @@
             "EnvelopeSustain": 10,
             "EnvelopeRelease": 11
         },
-        "filter_type": {
+        "FilterType": {
             "LowPass": 1,
             "HighPass": 2
         },
-        "processing_type": {
+        "ProcessingType": {
             "None": 1,
             "Nonlinear": 2
         }
     },
     "uiTypes": [
         {
-            "type": "filter-01-module",
+            "type": "filter-a-module",
             "extends": "module",
             "height": 403,
             "children": [
@@ -35,7 +35,7 @@
                 },
                 {
                     "type": "module-row-group",
-                    "background": "eval '(constants.module.color.PurpleGroup)'",
+                    "background": "eval '(Constants.Module.Color.PurpleGroup)'",
                     "row-count": 13,
                     "children": [
                         {
@@ -43,7 +43,7 @@
                             "type": "module-combobox",
                             "label": "Type",
                             "value-channel": "FilterType",
-                            "value-items": "eval '(Object.keys(constants.filter_01.filter_type))'"
+                            "value-items": "eval '(Object.keys(Constants.Filter_A.FilterType))'"
                         },
                         {
                             "comment": "Cutoff",
@@ -69,7 +69,7 @@
                         }, {
                             "type": "module-combobox",
                             "value-channel": "ProcessingType",
-                            "value-items": "eval '(Object.keys(constants.filter_01.processing_type))'"
+                            "value-items": "eval '(Object.keys(Constants.Filter_A.ProcessingType))'"
                         },
                         {
                             "comment": "Saturation",

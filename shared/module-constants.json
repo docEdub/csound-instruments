@@ -1,6 +1,6 @@
 {
-    "module": {
-        "color": {
+    "Module": {
+        "Color": {
             "MainLabel": "rgb(128, 0, 0)",
 
             "BlueGroup": "rgb(32, 32, 96)",

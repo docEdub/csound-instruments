@@ -1,60 +1,60 @@
 /*
- *  filter-01.orc
+ *  filter-a.orc
  *
  *  Filter module with high, and low pass options implemented using the `K35_hpf` and `K35_lpf opcodes.
  */
 
-{{DeclareModule 'filter_01'}}
+{{DeclareModule 'Filter_A'}}
 
 /// Filter module with high, and low pass options implemented using the `K35_hpf` and `K35_lpf opcodes.
 /// @param 1 String channel prefix used for host automation parameters.
 /// @param 2 A-rate input signal.
 /// @out A-rate envelope.
 ///
-opcode AF_{{ModuleName}}_module, a, Sa
-    SChannelPrefix, aIn xin
-    i_channelIndex = {{hostValueGet}}:i(SChannelPrefix)
+opcode AF_Module_{{ModuleName}}, a, Sa
+    S_channelPrefix, a_in xin
+    i_channelIndex = {{hostValueGet}}:i(S_channelPrefix)
 
-    iLagTime = kr / sr
+    i_lagTime = kr / sr
 
     if ({{moduleGet:k 'Enabled'}} == {{false}}) then
-        aOut = aIn
+        a_out = a_in
         kgoto end
     endif
 
-    kHost_filter_type       = {{moduleGet:k 'FilterType'}}
-    kHost_cutoff            = {{moduleGet:k 'Cutoff'}}
-    kHost_q                 = {{moduleGet:k 'Q'}}
+    k_hostFilterType        = {{moduleGet:k 'FilterType'}}
+    k_hostCutoff            = {{moduleGet:k 'Cutoff'}}
+    k_hostQ                 = {{moduleGet:k 'Q'}}
 
-    kHost_processing_type   = {{moduleGet:k 'ProcessingType'}}
-    kHost_saturation        = {{moduleGet:k 'Saturation'}}
+    k_hostProcessingType    = {{moduleGet:k 'ProcessingType'}}
+    k_hostSaturation        = {{moduleGet:k 'Saturation'}}
 
-    kHost_envelope_amount   = {{moduleGet:k 'EnvelopeAmount'}}
-    iHost_envelope_attack   = {{moduleGet:i 'EnvelopeAttack'}}
-    iHost_envelope_decay    = {{moduleGet:i 'EnvelopeDecay'}}
-    iHost_envelope_sustain  = {{moduleGet:i 'EnvelopeSustain'}}
-    iHost_envelope_release  = {{moduleGet:i 'EnvelopeRelease'}}
+    k_hostEnvelopeAmount    = {{moduleGet:k 'EnvelopeAmount'}}
+    i_hostEnvelopeAttack    = {{moduleGet:i 'EnvelopeAttack'}}
+    i_hostEnvelopeDecay     = {{moduleGet:i 'EnvelopeDecay'}}
+    i_hostEnvelopeSustain   = {{moduleGet:i 'EnvelopeSustain'}}
+    i_hostEnvelopeRelease   = {{moduleGet:i 'EnvelopeRelease'}}
 
-    kCutoff = lag(kHost_cutoff, iLagTime)
-    kCutoff = expcurve(kCutoff, 10)
+    k_cutoff = lag(k_hostCutoff, i_lagTime)
+    k_cutoff = expcurve(k_cutoff, 10)
 
-    kEnvelopeAmount = lag(kHost_envelope_amount, iLagTime)
-    kEnvelopeAmount = expcurve(kEnvelopeAmount, 10)
-    kEnvelopeAmount = min(kCutoff + kEnvelopeAmount, 1) - kCutoff
+    k_envelopeAmount = lag(k_hostEnvelopeAmount, i_lagTime)
+    k_envelopeAmount = expcurve(k_envelopeAmount, 10)
+    k_envelopeAmount = min(k_cutoff + k_envelopeAmount, 1) - k_cutoff
 
     // Apply cutoff envelope.
-    kEnvelope = madsr:k(iHost_envelope_attack, iHost_envelope_decay, iHost_envelope_sustain, iHost_envelope_release) * kEnvelopeAmount
-    kCutoff += expcurve(kEnvelope, 10)
+    k_envelope = madsr:k(i_hostEnvelopeAttack, i_hostEnvelopeDecay, i_hostEnvelopeSustain, i_hostEnvelopeRelease) * k_envelopeAmount
+    k_cutoff += expcurve(k_envelope, 10)
 
     // Convert cutoff from range [0, 1] to [0, 20000].
-    kCutoff *= 20000
+    k_cutoff *= 20000
 
-    if (kHost_filter_type == {{filter_01.filter_type.LowPass}}) then
-        aOut = K35_lpf:a(aIn, kCutoff, kHost_q, kHost_processing_type, kHost_saturation)
-    elseif (kHost_filter_type == {{filter_01.filter_type.HighPass}}) then
-        aOut = K35_hpf:a(aIn, kCutoff, kHost_q, kHost_processing_type, kHost_saturation)
+    if (k_hostFilterType == {{Filter_A.FilterType.LowPass}}) then
+        a_out = K35_lpf:a(a_in, k_cutoff, k_hostQ, k_hostProcessingType, k_hostSaturation)
+    elseif (k_hostFilterType == {{Filter_A.FilterType.HighPass}}) then
+        a_out = K35_hpf:a(a_in, k_cutoff, k_hostQ, k_hostProcessingType, k_hostSaturation)
     endif
 
 end:
-    xout(aOut)
+    xout(a_out)
 endop

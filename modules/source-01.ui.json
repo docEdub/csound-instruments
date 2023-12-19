@@ -1,6 +1,6 @@
 {
-    "source_01": {
-        "channel": {
+    "Source_A": {
+        "Channel": {
             "Enabled": 1,
             "MainAmp": 2,
             "Osc1Enabled": 3,
@@ -18,23 +18,23 @@
             "SubWave": 15,
             "SubAmp": 16
         },
-        "osc": {
-            "wave": {
+        "Osc": {
+            "Wave": {
                 "Saw": 1,
                 "Pulse": 2,
                 "Triangle": 3,
                 "Sine": 4
             }
         },
-        "sub": {
-            "wave": {
+        "Sub": {
+            "Wave": {
                 "Pulse": 1,
                 "Triangle": 2
             }
         }
     },
     "uiTypes": [{
-        "type": "source-01-module",
+        "type": "source-a-module",
         "extends": "module",
         "height": 513,
         "children": [{
@@ -44,7 +44,7 @@
         }, {
             "comment": "Main Amp",
             "type": "module-row-group",
-            "background": "eval '(constants.module.color.RedGroup)'",
+            "background": "eval '(Constants.Module.Color.RedGroup)'",
             "row-count": 1,
             "children": [{
                 "type": "module-number-box-slider",
@@ -55,7 +55,7 @@
         }, {
             "comment": "Oscillator 1",
             "type": "module-row-group",
-            "background": "eval '(constants.module.color.BlueGroup)'",
+            "background": "eval '(Constants.Module.Color.BlueGroup)'",
             "row-count": 4,
             "children": [{
                 "type": "module-checkbox",
@@ -67,7 +67,7 @@
                 "type": "module-combobox",
                 "label": "Wave",
                 "value-channel": "Osc1Wave",
-                "value-items": "eval '(Object.keys(constants.source_01.osc.wave))'"
+                "value-items": "eval '(Object.keys(Constants.Source_A.Osc.Wave))'"
             }, {
                 "comment": "Pulse Width 1",
                 "type": "module-number-box-slider",
@@ -84,7 +84,7 @@
         }, {
             "comment": "Mix",
             "type": "module-row-group",
-            "background": "eval '(constants.module.color.GreenGroup)'",
+            "background": "eval '(Constants.Module.Color.GreenGroup)'",
             "row-count": 1,
             "children": [{
                 "type": "module-number-box-slider",
@@ -95,7 +95,7 @@
         }, {
             "comment": "Oscillator 2",
             "type": "module-row-group",
-            "background": "eval '(constants.module.color.PurpleGroup)'",
+            "background": "eval '(Constants.Module.Color.PurpleGroup)'",
             "row-count": 6,
             "children": [{
                 "type": "module-checkbox",
@@ -113,7 +113,7 @@
                 "type": "module-combobox",
                 "label": "Wave",
                 "value-channel": "Osc2Wave",
-                "value-items": "eval '(Object.keys(constants.source_01.osc.wave))'"
+                "value-items": "eval '(Object.keys(Constants.Source_A.Osc.Wave))'"
             }, {
                 "comment": "Pulse Width 2",
                 "type": "module-number-box-slider",
@@ -136,7 +136,7 @@
         }, {
             "comment": "Sub",
             "type": "module-row-group",
-            "background": "eval '(constants.module.color.GreyGroup)'",
+            "background": "eval '(Constants.Module.Color.GreyGroup)'",
             "row-count": 3,
             "children": [{
                 "type": "module-checkbox",
@@ -148,7 +148,7 @@
                 "type": "module-combobox",
                 "label": "Wave",
                 "value-channel": "SubWave",
-                "value-items": "eval '(Object.keys(constants.source_01.sub.wave))'"
+                "value-items": "eval '(Object.keys(Constants.Source_A.Sub.Wave))'"
             }, {
                 "comment": "Sub Amp",
                 "type": "module-number-box-slider",
