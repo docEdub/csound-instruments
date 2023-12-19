@@ -23,7 +23,6 @@
             "children": [
                 {
                     "type": "module-main-label-and-enabled-checkbox",
-                    "value-channel": "Enabled",
                     "value-default": false
                 },
                 {
@@ -32,24 +31,18 @@
                     "row-count": 3,
                     "children": [
                         {
-                            "comment": "Wave",
-                            "type": "module-combobox",
                             "label": "Wave",
-                            "value-channel": "Wave",
+                            "type": "module-combobox",
                             "value-items": "eval '(Object.keys(Constants.LFO_A.Wave))'"
                         },
                         {
-                            "comment": "Amp",
-                            "type": "module-number-box-slider",
                             "label": "Amp",
-                            "value-channel": "Amp",
+                            "type": "module-number-box-slider",
                             "value-range": { "min": 0, "max": 1, "value": 1, "step": 0.001 }
                         },
                         {
-                            "comment": "Rate",
-                            "type": "module-number-box-slider",
                             "label": "Rate",
-                            "value-channel": "Rate",
+                            "type": "module-number-box-slider",
                             "value-range": { "min": 0, "max": 10, "value": 1, "step": 0.001 }
                         }
                     ]

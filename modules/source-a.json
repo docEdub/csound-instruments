@@ -39,7 +39,6 @@
         "height": 513,
         "children": [{
             "type": "module-main-label-and-enabled-checkbox",
-            "value-channel": "Enabled",
             "value-default": true
         }, {
             "comment": "Main Amp",
@@ -103,9 +102,8 @@
                 "value-channel": "Osc2Enabled",
                 "value-default": true
             }, {
-                "comment": "Link",
-                "type": "module-checkbox",
                 "label": "Link",
+                "type": "module-checkbox",
                 "value-channel": "Osc2Link",
                 "value-default": true
             }, {

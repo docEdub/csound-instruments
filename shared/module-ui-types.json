@@ -16,6 +16,8 @@
         "width": "100%",
         "height": "eval '(inherit('row-height'))'",
         "layout": "LeftToRight",
+        "comment": "eval '(json['label'])'",
+        "value-channel": "eval '(json['label'])'",
         "children": [{
             "type": "styled-label",
             "width": "80%",
@@ -35,6 +37,8 @@
         "width": "100%",
         "height": "eval '(inherit('row-height'))'",
         "layout": "LeftToRight",
+        "comment": "eval '(json['label'])'",
+        "value-channel": "eval '(json['label'])'",
         "children": [{
             "type": "styled-label",
             "width": "eval '(inherit('row-label-width'))'",
@@ -61,7 +65,8 @@
         "width": "100%",
         "height":"eval '(inherit('row-height'))'",
         "text": "eval '(json['label'])'",
-        "align": "left"
+        "align": "left",
+        "comment": "eval '(json['label'])'"
     }, {
         "type": "module-main-label-and-enabled-checkbox",
         "extends": "styled-group",
@@ -75,9 +80,10 @@
         "layout": "TopToBottom",
         "background":"eval '(Constants.Module.Color.MainLabel)'",
         "children": [{
+            "comment": "Enabled",
             "type": "module-checkbox",
             "label": "eval '(inherit('name'))'",
-            "value-channel": "eval '(inherit('value-channel'))'",
+            "value-channel": "eval '(tryInherit('value-channel') ?? 'Enabled')'",
             "value-default": "eval '(inherit('value-default'))'"
         }]
     }, {
@@ -86,6 +92,8 @@
         "width": "100%",
         "height": "eval '(inherit('row-height'))'",
         "layout": "LeftToRight",
+        "comment": "eval '(json['label'])'",
+        "value-channel": "eval '(json['label'])'",
         "children": [{
             "type": "styled-label",
             "width": "eval '(inherit('row-label-width'))'",

@@ -16,7 +16,6 @@
             "children": [
                 {
                     "type": "module-main-label-and-enabled-checkbox",
-                    "value-channel": "Enabled",
                     "value-default": true
                 },
                 {

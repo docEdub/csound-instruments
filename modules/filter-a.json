@@ -30,7 +30,6 @@
             "children": [
                 {
                     "type": "module-main-label-and-enabled-checkbox",
-                    "value-channel": "Enabled",
                     "value-default": true
                 },
                 {
@@ -46,37 +45,33 @@
                             "value-items": "eval '(Object.keys(Constants.Filter_A.FilterType))'"
                         },
                         {
-                            "comment": "Cutoff",
-                            "type": "module-number-box-slider",
                             "label": "Cutoff",
-                            "value-channel": "Cutoff",
+                            "type": "module-number-box-slider",
                             "value-range": { "min": 0, "max": 1, "value": 1, "step": 0.001 }
                         },
                         {
-                            "comment": "Q",
-                            "type": "module-number-box-slider",
                             "label": "Q",
-                            "value-channel": "Q",
+                            "type": "module-number-box-slider",
                             "value-range": { "min": 1, "max": 10, "value": 1, "step": 0.01 }
                         },
                         {
                             "type": "module-row-spacer"
                         },
                         {
-                            "comment": "Processing",
-                            "type": "module-label",
-                            "label": "Processing"
+                            "label": "Processing",
+                            "type": "module-label"
                         }, {
+                            "comment": "Processing",
                             "type": "module-combobox",
                             "value-channel": "ProcessingType",
                             "value-items": "eval '(Object.keys(Constants.Filter_A.ProcessingType))'"
                         },
                         {
-                            "comment": "Saturation",
-                            "type": "module-label",
-                            "label": "Saturation"
+                            "label": "Saturation",
+                            "type": "module-label"
                         },
                         {
+                            "comment": "Saturation",
                             "type": "module-number-box-slider",
                             "value-channel": "Saturation",
                             "value-range": { "min": 1, "max": 10, "value": 1, "step": 0.01 }
