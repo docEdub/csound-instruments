@@ -27,13 +27,13 @@
                 },
                 {
                     "type": "module-row-group",
-                    "background": "eval '(Constants.Module.Color.BlueGroup)'",
+                    "background": "(Constants.Module.Color.BlueGroup)",
                     "row-count": 3,
                     "children": [
                         {
                             "label": "Wave",
                             "type": "module-combobox",
-                            "value-items": "eval '(Object.keys(Constants.LFO_A.Wave))'"
+                            "value-items": "(Object.keys(Constants.LFO_A.Wave))"
                         },
                         {
                             "label": "Amp",

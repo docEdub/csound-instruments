@@ -20,7 +20,7 @@
                 },
                 {
                     "type": "module-row-group",
-                    "background": "eval '(Constants.Module.Color.GreyGroup)'",
+                    "background": "(Constants.Module.Color.GreyGroup)",
                     "row-count": 4,
                     "children": [
                         {

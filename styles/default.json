@@ -12,89 +12,89 @@
         {
             "type": "styled-checkbox",
             "extends": "checkbox",
-            "border": "eval '(inherit())'",
-            "border-color": "eval '(inherit())'",
-            "background-color-active": "eval '(Constants.Color.Active)'",
-            "background-color-inactive": "eval '(Constants.Color.Inactive)'"
+            "border": "(inherit())",
+            "border-color": "(inherit())",
+            "background-color-active": "(Constants.Color.Active)",
+            "background-color-inactive": "(Constants.Color.Inactive)"
         },
         {
             "type": "styled-combobox",
             "extends": "combobox",
-            "border": "eval '(inherit())'",
-            "border-color": "eval '(inherit())'",
-            "background-color-active": "eval '(Constants.Color.Main)'",
-            "background-color-inactive": "eval '(Constants.Color.Inactive)'"
+            "border": "(inherit())",
+            "border-color": "(inherit())",
+            "background-color-active": "(Constants.Color.Main)",
+            "background-color-inactive": "(Constants.Color.Inactive)"
         },
         {
             "type": "styled-tab-group",
             "extends": "tab-group",
-            "border": "eval '(inherit())'",
-            "border-color": "eval '(inherit())'",
-            "background": "eval '(inherit())'"
+            "border": "(inherit())",
+            "border-color": "(inherit())",
+            "background": "(inherit())"
         },
         {
             "type": "styled-tab-child",
             "extends": "tab-child",
-            "border": "eval '(inherit())'",
-            "border-color": "eval '(inherit())'",
-            "background": "eval '(inherit())'"
+            "border": "(inherit())",
+            "border-color": "(inherit())",
+            "background": "(inherit())"
         },
         {
             "type": "styled-tab",
             "extends": "tab",
-            "background-disabled": "eval '(inherit('background'))'",
-            "background-enabled": "eval '(Constants.Color.Main)'",
+            "background-disabled": "(inherit('background'))",
+            "background-enabled": "(Constants.Color.Main)",
             "font-size": 20,
-            "value": "eval '(keyParent.childIndex === 0 ? 1 : 0)'"
+            "value": "(keyParent.childIndex === 0 ? 1 : 0)"
         },
         {
             "type": "styled-group",
             "extends": "group",
-            "border": "eval '(inherit())'",
-            "border-color": "eval '(inherit())'",
-            "background": "eval '(inherit())'"
+            "border": "(inherit())",
+            "border-color": "(inherit())",
+            "background": "(inherit())"
         },
         {
             "type": "styled-console",
             "extends": "console",
-            "border": "eval '(inherit())'",
-            "border-color": "eval '(inherit())'",
-            "background": "eval '(inherit())'",
+            "border": "(inherit())",
+            "border-color": "(inherit())",
+            "background": "(inherit())",
             "color": "grey"
         },
         {
             "type": "styled-label",
             "extends": "label",
-            "background": "eval '(inherit())'",
-            "color": "eval '(inherit())'",
+            "background": "(inherit())",
+            "color": "(inherit())",
             "font-size": 15
         },
         {
             "type": "styled-spacer",
             "extends": "label",
-            "background": "eval '(inherit())'",
+            "background": "(inherit())",
             "text": "",
             "font-size": 0
         },
         {
             "type": "borderless-number-box-slider",
             "extends": "number-box-slider",
-            "border-color": "eval '(inherit('background'))'"
+            "border-color": "(inherit('background'))"
         },
         {
             "type": "styled-number-box-slider",
             "extends": "styled-group",
-            "border": "eval '(inherit())'",
-            "border-color": "eval '(inherit())'",
-            "background": "eval '(inherit())'",
+            "border": "(inherit())",
+            "border-color": "(inherit())",
+            "background": "(inherit())",
             "children": [{
                 "type": "borderless-number-box-slider",
                 "width": "100%",
                 "height": "100%",
-                "background": "eval '(Constants.Color.TextInputBackground)'",
-                "color": "eval '(Constants.Color.TextInput)'",
-                "channel": "eval '(inherit('value-channel'))'",
-                "range": "eval '(tryInherit('value-range', { min: 0, max: 1, increment: 0.001 }))'"
+                "background": "(Constants.Color.TextInputBackground)",
+                "color": "(Constants.Color.TextInput)",
+                "channel": "(inherit('value-channel'))",
+                "range": "(tryInherit('value-range') ?? { min: 0, max: 1, increment: 0.001 })"
             }]
         }
     ]

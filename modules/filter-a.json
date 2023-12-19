@@ -34,7 +34,7 @@
                 },
                 {
                     "type": "module-row-group",
-                    "background": "eval '(Constants.Module.Color.PurpleGroup)'",
+                    "background": "(Constants.Module.Color.PurpleGroup)",
                     "row-count": 13,
                     "children": [
                         {
@@ -42,7 +42,7 @@
                             "type": "module-combobox",
                             "label": "Type",
                             "value-channel": "FilterType",
-                            "value-items": "eval '(Object.keys(Constants.Filter_A.FilterType))'"
+                            "value-items": "(Object.keys(Constants.Filter_A.FilterType))"
                         },
                         {
                             "label": "Cutoff",
@@ -64,7 +64,7 @@
                             "comment": "Processing",
                             "type": "module-combobox",
                             "value-channel": "ProcessingType",
-                            "value-items": "eval '(Object.keys(Constants.Filter_A.ProcessingType))'"
+                            "value-items": "(Object.keys(Constants.Filter_A.ProcessingType))"
                         },
                         {
                             "label": "Saturation",

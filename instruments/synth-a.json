@@ -8,7 +8,7 @@
         "width": 800,
         "height": 600,
         "border": 1,
-        "border-color": "eval '(Constants.Color.Border)'",
+        "border-color": "(Constants.Color.Border)",
         "background": "black",
         "color": "white",
         "id": "ss01",
@@ -27,7 +27,7 @@
                 "tab": {
                     "type": "styled-tab",
                     "text": "UI",
-                    "height": "eval '(inherit('tab-height'))'",
+                    "height": "(inherit('tab-height'))",
                     "width": 100
                 },
                 "children": [{
@@ -70,7 +70,7 @@
                 "tab": {
                     "type": "styled-tab",
                     "text": "Console",
-                    "height": "eval '(inherit('tab-height'))'",
+                    "height": "(inherit('tab-height'))",
                     "width": 80
                 },
                 "children": [{
