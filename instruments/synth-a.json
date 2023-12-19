@@ -4,7 +4,7 @@
     },
     "ui": {
         "type": "form",
-        "name": "Subtractive Synth 01",
+        "name": "Synth A",
         "width": 800,
         "height": 600,
         "border": 1,
