@@ -54,6 +54,12 @@
                             "type": "filter-a-module",
                             "name": "Filter_1"
                         }]
+                    }, {
+                        "type": "module-group",
+                        "children": [{
+                            "type": "lfo-a-module",
+                            "name": "LFO_1"
+                        }]
                     }]
                 }]
             }, {

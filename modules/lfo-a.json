@@ -1,0 +1,60 @@
+{
+    "LFO_A": {
+        "Channel": {
+            "Enabled": 1,
+            "Wave": 2,
+            "Amp": 3,
+            "Rate": 4
+        },
+        "Wave": {
+            "Sine": 1,
+            "Triangle": 2,
+            "BiSquare": 3,
+            "UniSquare": 4,
+            "Saw": 5,
+            "SawDown": 6
+        }
+    },
+    "uiTypes": [
+        {
+            "type": "lfo-a-module",
+            "extends": "module",
+            "height": 133,
+            "children": [
+                {
+                    "type": "module-main-label-and-enabled-checkbox",
+                    "value-channel": "Enabled",
+                    "value-default": false
+                },
+                {
+                    "type": "module-row-group",
+                    "background": "eval '(Constants.Module.Color.BlueGroup)'",
+                    "row-count": 3,
+                    "children": [
+                        {
+                            "comment": "Wave",
+                            "type": "module-combobox",
+                            "label": "Wave",
+                            "value-channel": "Wave",
+                            "value-items": "eval '(Object.keys(Constants.LFO_A.Wave))'"
+                        },
+                        {
+                            "comment": "Amp",
+                            "type": "module-number-box-slider",
+                            "label": "Amp",
+                            "value-channel": "Amp",
+                            "value-range": { "min": 0, "max": 1, "value": 1, "step": 0.001 }
+                        },
+                        {
+                            "comment": "Rate",
+                            "type": "module-number-box-slider",
+                            "label": "Rate",
+                            "value-channel": "Rate",
+                            "value-range": { "min": 0, "max": 10, "value": 1, "step": 0.001 }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

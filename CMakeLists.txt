@@ -6,7 +6,7 @@ include(FetchContent)
 FetchContent_Declare(
     CsoundTemplating
     GIT_REPOSITORY https://github.com/docEdub/CsoundTemplating.git
-    GIT_TAG a4587fd737405ea884a76a31cb897420f6e29f8e
+    GIT_TAG af422e86595802a5531700965ba6ea28cd034f56
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 
@@ -19,12 +19,14 @@ add_csound_templates(
     OPCODES
         "modules/envelope-a.orc"
         "modules/filter-a.orc"
+        "modules/lfo-a.orc"
         "modules/source-a.orc"
     SYNTH_SOURCES
         "instruments/synth-a.csd"
     JSON
         "modules/envelope-a.json"
         "modules/filter-a.json"
+        "modules/lfo-a.json"
         "modules/source-a.json"
         "instruments/synth-a.json"
         "shared/module-constants.json"
