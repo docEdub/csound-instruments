@@ -5,7 +5,7 @@
         "extends": "styled-group",
         "width": "eval '(constants.module.Width)'",
         "border": 1,
-        "channel-prefix": "eval '(inherit('channel-prefix'))'",
+        "channel-prefix": "eval '(json['name'])'",
         "layout": "TopToBottom",
         "row-height": "eval '(tryInherit() ?? 27)'",
         "row-label-width": "eval '(tryInherit() ?? '40%')'",
@@ -26,7 +26,7 @@
             "type": "styled-checkbox",
             "width": "20%",
             "height": "100%",
-            "channel": "eval '(inherit('channel-prefix') + '_' + inherit('value-channel'))'",
+            "channel": "eval '(inherit('channel-prefix') + '::' + inherit('value-channel'))'",
             "checked": "eval '(inherit('value-default'))'"
         }]
     }, {
@@ -46,7 +46,7 @@
             "width": "eval '(inherit('row-value-width'))'",
             "height": "100%",
             "items": "eval '(inherit('value-items'))'",
-            "channel": "eval '(inherit('channel-prefix') + '_' + inherit('value-channel'))'"
+            "channel": "eval '(inherit('channel-prefix') + '::' + inherit('value-channel'))'"
         }]
     }, {
         "type": "module-group",
@@ -97,7 +97,7 @@
             "width": "eval '(inherit('row-value-width'))'",
             "height": "100%",
             "value-range": "eval '(inherit('value-range'))'",
-            "value-channel": "eval '(inherit('channel-prefix') + '_' + inherit('value-channel'))'"
+            "value-channel": "eval '(inherit('channel-prefix') + '::' + inherit('value-channel'))'"
         }]
     }, {
         "type": "module-row-group",

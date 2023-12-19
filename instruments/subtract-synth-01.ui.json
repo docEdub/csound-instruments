@@ -38,26 +38,21 @@
                     "layout": "LeftToRight",
                     "children": [{
                         "type": "source-01-module",
-                        "name": "Source 1",
-                        "channel-prefix": "source_1"
+                        "name": "Source 1"
                     }, {
                         "type": "source-01-module",
-                        "name": "Source 2",
-                        "channel-prefix": "source_2"
+                        "name": "Source 2"
                     }, {
                         "type": "source-01-module",
-                        "name": "Source 3",
-                        "channel-prefix": "source_3"
+                        "name": "Source 3"
                     }, {
                         "type": "module-group",
                         "children": [{
                             "type": "envelope-01-module",
-                            "name": "Envelope 1",
-                            "channel-prefix": "envelope_1"
+                            "name": "Envelope 1"
                         }, {
                             "type": "filter-01-module",
-                            "name": "Filter 1",
-                            "channel-prefix": "filter_1"
+                            "name": "Filter 1"
                         }]
                     }]
                 }]
