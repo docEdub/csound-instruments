@@ -103,13 +103,13 @@ instr AF_Module_{{ModuleName}}_alwayson
 
     i_channelIndex = {{hostValueGet}}:i(S_channelPrefix)
 
-    if ({{moduleGet:k 'Osc2Link'}} == {{true}}) then
-        k_hostOsc1Wave          = {{moduleGet:k 'Osc1Wave'}}
-        k_hostOsc2Wave          = {{moduleGet:k 'Osc2Wave'}}
-        k_hostOsc1PulseWidth    = {{moduleGet:k 'Osc1PulseWidth'}}
-        k_hostOsc2PulseWidth    = {{moduleGet:k 'Osc2PulseWidth'}}
-        k_hostOsc1Fine          = {{moduleGet:k 'Osc1Fine'}}
-        k_hostOsc2Fine          = {{moduleGet:k 'Osc2Fine'}}
+    if ({{moduleGetHost:k 'Osc2Link'}} == {{true}}) then
+        k_hostOsc1Wave          = {{moduleGetHost:k 'Osc1Wave'}}
+        k_hostOsc2Wave          = {{moduleGetHost:k 'Osc2Wave'}}
+        k_hostOsc1PulseWidth    = {{moduleGetHost:k 'Osc1PulseWidth'}}
+        k_hostOsc2PulseWidth    = {{moduleGetHost:k 'Osc2PulseWidth'}}
+        k_hostOsc1Fine          = {{moduleGetHost:k 'Osc1Fine'}}
+        k_hostOsc2Fine          = {{moduleGetHost:k 'Osc2Fine'}}
 
         if (k_hostOsc1Wave != k_lastHostOsc1Wave) then
             k_hostOsc2Wave = k_hostOsc1Wave

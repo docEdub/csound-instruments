@@ -58,7 +58,10 @@
                         "type": "module-group",
                         "children": [{
                             "type": "lfo-a-module",
-                            "name": "LFO_1"
+                            "name": "LFO_G1"
+                        }, {
+                            "type": "lfo-a-module",
+                            "name": "LFO_L1"
                         }]
                     }]
                 }]
