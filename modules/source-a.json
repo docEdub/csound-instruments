@@ -123,7 +123,7 @@
                 "type": "module-number-box-slider",
                 "label": "Semi",
                 "value-channel": "Osc2Semi",
-                "value-range": { "min": 0, "max": 36, "value": 0, "step": 1 }
+                "value-range": { "min": -36, "max": 36, "value": 0, "step": 1 }
             }, {
                 "comment": "Fine 2",
                 "type": "module-number-box-slider",
