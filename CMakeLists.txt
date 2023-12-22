@@ -23,12 +23,14 @@ add_csound_templates(
         "modules/source-a.orc"
     SYNTH_SOURCES
         "instruments/synth-a.csd"
+        "instruments/synth-a2.csd"
     JSON
         "modules/envelope-a.json"
         "modules/filter-a.json"
         "modules/lfo-a.json"
         "modules/source-a.json"
         "instruments/synth-a.json"
+        "instruments/synth-a2.json"
         "shared/module-constants.json"
         "shared/module-ui-types.json"
         "styles/default.json"

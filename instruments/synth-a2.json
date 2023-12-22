@@ -1,0 +1,100 @@
+{
+    "cabbage-output-config": {
+        "debug": false
+    },
+    "ui": {
+        "type": "form",
+        "name": "Synth A2",
+        "width": 905,
+        "height": 600,
+        "border": 1,
+        "border-color": "(Constants.Color.Border)",
+        "background": "black",
+        "color": "white",
+        "id": "afb_",
+        "children": [{
+            "type": "styled-tab-group",
+            "id": "main-tabs",
+            "width": "100%",
+            "height": "100%",
+            "tab-height": 25,
+            "children": [{
+                "comment": "UI tab",
+                "type": "styled-tab-child",
+                "height": "100%",
+                "width": "100%",
+                "layout": "TopToBottom",
+                "tab": {
+                    "type": "styled-tab",
+                    "text": "UI",
+                    "height": "(inherit('tab-height'))",
+                    "width": 100
+                },
+                "children": [{
+                    "comment": "Components",
+                    "type": "styled-group",
+                    "width": "100%",
+                    "height": "100%",
+                    "layout": "LeftToRight",
+                    "children": [{
+                        "type": "source-a-module",
+                        "name": "Source_1"
+                    }, {
+                        "type": "source-a-module",
+                        "name": "Source_2"
+                    }, {
+                        "type": "source-a-module",
+                        "name": "Source_3"
+                    }, {
+                        "type": "source-a-module",
+                        "name": "Source_4"
+                    }, {
+                        "type": "module-group",
+                        "children": [{
+                                "type": "lfo-a-module",
+                                "name": "LFO_G1",
+                                "value-default": true
+                            }, {
+                                "type": "lfo-a-module",
+                                "name": "LFO_G2",
+                                "value-default": true
+                            }, {
+                                "type": "lfo-a-module",
+                                "name": "LFO_G3",
+                                "value-default": true
+                            }, {
+                                "type": "lfo-a-module",
+                                "name": "LFO_G4",
+                                "value-default": true
+                        }]
+                    }, {
+                        "type": "module-group",
+                        "children": [{
+                            "type": "envelope-a-module",
+                            "name": "Envelope_1"
+                        }, {
+                            "type": "filter-a-module",
+                            "name": "Filter_1"
+                        }]
+                    }]
+                }]
+            }, {
+                "comment": "Console tab",
+                "type": "styled-tab-child",
+                "height": "100%",
+                "width": "100%",
+                "tab": {
+                    "type": "styled-tab",
+                    "text": "Console",
+                    "height": "(inherit('tab-height'))",
+                    "width": 80
+                },
+                "children": [{
+                    "type": "styled-console",
+                    "width": "100%",
+                    "height": "100%"
+                }]
+            }]
+        }]
+    }
+}
