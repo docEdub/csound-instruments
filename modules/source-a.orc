@@ -48,6 +48,7 @@ opcode AF_Module_{{ModuleName}}, a, S
     k_hostOsc1Enabled       = {{moduleGet:k 'Osc1Enabled'}}
     i_hostOsc1Wave          = {{moduleGet:i 'Osc1Wave'}}
     k_hostOsc1PulseWidth    = {{moduleGet:k 'Osc1PulseWidth'}}
+    k_hostOsc1Semi          = {{moduleGet:k 'Osc1Semi'}}
     k_hostOsc1Fine          = {{moduleGet:k 'Osc1Fine'}}
 
     k_hostOscMix            = {{moduleGet:k 'OscMix'}}
@@ -65,7 +66,7 @@ opcode AF_Module_{{ModuleName}}, a, S
     k_noteNumber init notnum()
 
     if (k_hostOsc1Enabled == {{true}}) then
-        k_osc1NoteNumber = k_noteNumber + k_hostOsc1Fine / 100
+        k_osc1NoteNumber = k_noteNumber + k_hostOsc1Semi + k_hostOsc1Fine / 100
         a_out += _af_module_Source_A_audio_generator(k_hostOscMix, cpsmidinn(k_osc1NoteNumber), i_hostOsc1Wave, k_hostOsc1PulseWidth)
     endif
 
