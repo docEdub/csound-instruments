@@ -10,30 +10,33 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 
-add_csound_templates(
-    PACKAGES
-        cabbage-core
-        cabbage-tab-group
-        csound-core
-        csound-module
-    OPCODES
-        "modules/envelope-a.orc"
-        "modules/filter-a.orc"
-        "modules/lfo-a.orc"
-        "modules/source-a.orc"
-    SYNTH_SOURCES
-        "instruments/synth-a.csd"
-        "instruments/synth-a2.csd"
-    JSON
-        "modules/envelope-a.json"
-        "modules/filter-a.json"
-        "modules/lfo-a.json"
-        "modules/source-a.json"
-        "instruments/synth-a.json"
-        "instruments/synth-a2.json"
-        "shared/module-constants.json"
-        "shared/module-ui-types.json"
-        "styles/default.json"
-)
+macro(add_instrument NAME)
+    add_csound_templates(
+        PACKAGES
+            cabbage-core
+            cabbage-tab-group
+            csound-core
+            csound-module
+        OPCODES
+            "modules/envelope-a.orc"
+            "modules/filter-a.orc"
+            "modules/lfo-a.orc"
+            "modules/source-a.orc"
+        JSON
+            "modules/envelope-a.json"
+            "modules/filter-a.json"
+            "modules/lfo-a.json"
+            "modules/source-a.json"
+            "shared/module-constants.json"
+            "shared/module-ui-types.json"
+            "styles/default.json"
+            "instruments/${NAME}.json"
+        SYNTH_SOURCES
+            "instruments/${NAME}.csd"
+    )
+endmacro()
+
+add_instrument("synth-a")
+add_instrument("synth-a2")
 
 generate_csound_templates()
