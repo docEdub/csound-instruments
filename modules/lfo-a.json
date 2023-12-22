@@ -23,7 +23,7 @@
             "children": [
                 {
                     "type": "module-main-label-and-enabled-checkbox",
-                    "value-default": false
+                    "value-default": "(tryInherit('value-default') ?? false)"
                 },
                 {
                     "type": "module-row-group",

@@ -30,7 +30,7 @@
             "children": [
                 {
                     "type": "module-main-label-and-enabled-checkbox",
-                    "value-default": true
+                    "value-default": "(tryInherit('value-default') ?? true)"
                 },
                 {
                     "type": "module-row-group",
