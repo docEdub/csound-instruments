@@ -5,7 +5,7 @@ project("csound-instruments")
 include(FetchContent)
 FetchContent_Declare(
     CsoundTemplating
-    GIT_REPOSITORY https://github.com/docEdub/CsoundTemplating.git
+    GIT_REPOSITORY git@github.com:docEdub/CsoundTemplating.git
     GIT_TAG 110b40362debf7bfd546a1827d47ca330aa07f70
 )
 FetchContent_MakeAvailable(CsoundTemplating)
