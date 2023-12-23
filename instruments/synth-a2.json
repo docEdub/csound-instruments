@@ -12,12 +12,12 @@
         "background": "black",
         "color": "white",
         "id": "afb_",
+        "tab-height": 25,
         "children": [{
             "type": "styled-tab-group",
             "id": "main-tabs",
             "width": "100%",
             "height": "100%",
-            "tab-height": 25,
             "children": [{
                 "comment": "UI tab",
                 "type": "styled-tab-child",
@@ -95,6 +95,11 @@
                     "height": "100%"
                 }]
             }]
+        }, {
+            "type": "presets",
+            "left": "(parent.width - 260)",
+            "right": "100%",
+            "height": "(inherit('tab-height'))"
         }]
     }
 }

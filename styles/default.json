@@ -22,8 +22,10 @@
             "extends": "combobox",
             "border": "(inherit())",
             "border-color": "(inherit())",
-            "background-color-active": "(Constants.Color.Main)",
-            "background-color-inactive": "(Constants.Color.Inactive)"
+            "background-color-active": "(Constants.Color.TextInputBackground)",
+            "background-color-inactive": "(Constants.Color.Inactive)",
+            "color": "(Constants.Color.TextInput)",
+            "font-weight": "normal"
         },
         {
             "type": "styled-tab-group",
@@ -68,6 +70,25 @@
             "background": "(inherit())",
             "color": "(inherit())",
             "font-size": 15
+        },
+        {
+            "type": "styled-preset-combobox",
+            "extends": "preset-combobox",
+            "background-color-active": "(Constants.Color.TextInputBackground)",
+            "background-color-inactive": "(Constants.Color.Inactive)",
+            "color": "(Constants.Color.TextInput)"
+        },
+        {
+            "type": "styled-preset-delete-button",
+            "extends": "preset-delete-button",
+            "background": "(Constants.Color.Main)",
+            "color": "(inherit())"
+        },
+        {
+            "type": "styled-preset-save-button",
+            "extends": "preset-save-button",
+            "background": "(Constants.Color.Main)",
+            "color": "(inherit())"
         },
         {
             "type": "styled-spacer",

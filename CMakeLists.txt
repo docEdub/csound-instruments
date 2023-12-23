@@ -6,7 +6,7 @@ include(FetchContent)
 FetchContent_Declare(
     CsoundTemplating
     GIT_REPOSITORY git@github.com:docEdub/CsoundTemplating.git
-    GIT_TAG 110b40362debf7bfd546a1827d47ca330aa07f70
+    GIT_TAG 75d22f0c3963b573c4d6f71d1b8a717889c37b35
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 
@@ -27,6 +27,7 @@ macro(add_instrument NAME)
             "modules/filter-a.json"
             "modules/lfo-a.json"
             "modules/source-a.json"
+            "shared/common-ui-types.json"
             "shared/module-constants.json"
             "shared/module-ui-types.json"
             "styles/default.json"
