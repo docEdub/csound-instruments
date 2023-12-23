@@ -37,7 +37,7 @@ macro(add_instrument NAME)
     )
 endmacro()
 
-add_instrument("synth-a")
+add_instrument("synth-a1")
 add_instrument("synth-a2")
 
 generate_csound_templates()

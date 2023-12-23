@@ -17,13 +17,13 @@ massign 0, 2
 pgmassign 0, 0
 
 
-instr AF_Synth_A_alwayson
+instr AF_Synth_A1_alwayson
     k_lfo_g1 = AF_Module_LFO_A:k("LFO_G1")
     {{hostValueSet}}("Source_1::OscMix::mod", k_lfo_g1 / 2 + 0.5)
 endin
 
 // Start at 1 second to give the host time to set it's values.
-scoreline_i("i\"AF_Synth_A_alwayson\" 1 -1")
+scoreline_i("i\"AF_Synth_A1_alwayson\" 1 -1")
 
 
 instr 2

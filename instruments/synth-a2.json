@@ -5,13 +5,13 @@
     "ui": {
         "type": "form",
         "name": "Synth A2",
+        "id": "afa2",
         "width": 905,
         "height": 600,
         "border": 1,
         "border-color": "(Constants.Color.Border)",
         "background": "black",
         "color": "white",
-        "id": "afb_",
         "tab-height": 25,
         "children": [{
             "type": "styled-tab-group",

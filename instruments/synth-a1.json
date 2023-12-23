@@ -4,14 +4,14 @@
     },
     "ui": {
         "type": "form",
-        "name": "Synth A",
+        "name": "Synth A1",
+        "id": "afa1",
         "width": 800,
         "height": 600,
         "border": 1,
         "border-color": "(Constants.Color.Border)",
         "background": "black",
         "color": "white",
-        "id": "ss01",
         "tab-height": 25,
         "children": [{
             "type": "styled-tab-group",
