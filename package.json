@@ -4,7 +4,8 @@
     "ext": "cmake,csd,js,json,txt,orc,ts",
     "ignore": [
       ".git",
-      "**/node_modules"
+      "**/node_modules",
+      "**/*.snaps"
     ],
     "verbose": true,
     "watch": [
