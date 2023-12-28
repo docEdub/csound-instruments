@@ -20,6 +20,7 @@ pgmassign 0, 0
 /// This synth is setup for emulating string ensembles and string machines.
 /// See https://www.soundonsound.com/techniques/synthesizing-strings-string-machines.
 
+ga_out init 0
 
 instr AF_Synth_A2_alwayson
     k_lfo_g1 = AF_Module_LFO_A:k("LFO_G1")
@@ -36,6 +37,10 @@ instr AF_Synth_A2_alwayson
     k_lfo_g4 = AF_Module_LFO_A:k("LFO_G4")
     {{hostValueSet}}("Source_4::Osc1Semi::mod", k_lfo_g4 * 0.5) ; Range = [ -0.5, 0.5 ]
 
+    ga_out = AF_Module_DelayMono_A("Delay_1", ga_out)
+
+    outall(ga_out)
+    ga_out = 0
 endin
 
 // Start at 1 second to give the host time to set it's values.
@@ -50,9 +55,9 @@ instr 2
     a_out = sum(a_source_1, a_source_2, a_source_3, a_source_4)
 
     a_out = AF_Module_Filter_A("Filter_1", a_out)
-    a_envelope_1 = AF_Module_Envelope_A("Envelope_1")
+    a_out *= AF_Module_Envelope_A("Envelope_1")
 
-    outall(a_out * a_envelope_1)
+    ga_out += a_out
 endin
 
 
@@ -64,6 +69,7 @@ endin
 {{InitializeModule "AF_Module_Source_A"     "Source_2"}}
 {{InitializeModule "AF_Module_Source_A"     "Source_3"}}
 {{InitializeModule "AF_Module_Source_A"     "Source_4"}}
+{{InitializeModule "AF_Module_DelayMono_A"  "Delay_1"}}
 {{InitializeModule "AF_Module_Envelope_A"   "Envelope_1"}}
 {{InitializeModule "AF_Module_Filter_A"     "Filter_1"}}
 

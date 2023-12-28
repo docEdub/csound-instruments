@@ -6,7 +6,7 @@
         "type": "form",
         "name": "Synth A2",
         "id": "afa2",
-        "width": 905,
+        "width": 1056,
         "height": 600,
         "border": 1,
         "border-color": "(Constants.Color.Border)",
@@ -75,6 +75,12 @@
                         }, {
                             "type": "filter-a-module",
                             "name": "Filter_1"
+                        }]
+                    }, {
+                        "type": "module-group",
+                        "children": [{
+                            "type": "delay-mono-a-module",
+                            "name": "Delay_1"
                         }]
                     }]
                 }]

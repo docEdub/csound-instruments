@@ -75,6 +75,10 @@
         "LFO_L1::Wave": 1.0,
         "LFO_L1::Amp": 1.0,
         "LFO_L1::Rate": 1.0,
+        "Delay_1::Enabled": 0.0,
+        "Delay_1::Time": 0.1,
+        "Delay_1::Feedback": 0.5,
+        "Delay_1::Mix": 0.5,
         "cabbageJSONData": ""
     }
 }

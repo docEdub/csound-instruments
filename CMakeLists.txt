@@ -18,11 +18,13 @@ macro(add_instrument NAME)
             csound-core
             csound-module
         OPCODES
+            "modules/delay-mono-a.orc"
             "modules/envelope-a.orc"
             "modules/filter-a.orc"
             "modules/lfo-a.orc"
             "modules/source-a.orc"
         JSON
+            "modules/delay-mono-a.json"
             "modules/envelope-a.json"
             "modules/filter-a.json"
             "modules/lfo-a.json"

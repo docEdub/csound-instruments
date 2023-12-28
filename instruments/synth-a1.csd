@@ -17,9 +17,16 @@ massign 0, 2
 pgmassign 0, 0
 
 
+ga_out init 0
+
 instr AF_Synth_A1_alwayson
     k_lfo_g1 = AF_Module_LFO_A:k("LFO_G1")
     {{hostValueSet}}("Source_1::OscMix::mod", k_lfo_g1 / 2 + 0.5)
+
+    ga_out = AF_Module_DelayMono_A("Delay_1", ga_out)
+
+    outall(ga_out)
+    ga_out = 0
 endin
 
 // Start at 1 second to give the host time to set it's values.
@@ -37,13 +44,14 @@ instr 2
 
     a_lfo_l1 = AF_Module_LFO_A("LFO_L1")
 
-    outall(a_out * a_envelope_1 * a_lfo_l1)
+    ga_out = a_out * a_envelope_1 * a_lfo_l1
 endin
 
 
 {{InitializeModule "AF_Module_Source_A"     "Source_1"}}
 {{InitializeModule "AF_Module_Source_A"     "Source_2"}}
 {{InitializeModule "AF_Module_Source_A"     "Source_3"}}
+{{InitializeModule "AF_Module_DelayMono_A"  "Delay_1"}}
 {{InitializeModule "AF_Module_Envelope_A"   "Envelope_1"}}
 {{InitializeModule "AF_Module_Filter_A"     "Filter_1"}}
 {{InitializeModule "AF_Module_LFO_A"        "LFO_G1"}}

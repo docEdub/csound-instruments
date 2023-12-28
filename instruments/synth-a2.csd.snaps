@@ -100,6 +100,10 @@
         "Filter_1::EnvelopeDecay": 0.009999999776482582,
         "Filter_1::EnvelopeSustain": 1.0,
         "Filter_1::EnvelopeRelease": 0.009999999776482582,
+        "Delay_1::Enabled": 0.0,
+        "Delay_1::Time": 0.1,
+        "Delay_1::Feedback": 0.5,
+        "Delay_1::Mix": 0.5,
         "cabbageJSONData": ""
     },
     "Strings 1": {
@@ -203,6 +207,10 @@
         "Filter_1::EnvelopeDecay": 5.180000305175781,
         "Filter_1::EnvelopeSustain": 0.0,
         "Filter_1::EnvelopeRelease": 4.21999979019165,
+        "Delay_1::Enabled": 0.0,
+        "Delay_1::Time": 0.1,
+        "Delay_1::Feedback": 0.5,
+        "Delay_1::Mix": 0.5,
         "cabbageJSONData": ""
     }
 }

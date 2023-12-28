@@ -6,7 +6,7 @@
         "type": "form",
         "name": "Synth A1",
         "id": "afa1",
-        "width": 800,
+        "width": 905,
         "height": 600,
         "border": 1,
         "border-color": "(Constants.Color.Border)",
@@ -62,6 +62,12 @@
                         }, {
                             "type": "lfo-a-module",
                             "name": "LFO_L1"
+                        }]
+                    }, {
+                        "type": "module-group",
+                        "children": [{
+                            "type": "delay-mono-a-module",
+                            "name": "Delay_1"
                         }]
                     }]
                 }]
