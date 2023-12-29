@@ -28,6 +28,8 @@ instr AF_Synth_A1_alwayson
 
     ga_out_l, ga_out_r AF_Module_Reverb_A "Reverb_1", ga_out_l
 
+    ga_out_l, ga_out_r AF_Module_Volume_A "Volume_1", ga_out_l, ga_out_r
+
     outs(ga_out_l, ga_out_r)
     clear(ga_out_l, ga_out_r)
 endin
@@ -52,6 +54,7 @@ endin
 
 
 {{InitializeModule "AF_Module_LFO_A"        "LFO_G1"}}
+{{InitializeModule "AF_Module_LFO_A"        "LFO_L1"}}
 {{InitializeModule "AF_Module_Source_A"     "Source_1"}}
 {{InitializeModule "AF_Module_Source_A"     "Source_2"}}
 {{InitializeModule "AF_Module_Source_A"     "Source_3"}}
@@ -59,7 +62,7 @@ endin
 {{InitializeModule "AF_Module_Envelope_A"   "Envelope_1"}}
 {{InitializeModule "AF_Module_Filter_A"     "Filter_1"}}
 {{InitializeModule "AF_Module_Reverb_A"     "Reverb_1"}}
-{{InitializeModule "AF_Module_LFO_A"        "LFO_L1"}}
+{{InitializeModule "AF_Module_Volume_A"     "Volume_1"}}
 
 
 </CsInstruments>

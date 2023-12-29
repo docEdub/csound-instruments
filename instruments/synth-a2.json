@@ -84,6 +84,9 @@
                         }, {
                             "type": "reverb-a-module",
                             "name": "Reverb_1"
+                        }, {
+                            "type": "volume-a-module",
+                            "name": "Volume_1"
                         }]
                     }]
                 }]

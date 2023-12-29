@@ -108,6 +108,8 @@
         "Reverb_1::Size": 0.5,
         "Reverb_1::Cutoff": 0.5,
         "Reverb_1::Mix": 0.5,
+        "Volume_1::Enabled": 0.0,
+        "Volume_1::Amp": 1.0,
         "cabbageJSONData": ""
     },
     "Strings 1": {
@@ -219,6 +221,8 @@
         "Reverb_1::Size": 0.5,
         "Reverb_1::Cutoff": 0.5,
         "Reverb_1::Mix": 0.5,
+        "Volume_1::Enabled": 0.0,
+        "Volume_1::Amp": 1.0,
         "cabbageJSONData": ""
     }
 }

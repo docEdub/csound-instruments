@@ -40,6 +40,8 @@ instr AF_Synth_A2_alwayson
 
     ga_out_l = AF_Module_DelayMono_A("Delay_1", ga_out_l)
 
+    ga_out_l, ga_out_r AF_Module_Volume_A "Volume_1", ga_out_l, ga_out_r
+
     ga_out_l, ga_out_r AF_Module_Reverb_A "Reverb_1", ga_out_l
 
     outs(ga_out_l, ga_out_r)
@@ -76,6 +78,7 @@ endin
 {{InitializeModule "AF_Module_Envelope_A"   "Envelope_1"}}
 {{InitializeModule "AF_Module_Filter_A"     "Filter_1"}}
 {{InitializeModule "AF_Module_Reverb_A"     "Reverb_1"}}
+{{InitializeModule "AF_Module_Volume_A"     "Volume_1"}}
 
 
 </CsInstruments>

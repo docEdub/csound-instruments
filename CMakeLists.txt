@@ -24,6 +24,7 @@ macro(add_instrument NAME)
             "modules/lfo-a.orc"
             "modules/reverb-a.orc"
             "modules/source-a.orc"
+            "modules/volume-a.orc"
         JSON
             "modules/delay-mono-a.json"
             "modules/envelope-a.json"
@@ -31,6 +32,7 @@ macro(add_instrument NAME)
             "modules/lfo-a.json"
             "modules/reverb-a.json"
             "modules/source-a.json"
+            "modules/volume-a.json"
             "shared/common-ui-types.json"
             "shared/module-constants.json"
             "shared/module-ui-types.json"
