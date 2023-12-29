@@ -1,126 +1,147 @@
 {
-    "uiTypes": [{
-        "type": "module",
-        "comment": "(json['name'])",
-        "extends": "styled-group",
-        "width": "(Constants.Module.Width)",
-        "border": 1,
-        "channel-prefix": "(json['name'])",
-        "layout": "TopToBottom",
-        "row-height": "(tryInherit() ?? 27)",
-        "row-label-width": "(tryInherit() ?? '40%')",
-        "row-value-width": "(tryInherit() ?? '60%')"
-    }, {
-        "type": "module-checkbox",
-        "extends": "styled-group",
-        "width": "100%",
-        "height": "(inherit('row-height'))",
-        "layout": "LeftToRight",
-        "comment": "(json['label'])",
-        "value-channel": "(json['label'])",
-        "children": [{
-            "type": "styled-label",
-            "width": "80%",
-            "height": "100%",
-            "text": "(tryInherit('label') ?? '')",
-            "align": "left"
-        }, {
-            "type": "styled-checkbox",
-            "width": "20%",
-            "height": "100%",
-            "channel": "(inherit('channel-prefix') + '::' + inherit('value-channel'))",
-            "checked": "(inherit('value-default'))"
-        }]
-    }, {
-        "type": "module-combobox",
-        "extends": "styled-group",
-        "width": "100%",
-        "height": "(inherit('row-height'))",
-        "layout": "LeftToRight",
-        "comment": "(json['label'])",
-        "value-channel": "(json['label'])",
-        "children": [{
-            "type": "styled-label",
-            "width": "(inherit('row-label-width'))",
-            "height": "100%",
-            "text": "(tryInherit('label') ?? '')",
-            "align": "left"
-        }, {
-            "type": "styled-combobox",
-            "width": "(inherit('row-value-width'))",
-            "height": "100%",
-            "items": "(inherit('value-items'))",
-            "channel": "(inherit('channel-prefix') + '::' + inherit('value-channel'))"
-        }]
-    }, {
-        "type": "module-group",
-        "extends": "styled-group",
-        "width": "(Constants.Module.Width)",
-        "height": "100%",
-        "border": 0,
-        "layout": "TopToBottom"
-    }, {
-        "type": "module-label",
-        "extends": "styled-label",
-        "width": "100%",
-        "height":"(inherit('row-height'))",
-        "text": "(json['label'])",
-        "align": "left",
-        "comment": "(json['label'])"
-    }, {
-        "type": "module-main-label-and-enabled-checkbox",
-        "extends": "styled-group",
-        "comment": "Main Label",
-        "width": "100%",
-        "height": "(1.333 * inherit('row-height'))",
-        "border": 0,
-        "padding-top": "(inherit('row-height') * 0.167)",
-        "padding-left": 8,
-        "padding-right": 5,
-        "layout": "TopToBottom",
-        "background":"(Constants.Module.Color.MainLabel)",
-        "children": [{
-            "comment": "Enabled",
+    "uiTypes": [
+        {
+            "type": "module",
+            "comment": "(json['name'])",
+            "extends": "styled-group",
+            "width": "(Constants.Module.Width)",
+            "border": 1,
+            "channel-prefix": "(json['name'])",
+            "layout": "TopToBottom",
+            "row-height": "(tryInherit() ?? 27)",
+            "row-label-width": "(tryInherit() ?? '40%')",
+            "row-value-width": "(tryInherit() ?? '60%')"
+        },
+        {
             "type": "module-checkbox",
-            "label": "(inherit('name'))",
-            "value-channel": "(tryInherit('value-channel') ?? 'Enabled')",
-            "value-default": "(inherit('value-default'))"
-        }]
-    }, {
-        "type": "module-number-box-slider",
-        "extends": "styled-group",
-        "width": "100%",
-        "height": "(inherit('row-height'))",
-        "layout": "LeftToRight",
-        "comment": "(json['label'])",
-        "value-channel": "(json['label'])",
-        "children": [{
-            "type": "styled-label",
-            "width": "(inherit('row-label-width'))",
+            "extends": "styled-group",
+            "width": "100%",
+            "height": "(inherit('row-height'))",
+            "layout": "LeftToRight",
+            "comment": "(json['label'])",
+            "value-channel": "(json['label'])",
+            "children": [
+                {
+                    "type": "styled-label",
+                    "width": "80%",
+                    "height": "100%",
+                    "text": "(tryInherit('label') ?? '')",
+                    "align": "left"
+                },
+                {
+                    "type": "styled-checkbox",
+                    "width": "20%",
+                    "height": "100%",
+                    "channel": "(inherit('channel-prefix') + '::' + inherit('value-channel'))",
+                    "checked": "(inherit('value-default'))"
+                }
+            ]
+        },
+        {
+            "type": "module-combobox",
+            "extends": "styled-group",
+            "width": "100%",
+            "height": "(inherit('row-height'))",
+            "layout": "LeftToRight",
+            "comment": "(json['label'])",
+            "value-channel": "(json['label'])",
+            "children": [
+                {
+                    "type": "styled-label",
+                    "width": "(inherit('row-label-width'))",
+                    "height": "100%",
+                    "text": "(tryInherit('label') ?? '')",
+                    "align": "left"
+                },
+                {
+                    "type": "styled-combobox",
+                    "width": "(inherit('row-value-width'))",
+                    "height": "100%",
+                    "items": "(inherit('value-items'))",
+                    "channel": "(inherit('channel-prefix') + '::' + inherit('value-channel'))"
+                }
+            ]
+        },
+        {
+            "type": "module-group",
+            "extends": "styled-group",
+            "width": "(Constants.Module.Width)",
             "height": "100%",
-            "text": "(tryInherit('label') ?? '')",
-            "align": "left"
-        }, {
-            "type": "styled-number-box-slider",
-            "width": "(inherit('row-value-width'))",
-            "height": "100%",
-            "value-range": "(inherit('value-range'))",
-            "value-channel": "(inherit('channel-prefix') + '::' + inherit('value-channel'))"
-        }]
-    }, {
-        "type": "module-row-group",
-        "extends": "styled-group",
-        "width": "100%",
-        "height": "((json['row-count'] + 0.5) * inherit('row-height'))",
-        "border": 0,
-        "padding-top": "(inherit('row-height') * 0.25)",
-        "padding-left": 8,
-        "padding-right": 5,
-        "layout": "TopToBottom"
-    }, {
-        "type": "module-row-spacer",
-        "extends": "styled-spacer",
-        "width": "100%",
-        "height": "((tryInherit('row-height') ?? 27) / 2)"
-    }]
+            "border": 0,
+            "layout": "TopToBottom"
+        },
+        {
+            "type": "module-label",
+            "extends": "styled-label",
+            "width": "100%",
+            "height": "(inherit('row-height'))",
+            "text": "(json['label'])",
+            "align": "left",
+            "comment": "(json['label'])"
+        },
+        {
+            "type": "module-main-label-and-enabled-checkbox",
+            "extends": "styled-group",
+            "comment": "Main Label",
+            "width": "100%",
+            "height": "(1.333 * inherit('row-height'))",
+            "border": 0,
+            "padding-top": "(inherit('row-height') * 0.167)",
+            "padding-left": 8,
+            "padding-right": 5,
+            "layout": "TopToBottom",
+            "background": "(Constants.Module.Color.MainLabel)",
+            "children": [
+                {
+                    "comment": "Enabled",
+                    "type": "module-checkbox",
+                    "label": "(inherit('name'))",
+                    "value-channel": "(tryInherit('value-channel') ?? 'Enabled')",
+                    "value-default": "(inherit('value-default'))"
+                }
+            ]
+        },
+        {
+            "type": "module-number-box-slider",
+            "extends": "styled-group",
+            "width": "100%",
+            "height": "(inherit('row-height'))",
+            "layout": "LeftToRight",
+            "comment": "(json['label'])",
+            "value-channel": "(json['label'])",
+            "children": [
+                {
+                    "type": "styled-label",
+                    "width": "(inherit('row-label-width'))",
+                    "height": "100%",
+                    "text": "(tryInherit('label') ?? '')",
+                    "align": "left"
+                },
+                {
+                    "type": "styled-number-box-slider",
+                    "width": "(inherit('row-value-width'))",
+                    "height": "100%",
+                    "value-range": "(inherit('value-range'))",
+                    "value-channel": "(inherit('channel-prefix') + '::' + inherit('value-channel'))"
+                }
+            ]
+        },
+        {
+            "type": "module-row-group",
+            "extends": "styled-group",
+            "width": "100%",
+            "height": "((json['row-count'] + 0.5) * inherit('row-height'))",
+            "border": 0,
+            "padding-top": "(inherit('row-height') * 0.25)",
+            "padding-left": 8,
+            "padding-right": 5,
+            "layout": "TopToBottom"
+        },
+        {
+            "type": "module-row-spacer",
+            "extends": "styled-spacer",
+            "width": "100%",
+            "height": "((tryInherit('row-height') ?? 27) / 2)"
+        }
+    ]
 }

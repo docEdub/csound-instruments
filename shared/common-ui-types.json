@@ -1,35 +1,43 @@
 {
-    "uiTypes": [{
-        "comment": "Presets",
-        "type": "presets",
-        "extends": "styled-group",
-        "layout": "LeftToRight",
-        "children": [{
-            "type": "styled-label",
-            "width": 50,
-            "height": "100%",
-            "text": "Presets"
-        }, {
-            "type": "styled-spacer",
-            "width": 10
-        }, {
-            "type": "styled-preset-delete-button",
-            "width": 50,
-            "height": "100%",
-            "text": "Delete",
-            "snapsFileName": "(`${projectRootDir}/${fileName}.snaps`)"
-        }, {
-            "type": "styled-preset-combobox",
-            "width": 100,
-            "height": "100%",
-            "align": "right",
-            "snapsFileName": "(`${projectRootDir}/${fileName}.snaps`)"
-        }, {
-            "type": "styled-preset-save-button",
-            "width": 50,
-            "height": "100%",
-            "text": "Save",
-            "snapsFileName": "(`${projectRootDir}/${fileName}.snaps`)"
-        }]
-    }]
+    "uiTypes": [
+        {
+            "comment": "Presets",
+            "type": "presets",
+            "extends": "styled-group",
+            "layout": "LeftToRight",
+            "children": [
+                {
+                    "type": "styled-label",
+                    "width": 50,
+                    "height": "100%",
+                    "text": "Presets"
+                },
+                {
+                    "type": "styled-spacer",
+                    "width": 10
+                },
+                {
+                    "type": "styled-preset-delete-button",
+                    "width": 50,
+                    "height": "100%",
+                    "text": "Delete",
+                    "snapsFileName": "(`${projectRootDir}/${fileName}.snaps`)"
+                },
+                {
+                    "type": "styled-preset-combobox",
+                    "width": 100,
+                    "height": "100%",
+                    "align": "right",
+                    "snapsFileName": "(`${projectRootDir}/${fileName}.snaps`)"
+                },
+                {
+                    "type": "styled-preset-save-button",
+                    "width": 50,
+                    "height": "100%",
+                    "text": "Save",
+                    "snapsFileName": "(`${projectRootDir}/${fileName}.snaps`)"
+                }
+            ]
+        }
+    ]
 }

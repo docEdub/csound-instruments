@@ -1,26 +1,26 @@
 {
-  "nodemonConfig": {
-    "exec": "cmake --build .build",
-    "ext": "cmake,csd,js,json,txt,orc,ts",
-    "ignore": [
-      ".git",
-      "**/node_modules",
-      "**/*.snaps"
-    ],
-    "verbose": true,
-    "watch": [
-      ".build/_deps/csoundtemplating-src",
-      "modules",
-      "instruments",
-      "shared",
-      "styles",
-      "CMakeLists.txt"
-    ]
-  },
-  "scripts": {
-    "watch": "nodemon"
-  },
-  "devDependencies": {
-    "nodemon": "3.0.2"
-  }
+    "nodemonConfig": {
+        "exec": "cmake --build .build",
+        "ext": "cmake,csd,js,json,txt,orc,ts",
+        "ignore": [
+            ".git",
+            "**/node_modules",
+            "**/*.snaps"
+        ],
+        "verbose": true,
+        "watch": [
+            ".build/_deps/csoundtemplating-src",
+            "modules",
+            "instruments",
+            "shared",
+            "styles",
+            "CMakeLists.txt"
+        ]
+    },
+    "scripts": {
+        "watch": "nodemon"
+    },
+    "devDependencies": {
+        "nodemon": "3.0.2"
+    }
 }

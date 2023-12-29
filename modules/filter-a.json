@@ -60,7 +60,8 @@
                         {
                             "label": "Processing",
                             "type": "module-label"
-                        }, {
+                        },
+                        {
                             "comment": "Processing",
                             "type": "module-combobox",
                             "value-channel": "ProcessingType",
