@@ -40,7 +40,7 @@ instr AF_Synth_A2_alwayson
     ga_out = AF_Module_DelayMono_A("Delay_1", ga_out)
 
     outall(ga_out)
-    ga_out = 0
+    clear(ga_out)
 endin
 
 // Start at 1 second to give the host time to set it's values.
@@ -57,7 +57,7 @@ instr 2
     a_out = AF_Module_Filter_A("Filter_1", a_out)
     a_out *= AF_Module_Envelope_A("Envelope_1")
 
-    ga_out += a_out
+    vincr(ga_out, a_out)
 endin
 
 

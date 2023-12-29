@@ -26,7 +26,7 @@ instr AF_Synth_A1_alwayson
     ga_out = AF_Module_DelayMono_A("Delay_1", ga_out)
 
     outall(ga_out)
-    ga_out = 0
+    clear(ga_out)
 endin
 
 // Start at 1 second to give the host time to set it's values.
@@ -44,7 +44,7 @@ instr 2
 
     a_lfo_l1 = AF_Module_LFO_A("LFO_L1")
 
-    ga_out = a_out * a_envelope_1 * a_lfo_l1
+    vincr(ga_out, a_out * a_envelope_1 * a_lfo_l1)
 endin
 
 
