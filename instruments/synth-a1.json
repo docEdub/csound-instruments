@@ -68,6 +68,9 @@
                         "children": [{
                             "type": "delay-mono-a-module",
                             "name": "Delay_1"
+                        }, {
+                            "type": "reverb-a-module",
+                            "name": "Reverb_1"
                         }]
                     }]
                 }]

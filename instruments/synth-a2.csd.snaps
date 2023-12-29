@@ -104,6 +104,10 @@
         "Delay_1::Time": 0.1,
         "Delay_1::Feedback": 0.5,
         "Delay_1::Mix": 0.5,
+        "Reverb_1::Enabled": 0.0,
+        "Reverb_1::Size": 0.5,
+        "Reverb_1::Cutoff": 0.5,
+        "Reverb_1::Mix": 0.5,
         "cabbageJSONData": ""
     },
     "Strings 1": {
@@ -211,6 +215,10 @@
         "Delay_1::Time": 0.1,
         "Delay_1::Feedback": 0.5,
         "Delay_1::Mix": 0.5,
+        "Reverb_1::Enabled": 0.0,
+        "Reverb_1::Size": 0.5,
+        "Reverb_1::Cutoff": 0.5,
+        "Reverb_1::Mix": 0.5,
         "cabbageJSONData": ""
     }
 }

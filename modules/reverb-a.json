@@ -1,0 +1,45 @@
+{
+    "Reverb_A": {
+        "Channel": {
+            "Enabled": 1,
+            "Size": 2,
+            "Cutoff": 3,
+            "Mix": 4
+        }
+    },
+    "uiTypes": [
+        {
+            "type": "reverb-a-module",
+            "extends": "module",
+            "height": 133,
+            "children": [
+                {
+                    "type": "module-main-label-and-enabled-checkbox",
+                    "value-default": false
+                },
+                {
+                    "type": "module-row-group",
+                    "background": "(Constants.Module.Color.PurpleGroup)",
+                    "row-count": 3,
+                    "children": [
+                        {
+                            "label": "Size",
+                            "type": "module-number-box-slider",
+                            "value-range": { "min": 0, "max": 0.99, "value": 0.5, "step": 0.01 }
+                        },
+                        {
+                            "label": "Cutoff",
+                            "type": "module-number-box-slider",
+                            "value-range": { "min": 0, "max": 1, "value": 0.5, "step": 0.01 }
+                        },
+                        {
+                            "label": "Mix",
+                            "type": "module-number-box-slider",
+                            "value-range": { "min": 0, "max": 1, "value": 0.5, "step": 0.01 }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
