@@ -48,13 +48,13 @@ instr 2
 endin
 
 
+{{InitializeModule "AF_Module_LFO_A"        "LFO_G1"}}
 {{InitializeModule "AF_Module_Source_A"     "Source_1"}}
 {{InitializeModule "AF_Module_Source_A"     "Source_2"}}
 {{InitializeModule "AF_Module_Source_A"     "Source_3"}}
 {{InitializeModule "AF_Module_DelayMono_A"  "Delay_1"}}
 {{InitializeModule "AF_Module_Envelope_A"   "Envelope_1"}}
 {{InitializeModule "AF_Module_Filter_A"     "Filter_1"}}
-{{InitializeModule "AF_Module_LFO_A"        "LFO_G1"}}
 {{InitializeModule "AF_Module_LFO_A"        "LFO_L1"}}
 
 

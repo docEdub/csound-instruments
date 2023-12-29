@@ -9,7 +9,7 @@
 /// Single channel delay with feedback implemented using the `vdelay3` opcode.
 /// @param 1 Channel prefix used for host automation parameters.
 /// @param 2 A-rate input signal.
-/// @out A-rate envelope.
+/// @out A-rate output signal.
 ///
 opcode AF_Module_{{ModuleName}}, a, Sa
     S_channelPrefix, a_in xin
