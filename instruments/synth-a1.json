@@ -7,7 +7,7 @@
         "name": "Synth A1",
         "id": "afa1",
         "width": 905,
-        "height": 600,
+        "height": 634,
         "border": 1,
         "border-color": "(Constants.Color.Border)",
         "background": "black",

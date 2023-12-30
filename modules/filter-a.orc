@@ -35,6 +35,8 @@ opcode AF_Module_{{ModuleName}}, a, Sa
     i_hostEnvelopeSustain   = {{moduleGet:i 'EnvelopeSustain'}}
     i_hostEnvelopeRelease   = {{moduleGet:i 'EnvelopeRelease'}}
 
+    k_keyTracking           = {{moduleGet:k 'KeyTracking'}}
+
     k_cutoff = lag(k_hostCutoff, i_lagTime)
     k_cutoff = expcurve(k_cutoff, 10)
 
@@ -48,6 +50,13 @@ opcode AF_Module_{{ModuleName}}, a, Sa
 
     // Convert cutoff from range [0, 1] to [0, 20000].
     k_cutoff *= 20000
+
+    // Apply key tracking.
+    if (k_keyTracking > 0) then
+        i_refCps = cpsmidinn(60)
+        i_noteCps = cpsmidinn(notnum())
+        k_cutoff *= i_noteCps / i_refCps
+    endif
 
     if (k_hostFilterType == {{Filter_A.FilterType.LowPass}}) then
         a_out = K35_lpf:a(a_in, k_cutoff, k_hostQ, k_hostProcessingType, k_hostSaturation)

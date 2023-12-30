@@ -11,7 +11,8 @@
             "EnvelopeAttack": 8,
             "EnvelopeDecay": 9,
             "EnvelopeSustain": 10,
-            "EnvelopeRelease": 11
+            "EnvelopeRelease": 11,
+            "KeyTracking": 12
         },
         "FilterType": {
             "LowPass": 1,
@@ -26,7 +27,7 @@
         {
             "type": "filter-a-module",
             "extends": "module",
-            "height": 403,
+            "height": 443,
             "children": [
                 {
                     "type": "module-main-label-and-enabled-checkbox",
@@ -35,7 +36,7 @@
                 {
                     "type": "module-row-group",
                     "background": "(Constants.Module.Color.PurpleGroup)",
-                    "row-count": 13,
+                    "row-count": 14.5,
                     "children": [
                         {
                             "comment": "Type",
@@ -114,6 +115,16 @@
                             "label": "R",
                             "value-channel": "EnvelopeRelease",
                             "value-range": { "min": 0, "max": 10, "value": 0.01, "step": 0.01 }
+                        },
+                        {
+                            "type": "module-row-spacer"
+                        },
+                        {
+                            "comment": "Key Tracking",
+                            "type": "module-number-box-slider",
+                            "label": "Key",
+                            "value-channel": "KeyTracking",
+                            "value-range": { "min": 0, "max": 1, "value": 1, "step": 0.01 }
                         }
                     ]
                 }
