@@ -6,7 +6,7 @@ include(FetchContent)
 FetchContent_Declare(
     CsoundTemplating
     GIT_REPOSITORY git@github.com:docEdub/CsoundTemplating.git
-    GIT_TAG f4d0fd20763dc502c890b119a531bd3483eb1547
+    GIT_TAG 35255f786c6a0fa10413286fbe0cc8f4877d8fbb
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 
@@ -18,6 +18,7 @@ macro(add_instrument NAME)
             csound-core
             csound-module
         OPCODES
+            "modules/shared/filter.orc"
             "modules/delay-mono-a.orc"
             "modules/envelope-a.orc"
             "modules/filter-a.orc"

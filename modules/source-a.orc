@@ -35,7 +35,7 @@ endop
 ///
 opcode AF_Module_{{ModuleName}}, a, S
     S_channelPrefix xin
-    i_channelIndex = {{hostValueGet}}:i(S_channelPrefix)
+    i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
     a_out = 0
 
@@ -102,7 +102,7 @@ instr AF_Module_{{ModuleName}}_alwayson
     k_lastHostOsc1Fine          init 0
     k_lastHostOsc2Fine          init 0
 
-    i_channelIndex = {{hostValueGet}}:i(S_channelPrefix)
+    i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
     if ({{moduleGetHost:k 'Osc2Link'}} == {{true}}) then
         k_hostOsc1Wave          = {{moduleGetHost:k 'Osc1Wave'}}

@@ -13,7 +13,7 @@
 ///
 opcode AF_Module_{{ModuleName}}, a, Sa
     S_channelPrefix, a_in xin
-    i_channelIndex = {{hostValueGet}}:i(S_channelPrefix)
+    i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
     i_maxDelayTimeMs = 5000
 

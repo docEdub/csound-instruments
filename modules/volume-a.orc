@@ -14,7 +14,7 @@
 ///
 opcode AF_Module_{{ModuleName}}, aa, Saa
     S_channelPrefix, a_in_l, a_in_r xin
-    i_channelIndex = {{hostValueGet}}:i(S_channelPrefix)
+    i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
     if ({{moduleGet:k 'Enabled'}} == {{false}}) then
         a_out_l = a_in_l

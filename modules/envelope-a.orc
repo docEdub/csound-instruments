@@ -12,7 +12,7 @@
 ///
 opcode AF_Module_{{ModuleName}}, a, S
     S_channelPrefix xin
-    i_channelIndex = {{hostValueGet}}:i(S_channelPrefix)
+    i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
     if ({{moduleGet:k 'Enabled'}} == {{false}}) then
         a_out = 1

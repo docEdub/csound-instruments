@@ -3,7 +3,7 @@
         "Channel": {
             "Enabled": 1,
             "FilterType": 2,
-            "Cutoff": 3,
+            "Frequency": 3,
             "Q": 4,
             "ProcessingType": 5,
             "Saturation": 6,
@@ -46,8 +46,10 @@
                             "value-items": "(Object.keys(Constants.Filter_A.FilterType))"
                         },
                         {
-                            "label": "Cutoff",
+                            "comment": "Frequency",
                             "type": "module-number-box-slider",
+                            "label": "Freq",
+                            "value-channel": "Frequency",
                             "value-range": { "min": 0, "max": 1, "value": 1, "step": 0.001 }
                         },
                         {
