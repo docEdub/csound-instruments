@@ -26,10 +26,13 @@ opcode AF_Module_{{ModuleName}}, a, Sa
     k_feedback  = {{moduleGet:k 'Feedback'}}
     k_mix       = {{moduleGet:k 'Mix'}}
 
-    a_delayedSignal init 0
-    a_delayedSignal = vdelay3((a_in + a_delayedSignal) * k_feedback, a(k_delayTime * 1000), i_maxDelayTimeMs)
+    a_delaySignal init 0
+    a_delaySignal = vdelay3(a_in, a(k_delayTime * 1000), i_maxDelayTimeMs)
 
-    a_out = a_in * (1 - k_mix) + a_delayedSignal * k_mix
+    a_feedbackSignal init 0
+    a_feedbackSignal = vdelay3((a_delaySignal + a_feedbackSignal) * k_feedback, a(k_delayTime * 1000), i_maxDelayTimeMs)
+
+    a_out = a_in * (1 - k_mix) + (a_delaySignal + a_feedbackSignal) * k_mix
 
 end:
     xout(a_out)
