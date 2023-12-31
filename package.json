@@ -10,8 +10,8 @@
         "verbose": true,
         "watch": [
             ".build/_deps/csoundtemplating-src",
-            "modules",
             "instruments",
+            "modules",
             "shared",
             "styles",
             "CMakeLists.txt"
