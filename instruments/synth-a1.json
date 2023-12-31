@@ -5,7 +5,7 @@
     "ui": {
         "type": "form",
         "name": "Synth A1",
-        "id": "afa1",
+        "id": "i:a1",
         "width": 905,
         "height": 634,
         "border": 1,
