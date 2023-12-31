@@ -1,0 +1,112 @@
+{
+    "Filter_B": {
+        "Channel": {
+            "Enabled": 1,
+            "FilterType": 2,
+            "Frequency": 3,
+            "Q": 4,
+            "EnvelopeAmount": 5,
+            "EnvelopeAttack": 6,
+            "EnvelopeDecay": 7,
+            "EnvelopeSustain": 8,
+            "EnvelopeRelease": 9,
+            "KeyTracking": 10
+        },
+        "FilterType": {
+            "LowPass": 1,
+            "HighPass": 2,
+            "BandPass": 3,
+            "UnityGainBandPass": 4,
+            "Notch": 5,
+            "AllPass": 6,
+            "Peak": 7
+        }
+    },
+    "uiTypes": [
+        {
+            "type": "filter-b-module",
+            "extends": "module",
+            "height": 322,
+            "children": [
+                {
+                    "type": "module-main-label-and-enabled-checkbox",
+                    "value-default": "(tryInherit('value-default') ?? true)"
+                },
+                {
+                    "type": "module-row-group",
+                    "background": "(Constants.Module.Color.BlueGroup)",
+                    "row-count": 10,
+                    "children": [
+                        {
+                            "comment": "Type",
+                            "type": "module-combobox",
+                            "label": "Type",
+                            "value-channel": "FilterType",
+                            "value-items": "(Object.keys(Constants.Filter_B.FilterType))"
+                        },
+                        {
+                            "comment": "Frequency",
+                            "type": "module-number-box-slider",
+                            "label": "Freq",
+                            "value-channel": "Frequency",
+                            "value-range": { "min": 0, "max": 1, "value": 1, "step": 0.001 }
+                        },
+                        {
+                            "label": "Q",
+                            "type": "module-number-box-slider",
+                            "value-range": { "min": 1, "max": 10, "value": 1, "step": 0.01 }
+                        },
+                        {
+                            "type": "module-row-spacer"
+                        },
+                        {
+                            "comment": "Envelope Amount",
+                            "type": "module-number-box-slider",
+                            "label": "Env",
+                            "value-channel": "EnvelopeAmount",
+                            "value-range": { "min": 0, "max": 1, "value": 0, "step": 0.01 }
+                        },
+                        {
+                            "comment": "Attack",
+                            "type": "module-number-box-slider",
+                            "label": "A",
+                            "value-channel": "EnvelopeAttack",
+                            "value-range": { "min": 0.001, "max": 10, "value": 0.01, "step": 0.01 }
+                        },
+                        {
+                            "comment": "Decay",
+                            "type": "module-number-box-slider",
+                            "label": "D",
+                            "value-channel": "EnvelopeDecay",
+                            "value-range": { "min": 0, "max": 10, "value": 0.01, "step": 0.01 }
+                        },
+                        {
+                            "comment": "Sustain",
+                            "type": "module-number-box-slider",
+                            "label": "S",
+                            "value-channel": "EnvelopeSustain",
+                            "value-range": { "min": 0, "max": 1, "value": 1, "step": 1 }
+                        },
+                        {
+                            "comment": "Release",
+                            "type": "module-number-box-slider",
+                            "label": "R",
+                            "value-channel": "EnvelopeRelease",
+                            "value-range": { "min": 0, "max": 10, "value": 0.01, "step": 0.01 }
+                        },
+                        {
+                            "type": "module-row-spacer"
+                        },
+                        {
+                            "comment": "Key Tracking",
+                            "type": "module-number-box-slider",
+                            "label": "Key",
+                            "value-channel": "KeyTracking",
+                            "value-range": { "min": 0, "max": 1, "value": 1, "step": 0.01 }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
