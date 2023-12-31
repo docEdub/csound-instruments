@@ -10,7 +10,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 
-macro(add_instrument NAME)
+macro(add_plugin NAME TYPE)
     add_csound_templates(
         PACKAGES
             cabbage-core
@@ -43,9 +43,13 @@ macro(add_instrument NAME)
             "shared/module-ui-types.json"
             "styles/default.json"
             "instruments/${NAME}.json"
-        SYNTH_SOURCES
+        ${TYPE}_SOURCES
             "instruments/${NAME}.csd"
     )
+endmacro()
+
+macro(add_instrument NAME)
+    add_plugin("${NAME}" "SYNTH")
 endmacro()
 
 add_instrument("synth-a1")
