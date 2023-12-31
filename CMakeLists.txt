@@ -20,6 +20,7 @@ macro(add_instrument NAME)
         OPCODES
             "modules/shared/filter.orc"
             "modules/delay-mono-a.orc"
+            "modules/delay-stereo-a.orc"
             "modules/envelope-a.orc"
             "modules/filter-a.orc"
             "modules/filter-b.orc"
@@ -29,6 +30,7 @@ macro(add_instrument NAME)
             "modules/volume-a.orc"
         JSON
             "modules/delay-mono-a.json"
+            "modules/delay-stereo-a.json"
             "modules/envelope-a.json"
             "modules/filter-a.json"
             "modules/filter-b.json"

@@ -1,0 +1,53 @@
+{
+    "DelayStereo_A": {
+        "Channel": {
+            "Enabled": 1,
+            "Time": 2,
+            "Feedback": 3,
+            "Spread": 4,
+            "Mix": 5
+        }
+    },
+    "uiTypes": [
+        {
+            "type": "delay-stereo-a-module",
+            "extends": "module",
+            "height": 165,
+            "children": [
+                {
+                    "type": "module-main-label-and-enabled-checkbox",
+                    "value-default": false
+                },
+                {
+                    "type": "module-row-group",
+                    "background": "(Constants.Module.Color.GreenGroup)",
+                    "row-count": 4,
+                    "children": [
+                        {
+                            "label": "Time",
+                            "type": "module-number-box-slider",
+                            "value-range": { "min": 0.000, "max": 5, "value": 0.1, "step": 0.001 }
+                        },
+                        {
+                            "comment": "Feedback",
+                            "type": "module-number-box-slider",
+                            "label": "Feed",
+                            "value-channel": "Feedback",
+                            "value-range": { "min": 0, "max": 0.99, "value": 0.5, "step": 0.01 }
+                        },
+                        {
+                            "label": "Spread",
+                            "type": "module-number-box-slider",
+                            "value-range": { "min": 0, "max": 1, "value": 0, "step": 0.01 }
+                        },
+                        {
+                            "label": "Mix",
+                            "type": "module-number-box-slider",
+                            "value-range": { "min": 0, "max": 1, "value": 0.5, "step": 0.01 }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
