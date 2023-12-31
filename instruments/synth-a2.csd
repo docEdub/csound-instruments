@@ -39,10 +39,8 @@ instr AF_Synth_A2_alwayson
     {{hostValueSet}}("Source_4::Osc1Semi::mod", k_lfo_g4 * 0.5) ; Range = [ -0.5, 0.5 ]
 
     ga_out_l = AF_Module_DelayMono_A("Delay_1", ga_out_l)
-
+    ga_out_l, ga_out_r AF_Module_Reverb_A "Reverb_1", ga_out_l, ga_out_r
     ga_out_l, ga_out_r AF_Module_Volume_A "Volume_1", ga_out_l, ga_out_r
-
-    ga_out_l, ga_out_r AF_Module_Reverb_A "Reverb_1", ga_out_l
 
     outs(ga_out_l, ga_out_r)
     clear(ga_out_l, ga_out_r)

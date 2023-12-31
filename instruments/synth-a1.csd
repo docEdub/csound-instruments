@@ -25,9 +25,7 @@ instr AF_Synth_A1_alwayson
     {{hostValueSet}}("Source_1::OscMix::mod", k_lfo_g1 / 2 + 0.5)
 
     ga_out_l = AF_Module_DelayMono_A("Delay_1", ga_out_l)
-
-    ga_out_l, ga_out_r AF_Module_Reverb_A "Reverb_1", ga_out_l
-
+    ga_out_l, ga_out_r AF_Module_Reverb_A "Reverb_1", ga_out_l, ga_out_r
     ga_out_l, ga_out_r AF_Module_Volume_A "Volume_1", ga_out_l, ga_out_r
 
     outs(ga_out_l, ga_out_r)
