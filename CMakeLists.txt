@@ -42,17 +42,25 @@ macro(add_plugin NAME TYPE)
             "shared/module-constants.json"
             "shared/module-ui-types.json"
             "styles/default.json"
-            "instruments/${NAME}.json"
+            "${NAME}.json"
         ${TYPE}_SOURCES
-            "instruments/${NAME}.csd"
+            "${NAME}.csd"
     )
 endmacro()
 
-macro(add_instrument NAME)
-    add_plugin("${NAME}" "SYNTH")
+macro(add_combo NAME)
+    add_plugin("combos/${NAME}" "EFFECT")
 endmacro()
+
+macro(add_instrument NAME)
+    add_plugin("instruments/${NAME}" "SYNTH")
+endmacro()
+
+
+add_combo("combo-a2")
 
 add_instrument("synth-a1")
 add_instrument("synth-a2")
+
 
 generate_csound_templates()
