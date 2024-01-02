@@ -22,6 +22,35 @@ ga_out_l init 0
 ga_out_r init 0
 
 instr AF_Combo_A1_alwayson
+    // Piano FX ...
+
+    a_pianoFx_l inch 1
+
+    // Common ...
+
+    k_lfo_g1 = AF_Module_LFO_A:k("Common::LFO_G1")
+    k_pw_1 = (k_lfo_g1 / 2 + 0.5) * 0.45 + 0.05
+    {{hostValueSet}}("Synth_2::Source_1::Osc1PulseWidth::mod", 0.5 - k_pw_1) ; Range = [ 0.50, 0.05 ]
+
+    k_lfo_g2 = AF_Module_LFO_A:k("Common::LFO_G2")
+    k_pw_2 = (k_lfo_g2 / 2 + 0.5) * 0.45 + 0.05
+    {{hostValueSet}}("Synth_2::Source_2::Osc1PulseWidth::mod", 0.5 - k_pw_2) ; Range = [ 0.50, 0.05 ]
+
+    k_lfo_g3 = AF_Module_LFO_A:k("Common::LFO_G3")
+    {{hostValueSet}}("Synth_2::Source_3::Osc1Semi::mod", k_lfo_g3 * 0.5) ; Range = [ -0.5, 0.5 ]
+
+    k_lfo_g4 = AF_Module_LFO_A:k("Common::LFO_G4")
+    {{hostValueSet}}("Synth_2::Source_4::Osc1Semi::mod", k_lfo_g4 * 0.5) ; Range = [ -0.5, 0.5 ]
+
+    // Master FX ...
+
+    vincr(ga_out_l, a_pianoFx_l)
+    vincr(ga_out_r, a_pianoFx_l)
+
+    // Output ...
+
+    outs(ga_out_l, ga_out_r)
+    clear(ga_out_l, ga_out_r)
 endin
 
 // Start at 1 second to give the host time to set it's values.
@@ -29,7 +58,31 @@ scoreline_i("i\"AF_Combo_A1_alwayson\" 1 -1")
 
 
 instr 2
+    a_source_1 = AF_Module_Source_A("Synth_2::Source_1")
+    a_source_2 = AF_Module_Source_A("Synth_2::Source_2")
+    a_source_3 = AF_Module_Source_A("Synth_2::Source_3")
+    a_source_4 = AF_Module_Source_A("Synth_2::Source_4")
+    a_out = sum(a_source_1, a_source_2, a_source_3, a_source_4)
+
+    a_out = AF_Module_Filter_A("Synth_2::Filter_1", a_out)
+    a_out *= AF_Module_Envelope_A("Synth_2::Envelope_1")
+
+    vincr(ga_out_l, a_out)
+    vincr(ga_out_r, a_out)
 endin
+
+
+{{InitializeModule "AF_Module_LFO_A"        "Common::LFO_G1"}}
+{{InitializeModule "AF_Module_LFO_A"        "Common::LFO_G2"}}
+{{InitializeModule "AF_Module_LFO_A"        "Common::LFO_G3"}}
+{{InitializeModule "AF_Module_LFO_A"        "Common::LFO_G4"}}
+
+{{InitializeModule "AF_Module_Source_A"     "Synth_2::Source_1"}}
+{{InitializeModule "AF_Module_Source_A"     "Synth_2::Source_2"}}
+{{InitializeModule "AF_Module_Source_A"     "Synth_2::Source_3"}}
+{{InitializeModule "AF_Module_Source_A"     "Synth_2::Source_4"}}
+{{InitializeModule "AF_Module_Envelope_A"   "Synth_2::Envelope_1"}}
+{{InitializeModule "AF_Module_Filter_A"     "Synth_2::Filter_1"}}
 
 
 </CsInstruments>

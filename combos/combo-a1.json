@@ -23,7 +23,29 @@
                     {
                         "type": "main-tab",
                         "label": "Common",
-                        "children": []
+                        "channel-prefix": "Common",
+                        "children": [
+                            {
+                                "type": "lfo-a-module",
+                                "name": "LFO_G1",
+                                "value-default": true
+                            },
+                            {
+                                "type": "lfo-a-module",
+                                "name": "LFO_G2",
+                                "value-default": true
+                            },
+                            {
+                                "type": "lfo-a-module",
+                                "name": "LFO_G3",
+                                "value-default": true
+                            },
+                            {
+                                "type": "lfo-a-module",
+                                "name": "LFO_G4",
+                                "value-default": true
+                            }
+                        ]
                     },
                     {
                         "type": "main-tab",
@@ -33,7 +55,41 @@
                     {
                         "type": "main-tab",
                         "label": "Synth 2",
-                        "children": []
+                        "channel-prefix": "Synth_2",
+                        "children": [
+                            {
+                                "type": "styled-group",
+                                "width": "100%",
+                                "height": "100%",
+                                "layout": "LeftToRight",
+                                "children": [
+                                    {
+                                        "type": "source-a-module",
+                                        "name": "Source_1"
+                                    },
+                                    {
+                                        "type": "source-a-module",
+                                        "name": "Source_2"
+                                    },
+                                    {
+                                        "type": "source-a-module",
+                                        "name": "Source_3"
+                                    },
+                                    {
+                                        "type": "source-a-module",
+                                        "name": "Source_4"
+                                    },
+                                    {
+                                        "type": "filter-a-module",
+                                        "name": "Filter_1"
+                                    },
+                                    {
+                                        "type": "envelope-a-module",
+                                        "name": "Envelope_1"
+                                    }
+                                ]
+                            }
+                        ]
                     },
                     {
                         "type": "main-tab",
