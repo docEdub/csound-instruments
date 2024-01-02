@@ -1,0 +1,62 @@
+{
+    "cabbage-output-config": {
+        "debug": false
+    },
+    "ui": {
+        "type": "combo-form",
+        "name": "Combo A1",
+        "id": "c:a1",
+        "width": 1056,
+        "height": 634,
+        "children": [
+            {
+                "type": "styled-tab-group",
+                "id": "main-tabs",
+                "width": "100%",
+                "height": "100%",
+                "children": [
+                    {
+                        "type": "main-tab",
+                        "label": "Piano FX",
+                        "children": []
+                    },
+                    {
+                        "type": "main-tab",
+                        "label": "Common",
+                        "children": []
+                    },
+                    {
+                        "type": "main-tab",
+                        "label": "Synth 1",
+                        "children": []
+                    },
+                    {
+                        "type": "main-tab",
+                        "label": "Synth 2",
+                        "children": []
+                    },
+                    {
+                        "type": "main-tab",
+                        "label": "Master FX",
+                        "children": []
+                    },
+                    {
+                        "type": "main-tab",
+                        "label": "Console",
+                        "tab-width": 80,
+                        "children": [
+                            {
+                                "type": "styled-console",
+                                "width": "100%",
+                                "height": "100%"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "presets"
+            }
+        ]
+    }
+}

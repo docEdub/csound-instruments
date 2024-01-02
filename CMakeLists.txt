@@ -57,10 +57,11 @@ macro(add_instrument NAME)
 endmacro()
 
 
-add_combo("combo-a2")
+add_combo("combo-a1")
+# add_combo("combo-a2")
 
-add_instrument("synth-a1")
-add_instrument("synth-a2")
+# add_instrument("synth-a1")
+# add_instrument("synth-a2")
 
 
 generate_csound_templates()

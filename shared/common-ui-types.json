@@ -1,9 +1,36 @@
 {
     "uiTypes": [
         {
-            "comment": "Presets",
+            "type": "combo-form",
+            "extends": "form",
+            "border": 1,
+            "border-color": "(Constants.Color.Border)",
+            "background": "black",
+            "color": "white",
+            "tab-height": 25,
+            "tab-width": 80
+        },
+        {
+            "type": "main-tab",
+            "extends": "styled-tab-child",
+            "comment": "(`${json['label']} tab`)",
+            "width": "100%",
+            "height": "100%",
+            "layout": "TopToBottom",
+            "tab": {
+                "type": "styled-tab",
+                "text": "(inherit('label'))",
+                "width": "(inherit('tab-width'))",
+                "height": "(inherit('tab-height'))"
+            }
+        },
+        {
             "type": "presets",
+            "comment": "Presets",
             "extends": "styled-group",
+            "left": "(parent.width - 260)",
+            "right": "100%",
+            "height": "(inherit('tab-height'))",
             "layout": "LeftToRight",
             "children": [
                 {
