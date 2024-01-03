@@ -12,7 +12,7 @@
         {
             "type": "delay-stereo-a-module",
             "extends": "module",
-            "height": 165,
+            "height": 160,
             "children": [
                 {
                     "type": "module-main-label-and-enabled-checkbox",
