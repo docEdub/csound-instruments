@@ -18,7 +18,21 @@
                     {
                         "type": "main-tab",
                         "label": "Piano FX",
-                        "children": []
+                        "channel-prefix": "Piano_FX",
+                        "children": [
+                            {
+                                "type": "delay-mono-a-module",
+                                "name": "Delay_1"
+                            },
+                            {
+                                "type": "delay-stereo-a-module",
+                                "name": "Delay_2"
+                            },
+                            {
+                                "type": "volume-a-module",
+                                "name": "Volume_1"
+                            }
+                        ]
                     },
                     {
                         "type": "main-tab",

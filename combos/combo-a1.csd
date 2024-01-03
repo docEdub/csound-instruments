@@ -24,7 +24,14 @@ ga_out_r init 0
 instr AF_Combo_A1_alwayson
     // Piano FX ...
 
-    a_pianoFx_l inch 1
+    a_piano_l inch 1
+
+    a_piano_l = AF_Module_DelayMono_A("Piano_FX::Delay_1", a_piano_l)
+    a_piano_l, a_piano_r AF_Module_DelayStereo_A "Piano_FX::Delay_2", a_piano_l
+
+    k_piano_amp = AF_Module_Volume_A:k("Piano_FX::Volume_1")
+    a_piano_l *= k_piano_amp
+    a_piano_r *= k_piano_amp
 
     // Common ...
 
@@ -44,8 +51,8 @@ instr AF_Combo_A1_alwayson
 
     // Master FX ...
 
-    vincr(ga_out_l, a_pianoFx_l)
-    vincr(ga_out_r, a_pianoFx_l)
+    vincr(ga_out_l, a_piano_l)
+    vincr(ga_out_r, a_piano_r)
 
     // Output ...
 
@@ -72,19 +79,22 @@ instr 2
     vincr(ga_out_r, a_out)
 endin
 
+{{InitializeModule "AF_Module_DelayMono_A"      "Piano_FX::Delay_1"}}
+{{InitializeModule "AF_Module_DelayStereo_A"    "Piano_FX::Delay_2"}}
+{{InitializeModule "AF_Module_Volume_A"         "Piano_FX::Volume_1"}}
 
-{{InitializeModule "AF_Module_LFO_A"        "Common::LFO_G1"}}
-{{InitializeModule "AF_Module_LFO_A"        "Common::LFO_G2"}}
-{{InitializeModule "AF_Module_LFO_A"        "Common::LFO_G3"}}
-{{InitializeModule "AF_Module_LFO_A"        "Common::LFO_G4"}}
+{{InitializeModule "AF_Module_LFO_A"            "Common::LFO_G1"}}
+{{InitializeModule "AF_Module_LFO_A"            "Common::LFO_G2"}}
+{{InitializeModule "AF_Module_LFO_A"            "Common::LFO_G3"}}
+{{InitializeModule "AF_Module_LFO_A"            "Common::LFO_G4"}}
 
-{{InitializeModule "AF_Module_Source_A"     "Synth_2::Source_1"}}
-{{InitializeModule "AF_Module_Source_A"     "Synth_2::Source_2"}}
-{{InitializeModule "AF_Module_Source_A"     "Synth_2::Source_3"}}
-{{InitializeModule "AF_Module_Source_A"     "Synth_2::Source_4"}}
-{{InitializeModule "AF_Module_Envelope_A"   "Synth_2::Envelope_1"}}
-{{InitializeModule "AF_Module_Filter_A"     "Synth_2::Filter_1"}}
-{{InitializeModule "AF_Module_Volume_A"     "Synth_2::Volume_1"}}
+{{InitializeModule "AF_Module_Source_A"         "Synth_2::Source_1"}}
+{{InitializeModule "AF_Module_Source_A"         "Synth_2::Source_2"}}
+{{InitializeModule "AF_Module_Source_A"         "Synth_2::Source_3"}}
+{{InitializeModule "AF_Module_Source_A"         "Synth_2::Source_4"}}
+{{InitializeModule "AF_Module_Envelope_A"       "Synth_2::Envelope_1"}}
+{{InitializeModule "AF_Module_Filter_A"         "Synth_2::Filter_1"}}
+{{InitializeModule "AF_Module_Volume_A"         "Synth_2::Volume_1"}}
 
 
 </CsInstruments>
