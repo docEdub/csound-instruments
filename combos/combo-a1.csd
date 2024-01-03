@@ -66,6 +66,7 @@ instr 2
 
     a_out = AF_Module_Filter_A("Synth_2::Filter_1", a_out)
     a_out *= AF_Module_Envelope_A("Synth_2::Envelope_1")
+    a_out *= AF_Module_Volume_A("Synth_2::Volume_1")
 
     vincr(ga_out_l, a_out)
     vincr(ga_out_r, a_out)
@@ -83,6 +84,7 @@ endin
 {{InitializeModule "AF_Module_Source_A"     "Synth_2::Source_4"}}
 {{InitializeModule "AF_Module_Envelope_A"   "Synth_2::Envelope_1"}}
 {{InitializeModule "AF_Module_Filter_A"     "Synth_2::Filter_1"}}
+{{InitializeModule "AF_Module_Volume_A"     "Synth_2::Volume_1"}}
 
 
 </CsInstruments>

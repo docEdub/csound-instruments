@@ -26,7 +26,10 @@ instr AF_Synth_A1_alwayson
 
     ga_out_l = AF_Module_DelayMono_A("Delay_1", ga_out_l)
     ga_out_l, ga_out_r AF_Module_Reverb_A "Reverb_1", ga_out_l, ga_out_r
-    ga_out_l, ga_out_r AF_Module_Volume_A "Volume_1", ga_out_l, ga_out_r
+
+    k_volume = AF_Module_Volume_A("Volume_1")
+    ga_out_l *= k_volume
+    ga_out_r *= k_volume
 
     outs(ga_out_l, ga_out_r)
     clear(ga_out_l, ga_out_r)

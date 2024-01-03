@@ -1,32 +1,31 @@
 /*
  *  volume-a.orc
  *
- *  Stereo input and output volume module.
+ *  Volume module.
  */
 
 {{DeclareModule 'Volume_A'}}
 
-/// Stereo input and output volume.
+/// Volume.
 /// @param 1 Channel prefix used for host automation parameters.
-/// @param 2 A-rate input left signal.
-/// @param 2 A-rate input right signal.
-/// @out A-rate output signals.
+/// @out k-rate amp output.
 ///
-opcode AF_Module_{{ModuleName}}, aa, Saa
-    S_channelPrefix, a_in_l, a_in_r xin
+opcode AF_Module_{{ModuleName}}, k, S
+    S_channelPrefix xin
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
     if ({{moduleGet:k 'Enabled'}} == {{false}}) then
-        a_out_l = a_in_l
-        a_out_r = a_in_r
+        k_out = 1
         kgoto end
     endif
 
-    k_amp = {{moduleGet:k 'Amp'}}
+    if ({{moduleGet:k 'Mute'}} == {{true}}) then
+        k_out = 0
+        kgoto end
+    endif
 
-    a_out_l = a_in_l * k_amp
-    a_out_r = a_in_r * k_amp
+    k_out = {{moduleGet:k 'Amp'}}
 
 end:
-    xout(a_out_l, a_out_r)
+    xout(k_out)
 endop

@@ -2,14 +2,15 @@
     "Volume_A": {
         "Channel": {
             "Enabled": 1,
-            "Amp": 2
+            "Amp": 2,
+            "Mute": 3
         }
     },
     "uiTypes": [
         {
             "type": "volume-a-module",
             "extends": "module",
-            "height": 79,
+            "height": 106,
             "children": [
                 {
                     "type": "module-main-label-and-enabled-checkbox",
@@ -18,12 +19,18 @@
                 {
                     "type": "module-row-group",
                     "background": "(Constants.Module.Color.GreenGroup)",
-                    "row-count": 1,
+                    "row-count": 2,
                     "children": [
                         {
                             "label": "Amp",
                             "type": "module-number-box-slider",
                             "value-range": { "min": 0, "max": 2, "value": 1, "step": 0.01 }
+                        },
+                        {
+                            "label": "Mute",
+                            "type": "module-checkbox",
+                            "checked-color": "red",
+                            "value-default": false
                         }
                     ]
                 }
