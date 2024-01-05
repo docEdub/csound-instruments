@@ -38,12 +38,6 @@ opcode _af_filter_frequency, k, S[][][]ii[]
         k_frequency = min(k_frequency, 20000)
     endif
 
-    k_printed init 0
-    if (k_printed == 0) then
-        printsk("Frequency: %f\n", k_frequency)
-        k_printed = 1
-    endif
-
     xout(k_frequency)
 endop
 
