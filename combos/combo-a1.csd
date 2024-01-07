@@ -65,6 +65,8 @@ scoreline_i("i\"AF_Combo_A1_alwayson\" 1 -1")
 
 
 instr 2
+    AF_Module_BodyTracking_A_onMidiNote("XR::BodyTracking")
+
     a_source_1 = AF_Module_Source_A("Synth_2::Source_1")
     a_source_2 = AF_Module_Source_A("Synth_2::Source_2")
     a_source_3 = AF_Module_Source_A("Synth_2::Source_3")
@@ -79,7 +81,7 @@ instr 2
     vincr(ga_out_r, a_out)
 endin
 
-{{InitializeModule "AF_Module_BodyTracking_A"   "BodyTracking"}}
+{{InitializeModule "AF_Module_BodyTracking_A"   "XR::BodyTracking"}}
 
 {{InitializeModule "AF_Module_DelayMono_A"      "Piano_FX::Delay_1"}}
 {{InitializeModule "AF_Module_DelayStereo_A"    "Piano_FX::Delay_2"}}

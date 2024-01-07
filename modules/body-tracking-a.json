@@ -47,7 +47,44 @@
             "WebSocketPort": 44,
             "HeadsetIpAddress": 45,
             "OscSendPort": 46,
-            "OscReceivePort": 47
+            "OscReceivePort": 47,
+            "UiMode": 48
+        },
+        "UiMode": {
+            "Performance": 0,
+            "PianoConfig": 1,
+            "HandsConfig": 2
         }
-    }
+    },
+    "uiTypes": [
+        {
+            "type": "body-tracking-a-module",
+            "extends": "module",
+            "height": "100%",
+            "width": "100%",
+            "children": [
+                {
+                    "type": "extended-option-button",
+                    "width": "100%",
+                    "height": "100%",
+                    "channel": "(inherit('channel-prefix') + '::UiMode')",
+                    "items": [
+                        "Performance Mode",
+                        "Piano Config Mode",
+                        "Hands Config Mode"
+                    ],
+                    "backgrounds": [
+                        "green",
+                        "yellow",
+                        "red"
+                    ],
+                    "colors": [
+                        "white",
+                        "black",
+                        "black"
+                    ]
+                }
+            ]
+        }
+    ]
 }

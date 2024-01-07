@@ -27,17 +27,45 @@ opcode AF_Module_{{ModuleName}}, k, Si
 endop
 
 
+opcode AF_Module_{{ModuleName}}_onMidiNote, 0, S
+    S_channelPrefix xin
+    i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
+
+    i_uiMode = {{moduleGet:i 'UiMode'}}
+    if (i_uiMode == {{BodyTracking_A.UiMode.PianoConfig}}) then
+        i_noteNumber = notnum()
+        i_velocity = veloc()
+
+        ; {{LogTrace_i '("Sending MIDI note on OSC: note = %d, velocity = %d", i_noteNumber, i_velocity)'}}
+        OSCsend(k(0), gS_AF_Module_{{ModuleName}}_headsetIpAddress, i(gk_AF_Module_{{ModuleName}}_headsetOscSendPort), "/headset/frontend/note/on", "ii", i_noteNumber, i_velocity)
+
+        k_noteOffWasSent init {{false}}
+        if (k_noteOffWasSent == {{true}}) then
+            kgoto end
+        endif
+
+        k_released = release()
+        if (k_released == {{true}}) then
+            ; {{LogTrace_k '("Sending MIDI note off OSC: note = %d", i_noteNumber)'}}
+            OSCsend(k(0), gS_AF_Module_{{ModuleName}}_headsetIpAddress, i(gk_AF_Module_{{ModuleName}}_headsetOscSendPort), "/headset/frontend/note/off", "i", i_noteNumber)
+            k_noteOffWasSent = {{true}}
+        fi
+    fi
+end:
+endop
+
+
 instr AF_Module_{{ModuleName}}_websocketListener
     i_instanceIndex = p4
 
-    {{LogTrace_i '("AF_Module_BodyTracking_A_websocketListener: instanceIndex = %d", i_instanceIndex)'}}
+    ; {{LogTrace_i '("AF_Module_BodyTracking_A_websocketListener: instanceIndex = %d", i_instanceIndex)'}}
 
     ; if ({{moduleGet:k 'Enabled'}} == {{false}}) then
     ;     kgoto end
     ; endif
 
     i_websocketPort = i(gk_AF_Module_{{ModuleName}}_headsetWebSocketReceivePort)
-    {{LogDebug_i '("websocket port = %d", i_websocketPort)'}}
+    ; {{LogDebug_i '("websocket port = %d", i_websocketPort)'}}
 
     k_leftWrist[] init 3
     k_leftWrist = websocket_getArray_k(i_websocketPort, "/hands/left/wrist/position")
@@ -155,7 +183,7 @@ instr AF_Module_{{ModuleName}}_oscListener
         goto end
     fi
 
-    {{LogTrace_i '("OSC host = \"%s\", send port = %d, receive port = %d", gS_AF_Module_BodyTracking_A_headsetIpAddress, i(gk_AF_Module_BodyTracking_A_headsetOscSendPort), i(gk_AF_Module_BodyTracking_A_headsetOscReceivePort))'}}
+    ; {{LogTrace_i '("OSC host = \"%s\", send port = %d, receive port = %d", gS_AF_Module_BodyTracking_A_headsetIpAddress, i(gk_AF_Module_BodyTracking_A_headsetOscSendPort), i(gk_AF_Module_BodyTracking_A_headsetOscReceivePort))'}}
 
     S_oscMessages[] init 3
     k_oscMessagesLength init 0
@@ -170,8 +198,9 @@ instr AF_Module_{{ModuleName}}_oscListener
         else
             ; {{LogTrace_k '("OSC %s(%s)[%d] received: %s", S_oscMessages[k(0)], S_oscMessages[k(1)], k_oscMessagesLength, S_oscMessages[k(2)])'}}
             if (strcmpk(S_oscMessages[k(0)], "/headset/frontend/heartbeat") == 0) then
+                ; {{LogTrace_k '("OSC heartbeat received: index = %s", S_oscMessages[k(2)])'}}
                 k_heartbeatIndex = intFromString_k(S_oscMessages[k(2)])
-                k_uiMode = {{hostValueGet}}:k("UiMode")
+                k_uiMode = {{moduleGet:k 'UiMode'}}
                 OSCsend(k_heartbeatIndex, gS_AF_Module_{{ModuleName}}_headsetIpAddress, i(gk_AF_Module_{{ModuleName}}_headsetOscSendPort), "/headset/frontend/heartbeat/received", "ii", k_heartbeatIndex, k_uiMode)
             fi
         fi

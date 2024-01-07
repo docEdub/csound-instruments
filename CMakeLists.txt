@@ -6,7 +6,7 @@ include(FetchContent)
 FetchContent_Declare(
     CsoundTemplating
     GIT_REPOSITORY git@github.com:docEdub/CsoundTemplating.git
-    GIT_TAG aeeeadb49a64f3571f638dc096646f001936d1af
+    GIT_TAG cb9fdd3c93f74735719dc02cb17c2090a434c680
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 
@@ -14,6 +14,7 @@ macro(add_plugin NAME TYPE)
     add_csound_templates(
         PACKAGES
             cabbage-core
+            cabbage-extended-option-button
             cabbage-tab-group
             csound-core
             csound-module

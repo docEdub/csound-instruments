@@ -17,9 +17,13 @@
                 "children": [
                     {
                         "type": "main-tab",
-                        "label": "Hands",
+                        "label": "XR",
+                        "channel-prefix": "XR",
                         "children": [
-
+                            {
+                                "type": "body-tracking-a-module",
+                                "name": "BodyTracking"
+                            }
                         ]
                     },
                     {
