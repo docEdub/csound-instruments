@@ -17,6 +17,13 @@
                 "children": [
                     {
                         "type": "main-tab",
+                        "label": "Hands",
+                        "children": [
+
+                        ]
+                    },
+                    {
+                        "type": "main-tab",
                         "label": "Piano FX",
                         "channel-prefix": "Piano_FX",
                         "children": [

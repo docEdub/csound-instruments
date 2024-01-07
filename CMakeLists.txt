@@ -6,7 +6,7 @@ include(FetchContent)
 FetchContent_Declare(
     CsoundTemplating
     GIT_REPOSITORY git@github.com:docEdub/CsoundTemplating.git
-    GIT_TAG 094ad12f14e63f554401a62757f84b76c8878071
+    GIT_TAG 8b153f7ef147ce9a912eca2f9ade4050b4d9eb6b
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 
@@ -19,6 +19,7 @@ macro(add_plugin NAME TYPE)
             csound-module
         OPCODES
             "modules/shared/filter.orc"
+            "modules/body-tracking-a.orc"
             "modules/delay-mono-a.orc"
             "modules/delay-stereo-a.orc"
             "modules/envelope-a.orc"
@@ -29,6 +30,7 @@ macro(add_plugin NAME TYPE)
             "modules/source-a.orc"
             "modules/volume-a.orc"
         JSON
+            "modules/body-tracking-a.json"
             "modules/delay-mono-a.json"
             "modules/delay-stereo-a.json"
             "modules/envelope-a.json"

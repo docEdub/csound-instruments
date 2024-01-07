@@ -79,6 +79,8 @@ instr 2
     vincr(ga_out_r, a_out)
 endin
 
+{{InitializeModule "AF_Module_BodyTracking_A"   "BodyTracking"}}
+
 {{InitializeModule "AF_Module_DelayMono_A"      "Piano_FX::Delay_1"}}
 {{InitializeModule "AF_Module_DelayStereo_A"    "Piano_FX::Delay_2"}}
 {{InitializeModule "AF_Module_Volume_A"         "Piano_FX::Volume_1"}}
