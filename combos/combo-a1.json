@@ -123,7 +123,25 @@
                     {
                         "type": "main-tab",
                         "label": "Master FX",
-                        "children": []
+                        "channel-prefix": "Master_FX",
+                        "children": [
+                            {
+                                "type": "volume-a-module",
+                                "name": "PianoReverb_1"
+                            },
+                            {
+                                "type": "volume-a-module",
+                                "name": "Synth1Reverb_1"
+                            },
+                            {
+                                "type": "volume-a-module",
+                                "name": "Synth2Reverb_1"
+                            },
+                            {
+                                "type": "reverb-a-module",
+                                "name": "Reverb_1"
+                            }
+                        ]
                     },
                     {
                         "type": "main-tab",
