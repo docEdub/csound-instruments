@@ -49,34 +49,34 @@ instr AF_Combo_A1_alwayson
     ;     {{LogDebug_k '("left wrist = [%.3f, %.3f, %.3f], head position = [%.3f, %.3f, %.3f]", k_leftWristX, k_leftWristY, k_leftWristZ, k_headPositionX, k_headPositionY, k_headPositionZ)'}}
     ; endif
 
-    ; k_synth2_filterFreq_mod = k_leftWristX + 1
-    ; {{hostValueSet}}("Synth_2::Filter_1::Frequency::mod", k_synth2_filterFreq_mod)
+    k_synth2_filterFreq_mod = limit(k_leftWristX * 2, 0, 1)
+    {{hostValueSet}}("Synth_2::Filter_1::Frequency::mod", k_synth2_filterFreq_mod)
     ; if (changed2(k_synth2_filterFreq_mod) == {{true}}) then
     ;     {{LogDebug_k '("synth2 filter freq mod = %.3f", k_synth2_filterFreq_mod)'}}
     ; endif
 
-    ; k_synth2_filterEnv_mod = k_rightWristX * 2
-    ; {{hostValueSet}}("Synth_2::Filter_1::Envelope::mod", k_synth2_filterEnv_mod)
+    k_synth2_filterEnv_mod = limit((k_rightWristX - 0.5) * 4, 0, 1)
+    {{hostValueSet}}("Synth_2::Filter_1::EnvelopeAmount::mod", k_synth2_filterEnv_mod)
     ; if (changed2(k_synth2_filterEnv_mod) == {{true}}) then
     ;     {{LogDebug_k '("synth2 filter env mod = %.3f", k_synth2_filterEnv_mod)'}}
     ; endif
 
-    ; k_synth2_source1_subAmp_mod = abs(k_leftFingerTip5Y - k_leftFingerTip1Y) * 20
-    ; {{hostValueSet}}("Synth_2::Source_1::SubAmp::mod", k_synth2_source1_subAmp_mod)
+    k_synth2_source1_subAmp_mod = limit(abs(k_leftFingerTip5Y - k_leftFingerTip1Y) * 7, 0, 1)
+    {{hostValueSet}}("Synth_2::Source_1::SubAmp::mod", k_synth2_source1_subAmp_mod)
     ; if (changed2(k_synth2_source1_subAmp_mod) == {{true}}) then
     ;     {{LogDebug_k '("synth2 source1 sub amp mod = %.3f", k_synth2_source1_subAmp_mod)'}}
     ; endif
 
-    ; k_synth2_filter_q_mod = abs(k_rightFingerTip5Y - k_rightFingerTip1Y) * 50
-    ; {{hostValueSet}}("Synth_2::Filter_1::Q::mod", k_synth2_filter_q_mod)
+    k_synth2_filter_q_mod = limit(abs(k_rightFingerTip5Y - k_rightFingerTip1Y) * 70, 1, 7.5)
+    {{hostValueSet}}("Synth_2::Filter_1::Q::mod", k_synth2_filter_q_mod)
     ; if (changed2(k_synth2_filter_q_mod) == {{true}}) then
     ;     {{LogDebug_k '("synth2 filter q mod = %.3f", k_synth2_filter_q_mod)'}}
     ; endif
 
-    ; k_synth2_volume_mod = max(k_leftWristY, k_rightWristY) * 2
-    ; {{hostValueSet}}("Synth_2::Volume_1::mod", k_synth2_volume_mod)
-    ; if (changed2(k_synth2_volume_mod) == {{true}}) then
-    ;     {{LogDebug_k '("synth2 volume mod = %.3f", k_synth2_volume_mod)'}}
+    k_synth2_volumeAmp_mod = lag(max(k_leftWristY, k_rightWristY), 2)
+    {{hostValueSet}}("Synth_2::Volume_1::Amp::mod", k_synth2_volumeAmp_mod)
+    ; if (changed2(k_synth2_volumeAmp_mod) == {{true}}) then
+    ;     {{LogDebug_k '("synth2 volume amp mod = %.3f", k_synth2_volumeAmp_mod)'}}
     ; endif
 
     k_piano_reverbAmp_mod = min(0, -((min(round((k_headPositionY + k_headPositionZ) * 3 * 1000) / 1000, 1.5)) - 0.5) * 2)
@@ -87,9 +87,9 @@ instr AF_Combo_A1_alwayson
 
     k_reverb_cutoff_mod = limit:k(round(k_headPositionX * 1000) / 1000, 0, 1)
     {{hostValueSet}}("Master_FX::Reverb_1::Cutoff::mod", k_reverb_cutoff_mod) ; Range = [ 0.0, 1.0 ]
-    if (changed2(k_reverb_cutoff_mod) == {{true}}) then
-        {{LogDebug_k '("reverb cutoff mod = %.3f", k_reverb_cutoff_mod)'}}
-    endif
+    ; if (changed2(k_reverb_cutoff_mod) == {{true}}) then
+    ;     {{LogDebug_k '("reverb cutoff mod = %.3f", k_reverb_cutoff_mod)'}}
+    ; endif
 
     // Piano FX ...
 
