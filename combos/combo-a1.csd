@@ -22,6 +22,21 @@ ga_out_l init 0
 ga_out_r init 0
 
 instr AF_Combo_A1_alwayson
+    // XR hands and head tracking ...
+
+    k_leftWristX = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.LeftWristX}})
+    k_leftWristY = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.LeftWristY}})
+    k_leftWristZ = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.LeftWristZ}})
+    k_rightWristX = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.RightWristX}})
+    k_rightWristY = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.RightWristY}})
+    k_rightWristZ = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.RightWristZ}})
+    k_headPositionX = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.HeadPositionX}})
+    k_headPositionY = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.HeadPositionY}})
+    k_headPositionZ = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.HeadPositionZ}})
+    ; if (changed2(k_leftWristX, k_leftWristY, k_leftWristZ, k_headPositionX, k_headPositionY, k_headPositionZ) == {{true}}) then
+    ;     {{LogDebug_k '("left wrist = [%.3f, %.3f, %.3f], head position = [%.3f, %.3f, %.3f]", k_leftWristX, k_leftWristY, k_leftWristZ, k_headPositionX, k_headPositionY, k_headPositionZ)'}}
+    ; endif
+
     // Piano FX ...
 
     a_piano_l inch 1
