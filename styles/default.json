@@ -116,7 +116,8 @@
                     "background": "(Constants.Color.TextInputBackground)",
                     "color": "(Constants.Color.TextInput)",
                     "channel": "(inherit('value-channel'))",
-                    "range": "(tryInherit('value-range') ?? { min: 0, max: 1, increment: 0.001 })"
+                    "range": "(tryInherit('value-range') ?? { min: 0, max: 1, increment: 0.001 })",
+                    "automatable": "(parent.json['automatable'] ?? null)"
                 }
             ]
         }

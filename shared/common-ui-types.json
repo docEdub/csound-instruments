@@ -11,6 +11,26 @@
             "tab-width": 80
         },
         {
+            "type": "form-footer",
+            "comment": "Form footer",
+            "extends": "styled-group",
+            "width": 100,
+            "height": 25,
+            "top": "(parent.height - this.json['height'])",
+            "left": "(parent.width - this.json['width'])",
+            "layout": "LeftToRight",
+            "children": [
+                {
+                    "type": "styled-combobox",
+                    "width": "100%",
+                    "height": "100%",
+                    "items": "(Object.keys(Constants.UI.ModVisibility))",
+                    "channel": "UI::ModVisibility",
+                    "preset-ignore": true
+                }
+            ]
+        },
+        {
             "type": "main-tab",
             "extends": "styled-tab-child",
             "comment": "(`${json['label']} tab`)",
