@@ -135,36 +135,7 @@ instr AF_Combo_A1_alwayson
 
     // UI updates ...
 
-    k_uiModVisibility = {{hostValueGet}}:k("UI::ModVisibility")
-
-    k_uiModVisibilityIsDirty init {{true}}
-    if (changed2(k_uiModVisibility) == {{true}}) then
-        k_uiModVisibilityIsDirty = {{true}}
-    endif
-
-    if (k_uiModVisibilityIsDirty == {{true}}) then
-        k_moddedInputAlpha = 0
-        k_unmoddedInputAlpha = 0
-        if (k_uiModVisibility == {{UI.ModVisibility.Modded}}) then
-            k_moddedInputAlpha = 1
-        elseif (k_uiModVisibility == {{UI.ModVisibility.Unmodded}}) then
-            k_unmoddedInputAlpha = 1
-        endif
-
-        ki = 0
-        while (ki < {{IndexedChannelCount 'modded-input'}}) do
-            {{hostUiValueSet}}(k(1), sprintfk("modded-input-%d", ki), "alpha", k_moddedInputAlpha)
-            ki += 1
-        od
-
-        ki = 0
-        while (ki < {{IndexedChannelCount 'unmodded-input'}}) do
-            {{hostUiValueSet}}(k(1), sprintfk("unmodded-input-%d", ki), "alpha", k_unmoddedInputAlpha)
-            ki += 1
-        od
-
-        k_uiModVisibilityIsDirty = {{false}}
-    endif
+    updateModVisibilityChannels()
 endin
 
 
