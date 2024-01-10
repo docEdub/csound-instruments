@@ -135,6 +135,7 @@ instr AF_Combo_A1_alwayson
 
     // UI updates ...
 
+    processSelectedChannels()
     updateModVisibilityChannels()
 endin
 
