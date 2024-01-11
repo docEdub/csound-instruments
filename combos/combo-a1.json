@@ -6,7 +6,7 @@
         "type": "combo-form",
         "name": "Combo A1",
         "id": "c:a1",
-        "width": 1056,
+        "width": 1200,
         "height": 625,
         "children": [
             {

@@ -60,31 +60,189 @@
         {
             "type": "body-tracking-a-module",
             "extends": "module",
-            "height": "100%",
             "width": "100%",
+            "height": "100%",
+            "layout": "TopToBottom",
             "children": [
                 {
-                    "type": "extended-option-button",
+                    "comment": "Hand joints group",
+                    "type": "styled-group",
+                    "height": 100,
                     "width": "100%",
-                    "height": "100%",
-                    "channel": "(inherit('channel-prefix') + '::UiMode')",
-                    "items": [
-                        "Performance Mode",
-                        "Piano Config Mode",
-                        "Hands Config Mode"
-                    ],
-                    "backgrounds": [
-                        "green",
-                        "yellow",
-                        "red"
-                    ],
-                    "colors": [
-                        "white",
-                        "black",
-                        "black"
+                    "layout": "TopToBottom",
+                    "children": [{
+                        "comment": "Fingers",
+                        "type": "styled-group",
+                        "layout": "LeftToRight",
+                        "width": "100%",
+                        "height": "50%",
+                        "children": [{
+                            "comment": "Left finger joints",
+                            "type": "styled-group",
+                            "height": "100%",
+                            "width": "50%",
+                            "layout": "LeftToRight",
+                            "children": [{
+                                "type": "body-tracking-coord-column",
+                                "text": "L5",
+                                "child-channels": [ "LeftFingerTip5" ]
+                            }, {
+                                "type": "body-tracking-coord-column",
+                                "text": "L4",
+                                "child-channels": [ "LeftFingerTip4" ]
+                            }, {
+                                "type": "body-tracking-coord-column",
+                                "text": "L3",
+                                "child-channels": [ "LeftFingerTip3" ]
+                            }, {
+                                "type": "body-tracking-coord-column",
+                                "text": "L2",
+                                "child-channels": [ "LeftFingerTip2" ]
+                            }, {
+                                "type": "body-tracking-coord-column",
+                                "text": "L1",
+                                "child-channels": [ "LeftFingerTip1" ]
+                            }]
+                        }, {
+                            "comment": "Right finger joints",
+                            "type": "styled-group",
+                            "height": "100%",
+                            "width": "50%",
+                            "layout": "LeftToRight",
+                            "children": [{
+                                "type": "body-tracking-coord-column",
+                                "text": "R1",
+                                "child-channels": [ "RightFingerType1" ]
+                            }, {
+                                "type": "body-tracking-coord-column",
+                                "text": "R2",
+                                "child-channels": [ "RightFingerType2" ]
+                            }, {
+                                "type": "body-tracking-coord-column",
+                                "text": "R3",
+                                "child-channels": [ "RightFingerType3" ]
+                            }, {
+                                "type": "body-tracking-coord-column",
+                                "text": "R4",
+                                "child-channels": [ "RightFingerType4" ]
+                            }, {
+                                "type": "body-tracking-coord-column",
+                                "text": "R5",
+                                "child-channels": [ "RightFingerType5" ]
+                            }]
+                        }]
+                    }, {
+                        "comment": "Wrists and head",
+                        "type": "styled-group",
+                        "width": "100%",
+                        "height": "50%",
+                        "layout":"LeftToRight",
+                        "children": [{
+                            "type": "body-tracking-coord-column",
+                            "width": "10%",
+                            "text": "Left wrist",
+                            "child-channels": [ "LeftWrist" ]
+                        }, {
+                            "type": "styled-spacer",
+                            "width": "30%"
+                        }, {
+                            "type": "body-tracking-coord-column",
+                            "width": "10%",
+                            "text": "Head position",
+                            "child-channels": [ "HeadPosition" ]
+                        }, {
+                            "type": "body-tracking-coord-column",
+                            "width": "10%",
+                            "text": "Head rotation",
+                            "child-channels": [ "HeadRotation" ]
+                        }, {
+                            "type": "styled-spacer",
+                            "width": "30%"
+                        }, {
+                            "type": "body-tracking-coord-column",
+                            "width": "10%",
+                            "text": "Right wrist",
+                            "child-channels": [ "RightWrist" ]
+                        }]
+                    }]
+                },
+                {
+                    "type": "styled-group",
+                    "width": "100%",
+                    "height": "(parent.contentHeight - parent.children[0].height)",
+                    "children": [
+                        {
+                            "type": "extended-option-button",
+                            "width": "100%",
+                            "height": "100%",
+                            "channel": "(inherit('channel-prefix') + '::UiMode')",
+                            "items": [
+                                "Performance Mode",
+                                "Piano Config Mode",
+                                "Hands Config Mode"
+                            ],
+                            "backgrounds": [
+                                "green",
+                                "yellow",
+                                "red"
+                            ],
+                            "colors": [
+                                "white",
+                                "black",
+                                "black"
+                            ]
+                        }
                     ]
                 }
             ]
+        },
+        {
+            "type": "body-tracking-coord-number-box-slider",
+            "extends": "styled-number-box-slider",
+            "height": "100%",
+            "left": "(`${(this.childIndex / 3) * 100}%`)",
+            "right": "(`${((this.childIndex + 1) / 3) * 100}%`)"
+        },
+        {
+            "type": "body-tracking-coord-row",
+            "extends": "styled-group",
+            "width": "100%",
+            "top": "(`${this.childIndex * 100}%`)",
+            "bottom": "(`${(this.childIndex + 1) * 100}%`)",
+            "channel-prefix": "(`${inherit('channel-prefix')}::${inherit('child-channels')[this.childIndex]}`)",
+            "children": [{
+                "type": "body-tracking-coord-number-box-slider",
+                "value-channel": "(`${inherit('channel-prefix')}X`)"
+            }, {
+                "type": "body-tracking-coord-number-box-slider",
+                "value-channel": "(`${inherit('channel-prefix')}Y`)"
+            }, {
+                "type": "body-tracking-coord-number-box-slider",
+                "value-channel": "(`${inherit('channel-prefix')}Z`)"
+            }]
+        },
+        {
+            "type": "body-tracking-coord-column",
+            "extends": "styled-group",
+            "left": "(`${this.childIndex * 20}%`)",
+            "right": "(`${(this.childIndex + 1) * 20}%`)",
+            "height": "100%",
+            "layout": "TopToBottom",
+            "children": [{
+                "type": "styled-label",
+                "width": "100%",
+                "height": 16,
+                "text": "(inherit())",
+                "color": "grey"
+            }, {
+                "type": "styled-group",
+                "width": "100%",
+                "height": "(`${(parent.height - parent.children[0].height) / parent.height * 100}%`)",
+                "layout": "TopToBottom",
+                "children": [{
+                    "type": "body-tracking-coord-row"
+                }]
+            }]
         }
     ]
 }
