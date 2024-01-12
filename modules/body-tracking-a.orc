@@ -60,9 +60,9 @@ instr AF_Module_{{ModuleName}}_websocketListener
 
     ; {{LogTrace_i '("AF_Module_BodyTracking_A_websocketListener: instanceIndex = %d", i_instanceIndex)'}}
 
-    ; if ({{moduleGet:k 'Enabled'}} == {{false}}) then
-    ;     kgoto end
-    ; endif
+    if ({{moduleGet:k 'HeadsetLinkEnabled'}} == {{false}}) then
+        kgoto end
+    endif
 
     i_websocketPort = i(gk_AF_Module_{{ModuleName}}_headsetWebSocketReceivePort)
     ; {{LogDebug_i '("websocket port = %d", i_websocketPort)'}}

@@ -48,7 +48,8 @@
             "HeadsetIpAddress": 45,
             "OscSendPort": 46,
             "OscReceivePort": 47,
-            "HeadsetUiMode": 48
+            "HeadsetUiMode": 48,
+            "HeadsetLinkEnabled": 49
         },
         "HeadsetUiMode": {
             "Performance": 0,
@@ -68,10 +69,19 @@
                     "comment": "Header",
                     "type": "styled-group",
                     "width": "100%",
-                    "height": 25,
+                    "height": 30,
+                    "padding-left": 5,
                     "layout": "LeftToRight",
                     "children": [
-
+                        {
+                            "type": "module-checkbox",
+                            "label": "Link to headset",
+                            "width": 140,
+                            "height": "100%",
+                            "value-channel": "HeadsetLinkEnabled",
+                            "value-default": true,
+                            "color": "white"
+                        }
                     ]
                 },
                 {
