@@ -31,8 +31,8 @@ opcode AF_Module_{{ModuleName}}_onMidiNote, 0, S
     S_channelPrefix xin
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
-    i_uiMode = {{moduleGet:i 'UiMode'}}
-    if (i_uiMode == {{BodyTracking_A.UiMode.PianoConfig}}) then
+    i_uiMode = {{moduleGet:i 'HeadsetUiMode'}}
+    if (i_uiMode == {{BodyTracking_A.HeadsetUiMode.PianoConfig}}) then
         i_noteNumber = notnum()
         i_velocity = veloc()
 
@@ -200,7 +200,7 @@ instr AF_Module_{{ModuleName}}_oscListener
             if (strcmpk(S_oscMessages[k(0)], "/headset/frontend/heartbeat") == 0) then
                 ; {{LogTrace_k '("OSC heartbeat received: index = %s", S_oscMessages[k(2)])'}}
                 k_heartbeatIndex = intFromString_k(S_oscMessages[k(2)])
-                k_uiMode = {{moduleGet:k 'UiMode'}}
+                k_uiMode = {{moduleGet:k 'HeadsetUiMode'}}
                 OSCsend(k_heartbeatIndex, gS_AF_Module_{{ModuleName}}_headsetIpAddress, i(gk_AF_Module_{{ModuleName}}_headsetOscSendPort), "/headset/frontend/heartbeat/received", "ii", k_heartbeatIndex, k_uiMode)
             fi
         fi

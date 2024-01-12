@@ -48,9 +48,9 @@
             "HeadsetIpAddress": 45,
             "OscSendPort": 46,
             "OscReceivePort": 47,
-            "UiMode": 48
+            "HeadsetUiMode": 48
         },
-        "UiMode": {
+        "HeadsetUiMode": {
             "Performance": 0,
             "PianoConfig": 1,
             "HandsConfig": 2
@@ -210,7 +210,7 @@
                             "type": "extended-option-button",
                             "width": "100%",
                             "height": "100%",
-                            "channel": "(inherit('channel-prefix') + '::UiMode')",
+                            "channel": "(inherit('channel-prefix') + '::HeadsetUiMode')",
                             "items": ["Performance Mode", "Piano Config Mode", "Hands Config Mode"],
                             "backgrounds": ["green", "yellow", "red"],
                             "colors": ["white", "black", "black"]
