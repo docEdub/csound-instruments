@@ -14,15 +14,26 @@
             "type": "form-footer",
             "comment": "Form footer",
             "extends": "styled-group",
-            "width": 100,
+            "width": 160,
             "height": 25,
             "top": "(parent.height - this.json['height'])",
             "left": "(parent.width - this.json['width'])",
             "layout": "LeftToRight",
             "children": [
                 {
+                    "type": "styled-label",
+                    "width": 50,
+                    "height": "100%",
+                    "text": "Show",
+                    "color": "white"
+                },
+                {
+                    "type": "styled-spacer",
+                    "width": 5
+                },
+                {
                     "type": "styled-combobox",
-                    "width": "100%",
+                    "width": "(parent.width - this.previousSiblingsTotalWidth)",
                     "height": "100%",
                     "items": "(Object.keys(Constants.UI.ModVisibility))",
                     "channel": "UI::ModVisibility",
