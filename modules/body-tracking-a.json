@@ -142,27 +142,27 @@
                                         {
                                             "type": "body-tracking-coord-column",
                                             "text": "R1",
-                                            "child-channels": ["RightFingerType1"]
+                                            "child-channels": ["RightFingerTip1"]
                                         },
                                         {
                                             "type": "body-tracking-coord-column",
                                             "text": "R2",
-                                            "child-channels": ["RightFingerType2"]
+                                            "child-channels": ["RightFingerTip2"]
                                         },
                                         {
                                             "type": "body-tracking-coord-column",
                                             "text": "R3",
-                                            "child-channels": ["RightFingerType3"]
+                                            "child-channels": ["RightFingerTip3"]
                                         },
                                         {
                                             "type": "body-tracking-coord-column",
                                             "text": "R4",
-                                            "child-channels": ["RightFingerType4"]
+                                            "child-channels": ["RightFingerTip4"]
                                         },
                                         {
                                             "type": "body-tracking-coord-column",
                                             "text": "R5",
-                                            "child-channels": ["RightFingerType5"]
+                                            "child-channels": ["RightFingerTip5"]
                                         }
                                     ]
                                 }
