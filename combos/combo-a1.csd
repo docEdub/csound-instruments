@@ -47,9 +47,6 @@ instr AF_Combo_A1_alwayson
     k_headPositionX = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.HeadPositionX}})
     k_headPositionY = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.HeadPositionY}})
     k_headPositionZ = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.HeadPositionZ}})
-    ; if (changed2(k_leftWristX, k_leftWristY, k_leftWristZ, k_headPositionX, k_headPositionY, k_headPositionZ) == {{true}}) then
-    ;     {{LogDebug_k '("left wrist = [%.3f, %.3f, %.3f], head position = [%.3f, %.3f, %.3f]", k_leftWristX, k_leftWristY, k_leftWristZ, k_headPositionX, k_headPositionY, k_headPositionZ)'}}
-    ; endif
 
     k_synth2_filterFreq_mod = limit(k_leftWristX * 2, 0, 1)
     AF_Module_Filter_A_setMod("Synth_2::Filter_1", {{eval '(Constants.Filter_A.Channel.Frequency)'}}, k_synth2_filterFreq_mod)
