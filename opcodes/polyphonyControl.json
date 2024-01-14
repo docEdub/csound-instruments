@@ -1,0 +1,11 @@
+{
+    "PolyphonyControl": {
+        "SoftOffFadeTime": 0.5,
+        "State": {
+            "Inactive": 0,
+            "SoftOff": 1,
+            "HardOff": 2,
+            "Off": 3
+        }
+    }
+}

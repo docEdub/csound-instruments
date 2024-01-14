@@ -13,6 +13,7 @@
             "combos",
             "instruments",
             "modules",
+            "opcodes",
             "shared",
             "styles",
             "CMakeLists.txt"

@@ -142,6 +142,11 @@ scoreline_i("i\"AF_Combo_A1_alwayson\" 1 -1")
 
 
 instr 2
+    k_polyphonyControlState = AF_PolyphonyControl_state()
+    if (k_polyphonyControlState == {{PolyphonyControl.State.Off}}) then
+        kgoto end
+    endif
+
     AF_Module_BodyTracking_A_onMidiNote("XR::BodyTracking")
 
     a_source_1 = AF_Module_Source_A("Synth_2::Source_1")
@@ -152,9 +157,15 @@ instr 2
 
     a_out = AF_Module_Filter_A("Synth_2::Filter_1", a_out)
     a_out *= AF_Module_Envelope_A("Synth_2::Envelope_1")
+    a_out = dcblock2(a_out, ksmps)
+
+    if (k_polyphonyControlState != {{PolyphonyControl.State.Inactive}}) then
+        a_out = AF_PolyphonyControl_audioProcessing(a_out, k_polyphonyControlState)
+    endif
 
     vincr(ga_out_l, a_out)
     vincr(ga_out_r, a_out)
+end:
 endin
 
 
