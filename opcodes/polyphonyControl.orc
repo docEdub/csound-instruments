@@ -134,7 +134,7 @@ opcode AF_PolyphonyControl_audioProcessing, a, ak
                 ki += 1
             od
         endif
-    else
+    elseif (k_state == {{PolyphonyControl.State.SoftOff}}) then
         // Mute instrument after 0.5 second fade out.
         k_fade init 1
         k_fade -= 1 / ({{PolyphonyControl.SoftOffFadeTime}} * kr)

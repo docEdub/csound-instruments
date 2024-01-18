@@ -142,6 +142,9 @@ scoreline_i("i\"AF_Combo_A1_alwayson\" 1 -1")
 
 
 instr 2
+    // NB: We call the envelope module UDO here so the polyphony control UDO's `lastcycle` init sees the envelope's release time.
+    a_envelope = AF_Module_Envelope_A("Synth_2::Envelope_1")
+
     k_polyphonyControlState = AF_PolyphonyControl_state()
     if (k_polyphonyControlState == {{PolyphonyControl.State.Off}}) then
         kgoto end
@@ -156,7 +159,7 @@ instr 2
     a_out = sum(a_source_1, a_source_2, a_source_3, a_source_4)
 
     a_out = AF_Module_Filter_A("Synth_2::Filter_1", a_out)
-    a_out *= AF_Module_Envelope_A("Synth_2::Envelope_1")
+    a_out *= a_envelope
     a_out = dcblock2(a_out, ksmps)
 
     if (k_polyphonyControlState != {{PolyphonyControl.State.Inactive}}) then
