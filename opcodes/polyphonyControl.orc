@@ -30,19 +30,19 @@
  *  ```
  */
 
-// For logging.
-gi_noteId init 0
+; // For logging.
+; gi_noteId init 0
 
 gk_AF_PolyphonyControl_softOffActiveNoteCount init 0
 gk_AF_PolyphonyControl_hardOffActiveNoteCount init 0
 
 
 opcode AF_PolyphonyControl_state, k, 0
-    // For logging.
-    gi_noteId += 1
-    i_id init gi_noteId
+    ; // For logging.
+    ; gi_noteId += 1
+    ; i_id init gi_noteId
 
-    {{LogDebug_i '("[%d] Active soft/hard off note count +1: %d/%d", i_id, i(gk_AF_PolyphonyControl_softOffActiveNoteCount), i(gk_AF_PolyphonyControl_hardOffActiveNoteCount))'}}
+    ; {{LogDebug_i '("[%d] Active soft/hard off note count +1: %d/%d", i_id, i(gk_AF_PolyphonyControl_softOffActiveNoteCount), i(gk_AF_PolyphonyControl_hardOffActiveNoteCount))'}}
 
     k_state init {{PolyphonyControl.State.Inactive}}
     k_hardTurnoffActivated init {{false}}
@@ -64,7 +64,7 @@ opcode AF_PolyphonyControl_state, k, 0
     i_polyphonySoftMax = {{hostValueGet}}:i("UI::PolyphonySoftMax")
 
     if (gk_AF_PolyphonyControl_hardOffActiveNoteCount > i_polyphonyHardMax) then
-        {{LogTrace_k '("[%d] Hard off activated", i_id)'}}
+        ; {{LogTrace_k '("[%d] Hard off activated", i_id)'}}
         k_hardTurnoffActivated = {{true}}
         gk_AF_PolyphonyControl_hardOffActiveNoteCount -= 1
         if (k_softTurnoffActivated == {{false}}) then
@@ -72,7 +72,7 @@ opcode AF_PolyphonyControl_state, k, 0
         endif
         k_state = {{PolyphonyControl.State.HardOff}}
     elseif (k_softTurnoffActivated == {{false}} && gk_AF_PolyphonyControl_softOffActiveNoteCount > i_polyphonySoftMax) then
-        {{LogTrace_k '("[%d] Soft off activated", i_id)'}}
+        ; {{LogTrace_k '("[%d] Soft off activated", i_id)'}}
         k_softTurnoffActivated = {{true}}
         gk_AF_PolyphonyControl_softOffActiveNoteCount -= 1
         k_state = {{PolyphonyControl.State.SoftOff}}
@@ -82,25 +82,20 @@ opcode AF_PolyphonyControl_state, k, 0
         k_fadeTime init {{PolyphonyControl.SoftOffFadeTime}}
         k_fadeTime -= gi_secondsPerKPass
         if (k_fadeTime <= 0) then
-            {{LogTrace_k '("[%d] Soft off fade - done", i_id)'}}
+            ; {{LogTrace_k '("[%d] Soft off fade - done", i_id)'}}
             k_state = {{PolyphonyControl.State.Off}}
         endif
     endif
 
-    ; if (k_state == {{PolyphonyControl.State.Off}} || lastcycle() == {{true}}) then
-    if (k_state == {{PolyphonyControl.State.Off}}) then
-        ; k_state = {{PolyphonyControl.State.Off}}
-
+    if (k_state == {{PolyphonyControl.State.Off}} || lastcycle() == {{true}}) then
         if (k_hardTurnoffActivated == {{false}}) then
             gk_AF_PolyphonyControl_hardOffActiveNoteCount -= 1
-            ; {{LogDebug_k '("[%d] Active hard off note count: %d", i_id, gk_AF_PolyphonyControl_hardOffActiveNoteCount)'}}
         endif
         if (k_softTurnoffActivated == {{false}}) then
             gk_AF_PolyphonyControl_softOffActiveNoteCount -= 1
-            ; {{LogDebug_k '("[%d] Active soft off note count: %d", i_id, gk_AF_PolyphonyControl_softOffActiveNoteCount)'}}
         endif
 
-        {{LogDebug_k '("[%d] Active soft/hard off note count -1: %d/%d", i_id, gk_AF_PolyphonyControl_softOffActiveNoteCount, gk_AF_PolyphonyControl_hardOffActiveNoteCount)'}}
+        ; {{LogDebug_k '("[%d] Active soft/hard off note count -1: %d/%d", i_id, gk_AF_PolyphonyControl_softOffActiveNoteCount, gk_AF_PolyphonyControl_hardOffActiveNoteCount)'}}
     endif
 
 end:
