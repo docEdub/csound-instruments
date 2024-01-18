@@ -42,7 +42,7 @@ opcode AF_PolyphonyControl_state, k, 0
     gi_noteId += 1
     i_id init gi_noteId
 
-    {{LogDebug_i '("[%d] Active soft/hard off note count: %d/%d", i_id, i(gk_AF_PolyphonyControl_softOffActiveNoteCount), i(gk_AF_PolyphonyControl_hardOffActiveNoteCount))'}}
+    {{LogDebug_i '("[%d] Active soft/hard off note count +1: %d/%d", i_id, i(gk_AF_PolyphonyControl_softOffActiveNoteCount), i(gk_AF_PolyphonyControl_hardOffActiveNoteCount))'}}
 
     k_state init {{PolyphonyControl.State.Inactive}}
     k_hardTurnoffActivated init {{false}}
@@ -87,17 +87,20 @@ opcode AF_PolyphonyControl_state, k, 0
         endif
     endif
 
-    if (k_state == {{PolyphonyControl.State.Off}} || lastcycle() == {{true}}) then
-        k_state = {{PolyphonyControl.State.Off}}
+    ; if (k_state == {{PolyphonyControl.State.Off}} || lastcycle() == {{true}}) then
+    if (k_state == {{PolyphonyControl.State.Off}}) then
+        ; k_state = {{PolyphonyControl.State.Off}}
 
         if (k_hardTurnoffActivated == {{false}}) then
             gk_AF_PolyphonyControl_hardOffActiveNoteCount -= 1
-            {{LogDebug_k '("[%d] Active hard off note count: %d", i_id, gk_AF_PolyphonyControl_hardOffActiveNoteCount)'}}
+            ; {{LogDebug_k '("[%d] Active hard off note count: %d", i_id, gk_AF_PolyphonyControl_hardOffActiveNoteCount)'}}
         endif
         if (k_softTurnoffActivated == {{false}}) then
             gk_AF_PolyphonyControl_softOffActiveNoteCount -= 1
-            {{LogDebug_k '("[%d] Active soft off note count: %d", i_id, gk_AF_PolyphonyControl_softOffActiveNoteCount)'}}
+            ; {{LogDebug_k '("[%d] Active soft off note count: %d", i_id, gk_AF_PolyphonyControl_softOffActiveNoteCount)'}}
         endif
+
+        {{LogDebug_k '("[%d] Active soft/hard off note count -1: %d/%d", i_id, gk_AF_PolyphonyControl_softOffActiveNoteCount, gk_AF_PolyphonyControl_hardOffActiveNoteCount)'}}
     endif
 
 end:
