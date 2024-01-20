@@ -6,7 +6,7 @@
  *  The `poscil3` opcode is used for sine waves and the `vco2` opcode is used for other waveforms.
  */
 
-{{DeclareModule 'Source_A' 'hasAlwaysOnInstrument'}}
+{{DeclareModule 'Source_A' '{ "hasAlwaysOnInstrument": "true" }'}}
 
 
 /// @internal

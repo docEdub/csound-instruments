@@ -14,56 +14,12 @@
             "type": "form-footer",
             "comment": "Form footer",
             "extends": "styled-group",
-            "width": 480,
+            "width": 150,
             "height": 25,
             "top": "(parent.height - this.json['height'])",
             "left": "(parent.width - this.json['width'])",
             "layout": "LeftToRight",
             "children": [
-                {
-                    "type": "styled-label",
-                    "width": 142,
-                    "height": "100%",
-                    "text": "Polyphony: soft max"
-                },
-                {
-                    "type": "styled-number-box-slider",
-                    "width": 30,
-                    "height": "100%",
-                    "value-channel": "UI::PolyphonySoftMax",
-                    "value-range": {
-                        "min": 1,
-                        "max": 100,
-                        "step": 1,
-                        "default": 10
-                    }
-                },
-                {
-                    "type": "styled-spacer",
-                    "width": 10
-                },
-                {
-                    "type": "styled-label",
-                    "width": 68,
-                    "height": "100%",
-                    "text": "hard max"
-                },
-                {
-                    "type": "styled-number-box-slider",
-                    "width": 30,
-                    "height": "100%",
-                    "value-channel": "UI::PolyphonyHardMax",
-                    "value-range": {
-                        "min": 1,
-                        "max": 100,
-                        "step": 1,
-                        "default": 20
-                    }
-                },
-                {
-                    "type": "styled-spacer",
-                    "width": 40
-                },
                 {
                     "type": "styled-label",
                     "width": 50,

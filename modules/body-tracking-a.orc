@@ -4,7 +4,7 @@
  *  Hands and head tracking via custon websocket opcodes.
  */
 
-{{DeclareModule 'BodyTracking_A' 'hasAlwaysOnInstrument'}}
+{{DeclareModule 'BodyTracking_A' '{ "hasAlwaysOnInstrument": "true" }'}}
 
 
 /// @internal

@@ -105,16 +105,30 @@
                                         "name": "Source_4"
                                     },
                                     {
-                                        "type": "filter-a-module",
-                                        "name": "Filter_1"
+                                        "type": "module-group",
+                                        "children": [
+                                            {
+                                                "type": "envelope-a-module",
+                                                "name": "Envelope_1"
+                                            },
+                                            {
+                                                "type": "filter-a-module",
+                                                "name": "Filter_1"
+                                            }
+                                        ]
                                     },
                                     {
-                                        "type": "envelope-a-module",
-                                        "name": "Envelope_1"
-                                    },
-                                    {
-                                        "type": "volume-a-module",
-                                        "name": "Volume_1"
+                                        "type": "module-group",
+                                        "children": [
+                                            {
+                                                "type": "polyphony-control-a-module",
+                                                "name": "Polyphony_1"
+                                            },
+                                            {
+                                                "type": "volume-a-module",
+                                                "name": "Volume_1"
+                                            }
+                                        ]
                                     }
                                 ]
                             }
