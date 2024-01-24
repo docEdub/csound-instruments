@@ -55,6 +55,23 @@ macro(add_plugin NAME TYPE)
     )
 endmacro()
 
+macro(add_module_test NAME)
+    add_csound_templates(
+        PACKAGES
+            cabbage-core
+            csound-core
+            csound-module
+        OPCODES
+            "modules/${NAME}.orc"
+        JSON
+            "config-test.json"
+            "modules/${NAME}.json"
+        EFFECT_SOURCES
+            "tests/modules/${NAME}--test.csd"
+        NO_CABBAGE_PLUGIN
+    )
+endmacro()
+
 macro(add_combo NAME)
     add_plugin("combos/${NAME}" "EFFECT")
 endmacro()
@@ -70,5 +87,6 @@ add_combo("combo-a1")
 # add_instrument("synth-a1")
 # add_instrument("synth-a2")
 
+add_module_test("polyphony-control-b")
 
 generate_csound_templates()

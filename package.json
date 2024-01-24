@@ -15,7 +15,10 @@
             "modules",
             "shared",
             "styles",
-            "CMakeLists.txt"
+            "tests/modules",
+            "CMakeLists.txt",
+            "config-test.json",
+            "package.json"
         ]
     },
     "scripts": {

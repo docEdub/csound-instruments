@@ -1,0 +1,13 @@
+{
+    "Enable LogTrace_i": true,
+    "Enable LogDebug_i": true,
+    "Enable LogInfo_i": true,
+    "Enable LogWarning_i": true,
+    "Enable LogError_i": true,
+
+    "Enable LogTrace_k": true,
+    "Enable LogDebug_k": true,
+    "Enable LogInfo_k": true,
+    "Enable LogWarning_k": true,
+    "Enable LogError_k": true
+}
