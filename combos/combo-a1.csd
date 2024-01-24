@@ -144,8 +144,8 @@ instr 2
     // NB: We call the envelope module UDO here so the polyphony control UDO's `lastcycle` init sees the envelope's release time.
     a_envelope = AF_Module_Envelope_A("Synth_2::Envelope_1")
 
-    k_polyphonyControlState = AF_Module_PolyphonyControl_A("Synth_2::Polyphony_1")
-    if (k_polyphonyControlState == {{PolyphonyControl_A.State.Off}}) then
+    k_polyphonyControlState = AF_Module_PolyphonyControl_B("Synth_2::Polyphony_2")
+    if (k_polyphonyControlState == {{eval '(Constants.PolyphonyControl_B.State.Off)'}}) then
         kgoto end
     endif
 
@@ -160,10 +160,7 @@ instr 2
     a_out = AF_Module_Filter_A("Synth_2::Filter_1", a_out)
     a_out *= a_envelope
     a_out = dcblock2(a_out, ksmps)
-
-    if (k_polyphonyControlState != {{PolyphonyControl_A.State.Inactive}}) then
-        a_out = AF_Module_PolyphonyControl_A_audioProcessing("Synth2::Polyphony_1", a_out, k_polyphonyControlState)
-    endif
+    a_out = AF_Module_PolyphonyControl_B_audioProcessing("Synth2::Polyphony_2", a_out)
 
     vincr(ga_out_l, a_out)
     vincr(ga_out_r, a_out)
@@ -189,7 +186,7 @@ endin
 {{InitializeModule "AF_Module_Envelope_A"           "Synth_2::Envelope_1"}}
 {{InitializeModule "AF_Module_Filter_A"             "Synth_2::Filter_1"}}
 {{InitializeModule "AF_Module_Volume_A"             "Synth_2::Volume_1"}}
-{{InitializeModule "AF_Module_PolyphonyControl_A"   "Synth_2::Polyphony_1"}}
+{{InitializeModule "AF_Module_PolyphonyControl_B"   "Synth_2::Polyphony_2"}}
 
 {{InitializeModule "AF_Module_Volume_A"             "Master_FX::PianoReverb_1"}}
 {{InitializeModule "AF_Module_Volume_A"             "Master_FX::Synth1Reverb_1"}}

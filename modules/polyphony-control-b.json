@@ -1,0 +1,97 @@
+{
+    "PolyphonyControl_B": {
+        "MaxNoteCount": 4096,
+        "Channel": {
+            "Enabled": 1,
+            "SoftMax": 2,
+            "HardMax": 3,
+            "SoftOffFadeTime": 4,
+            "SoftOnFadeTime": 5,
+            "KeepHighNote": 6,
+            "KeepLowNote": 7,
+            "SoftCount": 8,
+            "HardCount": 9
+        },
+        "State": {
+            "Initialized": 0,
+            "On": 1,
+            "SoftOn": 2,
+            "SoftOff": 3,
+            "HardOff": 4,
+            "Off": 5
+        },
+        "Instance": {
+            "NextNoteId": 0,
+            "NoteCount": 1,
+            "KeepHighNote": 2,
+            "KeepLowNote": 3,
+            "HighNote": 4,
+            "LowNote": 5,
+            "HardOffActiveNoteCount": 6,
+            "SoftOffActiveNoteCount": 7
+        },
+        "InstanceMemberCount": 8,
+        "Note": {
+            "Id": 0,
+            "Duration": 1,
+            "NoteNumber": 2,
+            "Velocity": 3,
+            "PreviousState": 5,
+            "State": 6,
+            "Amp": 7
+        },
+        "NoteMemberCount": 8
+    },
+    "uiTypes": [
+        {
+            "type": "polyphony-control-b-module",
+            "extends": "module",
+            "height": 250,
+            "row-label-width": "60%",
+            "row-value-width": "40%",
+            "children": [
+                {
+                    "type": "module-main-label-and-enabled-checkbox",
+                    "value-default": "(tryInherit('value-default') ?? false)"
+                },
+                {
+                    "type": "module-row-group",
+                    "background": "(Constants.Module.Color.BlueGroup)",
+                    "row-count": 5,
+                    "children": [
+                        {
+                            "label": "Soft max",
+                            "type": "module-number-box-slider",
+                            "value-channel": "SoftMax",
+                            "value-range": { "min": 1, "max": 100, "value": 100, "step": 1 }
+                        },
+                        {
+                            "label": "Hard max",
+                            "type": "module-number-box-slider",
+                            "value-channel": "HardMax",
+                            "value-range": { "min": 1, "max": 100, "value": 100, "step": 1 }
+                        },
+                        {
+                            "label": "Fade time",
+                            "type": "module-number-box-slider",
+                            "value-channel": "SoftOffFadeTime",
+                            "value-range": { "min": 0, "max": 10, "value": 0.5, "step": 0.1 }
+                        },
+                        {
+                            "label": "Keep high",
+                            "type": "module-checkbox",
+                            "value-channel": "KeepHighNote",
+                            "value-default": true
+                        },
+                        {
+                            "label": "Keep low",
+                            "type": "module-checkbox",
+                            "value-channel": "KeepLowNote",
+                            "value-default": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
