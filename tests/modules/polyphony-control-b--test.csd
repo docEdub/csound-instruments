@@ -56,7 +56,6 @@ instr 2
     ; xtratim(1)
 
     k_state = AF_Module_PolyphonyControl_B("Module")
-    ; k_state = {{eval "(Constants.PolyphonyControl_B.State.SoftOff)"}}
 
     S_channel init " "
     {{hostValueSet}}(sprintfk("Note.%d.state", i_noteId), k_state)
