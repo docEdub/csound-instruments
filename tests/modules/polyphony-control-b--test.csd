@@ -13,6 +13,8 @@ nchnls = 1
 
 
 {{DeclareTests_Start 'AF_Module_PolyphonyControl_B_Tests'}}
+    {{Test "GivenAllValuesAreSetToDefault_WhenNote1Starts_Note1StateShouldEqualOn"}}
+    {{Test "GivenAllValuesAreSetToDefault_WhenNote1Ends_Note1StateShouldEqualOff"}}
     {{Test "GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn"}}
     {{Test "GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualSoftOff"}}
 {{DeclareTests_End}}
@@ -59,6 +61,48 @@ instr 2
 
     S_channel init " "
     {{hostValueSet}}(sprintfk("Note.%d.state", i_noteId), k_state)
+endin
+
+
+instr GivenAllValuesAreSetToDefault_WhenNote1Starts_Note1StateShouldEqualOn
+    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
+
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        midiTesting_noteOn(1, 1, 127)
+    endif
+
+    if (ki == 2) then
+        {{CHECK_EQUAL_k '{+{PolyphonyControl_B.State.On}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
+    endif
+
+    if (ki == 3) then
+        midiTesting_noteOff(1, 1)
+        turnoff()
+    endif
+endin
+
+
+instr GivenAllValuesAreSetToDefault_WhenNote1Ends_Note1StateShouldEqualOff
+    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
+
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        midiTesting_noteOn(1, 1, 127)
+    endif
+
+    if (ki == 2) then
+        midiTesting_noteOff(1, 1)
+    endif
+
+    if (ki == 3) then
+        {{CHECK_EQUAL_k '{+{PolyphonyControl_B.State.Off}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
+        turnoff()
+    endif
 endin
 
 
