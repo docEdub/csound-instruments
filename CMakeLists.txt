@@ -6,7 +6,7 @@ include(FetchContent)
 FetchContent_Declare(
     CsoundTemplating
     GIT_REPOSITORY git@github.com:docEdub/CsoundTemplating.git
-    GIT_TAG 060cca48716b7be5af9ce04120c3ffe3860322a4
+    GIT_TAG 6031e1257f827d0bb579faea87d9e705db27f597
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 
@@ -65,8 +65,8 @@ macro(add_module_test NAME)
         OPCODES
             "modules/${NAME}.orc"
         JSON
-            "config-test.json"
             "modules/${NAME}.json"
+            "test-config.json"
         EFFECT_SOURCES
             "tests/modules/${NAME}--test.csd"
         NO_CABBAGE_PLUGIN

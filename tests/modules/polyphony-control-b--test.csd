@@ -12,18 +12,24 @@ ksmps = {{ksmps}}
 nchnls = 1
 
 
-{{DeclareTests_Start}}
-    {{Test "Note1ShouldEnterSoftOffStateWhenSoftMaxIs1AndNote2Starts"}}
+{{DeclareTests_Start 'AF_Module_PolyphonyControl_B_Tests'}}
+    {{Test "GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualSoftOff"}}
 {{DeclareTests_End}}
 
 
 {{CsInstruments}}
 
-{{InitializeModule "AF_Module_PolyphonyControl_B" "PolyphonyControl_Test"}}
+{{InitializeModule "AF_Module_PolyphonyControl_B" "Module"}}
 
 
 instr Reset
     {{LogTrace_i '("Reset ...")'}}
+
+    {{hostValueSet}}("Module::SoftMax",         {{PolyphonyControl_B.ChannelDefault.SoftMax}})
+    {{hostValueSet}}("Module::HardMax",         {{PolyphonyControl_B.ChannelDefault.HardMax}})
+    {{hostValueSet}}("Module::SoftOffFadeTime", {{PolyphonyControl_B.ChannelDefault.SoftOffFadeTime}})
+    {{hostValueSet}}("Module::KeepHighNote",    {{PolyphonyControl_B.ChannelDefault.KeepHighNote}})
+    {{hostValueSet}}("Module::KeepLowNote",     {{PolyphonyControl_B.ChannelDefault.KeepLowNote}})
 
     gi_noteId init 0
 
@@ -39,7 +45,7 @@ instr 2
     gi_noteId += 1
     i_noteId = gi_noteId
 
-    k_state = AF_Module_PolyphonyControl_B("PolyphonyControl_Test")
+    k_state = AF_Module_PolyphonyControl_B("Module")
     ; k_state = {{eval "(Constants.PolyphonyControl_B.State.SoftOff)"}}
 
     S_channel init " "
@@ -49,25 +55,26 @@ instr 2
 endin
 
 
-instr Note1ShouldEnterSoftOffStateWhenSoftMaxIs1AndNote2Starts
+instr GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualSoftOff
     {{LogTrace_i '("%s ...", nstrstr(p1))'}}
-
-    i_testIndex = p4
-    {{hostValueSet}}("PolyphonyControl_Test::SoftMax", 1)
 
     ki init 0
     ki += 1
 
     if (ki == 1) then
+        {{hostValueSet}}("Module::SoftMax", 1)
         midiTesting_noteOn(1, 1, 127)
-        midiTesting_noteOn(1, 2, 127)
     endif
 
     if (ki == 2) then
-        {{CHECK_EQUAL_k '{+{eval "(Constants.PolyphonyControl_B.State.SoftOff)"}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
+        midiTesting_noteOn(1, 2, 127)
     endif
 
     if (ki == 3) then
+        {{CHECK_EQUAL_k '{+{PolyphonyControl_B.State.SoftOff}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
+    endif
+
+    if (ki == 4) then
         midiTesting_noteOff(1, 1)
         midiTesting_noteOff(1, 2)
         turnoff()

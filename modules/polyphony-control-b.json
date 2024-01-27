@@ -12,6 +12,13 @@
             "SoftCount": 8,
             "HardCount": 9
         },
+        "ChannelDefault": {
+            "SoftMax": 90,
+            "HardMax": 100,
+            "SoftOffFadeTime": 1,
+            "KeepHighNote": 1,
+            "KeepLowNote": 1
+        },
         "State": {
             "Initialized": 0,
             "On": 1,
@@ -63,31 +70,46 @@
                             "label": "Soft max",
                             "type": "module-number-box-slider",
                             "value-channel": "SoftMax",
-                            "value-range": { "min": 1, "max": 100, "value": 100, "step": 1 }
+                            "value-range": {
+                                "min": 1,
+                                "max": 100,
+                                "value": "(Constants.PolyphonyControl_B.ChannelDefault.SoftMax)",
+                                "step": 1
+                            }
                         },
                         {
                             "label": "Hard max",
                             "type": "module-number-box-slider",
                             "value-channel": "HardMax",
-                            "value-range": { "min": 1, "max": 100, "value": 100, "step": 1 }
+                            "value-range": {
+                                "min": 1,
+                                "max": 100,
+                                "value": "(Constants.PolyphonyControl_B.ChannelDefault.HardMax)",
+                                "step": 1
+                            }
                         },
                         {
                             "label": "Fade time",
                             "type": "module-number-box-slider",
                             "value-channel": "SoftOffFadeTime",
-                            "value-range": { "min": 0, "max": 10, "value": 0.5, "step": 0.1 }
+                            "value-range": {
+                                "min": 0,
+                                "max": 10,
+                                "value": "(Constants.PolyphonyControl_B.ChannelDefault.SoftOffFadeTime)",
+                                "step": 0.1
+                            }
                         },
                         {
                             "label": "Keep high",
                             "type": "module-checkbox",
                             "value-channel": "KeepHighNote",
-                            "value-default": true
+                            "value-default": "(Constants.PolyphonyControl_B.ChannelDefault[json['value-channel']])"
                         },
                         {
                             "label": "Keep low",
                             "type": "module-checkbox",
                             "value-channel": "KeepLowNote",
-                            "value-default": true
+                            "value-default": "(Constants.PolyphonyControl_B.ChannelDefault[json['value-channel']])"
                         }
                     ]
                 }

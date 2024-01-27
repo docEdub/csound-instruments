@@ -121,8 +121,8 @@
                                         "type": "module-group",
                                         "children": [
                                             {
-                                                "type": "polyphony-control-a-module",
-                                                "name": "Polyphony_1"
+                                                "type": "polyphony-control-b-module",
+                                                "name": "Polyphony_2"
                                             },
                                             {
                                                 "type": "volume-a-module",
