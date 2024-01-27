@@ -18,7 +18,8 @@
             "tests/modules",
             "CMakeLists.txt",
             "config-test.json",
-            "package.json"
+            "package.json",
+            "test-config.json"
         ]
     },
     "scripts": {
