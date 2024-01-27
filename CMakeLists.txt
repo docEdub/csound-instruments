@@ -6,7 +6,7 @@ include(FetchContent)
 FetchContent_Declare(
     CsoundTemplating
     GIT_REPOSITORY git@github.com:docEdub/CsoundTemplating.git
-    GIT_TAG e19932cf6f2a8b1d6a35453daa9f66d3d4b56736
+    GIT_TAG 060cca48716b7be5af9ce04120c3ffe3860322a4
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 
@@ -61,6 +61,7 @@ macro(add_module_test NAME)
             cabbage-core
             csound-core
             csound-module
+            csound-test
         OPCODES
             "modules/${NAME}.orc"
         JSON
