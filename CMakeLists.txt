@@ -71,6 +71,8 @@ macro(add_module_test NAME)
             "tests/modules/${NAME}--test.csd"
         NO_CABBAGE_PLUGIN
     )
+
+    add_test(NAME "${NAME}" COMMAND csound "${CMAKE_CURRENT_BINARY_DIR}/.output/tests/modules/${NAME}--test.csd")
 endmacro()
 
 macro(add_combo NAME)
@@ -88,6 +90,7 @@ add_combo("combo-a1")
 # add_instrument("synth-a1")
 # add_instrument("synth-a2")
 
+enable_testing()
 add_module_test("polyphony-control-b")
 
 generate_csound_templates()
