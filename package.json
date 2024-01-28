@@ -17,9 +17,7 @@
             "styles",
             "tests/modules",
             "CMakeLists.txt",
-            "config-test.json",
-            "package.json",
-            "test-config.json"
+            "package.json"
         ]
     },
     "scripts": {

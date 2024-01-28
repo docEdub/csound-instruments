@@ -7,6 +7,9 @@
 </CsOptions>
 <CsInstruments>
 
+ {{Enable-LogTrace false}}
+ {{Enable-LogDebug false}}
+
 sr = {{sr}}
 ksmps = {{ksmps}}
 nchnls = 1

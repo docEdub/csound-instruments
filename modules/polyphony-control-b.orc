@@ -6,6 +6,9 @@
 
 {{DeclareModule 'PolyphonyControl_B' '{ "hasAlwaysOnInstrument": "true", "hasCustomInitialization": "true" }'}}
 
+{{Enable-LogTrace false}}
+{{Enable-LogDebug false}}
+
 
 gk_AF_Module_{{ModuleName}}_Instance[][] init 1, {{PolyphonyControl_B.InstanceMemberCount}}
 gk_AF_Module_{{ModuleName}}_Note[][][] init 1, {{PolyphonyControl_B.MaxNoteCount}}, {{PolyphonyControl_B.NoteMemberCount}}
@@ -28,7 +31,7 @@ opcode AF_Module_{{ModuleName}}_log_notes, 0, S
     while ($Note[{{PolyphonyControl_B.Note.Id}}] != -1) do
         k_id = $Note[{{PolyphonyControl_B.Note.Id}}]
         k_state = $Note[{{PolyphonyControl_B.Note.State}}]
-        ; {{LogDebug_k '("Note[%d]: id = %d, state = %d", k_noteIndex, k_id, k_state)'}}
+        {{LogDebug_k '("Note[%d]: id = %d, state = %d", k_noteIndex, k_id, k_state)'}}
         k_noteIndex += 1
     od
 endop
@@ -80,7 +83,7 @@ opcode _af_module_{{ModuleName}}_Note_initialize, k, i
         while ($Note[{{PolyphonyControl_B.Note.Id}}] != k_noteId) do
             k_noteIndex -= 1
             if (k_noteIndex < 0) then
-                ; {{LogError_k '("AF_Module_PolyphonyControl_B: note id %d not found", k_noteId)'}}
+                {{LogError_k '("AF_Module_PolyphonyControl_B: note id %d not found", k_noteId)'}}
                 kgoto end
             endif
         od
@@ -169,7 +172,7 @@ opcode _af_module_{{ModuleName}}_Note_enterState_off, 0, ikk
 
     if (k_currentState != {{PolyphonyControl_B.State.Off}}) then
         // Init.
-        ; {{LogTrace_k '("enterState_off(k_noteIndex = %d)", k_noteIndex)'}}
+        {{LogTrace_k '("enterState_off(k_noteIndex = %d)", k_noteIndex)'}}
         $Instance[{{PolyphonyControl_B.Instance.RemoveFinishedNotes}}] = {{true}}
     endif
 endop
@@ -221,19 +224,19 @@ opcode AF_Module_{{ModuleName}}, k, S
     if (k_noteState == {{PolyphonyControl_B.State.Initialized}}) then
         $Note[{{PolyphonyControl_B.Note.State}}] = {{PolyphonyControl_B.State.On}}
         k_id = $Note[{{PolyphonyControl_B.Note.Id}}]
-        ; {{LogTrace_k '("Note[%d]: id = %d >> on", k_noteIndex, k_id)'}}
+        {{LogTrace_k '("Note[%d]: id = %d >> on", k_noteIndex, k_id)'}}
     endif
 
     if (lastcycle() == {{true}}) then
         $Note[{{PolyphonyControl_B.Note.State}}] = {{PolyphonyControl_B.State.Off}}
         k_id = $Note[{{PolyphonyControl_B.Note.Id}}]
-        ; {{LogTrace_k '("Note[%d]: id = %d >> off", k_noteIndex, k_id)'}}
+        {{LogTrace_k '("Note[%d]: id = %d >> off", k_noteIndex, k_id)'}}
     endif
 
     $Note_updateState(k_noteState)
     k_noteState = $Note[{{PolyphonyControl_B.Note.State}}]
 end:
-    ; {{LogDebug_k '("Note[%d]: id = %d, k_noteState = %d", k_noteIndex, k_noteId, k_noteState)'}}
+    {{LogDebug_k '("Note[%d]: id = %d, k_noteState = %d", k_noteIndex, k_noteId, k_noteState)'}}
     xout(k_noteState)
 endop
 
@@ -250,7 +253,7 @@ instr AF_Module_{{ModuleName}}_alwayson
     S_channelPrefix = p4
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
-    ; {{LogTrace_i '("AF_Module_PolyphonyControl_B_alwayson: i_instanceIndex = %d", i_instanceIndex)'}}
+    {{LogTrace_i '("AF_Module_PolyphonyControl_B_alwayson: i_instanceIndex = %d", i_instanceIndex)'}}
 
     $Instance[{{PolyphonyControl_B.Instance.KeepHighNote}}] = {{moduleGet:k 'KeepHighNote'}}
     $Instance[{{PolyphonyControl_B.Instance.KeepLowNote}}]  = {{moduleGet:k 'KeepLowNote'}}
@@ -258,12 +261,12 @@ instr AF_Module_{{ModuleName}}_alwayson
     if ($Instance[{{PolyphonyControl_B.Instance.RemoveFinishedNotes}}] == {{true}}) then
         $Instance[{{PolyphonyControl_B.Instance.RemoveFinishedNotes}}] = {{false}}
 
-        ; {{LogDebug_k '("Before removing finished notes ...")'}}
+        {{LogDebug_k '("Before removing finished notes ...")'}}
         k_noteIndex = 0
         while ($Note[{{PolyphonyControl_B.Note.Id}}] != -1) do
             k_id = $Note[{{PolyphonyControl_B.Note.Id}}]
             k_state = $Note[{{PolyphonyControl_B.Note.State}}]
-            ; {{LogDebug_k '("    Note[%d]: id = %d, state = %d", k_noteIndex, k_id, k_state)'}}
+            {{LogDebug_k '("    Note[%d]: id = %d, state = %d", k_noteIndex, k_id, k_state)'}}
             k_noteIndex += 1
         od
 
@@ -292,12 +295,12 @@ instr AF_Module_{{ModuleName}}_alwayson
 
         $Instance[{{PolyphonyControl_B.Instance.NoteCount}}] = k_activeNoteIndex
 
-        ; {{LogDebug_k '("After removing finished notes ...")'}}
+        {{LogDebug_k '("After removing finished notes ...")'}}
         k_noteIndex = 0
         while ($Note[{{PolyphonyControl_B.Note.Id}}] != -1) do
             k_id = $Note[{{PolyphonyControl_B.Note.Id}}]
             k_state = $Note[{{PolyphonyControl_B.Note.State}}]
-            ; {{LogDebug_k '("    Note[%d]: id = %d, state = %d", k_noteIndex, k_id, k_state)'}}
+            {{LogDebug_k '("    Note[%d]: id = %d, state = %d", k_noteIndex, k_id, k_state)'}}
             k_noteIndex += 1
         od
     endif
@@ -308,7 +311,7 @@ instr AF_Module_{{ModuleName}}_customInit
     S_channelPrefix = p4
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
-    ; {{LogTrace_i '("AF_Module_PolyphonyControl_B_customInit: i_instanceIndex = %d", i_instanceIndex)'}}
+    {{LogTrace_i '("AF_Module_PolyphonyControl_B_customInit: i_instanceIndex = %d", i_instanceIndex)'}}
 
     i_arrayLength = 1
 
@@ -329,7 +332,7 @@ instr AF_Module_{{ModuleName}}_customInit
     od
 
     turnoff()
-    ; {{LogTrace_i '("AF_Module_PolyphonyControl_B_customInit: global array lengths = %d", lenarray(gk_AF_Module_PolyphonyControl_B_Instance_data, 0))'}}
+    {{LogTrace_i '("AF_Module_PolyphonyControl_B_customInit: global array lengths = %d", lenarray(gk_AF_Module_PolyphonyControl_B_Instance, 0))'}}
 endin
 
 
