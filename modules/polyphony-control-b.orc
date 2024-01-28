@@ -29,9 +29,7 @@ opcode AF_Module_{{ModuleName}}_log_notes, 0, S
 
     k_noteIndex = 0
     while ($Note[{{PolyphonyControl_B.Note.Id}}] != -1) do
-        k_id = $Note[{{PolyphonyControl_B.Note.Id}}]
-        k_state = $Note[{{PolyphonyControl_B.Note.State}}]
-        {{LogDebug_k '("Note[%d]: id = %d, state = %d", k_noteIndex, k_id, k_state)'}}
+        {{LogDebug_k '("Note[%d]: id = %d, state = %d", k_noteIndex, $Note[{+{PolyphonyControl_B.Note.Id}+}], $Note[{+{PolyphonyControl_B.Note.State}+}])'}}
         k_noteIndex += 1
     od
 endop
@@ -218,25 +216,22 @@ opcode AF_Module_{{ModuleName}}, k, S
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
     k_noteIndex = $Note_initialize()
-    k_noteId = $Note[{{PolyphonyControl_B.Note.Id}}]
     k_noteState init {{PolyphonyControl_B.State.Initialized}}
 
     if (k_noteState == {{PolyphonyControl_B.State.Initialized}}) then
         $Note[{{PolyphonyControl_B.Note.State}}] = {{PolyphonyControl_B.State.On}}
-        k_id = $Note[{{PolyphonyControl_B.Note.Id}}]
-        {{LogTrace_k '("Note[%d]: id = %d >> on", k_noteIndex, k_id)'}}
+        {{LogTrace_k '("Note[%d]: id = %d >> on", k_noteIndex, $Note[{+{PolyphonyControl_B.Note.Id}+}])'}}
     endif
 
     if (lastcycle() == {{true}}) then
         $Note[{{PolyphonyControl_B.Note.State}}] = {{PolyphonyControl_B.State.Off}}
-        k_id = $Note[{{PolyphonyControl_B.Note.Id}}]
-        {{LogTrace_k '("Note[%d]: id = %d >> off", k_noteIndex, k_id)'}}
+        {{LogTrace_k '("Note[%d]: id = %d >> off", k_noteIndex, $Note[{+{PolyphonyControl_B.Note.Id}+}])'}}
     endif
 
     $Note_updateState(k_noteState)
     k_noteState = $Note[{{PolyphonyControl_B.Note.State}}]
 end:
-    {{LogDebug_k '("Note[%d]: id = %d, k_noteState = %d", k_noteIndex, k_noteId, k_noteState)'}}
+    {{LogDebug_k '("Note[%d]: id = %d, k_noteState = %d", k_noteIndex, $Note[{+{PolyphonyControl_B.Note.Id}+}], k_noteState)'}}
     xout(k_noteState)
 endop
 
@@ -264,9 +259,7 @@ instr AF_Module_{{ModuleName}}_alwayson
         {{LogDebug_k '("Before removing finished notes ...")'}}
         k_noteIndex = 0
         while ($Note[{{PolyphonyControl_B.Note.Id}}] != -1) do
-            k_id = $Note[{{PolyphonyControl_B.Note.Id}}]
-            k_state = $Note[{{PolyphonyControl_B.Note.State}}]
-            {{LogDebug_k '("    Note[%d]: id = %d, state = %d", k_noteIndex, k_id, k_state)'}}
+            {{LogDebug_k '("    Note[%d]: id = %d, state = %d", k_noteIndex, $Note[{+{PolyphonyControl_B.Note.Id}+}], $Note[{+{PolyphonyControl_B.Note.State}+}])'}}
             k_noteIndex += 1
         od
 
@@ -298,9 +291,7 @@ instr AF_Module_{{ModuleName}}_alwayson
         {{LogDebug_k '("After removing finished notes ...")'}}
         k_noteIndex = 0
         while ($Note[{{PolyphonyControl_B.Note.Id}}] != -1) do
-            k_id = $Note[{{PolyphonyControl_B.Note.Id}}]
-            k_state = $Note[{{PolyphonyControl_B.Note.State}}]
-            {{LogDebug_k '("    Note[%d]: id = %d, state = %d", k_noteIndex, k_id, k_state)'}}
+            {{LogDebug_k '("    Note[%d]: id = %d, state = %d", k_noteIndex, $Note[{+{PolyphonyControl_B.Note.Id}+}], $Note[{+{PolyphonyControl_B.Note.State}+}])'}}
             k_noteIndex += 1
         od
     endif
