@@ -209,6 +209,9 @@ opcode _af_module_{{ModuleName}}_Note_updateState, 0, ikk
 endop
 
 
+/// Main module opcode.
+/// @return k variable indicating the current polyphony state of the note.
+///
 /// NB: This needs to be called after any relevant envelopes with extended release segments are initialized.
 ///
 opcode AF_Module_{{ModuleName}}, k, S
