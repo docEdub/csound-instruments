@@ -30,20 +30,20 @@
         "Instance": {
             "NextNoteId": 0,
             "NoteCount": 1,
-            "KeepHighNote": 2,
-            "KeepLowNote": 3,
-            "HighNote": 4,
-            "LowNote": 5,
-            "HardOffActiveNoteCount": 6,
-            "SoftOffActiveNoteCount": 7
+            "RemoveFinishedNotes": 2,
+            "KeepHighNote": 3,
+            "KeepLowNote": 4,
+            "HighNote": 5,
+            "LowNote": 6,
+            "HardOffActiveNoteCount": 7,
+            "SoftOffActiveNoteCount": 8
         },
-        "InstanceMemberCount": 8,
+        "InstanceMemberCount": 9,
         "Note": {
             "Id": 0,
             "Duration": 1,
             "NoteNumber": 2,
             "Velocity": 3,
-            "PreviousState": 5,
             "State": 6,
             "Amp": 7
         },
