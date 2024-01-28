@@ -10,16 +10,16 @@
 /// @param 1 Channel prefix used for host automation parameters.
 /// @out k-rate amp output.
 ///
-opcode AF_Module_{{ModuleName}}, k, S
+opcode {{Module_public}}, k, S
     S_channelPrefix xin
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
-    if ({{moduleGet:k 'Enabled'}} == {{false}}) then
+    if ({{moduleGet:k 'Enabled'}} == $false) then
         k_out = 1
         kgoto end
     endif
 
-    if ({{moduleGet:k 'Mute'}} == {{true}}) then
+    if ({{moduleGet:k 'Mute'}} == $true) then
         k_out = 0
         kgoto end
     endif

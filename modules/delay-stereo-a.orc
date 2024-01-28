@@ -11,13 +11,13 @@
 /// @param 2 A-rate input signal.
 /// @out A-rate output signals.
 ///
-opcode AF_Module_{{ModuleName}}, aa, Sa
+opcode {{Module_public}}, aa, Sa
     S_channelPrefix, a_in xin
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
     i_maxDelayTimeMs = 5000
 
-    if ({{moduleGet:k 'Enabled'}} == {{false}}) then
+    if ({{moduleGet:k 'Enabled'}} == $false) then
         a_out_l = a_in
         a_out_r = a_in
         kgoto end

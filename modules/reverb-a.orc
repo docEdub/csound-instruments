@@ -12,11 +12,11 @@
 /// @param 2 A-rate input right signal.
 /// @out A-rate output signals.
 ///
-opcode AF_Module_{{ModuleName}}, aa, Saa
+opcode {{Module_public}}, aa, Saa
     S_channelPrefix, a_in_l, a_in_r xin
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
-    if ({{moduleGet:k 'Enabled'}} == {{false}}) then
+    if ({{moduleGet:k 'Enabled'}} == $false) then
         a_out_l = a_in_l
         a_out_r = a_in_r
         kgoto end

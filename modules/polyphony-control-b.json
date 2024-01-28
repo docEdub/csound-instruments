@@ -16,8 +16,8 @@
             "SoftMax": 90,
             "HardMax": 100,
             "SoftOffFadeTime": 1,
-            "KeepHighNote": 1,
-            "KeepLowNote": 1
+            "KeepHighNote": 0,
+            "KeepLowNote": 0
         },
         "State": {
             "Initialized": 0,
@@ -28,26 +28,35 @@
             "Off": 5
         },
         "Instance": {
-            "NextNoteId": 0,
-            "NoteCount": 1,
-            "RemoveFinishedNotes": 2,
-            "KeepHighNote": 3,
-            "KeepLowNote": 4,
-            "HighNote": 5,
-            "LowNote": 6,
-            "HardOffActiveNoteCount": 7,
-            "SoftOffActiveNoteCount": 8
+            "Enabled": 0,
+            "SoftMax": 1,
+            "HardMax": 2,
+            "SoftOffFadeTime": 3,
+            "SoftOnFadeTime": 4,
+            "KeepHighNote": 5,
+            "KeepLowNote": 6,
+            "NextNoteId": 7,
+            "NoteCount": 8,
+            "UpdateSoftNotes": 9,
+            "UpdateHardNotes": 10,
+            "RemoveFinishedNotes": 11,
+            "HighNoteNumber": 12,
+            "LowNoteNumber": 13,
+            "HardOffActiveNoteCount": 14,
+            "SoftOffActiveNoteCount": 15
         },
-        "InstanceMemberCount": 9,
+        "InstanceMemberCount": 16,
         "Note": {
             "Id": 0,
             "Duration": 1,
             "NoteNumber": 2,
             "Velocity": 3,
             "State": 6,
-            "Amp": 7
+            "Amp": 7,
+            "SoftOffActivated": 8,
+            "HardOffActivated": 9
         },
-        "NoteMemberCount": 8
+        "NoteMemberCount": 10
     },
     "uiTypes": [
         {

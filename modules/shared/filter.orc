@@ -3,7 +3,7 @@
 {{include "csound-module/opcodes/moduleGet.orc"}}
 
 /// @internal
-opcode _af_filter_frequency, k, S[][][]ii[]
+opcode _af_shared_filter_frequency, k, S[][][]ii[]
     S_channels[][][], i_instanceIndex, i_channelIndexes[] xin
 
     i_lagTime = kr / sr

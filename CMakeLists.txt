@@ -6,7 +6,7 @@ include(FetchContent)
 FetchContent_Declare(
     CsoundTemplating
     GIT_REPOSITORY git@github.com:docEdub/CsoundTemplating.git
-    GIT_TAG 71245a5794ec4a5374edd3501786c275556afd64
+    GIT_TAG 3ab02291ea6a00f4ea949e3f7713007886a8cdf3
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 
@@ -27,7 +27,6 @@ macro(add_plugin NAME TYPE)
             "modules/filter-a.orc"
             "modules/filter-b.orc"
             "modules/lfo-a.orc"
-            "modules/polyphony-control-a.orc"
             "modules/polyphony-control-b.orc"
             "modules/reverb-a.orc"
             "modules/source-a.orc"
@@ -40,7 +39,6 @@ macro(add_plugin NAME TYPE)
             "modules/filter-a.json"
             "modules/filter-b.json"
             "modules/lfo-a.json"
-            "modules/polyphony-control-a.json"
             "modules/polyphony-control-b.json"
             "modules/reverb-a.json"
             "modules/source-a.json"

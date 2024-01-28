@@ -2,20 +2,22 @@
 <CsOptions>
 {{CsOptions}}
 {{HostOptions}}
---messagelevel=0
+; --messagelevel=0
  -+msg_color=false
 </CsOptions>
 <CsInstruments>
 
- {{Enable-LogTrace false}}
- {{Enable-LogDebug false}}
+{{#with PolyphonyControl_B}}
+
+{{Enable-LogTrace false}}
+{{Enable-LogDebug false}}
 
 sr = {{sr}}
 ksmps = {{ksmps}}
 nchnls = 1
 
 
-{{DeclareTests_Start 'AF_Module_PolyphonyControl_B_Tests'}}
+{{DeclareTests_Start 'PolyphonyControl_B'}}
     {{Test "GivenAllValuesAreSetToDefault_WhenNote1Starts_Note1StateShouldEqualOn"}}
     {{Test "GivenAllValuesAreSetToDefault_WhenNote1Ends_Note1StateShouldEqualOff"}}
     {{Test "GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn"}}
@@ -25,7 +27,7 @@ nchnls = 1
 
 {{CsInstruments}}
 
-{{InitializeModule "AF_Module_PolyphonyControl_B" "Module"}}
+{{InitializeModule "PolyphonyControl_B" "Module"}}
 
 
 instr Reset
@@ -36,11 +38,11 @@ instr Reset
         kgoto end
     endif
 
-    {{hostValueSet}}("Module::SoftMax",         {{PolyphonyControl_B.ChannelDefault.SoftMax}})
-    {{hostValueSet}}("Module::HardMax",         {{PolyphonyControl_B.ChannelDefault.HardMax}})
-    {{hostValueSet}}("Module::SoftOffFadeTime", {{PolyphonyControl_B.ChannelDefault.SoftOffFadeTime}})
-    {{hostValueSet}}("Module::KeepHighNote",    {{PolyphonyControl_B.ChannelDefault.KeepHighNote}})
-    {{hostValueSet}}("Module::KeepLowNote",     {{PolyphonyControl_B.ChannelDefault.KeepLowNote}})
+    {{hostValueSet}}("Module::SoftMax",         {{ChannelDefault.SoftMax}})
+    {{hostValueSet}}("Module::HardMax",         {{ChannelDefault.HardMax}})
+    {{hostValueSet}}("Module::SoftOffFadeTime", {{ChannelDefault.SoftOffFadeTime}})
+    {{hostValueSet}}("Module::KeepHighNote",    {{ChannelDefault.KeepHighNote}})
+    {{hostValueSet}}("Module::KeepLowNote",     {{ChannelDefault.KeepLowNote}})
 
     gi_noteId init 0
 
@@ -76,7 +78,7 @@ instr GivenAllValuesAreSetToDefault_WhenNote1Starts_Note1StateShouldEqualOn
     if (ki == 1) then
         midiTesting_noteOn(1, 1, 127)
     elseif (ki == 2) then
-        {{CHECK_EQUAL_k '{+{PolyphonyControl_B.State.On}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
+        {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
     elseif (ki == 3) then
         midiTesting_noteOff(1, 1)
         turnoff()
@@ -95,7 +97,7 @@ instr GivenAllValuesAreSetToDefault_WhenNote1Ends_Note1StateShouldEqualOff
     elseif (ki == 2) then
         midiTesting_noteOff(1, 1)
     elseif (ki == 3) then
-        {{CHECK_EQUAL_k '{+{PolyphonyControl_B.State.Off}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
+        {{CHECK_EQUAL_k '{+{State.Off}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
         turnoff()
     endif
 endin
@@ -113,7 +115,7 @@ instr GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn
     elseif (ki == 2) then
         midiTesting_noteOn(1, 2, 127)
     elseif (ki == 3) then
-        {{CHECK_EQUAL_k '{+{PolyphonyControl_B.State.On}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
+        {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
     elseif (ki == 4) then
         midiTesting_noteOff(1, 1)
         midiTesting_noteOff(1, 2)
@@ -133,15 +135,16 @@ instr GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualSoft
         midiTesting_noteOn(1, 1, 127)
     elseif (ki == 2) then
         midiTesting_noteOn(1, 2, 127)
-    elseif (ki == 3) then
-        {{CHECK_EQUAL_k '{+{PolyphonyControl_B.State.SoftOff}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
     elseif (ki == 4) then
+        {{CHECK_EQUAL_k '{+{State.SoftOff}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
+    elseif (ki == 5) then
         midiTesting_noteOff(1, 1)
         midiTesting_noteOff(1, 2)
         turnoff()
     endif
 endin
 
+{{/with}}
 
 </CsInstruments>
 <CsScore>

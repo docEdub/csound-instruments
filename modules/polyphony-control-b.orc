@@ -6,79 +6,106 @@
 
 {{DeclareModule 'PolyphonyControl_B' '{ "hasAlwaysOnInstrument": "true", "hasCustomInitialization": "true" }'}}
 
-{{Enable-LogTrace false}}
-{{Enable-LogDebug false}}
+{{#with PolyphonyControl_B}}
+
+{{Enable-LogTrace true}}
+{{Enable-LogDebug true}}
 
 
-gk_AF_Module_{{ModuleName}}_Instance[][] init 1, {{PolyphonyControl_B.InstanceMemberCount}}
-gk_AF_Module_{{ModuleName}}_Note[][][] init 1, {{PolyphonyControl_B.MaxNoteCount}}, {{PolyphonyControl_B.NoteMemberCount}}
+gk_{{Module_private}}_Instance[][] init 1, {{InstanceMemberCount}}
+gk_{{Module_private}}_Note[][][] init 1, {{MaxNoteCount}}, {{NoteMemberCount}}
 
 
-#define Instance # gk_AF_Module_{{ModuleName}}_Instance[i_instanceIndex] #
-#define Instance_getNextNoteId() # _af_module_{{ModuleName}}_Instance_getNextNoteId(i_instanceIndex) #
-#define Instance_getNextNoteIndex() # _af_module_{{ModuleName}}_Instance_getNextNoteIndex(i_instanceIndex) #
+#define Instance                                # gk_{{Module_private}}_Instance[i_instanceIndex] #
+#define Note                                    # gk_{{Module_private}}_Note[i_instanceIndex][k_noteIndex] #
 
-#define Note # gk_AF_Module_{{ModuleName}}_Note[i_instanceIndex][k_noteIndex] #
-#define Note_initialize() # _af_module_{{ModuleName}}_Note_initialize(i_instanceIndex) #
-#define Note_updateState(k_noteState) # _af_module_{{ModuleName}}_Note_updateState(i_instanceIndex, k_noteIndex, k_noteState) #
+#define Instance_getNextNoteId()                # {{Module_private}}_Instance_getNextNoteId(i_instanceIndex) #
+#define Instance_getNextNoteIndex()             # {{Module_private}}_Instance_getNextNoteIndex(i_instanceIndex) #
+#define Instance_updateHighAndLowNoteNumbers()  # {{Module_private}}_Instance_updateHighAndLowNoteNumbers(i_instanceIndex) #
+
+#define Note_initialize()                       # {{Module_private}}_Note_initialize(i_instanceIndex) #
+#define Note_updateState(k_noteState)           # {{Module_private}}_Note_updateState(i_instanceIndex, k_noteIndex, k_noteState) #
 
 
-opcode AF_Module_{{ModuleName}}_log_notes, 0, S
+opcode {{Module_public}}_log_notes, 0, S
     S_channelPrefix xin
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
     k_noteIndex = 0
-    while ($Note[{{PolyphonyControl_B.Note.Id}}] != -1) do
-        {{LogDebug_k '("Note[%d]: id = %d, state = %d", k_noteIndex, $Note[{+{PolyphonyControl_B.Note.Id}+}], $Note[{+{PolyphonyControl_B.Note.State}+}])'}}
+    while ($Note[{{Note.Id}}] != -1) do
+        {{LogDebug_k '("Note[%d]: id = %d, state = %d", k_noteIndex, $Note[{+{Note.Id}+}], $Note[{+{Note.State}+}])'}}
         k_noteIndex += 1
     od
 endop
 
 
-opcode _af_module_{{ModuleName}}_Instance_getNextNoteId, k, i
+opcode {{Module_private}}_Instance_getNextNoteId, k, i
     i_instanceIndex xin
 
-    k_noteId = $Instance[{{PolyphonyControl_B.Instance.NextNoteId}}]
-    $Instance[{{PolyphonyControl_B.Instance.NextNoteId}}] = k_noteId + 1
+    k_noteId = $Instance[{{Instance.NextNoteId}}]
+    $Instance[{{Instance.NextNoteId}}] = k_noteId + 1
 
     xout(k_noteId)
 endop
 
 
-opcode _af_module_{{ModuleName}}_Instance_getNextNoteIndex, k, i
+opcode {{Module_private}}_Instance_getNextNoteIndex, k, i
     i_instanceIndex xin
     k_noteIndex init -1
 
-    k_noteIndex = $Instance[{{PolyphonyControl_B.Instance.NoteCount}}]
-    $Instance[{{PolyphonyControl_B.Instance.NoteCount}}] = k_noteIndex + 1
+    k_noteIndex = $Instance[{{Instance.NoteCount}}]
+    $Instance[{{Instance.NoteCount}}] = k_noteIndex + 1
 
     xout(k_noteIndex)
 endop
 
 
-opcode _af_module_{{ModuleName}}_Note_initialize, k, i
+opcode {{Module_private}}_Instance_updateHighAndLowNoteNumbers, 0, i
+    i_instanceIndex xin
+
+    k_highNoteNumber = -1
+    k_lowNoteNumber = 129
+
+    k_noteIndex = 0
+    while ($Note[{{Note.Id}}] != -1) do
+        k_noteNumber = $Note[{{Note.NoteNumber}}]
+        k_highNoteNumber = max(k_highNoteNumber, k_noteNumber)
+        k_lowNoteNumber = min(k_lowNoteNumber, k_noteNumber)
+        k_noteIndex += 1
+    od
+
+    $Instance[{{Instance.HighNoteNumber}}] = k_highNoteNumber
+    $Instance[{{Instance.LowNoteNumber}}] = k_lowNoteNumber
+endop
+
+
+opcode {{Module_private}}_Note_initialize, k, i
     i_instanceIndex xin
 
     k_noteId init -1
     k_noteIndex init -1
 
-    $Note[{{PolyphonyControl_B.Note.Duration}}] = timeinsts()
+    $Note[{{Note.Duration}}] = timeinsts()
 
-    k_initialized init {{false}}
-    if (k_initialized == {{false}}) then
-        k_initialized = {{true}}
+    k_initialized init $false
+    if (k_initialized == $false) then
+        k_initialized = $true
+
+        $Instance[{{Instance.SoftMax}}]      = {{moduleGet:k 'SoftMax'}}
+        $Instance[{{Instance.KeepHighNote}}] = {{moduleGet:k 'KeepHighNote'}}
+        $Instance[{{Instance.KeepLowNote}}]  = {{moduleGet:k 'KeepLowNote'}}
 
         k_noteId = $Instance_getNextNoteId()
         k_noteIndex = $Instance_getNextNoteIndex()
 
-        $Note[{{PolyphonyControl_B.Note.Id}}] = k_noteId
-        $Note[{{PolyphonyControl_B.Note.NoteNumber}}] = notnum()
-        $Note[{{PolyphonyControl_B.Note.Velocity}}] = veloc()
-        $Note[{{PolyphonyControl_B.Note.State}}] = {{PolyphonyControl_B.State.Initialized}}
-        $Note[{{PolyphonyControl_B.Note.Amp}}] = 1
+        $Note[{{Note.Id}}] = k_noteId
+        $Note[{{Note.NoteNumber}}] = notnum()
+        $Note[{{Note.Velocity}}] = veloc()
+        $Note[{{Note.State}}] = {{State.Initialized}}
+        $Note[{{Note.Amp}}] = 1
     else
         // If the note got moved down in the note array, update its index.
-        while ($Note[{{PolyphonyControl_B.Note.Id}}] != k_noteId) do
+        while ($Note[{{Note.Id}}] != k_noteId) do
             k_noteIndex -= 1
             if (k_noteIndex < 0) then
                 {{LogError_k '("AF_Module_PolyphonyControl_B: note id %d not found", k_noteId)'}}
@@ -92,119 +119,125 @@ end:
 endop
 
 
-opcode _af_module_{{ModuleName}}_Note_exitState_on, 0, ik
+opcode {{Module_private}}_Note_exitState_on, 0, ik
     i_instanceIndex, k_noteIndex xin
 endop
 
 
-opcode _af_module_{{ModuleName}}_Note_enterState_on, 0, ikk
+opcode {{Module_private}}_Note_enterState_on, 0, ikk
     i_instanceIndex, k_noteIndex, k_currentState xin
 
-    if (k_currentState != {{PolyphonyControl_B.State.On}}) then
+    if (k_currentState != {{State.On}}) then
         // Init.
+        $IncrementArrayItem($Instance[{{Instance.SoftOffActiveNoteCount}}])
+        $Instance[{{Instance.UpdateSoftNotes}}] = $true
     endif
 endop
 
 
-opcode _af_module_{{ModuleName}}_Note_exitState_softOn, 0, ik
+opcode {{Module_private}}_Note_exitState_softOn, 0, ik
     i_instanceIndex, k_noteIndex xin
 endop
 
 
-opcode _af_module_{{ModuleName}}_Note_enterState_softOn, 0, ikk
+opcode {{Module_private}}_Note_enterState_softOn, 0, ikk
     i_instanceIndex, k_noteIndex, k_currentState xin
 
     k_amp init 0
     k_ampDelta init 0
 
-    if (k_currentState != {{PolyphonyControl_B.State.SoftOn}}) then
+    if (k_currentState != {{State.SoftOn}}) then
         // Init.
-        k_amp = $Note[{{PolyphonyControl_B.Note.Amp}}]
+        $DecrementArrayItem($Instance[{{Instance.SoftOffActiveNoteCount}}])
+        k_amp = $Note[{{Note.Amp}}]
         k_ampDelta = (k(1) - k_amp) / (kr * {{moduleGet:k 'SoftOnFadeTime'}})
     else
         k_amp += k_ampDelta
         if (k_amp >= 1) then
             k_amp = 1
-            $Note[{{PolyphonyControl_B.Note.State}}] = {{PolyphonyControl_B.State.On}}
+            $Note[{{Note.State}}] = {{State.On}}
         endif
-        $Note[{{PolyphonyControl_B.Note.Amp}}] = k_amp
+        $Note[{{Note.Amp}}] = k_amp
     endif
 endop
 
 
-opcode _af_module_{{ModuleName}}_Note_exitState_softOff, 0, ik
+opcode {{Module_private}}_Note_exitState_softOff, 0, ik
     i_instanceIndex, k_noteIndex xin
 endop
 
 
-opcode _af_module_{{ModuleName}}_Note_enterState_softOff, 0, ikk
+opcode {{Module_private}}_Note_enterState_softOff, 0, ikk
     i_instanceIndex, k_noteIndex, k_currentState xin
 
-    if (k_currentState != {{PolyphonyControl_B.State.SoftOff}}) then
+    if (k_currentState != {{State.SoftOff}}) then
         // Init.
     endif
 endop
 
 
-opcode _af_module_{{ModuleName}}_Note_exitState_hardOff, 0, ik
+opcode {{Module_private}}_Note_exitState_hardOff, 0, ik
     i_instanceIndex, k_noteIndex xin
 endop
 
 
-opcode _af_module_{{ModuleName}}_Note_enterState_hardOff, 0, ikk
+opcode {{Module_private}}_Note_enterState_hardOff, 0, ikk
     i_instanceIndex, k_noteIndex, k_currentState xin
 
-    if (k_currentState != {{PolyphonyControl_B.State.HardOff}}) then
+    if (k_currentState != {{State.HardOff}}) then
         // Init.
     endif
 endop
 
 
-opcode _af_module_{{ModuleName}}_Note_exitState_off, 0, ik
+opcode {{Module_private}}_Note_exitState_off, 0, ik
     i_instanceIndex, k_noteIndex xin
 endop
 
 
-opcode _af_module_{{ModuleName}}_Note_enterState_off, 0, ikk
+opcode {{Module_private}}_Note_enterState_off, 0, ikk
     i_instanceIndex, k_noteIndex, k_currentState xin
 
-    if (k_currentState != {{PolyphonyControl_B.State.Off}}) then
+    if (k_currentState != {{State.Off}}) then
         // Init.
         {{LogTrace_k '("enterState_off(k_noteIndex = %d)", k_noteIndex)'}}
-        $Instance[{{PolyphonyControl_B.Instance.RemoveFinishedNotes}}] = {{true}}
+        if ($Note[{{Note.SoftOffActivated}}] == $false) then
+            $DecrementArrayItem($Instance[{{Instance.SoftOffActiveNoteCount}}])
+        endif
+        $Instance[{{Instance.RemoveFinishedNotes}}] = $true
     endif
 endop
 
 
-opcode _af_module_{{ModuleName}}_Note_updateState, 0, ikk
+opcode {{Module_private}}_Note_updateState, 0, ikk
     i_instanceIndex, k_noteIndex, k_currentState xin
 
-    k_newState = $Note[{{PolyphonyControl_B.Note.State}}]
+    k_newState = $Note[{{Note.State}}]
 
     if (k_newState != k_currentState) then
-        if (k_currentState == {{PolyphonyControl_B.State.On}}) then
-            _af_module_{{ModuleName}}_Note_exitState_on(i_instanceIndex, k_noteIndex)
-        elseif (k_currentState == {{PolyphonyControl_B.State.SoftOn}}) then
-            _af_module_{{ModuleName}}_Note_exitState_softOn(i_instanceIndex, k_noteIndex)
-        elseif (k_currentState == {{PolyphonyControl_B.State.SoftOff}}) then
-            _af_module_{{ModuleName}}_Note_exitState_softOff(i_instanceIndex, k_noteIndex)
-        elseif (k_currentState == {{PolyphonyControl_B.State.HardOff}}) then
-            _af_module_{{ModuleName}}_Note_exitState_hardOff(i_instanceIndex, k_noteIndex)
-        elseif (k_currentState == {{PolyphonyControl_B.State.Off}}) then
-            _af_module_{{ModuleName}}_Note_exitState_off(i_instanceIndex, k_noteIndex)
+        if (k_currentState == {{State.On}}) then
+            {{Module_private}}_Note_exitState_on(i_instanceIndex, k_noteIndex)
+        elseif (k_currentState == {{State.SoftOn}}) then
+            {{Module_private}}_Note_exitState_softOn(i_instanceIndex, k_noteIndex)
+        elseif (k_currentState == {{State.SoftOff}}) then
+            {{Module_private}}_Note_exitState_softOff(i_instanceIndex, k_noteIndex)
+        elseif (k_currentState == {{State.HardOff}}) then
+            {{Module_private}}_Note_exitState_hardOff(i_instanceIndex, k_noteIndex)
+        elseif (k_currentState == {{State.Off}}) then
+            {{Module_private}}_Note_exitState_off(i_instanceIndex, k_noteIndex)
         endif
     endif
 
-    if (k_newState == {{PolyphonyControl_B.State.On}}) then
-        _af_module_{{ModuleName}}_Note_enterState_on(i_instanceIndex, k_noteIndex, k_currentState)
-    elseif (k_newState == {{PolyphonyControl_B.State.SoftOn}}) then
-        _af_module_{{ModuleName}}_Note_enterState_softOn(i_instanceIndex, k_noteIndex, k_currentState)
-    elseif (k_newState == {{PolyphonyControl_B.State.SoftOff}}) then
-        _af_module_{{ModuleName}}_Note_enterState_softOff(i_instanceIndex, k_noteIndex, k_currentState)
-    elseif (k_newState == {{PolyphonyControl_B.State.HardOff}}) then
-        _af_module_{{ModuleName}}_Note_enterState_hardOff(i_instanceIndex, k_noteIndex, k_currentState)
-    elseif (k_newState == {{PolyphonyControl_B.State.Off}}) then
-        _af_module_{{ModuleName}}_Note_enterState_off(i_instanceIndex, k_noteIndex, k_currentState)
+    if (k_newState == {{State.On}}) then
+        {{Module_private}}_Note_enterState_on(i_instanceIndex, k_noteIndex, k_currentState)
+    elseif (k_newState == {{State.SoftOn}}) then
+        {{Module_private}}_Note_enterState_softOn(i_instanceIndex, k_noteIndex, k_currentState)
+    elseif (k_newState == {{State.SoftOff}}) then
+        {{Module_private}}_Note_enterState_softOff(i_instanceIndex, k_noteIndex, k_currentState)
+    elseif (k_newState == {{State.HardOff}}) then
+        {{Module_private}}_Note_enterState_hardOff(i_instanceIndex, k_noteIndex, k_currentState)
+    elseif (k_newState == {{State.Off}}) then
+        {{Module_private}}_Note_enterState_off(i_instanceIndex, k_noteIndex, k_currentState)
     endif
 endop
 
@@ -214,32 +247,32 @@ endop
 ///
 /// NB: This needs to be called after any relevant envelopes with extended release segments are initialized.
 ///
-opcode AF_Module_{{ModuleName}}, k, S
+opcode {{Module_public}}, k, S
     S_channelPrefix xin
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
     k_noteIndex = $Note_initialize()
-    k_noteState init {{PolyphonyControl_B.State.Initialized}}
+    k_noteState init {{State.Initialized}}
 
-    if (k_noteState == {{PolyphonyControl_B.State.Initialized}}) then
-        $Note[{{PolyphonyControl_B.Note.State}}] = {{PolyphonyControl_B.State.On}}
-        {{LogTrace_k '("Note[%d]: id = %d >> on", k_noteIndex, $Note[{+{PolyphonyControl_B.Note.Id}+}])'}}
+    if (k_noteState == {{State.Initialized}}) then
+        $Note[{{Note.State}}] = {{State.On}}
+        {{LogTrace_k '("Note[%d]: id = %d >> on", k_noteIndex, $Note[{+{Note.Id}+}])'}}
     endif
 
-    if (lastcycle() == {{true}}) then
-        $Note[{{PolyphonyControl_B.Note.State}}] = {{PolyphonyControl_B.State.Off}}
-        {{LogTrace_k '("Note[%d]: id = %d >> off", k_noteIndex, $Note[{+{PolyphonyControl_B.Note.Id}+}])'}}
+    if (lastcycle() == $true) then
+        $Note[{{Note.State}}] = {{State.Off}}
+        {{LogTrace_k '("Note[%d]: id = %d >> off", k_noteIndex, $Note[{+{Note.Id}+}])'}}
     endif
 
     $Note_updateState(k_noteState)
-    k_noteState = $Note[{{PolyphonyControl_B.Note.State}}]
+    k_noteState = $Note[{{Note.State}}]
 end:
-    {{LogDebug_k '("Note[%d]: id = %d, k_noteState = %d", k_noteIndex, $Note[{+{PolyphonyControl_B.Note.Id}+}], k_noteState)'}}
+    {{LogDebug_k '("Note[%d]: id = %d, k_noteState = %d", k_noteIndex, $Note[{+{Note.Id}+}], k_noteState)'}}
     xout(k_noteState)
 endop
 
 
-opcode AF_Module_{{ModuleName}}_audioProcessing, a, Sa
+opcode {{Module_public}}_audioProcessing, a, Sa
     S_channelPrefix, a_in xin
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
@@ -247,35 +280,55 @@ opcode AF_Module_{{ModuleName}}_audioProcessing, a, Sa
 endop
 
 
-instr AF_Module_{{ModuleName}}_alwayson
+instr {{Module_private}}_alwayson
     S_channelPrefix = p4
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
     {{LogTrace_i '("AF_Module_PolyphonyControl_B_alwayson: i_instanceIndex = %d", i_instanceIndex)'}}
 
-    $Instance[{{PolyphonyControl_B.Instance.KeepHighNote}}] = {{moduleGet:k 'KeepHighNote'}}
-    $Instance[{{PolyphonyControl_B.Instance.KeepLowNote}}]  = {{moduleGet:k 'KeepLowNote'}}
+    if ($Instance[{{Instance.UpdateSoftNotes}}] == $true) then
+        $Instance[{{Instance.UpdateSoftNotes}}] = $false
 
-    if ($Instance[{{PolyphonyControl_B.Instance.RemoveFinishedNotes}}] == {{true}}) then
-        $Instance[{{PolyphonyControl_B.Instance.RemoveFinishedNotes}}] = {{false}}
+        k_softMax = $Instance[{{Instance.SoftMax}}]
+        k_softOffActiveNoteCount = $Instance[{{Instance.SoftOffActiveNoteCount}}]
+
+        {{LogDebug_k '("k_softMax = %d, k_softOffActiveNoteCount = %d", k_softMax, k_softOffActiveNoteCount)'}}
+
+        if (k_softMax < k_softOffActiveNoteCount) then
+            $Instance_updateHighAndLowNoteNumbers()
+
+            k_noteIndex = 0
+            while ($Note[{{Note.Id}}] != -1 && k_softMax < k_softOffActiveNoteCount) do
+                if ($Note[{{Note.State}}] != {{State.SoftOff}}) then
+                    $Note[{{Note.State}}] = {{State.SoftOff}}
+                    k_softOffActiveNoteCount -= 1
+                endif
+                k_noteIndex += 1
+            od
+        endif
+    endif
+
+
+    if ($Instance[{{Instance.RemoveFinishedNotes}}] == $true) then
+        $Instance[{{Instance.RemoveFinishedNotes}}] = $false
 
         {{LogDebug_k '("Before removing finished notes ...")'}}
         k_noteIndex = 0
-        while ($Note[{{PolyphonyControl_B.Note.Id}}] != -1) do
-            {{LogDebug_k '("    Note[%d]: id = %d, state = %d", k_noteIndex, $Note[{+{PolyphonyControl_B.Note.Id}+}], $Note[{+{PolyphonyControl_B.Note.State}+}])'}}
+        while ($Note[{{Note.Id}}] != -1) do
+            {{LogDebug_k '("    Note[%d]: id = %d, state = %d", k_noteIndex, $Note[{+{Note.Id}+}], $Note[{+{Note.State}+}])'}}
             k_noteIndex += 1
         od
 
         // Move active notes down in the note array to fill gaps left by inactive notes.
         k_activeNoteIndex = 0
         k_noteIndex = 0
-        while ($Note[{{PolyphonyControl_B.Note.Id}}] != -1) do
-            if ($Note[{{PolyphonyControl_B.Note.State}}] != {{PolyphonyControl_B.State.Off}}) then
+        while ($Note[{{Note.Id}}] != -1) do
+            if ($Note[{{Note.State}}] != {{State.Off}}) then
                 k_activeNoteIndex += 1
             else
                 k_noteMemberIndex = 0
-                while (k_noteMemberIndex < {{PolyphonyControl_B.NoteMemberCount}}) do
-                    gk_AF_Module_{{ModuleName}}_Note[i_instanceIndex][k_activeNoteIndex][k_noteMemberIndex] = $Note[k_noteMemberIndex]
+                while (k_noteMemberIndex < {{NoteMemberCount}}) do
+                    gk_{{Module_private}}_Note[i_instanceIndex][k_activeNoteIndex][k_noteMemberIndex] = $Note[k_noteMemberIndex]
                     k_noteMemberIndex += 1
                 od
             endif
@@ -284,56 +337,60 @@ instr AF_Module_{{ModuleName}}_alwayson
 
         // Clear the rest of the note array.
         k_noteIndex = k_activeNoteIndex
-        while ($Note[{{PolyphonyControl_B.Note.Id}}] != -1) do
-            $Note[{{PolyphonyControl_B.Note.Id}}] = -1
+        while ($Note[{{Note.Id}}] != -1) do
+            $Note[{{Note.Id}}] = -1
             k_noteIndex += 1
         od
 
-        $Instance[{{PolyphonyControl_B.Instance.NoteCount}}] = k_activeNoteIndex
+        $Instance[{{Instance.NoteCount}}] = k_activeNoteIndex
 
         {{LogDebug_k '("After removing finished notes ...")'}}
         k_noteIndex = 0
-        while ($Note[{{PolyphonyControl_B.Note.Id}}] != -1) do
-            {{LogDebug_k '("    Note[%d]: id = %d, state = %d", k_noteIndex, $Note[{+{PolyphonyControl_B.Note.Id}+}], $Note[{+{PolyphonyControl_B.Note.State}+}])'}}
+        while ($Note[{{Note.Id}}] != -1) do
+            {{LogDebug_k '("    Note[%d]: id = %d, state = %d", k_noteIndex, $Note[{+{Note.Id}+}], $Note[{+{Note.State}+}])'}}
             k_noteIndex += 1
         od
     endif
 endin
 
 
-instr AF_Module_{{ModuleName}}_customInit
+instr {{Module_private}}_customInit
     S_channelPrefix = p4
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
-    {{LogTrace_i '("AF_Module_PolyphonyControl_B_customInit: i_instanceIndex = %d", i_instanceIndex)'}}
+    {{LogTrace_i '("{+{Module_private}+}_customInit: i_instanceIndex = %d", i_instanceIndex)'}}
 
     i_arrayLength = 1
 
-    if (lenarray(gk_AF_Module_{{ModuleName}}_Instance, 0) <= i_instanceIndex) then
+    if (lenarray(gk_{{Module_private}}_Instance, 0) <= i_instanceIndex) then
         i_arrayLength = i_instanceIndex + 1
-        gk_AF_Module_{{ModuleName}}_Instance[][] init i_arrayLength, {{PolyphonyControl_B.InstanceMemberCount}}
-        gk_AF_Module_{{ModuleName}}_Note[][][] init i_arrayLength, {{PolyphonyControl_B.MaxNoteCount}}, {{PolyphonyControl_B.NoteMemberCount}}
+        gk_{{Module_private}}_Instance[][] init i_arrayLength, {{InstanceMemberCount}}
+        gk_{{Module_private}}_Note[][][] init i_arrayLength, {{MaxNoteCount}}, {{NoteMemberCount}}
     endif
 
     k_instanceIndex = 0
     while (k_instanceIndex < i_arrayLength) do
         k_noteIndex = 0
-        while (k_noteIndex < {{PolyphonyControl_B.MaxNoteCount}}) do
-            gk_AF_Module_{{ModuleName}}_Note[k_instanceIndex][k_noteIndex][{{PolyphonyControl_B.Note.Id}}] = -1
+        while (k_noteIndex < {{MaxNoteCount}}) do
+            gk_{{Module_private}}_Note[k_instanceIndex][k_noteIndex][{{Note.Id}}] = -1
             k_noteIndex += 1
         od
         k_instanceIndex += 1
     od
 
     turnoff()
-    {{LogTrace_i '("AF_Module_PolyphonyControl_B_customInit: global array lengths = %d", lenarray(gk_AF_Module_PolyphonyControl_B_Instance, 0))'}}
+    {{LogTrace_i '("{+{Module_private}+}_customInit: global array lengths = %d", lenarray(gk_{+{Module_private}+}_Instance, 0))'}}
 endin
 
 
 #undef Instance
+#undef Note
+
 #undef Instance_getNextNoteId
 #undef Instance_getNextNoteIndex
+#undef Instance_updateHighAndLowNoteNumbers
 
-#undef Note
 #undef Note_initialize
 #undef Note_updateState
+
+{{/with}}

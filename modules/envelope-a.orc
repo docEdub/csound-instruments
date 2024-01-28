@@ -10,11 +10,11 @@
 /// @param 1 Channel prefix used for host automation parameters.
 /// @out A-rate envelope.
 ///
-opcode AF_Module_{{ModuleName}}, a, S
+opcode {{Module_public}}, a, S
     S_channelPrefix xin
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
-    if ({{moduleGet:k 'Enabled'}} == {{false}}) then
+    if ({{moduleGet:k 'Enabled'}} == $false) then
         a_out = 1
         kgoto end
     endif
@@ -26,7 +26,7 @@ opcode AF_Module_{{ModuleName}}, a, S
 
     a_out init 0
 
-    if (release() == {{false}}) then
+    if (release() == $false) then
         // Linear attack and decay segments.
         a_out = madsr:a(i_a, i_d, i_s, 0);
     else
