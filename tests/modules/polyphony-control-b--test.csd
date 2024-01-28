@@ -75,13 +75,9 @@ instr GivenAllValuesAreSetToDefault_WhenNote1Starts_Note1StateShouldEqualOn
 
     if (ki == 1) then
         midiTesting_noteOn(1, 1, 127)
-    endif
-
-    if (ki == 2) then
+    elseif (ki == 2) then
         {{CHECK_EQUAL_k '{+{PolyphonyControl_B.State.On}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-    endif
-
-    if (ki == 3) then
+    elseif (ki == 3) then
         midiTesting_noteOff(1, 1)
         turnoff()
     endif
@@ -96,13 +92,9 @@ instr GivenAllValuesAreSetToDefault_WhenNote1Ends_Note1StateShouldEqualOff
 
     if (ki == 1) then
         midiTesting_noteOn(1, 1, 127)
-    endif
-
-    if (ki == 2) then
+    elseif (ki == 2) then
         midiTesting_noteOff(1, 1)
-    endif
-
-    if (ki == 3) then
+    elseif (ki == 3) then
         {{CHECK_EQUAL_k '{+{PolyphonyControl_B.State.Off}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
         turnoff()
     endif
@@ -118,17 +110,11 @@ instr GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn
     if (ki == 1) then
         {{hostValueSet}}("Module::SoftMax", 2)
         midiTesting_noteOn(1, 1, 127)
-    endif
-
-    if (ki == 2) then
+    elseif (ki == 2) then
         midiTesting_noteOn(1, 2, 127)
-    endif
-
-    if (ki == 3) then
+    elseif (ki == 3) then
         {{CHECK_EQUAL_k '{+{PolyphonyControl_B.State.On}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-    endif
-
-    if (ki == 4) then
+    elseif (ki == 4) then
         midiTesting_noteOff(1, 1)
         midiTesting_noteOff(1, 2)
         turnoff()
@@ -145,17 +131,11 @@ instr GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualSoft
     if (ki == 1) then
         {{hostValueSet}}("Module::SoftMax", 1)
         midiTesting_noteOn(1, 1, 127)
-    endif
-
-    if (ki == 2) then
+    elseif (ki == 2) then
         midiTesting_noteOn(1, 2, 127)
-    endif
-
-    if (ki == 3) then
+    elseif (ki == 3) then
         {{CHECK_EQUAL_k '{+{PolyphonyControl_B.State.SoftOff}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-    endif
-
-    if (ki == 4) then
+    elseif (ki == 4) then
         midiTesting_noteOff(1, 1)
         midiTesting_noteOff(1, 2)
         turnoff()
