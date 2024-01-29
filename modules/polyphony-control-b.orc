@@ -98,11 +98,11 @@ opcode {{Module_private}}_Note_initialize, k, i
         k_noteId = $Instance_getNextNoteId()
         k_noteIndex = $Instance_getNextNoteIndex()
 
-        $Note[{{Note.Id}}] = k_noteId
-        $Note[{{Note.NoteNumber}}] = notnum()
-        $Note[{{Note.Velocity}}] = veloc()
-        $Note[{{Note.State}}] = {{State.Initialized}}
-        $Note[{{Note.Amp}}] = 1
+        $Note[{{Note.Id}}]          = k_noteId
+        $Note[{{Note.NoteNumber}}]  = notnum()
+        $Note[{{Note.Velocity}}]    = veloc()
+        $Note[{{Note.State}}]       = {{State.Initialized}}
+        $Note[{{Note.Amp}}]         = 1
     else
         // If the note got moved down in the note array, update its index.
         while ($Note[{{Note.Id}}] != k_noteId) do
