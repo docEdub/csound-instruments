@@ -24,6 +24,8 @@ nchnls = 1
     {{Test "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff"}}
     {{Test "GivenHardMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn"}}
     {{Test "GivenHardMaxIs1AndSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff"}}
+    {{Test "GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note1StateShouldEqualHardOff"}}
+    {{Test "GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note2StateShouldEqualSoftOff"}}
     {{Test "GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualSoftOff"}}
     {{Test "GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn"}}
     {{Test "GivenSoftMaxIs2AndNotes1And2ArePlaying_WhenNote3Starts_Note1StateShouldEqualSoftOff"}}
@@ -172,6 +174,54 @@ instr GivenHardMaxIs1AndSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateSh
         {{CHECK_EQUAL_k '{+{State.HardOff}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
         midiTesting_noteOff(1, 1)
         midiTesting_noteOff(1, 2)
+        turnoff()
+    endif
+endin
+
+
+instr GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note1StateShouldEqualHardOff
+    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
+
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::HardMax", 2)
+        {{hostValueSet}}("Module::SoftMax", 1)
+        midiTesting_noteOn(1, 1, 127)
+    elseif (ki == 2) then
+        midiTesting_noteOn(1, 2, 127)
+        midiTesting_noteOn(1, 3, 127)
+    elseif (ki == 4) then
+        {{CHECK_EQUAL_k '{+{State.HardOff}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
+    elseif (ki == 5) then
+        midiTesting_noteOff(1, 1)
+        midiTesting_noteOff(1, 2)
+        midiTesting_noteOff(1, 3)
+        turnoff()
+    endif
+endin
+
+
+instr GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note2StateShouldEqualSoftOff
+    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
+
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::HardMax", 2)
+        {{hostValueSet}}("Module::SoftMax", 1)
+        midiTesting_noteOn(1, 1, 127)
+    elseif (ki == 2) then
+        midiTesting_noteOn(1, 2, 127)
+        midiTesting_noteOn(1, 3, 127)
+    elseif (ki == 4) then
+        {{CHECK_EQUAL_k '{+{State.SoftOff}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
+    elseif (ki == 5) then
+        midiTesting_noteOff(1, 1)
+        midiTesting_noteOff(1, 2)
+        midiTesting_noteOff(1, 3)
         turnoff()
     endif
 endin
