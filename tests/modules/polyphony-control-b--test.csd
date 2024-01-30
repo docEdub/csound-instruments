@@ -22,6 +22,7 @@ nchnls = 1
     {{Test "GivenAllValuesAreDefaultAndReleaseTimeIs0_WhenNote1Ends_Note1StateShouldEqualOff"}}
     {{Test "GivenAllValuesAreDefaultAndReleaseTimeIs1_WhenNote1Ends_After1Second_Note1StateShouldEqualOff"}}
     {{Test "GivenAllValuesAreDefaultAndReleaseTimeIs1_WhenNote1Ends_Note1StateShouldEqualOn"}}
+    {{Test "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff"}}
     {{Test "GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualSoftOff"}}
     {{Test "GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn"}}
 {{DeclareTests_End}}
@@ -147,6 +148,27 @@ instr GivenAllValuesAreDefaultAndReleaseTimeIs1_WhenNote1Ends_After1Second_Note1
             {{CHECK_EQUAL_k '{+{State.Off}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
             turnoff()
         endif
+    endif
+endin
+
+
+instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff
+    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
+
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::HardMax", 1)
+        midiTesting_noteOn(1, 1, 127)
+    elseif (ki == 2) then
+        midiTesting_noteOn(1, 2, 127)
+    elseif (ki == 4) then
+        {{CHECK_EQUAL_k '{+{State.HardOff}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
+    elseif (ki == 5) then
+        midiTesting_noteOff(1, 1)
+        midiTesting_noteOff(1, 2)
+        turnoff()
     endif
 endin
 
