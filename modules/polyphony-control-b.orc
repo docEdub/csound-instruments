@@ -195,6 +195,20 @@ opcode {{Module_private}}_Note_exitState_off, 0, ik
 endop
 
 
+opcode {{Module_private}}_Note_enterState_muted, 0, ikk
+    i_instanceIndex, k_noteIndex, k_currentState xin
+
+    if (k_currentState != {{State.Muted}}) then
+        // Init.
+    endif
+endop
+
+
+opcode {{Module_private}}_Note_exitState_muted, 0, ik
+    i_instanceIndex, k_noteIndex xin
+endop
+
+
 opcode {{Module_private}}_Note_enterState_off, 0, ikk
     i_instanceIndex, k_noteIndex, k_currentState xin
 
@@ -223,6 +237,8 @@ opcode {{Module_private}}_Note_updateState, 0, ikk
             {{Module_private}}_Note_exitState_softOff(i_instanceIndex, k_noteIndex)
         elseif (k_currentState == {{State.HardOff}}) then
             {{Module_private}}_Note_exitState_hardOff(i_instanceIndex, k_noteIndex)
+        elseif (k_currentState == {{State.Muted}}) then
+            {{Module_private}}_Note_exitState_muted(i_instanceIndex, k_noteIndex)
         elseif (k_currentState == {{State.Off}}) then
             {{Module_private}}_Note_exitState_off(i_instanceIndex, k_noteIndex)
         endif
@@ -236,6 +252,8 @@ opcode {{Module_private}}_Note_updateState, 0, ikk
         {{Module_private}}_Note_enterState_softOff(i_instanceIndex, k_noteIndex, k_currentState)
     elseif (k_newState == {{State.HardOff}}) then
         {{Module_private}}_Note_enterState_hardOff(i_instanceIndex, k_noteIndex, k_currentState)
+    elseif (k_newState == {{State.Muted}}) then
+        {{Module_private}}_Note_enterState_muted(i_instanceIndex, k_noteIndex, k_currentState)
     elseif (k_newState == {{State.Off}}) then
         {{Module_private}}_Note_enterState_off(i_instanceIndex, k_noteIndex, k_currentState)
     endif

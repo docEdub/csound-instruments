@@ -25,7 +25,8 @@
             "SoftOn": 2,
             "SoftOff": 3,
             "HardOff": 4,
-            "Off": 5
+            "Muted": 5,
+            "Off": 6
         },
         "Instance": {
             "Enabled": 0,
