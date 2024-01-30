@@ -29,7 +29,7 @@ nchnls = 1
     {{Test "GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualSoftOff"}}
     {{Test "GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn"}}
     {{Test "GivenSoftMaxIs2AndNotes1And2ArePlaying_WhenNote3Starts_Note1StateShouldEqualSoftOff"}}
-    {{Test "GivenReleaseTimeIs1_WhenNote1Ends_After1Second_Note1StateShouldEqualOff"}}
+    {{Test "GivenReleaseTimeIs1_WhenNote1Ends_Note1StateShouldEqualOff_After1Second"}}
     {{Test "GivenReleaseTimeIs1_WhenNote1Ends_Note1StateShouldEqualOn"}}
 {{DeclareTests_End}}
 
@@ -291,7 +291,7 @@ instr GivenSoftMaxIs2AndNotes1And2ArePlaying_WhenNote3Starts_Note1StateShouldEqu
 endin
 
 
-instr GivenReleaseTimeIs1_WhenNote1Ends_After1Second_Note1StateShouldEqualOff
+instr GivenReleaseTimeIs1_WhenNote1Ends_Note1StateShouldEqualOff_After1Second
     {{LogTrace_i '("%s ...", nstrstr(p1))'}}
 
     ki init 0
