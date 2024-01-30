@@ -310,6 +310,11 @@ instr {{Module_private}}_alwayson
 
     {{LogTrace_i '("AF_Module_PolyphonyControl_B_alwayson: i_instanceIndex = %d", i_instanceIndex)'}}
 
+    if ($Instance[{{Instance.UpdateHardNotes}}] == $true || $Instance[{{Instance.UpdateSoftNotes}}] == $true) then
+        k_softOffActiveNoteCount = $Instance[{{Instance.SoftOffActiveNoteCount}}]
+        k_updateHighAndLowNoteNumbers = $true
+    endif
+
     if ($Instance[{{Instance.UpdateHardNotes}}] == $true) then
         $Instance[{{Instance.UpdateHardNotes}}] = $false
 
@@ -320,12 +325,14 @@ instr {{Module_private}}_alwayson
 
         if (k_hardMax < k_hardOffActiveNoteCount) then
             $Instance_updateHighAndLowNoteNumbers()
+            k_updateHighAndLowNoteNumbers = $false
 
             k_noteIndex = 0
             while ($Note[{{Note.Id}}] != -1 && k_hardMax < k_hardOffActiveNoteCount) do
                 if ($Note[{{Note.State}}] != {{State.HardOff}}) then
                     $Note[{{Note.State}}] = {{State.HardOff}}
                     k_hardOffActiveNoteCount -= 1
+                    k_softOffActiveNoteCount -= 1
                 endif
                 k_noteIndex += 1
             od
@@ -336,12 +343,13 @@ instr {{Module_private}}_alwayson
         $Instance[{{Instance.UpdateSoftNotes}}] = $false
 
         k_softMax = $Instance[{{Instance.SoftMax}}]
-        k_softOffActiveNoteCount = $Instance[{{Instance.SoftOffActiveNoteCount}}]
 
         {{LogDebug_k '("k_softMax = %d, k_softOffActiveNoteCount = %d", k_softMax, k_softOffActiveNoteCount)'}}
 
         if (k_softMax < k_softOffActiveNoteCount) then
-            $Instance_updateHighAndLowNoteNumbers()
+            if (k_updateHighAndLowNoteNumbers == $true) then
+                $Instance_updateHighAndLowNoteNumbers()
+            endif
 
             k_noteIndex = 0
             while ($Note[{{Note.Id}}] != -1 && k_softMax < k_softOffActiveNoteCount) do
