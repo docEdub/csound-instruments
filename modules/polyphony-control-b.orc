@@ -92,6 +92,7 @@ opcode {{Module_private}}_Note_initialize, k, i
         k_initialized = $true
 
         $Instance[{{Instance.SoftMax}}]      = {{moduleGet:k 'SoftMax'}}
+        $Instance[{{Instance.HardMax}}]      = {{moduleGet:k 'HardMax'}}
         $Instance[{{Instance.KeepHighNote}}] = {{moduleGet:k 'KeepHighNote'}}
         $Instance[{{Instance.KeepLowNote}}]  = {{moduleGet:k 'KeepLowNote'}}
 
@@ -129,7 +130,9 @@ opcode {{Module_private}}_Note_enterState_on, 0, ikk
 
     if (k_currentState != {{State.On}}) then
         // Init.
+        $IncrementArrayItem($Instance[{{Instance.HardOffActiveNoteCount}}])
         $IncrementArrayItem($Instance[{{Instance.SoftOffActiveNoteCount}}])
+        $Instance[{{Instance.UpdateHardNotes}}] = $true
         $Instance[{{Instance.UpdateSoftNotes}}] = $true
     endif
 endop
@@ -303,6 +306,28 @@ instr {{Module_private}}_alwayson
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
     {{LogTrace_i '("AF_Module_PolyphonyControl_B_alwayson: i_instanceIndex = %d", i_instanceIndex)'}}
+
+    if ($Instance[{{Instance.UpdateHardNotes}}] == $true) then
+        $Instance[{{Instance.UpdateHardNotes}}] = $false
+
+        k_hardMax = $Instance[{{Instance.HardMax}}]
+        k_hardOffActiveNoteCount = $Instance[{{Instance.HardOffActiveNoteCount}}]
+
+        {{LogDebug_k '("k_hardMax = %d, k_hardOffActiveNoteCount = %d", k_hardMax, k_hardOffActiveNoteCount)'}}
+
+        if (k_hardMax < k_hardOffActiveNoteCount) then
+            $Instance_updateHighAndLowNoteNumbers()
+
+            k_noteIndex = 0
+            while ($Note[{{Note.Id}}] != -1 && k_hardMax < k_hardOffActiveNoteCount) do
+                if ($Note[{{Note.State}}] != {{State.HardOff}}) then
+                    $Note[{{Note.State}}] = {{State.HardOff}}
+                    k_hardOffActiveNoteCount -= 1
+                endif
+                k_noteIndex += 1
+            od
+        endif
+    endif
 
     if ($Instance[{{Instance.UpdateSoftNotes}}] == $true) then
         $Instance[{{Instance.UpdateSoftNotes}}] = $false
