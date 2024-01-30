@@ -71,8 +71,7 @@ instr 2
     i_releaseTime = {{hostValueGet}}:i("Note.releaseTime")
 
     {{LogTrace_i '("instr 2: i_noteId = %d, i_releaseTime = %f ...", i_noteId, i_releaseTime)'}}
-    {{LogTrace_k '("instr 2: i_noteId = %d, i_releaseTime = %f ...", i_noteId, i_releaseTime)'}}
-
+    ; {{LogTrace_k '("instr 2: i_noteId = %d, i_releaseTime = %f ...", i_noteId, i_releaseTime)'}}
 
     xtratim(i_releaseTime)
 
