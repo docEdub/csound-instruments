@@ -218,6 +218,9 @@ opcode {{Module_private}}_Note_enterState_off, 0, ikk
     if (k_currentState != {{State.Off}}) then
         // Init.
         {{LogTrace_k '("enterState_off(k_noteIndex = %d)", k_noteIndex)'}}
+        if ($Note[{{Note.HardOffActivated}}] == $false) then
+            $DecrementArrayItem($Instance[{{Instance.HardOffActiveNoteCount}}])
+        endif
         if ($Note[{{Note.SoftOffActivated}}] == $false) then
             $DecrementArrayItem($Instance[{{Instance.SoftOffActiveNoteCount}}])
         endif
