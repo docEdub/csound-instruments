@@ -2,7 +2,7 @@
 <CsOptions>
 {{CsOptions}}
 {{HostOptions}}
-; --messagelevel=0
+--messagelevel=0
  -+msg_color=false
 </CsOptions>
 <CsInstruments>
@@ -18,10 +18,11 @@ nchnls = 1
 
 
 {{DeclareTests_Start 'PolyphonyControl_B'}}
-    {{Test "GivenAllValuesAreSetToDefault_WhenNote1Starts_Note1StateShouldEqualOn"}}
-    {{Test "GivenAllValuesAreSetToDefault_WhenNote1Ends_Note1StateShouldEqualOff"}}
-    {{Test "GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn"}}
+    {{Test "GivenAllValuesAreDefault_WhenNote1Starts_Note1StateShouldEqualOn"}}
+    {{Test "GivenAllValuesAreDefaultAndReleaseTimeIs0_WhenNote1Ends_Note1StateShouldEqualOff"}}
+    {{Test "GivenAllValuesAreDefaultAndReleaseTimeIs1_WhenNote1Ends_Note1StateShouldEqualOn"}}
     {{Test "GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualSoftOff"}}
+    {{Test "GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn"}}
 {{DeclareTests_End}}
 
 
@@ -37,6 +38,8 @@ instr Reset
         {{LogTrace_k '("Reset - waiting for MIDI notes to finish ...")'}}
         kgoto end
     endif
+
+    {{hostValueSet}}("Note.releaseTime",        0);
 
     {{hostValueSet}}("Module::SoftMax",         {{ChannelDefault.SoftMax}})
     {{hostValueSet}}("Module::HardMax",         {{ChannelDefault.HardMax}})
@@ -57,10 +60,13 @@ instr 2
     gi_noteId += 1
     i_noteId = gi_noteId
 
-    {{LogTrace_i '("instr 2: i_noteId = %d ...", i_noteId)'}}
-    {{LogTrace_k '("instr 2: i_noteId = %d ...", i_noteId)'}}
+    i_releaseTime = {{hostValueGet}}:i("Note.releaseTime")
 
-    ; xtratim(1)
+    {{LogTrace_i '("instr 2: i_noteId = %d, i_releaseTime = %f ...", i_noteId, i_releaseTime)'}}
+    {{LogTrace_k '("instr 2: i_noteId = %d, i_releaseTime = %f ...", i_noteId, i_releaseTime)'}}
+
+
+    xtratim(i_releaseTime)
 
     k_state = AF_Module_PolyphonyControl_B("Module")
 
@@ -69,7 +75,7 @@ instr 2
 endin
 
 
-instr GivenAllValuesAreSetToDefault_WhenNote1Starts_Note1StateShouldEqualOn
+instr GivenAllValuesAreDefault_WhenNote1Starts_Note1StateShouldEqualOn
     {{LogTrace_i '("%s ...", nstrstr(p1))'}}
 
     ki init 0
@@ -86,7 +92,7 @@ instr GivenAllValuesAreSetToDefault_WhenNote1Starts_Note1StateShouldEqualOn
 endin
 
 
-instr GivenAllValuesAreSetToDefault_WhenNote1Ends_Note1StateShouldEqualOff
+instr GivenAllValuesAreDefaultAndReleaseTimeIs0_WhenNote1Ends_Note1StateShouldEqualOff
     {{LogTrace_i '("%s ...", nstrstr(p1))'}}
 
     ki init 0
@@ -103,22 +109,19 @@ instr GivenAllValuesAreSetToDefault_WhenNote1Ends_Note1StateShouldEqualOff
 endin
 
 
-instr GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn
+instr GivenAllValuesAreDefaultAndReleaseTimeIs1_WhenNote1Ends_Note1StateShouldEqualOn
     {{LogTrace_i '("%s ...", nstrstr(p1))'}}
 
     ki init 0
     ki += 1
 
     if (ki == 1) then
-        {{hostValueSet}}("Module::SoftMax", 2)
+        {{hostValueSet}}("Note.releaseTime", 1)
         midiTesting_noteOn(1, 1, 127)
     elseif (ki == 2) then
-        midiTesting_noteOn(1, 2, 127)
+        midiTesting_noteOff(1, 1)
     elseif (ki == 3) then
         {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-    elseif (ki == 4) then
-        midiTesting_noteOff(1, 1)
-        midiTesting_noteOff(1, 2)
         turnoff()
     endif
 endin
@@ -138,6 +141,27 @@ instr GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualSoft
     elseif (ki == 4) then
         {{CHECK_EQUAL_k '{+{State.SoftOff}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
     elseif (ki == 5) then
+        midiTesting_noteOff(1, 1)
+        midiTesting_noteOff(1, 2)
+        turnoff()
+    endif
+endin
+
+
+instr GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn
+    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
+
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::SoftMax", 2)
+        midiTesting_noteOn(1, 1, 127)
+    elseif (ki == 2) then
+        midiTesting_noteOn(1, 2, 127)
+    elseif (ki == 3) then
+        {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
+    elseif (ki == 4) then
         midiTesting_noteOff(1, 1)
         midiTesting_noteOff(1, 2)
         turnoff()

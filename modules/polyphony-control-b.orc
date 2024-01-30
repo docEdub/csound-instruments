@@ -8,8 +8,8 @@
 
 {{#with PolyphonyControl_B}}
 
-{{Enable-LogTrace true}}
-{{Enable-LogDebug true}}
+{{Enable-LogTrace false}}
+{{Enable-LogDebug false}}
 
 
 gk_{{Module_private}}_Instance[][] init 1, {{InstanceMemberCount}}
@@ -307,7 +307,6 @@ instr {{Module_private}}_alwayson
             od
         endif
     endif
-
 
     if ($Instance[{{Instance.RemoveFinishedNotes}}] == $true) then
         $Instance[{{Instance.RemoveFinishedNotes}}] = $false
