@@ -353,7 +353,7 @@ instr {{Module_private}}_alwayson
 
             k_noteIndex = 0
             while ($Note[{{Note.Id}}] != -1 && k_softMax < k_softOffActiveNoteCount) do
-                if ($Note[{{Note.State}}] != {{State.SoftOff}}) then
+                if ($Note[{{Note.State}}] != {{State.SoftOff}} && $Note[{{Note.State}}] != {{State.HardOff}}) then
                     $Note[{{Note.State}}] = {{State.SoftOff}}
                     k_softOffActiveNoteCount -= 1
                 endif
