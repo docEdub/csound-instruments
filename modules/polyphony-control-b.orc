@@ -184,15 +184,15 @@ opcode {{Module_private}}_Note_enterState_softOff, 0, ikk
         $Note[{{Note.SoftOffActivated}}] = $true
         k_amp = $Note[{{Note.Amp}}]
         k_ampDelta = k_amp / (kr * {{moduleGet:k 'SoftOffFadeTime'}})
-    else
-        k_amp -= k_ampDelta
-        if (k_amp <= 0) then
-            k_amp = 0
-            $Note[{{Note.State}}] = {{State.Muted}}
-        endif
-        $Note[{{Note.Amp}}] = k_amp
-        {{LogTrace_k '("k_amp = %f", k_amp)'}}
     endif
+
+    k_amp -= k_ampDelta
+    if (k_amp <= 0) then
+        k_amp = 0
+        $Note[{{Note.State}}] = {{State.Muted}}
+    endif
+    $Note[{{Note.Amp}}] = k_amp
+    {{LogTrace_k '("Note[%d]: id = %d, k_amp = %f", k_noteIndex, $Note[{+{Note.Id}+}], k_amp)'}}
 endop
 
 
