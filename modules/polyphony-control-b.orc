@@ -151,6 +151,7 @@ opcode {{Module_private}}_Note_enterState_softOn, 0, ikk
 
     if (k_currentState != {{State.SoftOn}}) then
         // Init.
+        {{LogTrace_k '("Note[%d]: id = %d >> enterState_softOn", k_noteIndex, $Note[{+{Note.Id}+}])'}}
         $DecrementArrayItem($Instance[{{Instance.SoftOffActiveNoteCount}}])
         k_amp = $Note[{{Note.Amp}}]
         k_ampDelta = (k(1) - k_amp) / (kr * {{moduleGet:k 'SoftOnFadeTime'}})
@@ -173,8 +174,24 @@ endop
 opcode {{Module_private}}_Note_enterState_softOff, 0, ikk
     i_instanceIndex, k_noteIndex, k_currentState xin
 
+    k_amp init 0
+    k_ampDelta init 0
+
     if (k_currentState != {{State.SoftOff}}) then
         // Init.
+        {{LogTrace_k '("Note[%d]: id = %d >> enterState_softOff", k_noteIndex, $Note[{+{Note.Id}+}])'}}
+        $DecrementArrayItem($Instance[{{Instance.SoftOffActiveNoteCount}}])
+        $Note[{{Note.SoftOffActivated}}] = $true
+        k_amp = $Note[{{Note.Amp}}]
+        k_ampDelta = k_amp / (kr * {{moduleGet:k 'SoftOffFadeTime'}})
+    else
+        k_amp -= k_ampDelta
+        if (k_amp <= 0) then
+            k_amp = 0
+            $Note[{{Note.State}}] = {{State.Muted}}
+        endif
+        $Note[{{Note.Amp}}] = k_amp
+        {{LogTrace_k '("k_amp = %f", k_amp)'}}
     endif
 endop
 
@@ -333,6 +350,8 @@ instr {{Module_private}}_alwayson
                     $Note[{{Note.State}}] = {{State.HardOff}}
                     k_hardOffActiveNoteCount -= 1
                     k_softOffActiveNoteCount -= 1
+                    {{LogDebug_k '("k_hardOffActiveNoteCount = %d", k_hardOffActiveNoteCount)'}}
+                    {{LogDebug_k '("k_softOffActiveNoteCount = %d", k_softOffActiveNoteCount)'}}
                 endif
                 k_noteIndex += 1
             od
@@ -356,6 +375,7 @@ instr {{Module_private}}_alwayson
                 if ($Note[{{Note.State}}] != {{State.SoftOff}} && $Note[{{Note.State}}] != {{State.HardOff}}) then
                     $Note[{{Note.State}}] = {{State.SoftOff}}
                     k_softOffActiveNoteCount -= 1
+                    {{LogDebug_k '("k_softOffActiveNoteCount = %d", k_softOffActiveNoteCount)'}}
                 endif
                 k_noteIndex += 1
             od
