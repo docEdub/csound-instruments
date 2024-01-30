@@ -93,7 +93,6 @@ instr GivenAllValuesAreDefault_WhenNote1Starts_Note1StateShouldEqualOn
         midiTesting_noteOn(1, 1, 127)
     elseif (ki == 2) then
         {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-    elseif (ki == 3) then
         midiTesting_noteOff(1, 1)
         turnoff()
     endif
@@ -130,7 +129,6 @@ instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHard
         midiTesting_noteOn(1, 2, 127)
     elseif (ki == 4) then
         {{CHECK_EQUAL_k '{+{State.HardOff}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-    elseif (ki == 5) then
         midiTesting_noteOff(1, 1)
         midiTesting_noteOff(1, 2)
         turnoff()
@@ -194,7 +192,6 @@ instr GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note1Sta
         midiTesting_noteOn(1, 3, 127)
     elseif (ki == 4) then
         {{CHECK_EQUAL_k '{+{State.HardOff}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-    elseif (ki == 5) then
         midiTesting_noteOff(1, 1)
         midiTesting_noteOff(1, 2)
         midiTesting_noteOff(1, 3)
@@ -218,7 +215,6 @@ instr GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note2Sta
         midiTesting_noteOn(1, 3, 127)
     elseif (ki == 4) then
         {{CHECK_EQUAL_k '{+{State.SoftOff}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
-    elseif (ki == 5) then
         midiTesting_noteOff(1, 1)
         midiTesting_noteOff(1, 2)
         midiTesting_noteOff(1, 3)
@@ -240,7 +236,6 @@ instr GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualSoft
         midiTesting_noteOn(1, 2, 127)
     elseif (ki == 4) then
         {{CHECK_EQUAL_k '{+{State.SoftOff}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-    elseif (ki == 5) then
         midiTesting_noteOff(1, 1)
         midiTesting_noteOff(1, 2)
         turnoff()
@@ -287,7 +282,6 @@ instr GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn
         midiTesting_noteOn(1, 2, 127)
     elseif (ki == 3) then
         {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-    elseif (ki == 4) then
         midiTesting_noteOff(1, 1)
         midiTesting_noteOff(1, 2)
         turnoff()
