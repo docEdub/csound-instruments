@@ -27,6 +27,7 @@ nchnls = 1
     {{Test "GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note1StateShouldEqualHardOff"}}
     {{Test "GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note2StateShouldEqualSoftOff"}}
     {{Test "GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualSoftOff"}}
+    {{Test "GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualMuted_AfterDefaultSoftOffFadeTime"}}
     {{Test "GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn"}}
     {{Test "GivenSoftMaxIs2AndNotes1And2ArePlaying_WhenNote3Starts_Note1StateShouldEqualSoftOff"}}
     {{Test "GivenReleaseTimeIs1_WhenNote1Ends_Note1StateShouldEqualOff_After1Second"}}
@@ -243,6 +244,32 @@ instr GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualSoft
         midiTesting_noteOff(1, 1)
         midiTesting_noteOff(1, 2)
         turnoff()
+    endif
+endin
+
+
+instr GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualMuted_AfterDefaultSoftOffFadeTime
+    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
+
+    ki init 0
+    k_noteSoftOffStartTime init 0
+    k_softOffFadeTime init {{hostValueGet}}:i("Module::SoftOffFadeTime")
+
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::SoftMax", 1)
+        midiTesting_noteOn(1, 1, 127)
+    elseif (ki == 2) then
+        midiTesting_noteOn(1, 2, 127)
+        k_noteSoftOffStartTime = times()
+    elseif (ki >= 3) then
+        if (times() - k_noteSoftOffStartTime >= k_softOffFadeTime) then
+            {{CHECK_EQUAL_k '{+{State.Muted}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
+            midiTesting_noteOff(1, 1)
+            midiTesting_noteOff(1, 2)
+            turnoff()
+        endif
     endif
 endin
 
