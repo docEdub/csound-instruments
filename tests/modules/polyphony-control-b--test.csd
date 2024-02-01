@@ -21,7 +21,6 @@ nchnls = 1
     {{Test "GivenAllValuesAreDefault_WhenNote1Starts_Note1StateShouldEqualOn"}}
     {{Test "GivenAllValuesAreDefault_WhenNote1Ends_Note1StateShouldEqualOff"}}
     {{Test "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff"}}
-    {{Test "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff"}}
     {{Test "GivenHardMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn"}}
     {{Test "GivenHardMaxIs1AndSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff"}}
     {{Test "GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note1StateShouldEqualHardOff"}}
@@ -67,18 +66,15 @@ endin
 massign 0, 2
 instr 2
     gi_noteId += 1
-    i_noteId = gi_noteId
 
+    i_noteId = gi_noteId
     i_releaseTime = {{hostValueGet}}:i("Note.releaseTime")
 
     {{LogTrace_i '("instr 2: i_noteId = %d, i_releaseTime = %f ...", i_noteId, i_releaseTime)'}}
-    ; {{LogTrace_k '("instr 2: i_noteId = %d, i_releaseTime = %f ...", i_noteId, i_releaseTime)'}}
 
     xtratim(i_releaseTime)
 
     k_state = AF_Module_PolyphonyControl_B("Module")
-
-    S_channel init " "
     {{hostValueSet}}(sprintfk("Note.%d.state", i_noteId), k_state)
 endin
 
