@@ -434,7 +434,12 @@ instr GivenSoftMaxIs2AndNotes1And2ArePlaying_WhenNote3Starts_Note1StateShouldEqu
     endif
 endin
 
+
+{{include "csound-test/csound-test.orc"}}
+
+
 {{/with}}
+
 
 </CsInstruments>
 <CsScore>
