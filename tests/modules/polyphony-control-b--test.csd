@@ -20,9 +20,9 @@ nchnls = 1
 {{DeclareTests_Start 'PolyphonyControl_B'}}
     {{Test "GivenAllValuesAreDefault_WhenNote1Starts_Note1StateShouldEqualOn"}}
     {{Test "GivenAllValuesAreDefault_WhenNote1Ends_Note1StateShouldEqualOff"}}
-    {{Test "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff"}}
-    {{Test "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note2StateShouldEqualOn"}}
-    {{Test "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2StartsAndStops_Note1StateShouldEqualHardOff"}}
+    {{Test "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff_AtNote2StartKPlus2"}}
+    {{Test "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note2StateShouldEqualOn_AtNote2StartKPlus2"}}
+    {{Test "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2StartsAndStops_Note1StateShouldEqualHardOff_AtNote2StartKPlus2"}}
     {{Test "GivenHardMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn"}}
     {{Test "GivenHardMaxIs1AndSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff"}}
     {{Test "GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note1StateShouldEqualHardOff"}}
@@ -114,7 +114,7 @@ instr GivenAllValuesAreDefault_WhenNote1Ends_Note1StateShouldEqualOff
 endin
 
 
-instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff
+instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff_AtNote2StartKPlus2
     {{LogTrace_i '("%s ...", nstrstr(p1))'}}
 
     ki init 0
@@ -134,7 +134,7 @@ instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHard
 endin
 
 
-instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note2StateShouldEqualOn
+instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note2StateShouldEqualOn_AtNote2StartKPlus2
     {{LogTrace_i '("%s ...", nstrstr(p1))'}}
 
     ki init 0
@@ -154,7 +154,7 @@ instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note2StateShouldEqualOn
 endin
 
 
-instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2StartsAndStops_Note1StateShouldEqualHardOff
+instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2StartsAndStops_Note1StateShouldEqualHardOff_AtNote2StartKPlus2
     {{LogTrace_i '("%s ...", nstrstr(p1))'}}
 
     ki init 0
