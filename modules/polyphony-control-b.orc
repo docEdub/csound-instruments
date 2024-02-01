@@ -24,7 +24,7 @@ gk_{{Module_private}}_Note[][][] init 1, {{MaxNoteCount}}, {{NoteMemberCount}}
 #define Instance_updateHighAndLowNoteNumbers()  # {{Module_private}}_Instance_updateHighAndLowNoteNumbers(i_instanceIndex) #
 
 #define Note_initialize()                       # {{Module_private}}_Note_initialize(i_instanceIndex) #
-#define Note_updateState(k_noteState)           # {{Module_private}}_Note_updateState(i_instanceIndex, k_noteIndex, k_noteState) #
+#define Note_updateState(k_currentState)        # {{Module_private}}_Note_updateState(i_instanceIndex, k_noteIndex, k_currentState) #
 
 
 opcode {{Module_public}}_log_notes, 0, S
@@ -293,9 +293,9 @@ opcode {{Module_public}}, k, S
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
     k_noteIndex = $Note_initialize()
-    k_noteState init {{State.Initialized}}
+    k_currentState init {{State.Initialized}}
 
-    if (k_noteState == {{State.Initialized}}) then
+    if (k_currentState == {{State.Initialized}}) then
         $Note[{{Note.State}}] = {{State.On}}
         {{LogTrace_k '("Note[%d]: id = %d >> on", k_noteIndex, $Note[{+{Note.Id}+}])'}}
     endif
@@ -305,11 +305,11 @@ opcode {{Module_public}}, k, S
         {{LogTrace_k '("Note[%d]: id = %d >> off", k_noteIndex, $Note[{+{Note.Id}+}])'}}
     endif
 
-    $Note_updateState(k_noteState)
-    k_noteState = $Note[{{Note.State}}]
+    $Note_updateState(k_currentState)
+    k_currentState = $Note[{{Note.State}}]
 end:
-    {{LogDebug_k '("Note[%d]: id = %d, k_noteState = %d", k_noteIndex, $Note[{+{Note.Id}+}], k_noteState)'}}
-    xout(k_noteState)
+    {{LogDebug_k '("Note[%d]: id = %d, k_currentState = %d", k_noteIndex, $Note[{+{Note.Id}+}], k_currentState)'}}
+    xout(k_currentState)
 endop
 
 
