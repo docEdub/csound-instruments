@@ -206,6 +206,8 @@ opcode {{Module_private}}_Note_enterState_hardOff, 0, ikk
 
     if (k_currentState != {{State.HardOff}}) then
         // Init.
+    else
+        $Note[{{Note.State}}] = {{State.Muted}}
     endif
 endop
 
