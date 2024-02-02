@@ -476,7 +476,7 @@ endin
 
 
 {{#CsoundTest "GivenHardMaxIs1AndKeepHighNoteIsTrueAndHighNoteIsPlaying_WhenMidNoteStarts_HighNoteStateShouldEqualOn_AtMidNoteStartKPlus2"
-    solo=true
+    solo=false
     mute=false
 }}
     ki init 0
@@ -490,6 +490,28 @@ endin
         $NoteOn($MidNoteKey)
     elseif (ki == 4) then
         {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
+        $NoteOff($HighNoteKey)
+        $NoteOff($MidNoteKey)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+
+{{#CsoundTest "GivenHardMaxIs1AndKeepHighNoteIsTrueAndHighNoteIsPlaying_WhenMidNoteStarts_MidNoteStateShouldEqualHardOff_AtMidNoteStartKPlus2"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::HardMax", 1)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        $NoteOn($HighNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($MidNoteKey)
+    elseif (ki == 4) then
+        {{CHECK_EQUAL_k '{+{State.HardOff}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
         $NoteOff($HighNoteKey)
         $NoteOff($MidNoteKey)
         turnoff()
