@@ -20,8 +20,9 @@ nchnls = 1
 #define DefaultMidiChannel #1#
 #define DefaultVelocity  #127#
 
-#define Note1Key #1#
-#define Note2Key #2#
+#define Key1 #1#
+#define Key2 #2#
+#define Key3 #3#
 
 #define HighNoteKey #127#
 #define MidNoteKey   #64#
@@ -84,10 +85,10 @@ endin
     ki += 1
 
     if (ki == 1) then
-        midiTesting_noteOn(1, 1, 127)
+        $NoteOn($Key1)
     elseif (ki == 2) then
         {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-        midiTesting_noteOff(1, 1)
+        $NoteOff($Key1)
         turnoff()
     endif
 {{/CsoundTest}}
@@ -101,9 +102,9 @@ endin
     ki += 1
 
     if (ki == 1) then
-        midiTesting_noteOn(1, 1, 127)
+        $NoteOn($Key1)
     elseif (ki == 2) then
-        midiTesting_noteOff(1, 1)
+        $NoteOff($Key1)
     elseif (ki == 3) then
         {{CHECK_EQUAL_k '{+{State.Off}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
         turnoff()
@@ -122,9 +123,9 @@ endin
 
     if (ki == 1) then
         {{hostValueSet}}("Note.releaseTime", 1)
-        midiTesting_noteOn(1, 1, 127)
+        $NoteOn($Key1)
     elseif (ki == 2) then
-        midiTesting_noteOff(1, 1)
+        $NoteOff($Key1)
         k_noteOffTime = times()
     elseif (ki >= 3) then
         if (times() - k_noteOffTime >= 1) then
@@ -144,9 +145,9 @@ endin
 
     if (ki == 1) then
         {{hostValueSet}}("Note.releaseTime", 1)
-        midiTesting_noteOn(1, 1, 127)
+        $NoteOn($Key1)
     elseif (ki == 2) then
-        midiTesting_noteOff(1, 1)
+        $NoteOff($Key1)
     elseif (ki == 3) then
         {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
         turnoff()
@@ -163,13 +164,13 @@ endin
 
     if (ki == 1) then
         {{hostValueSet}}("Module::HardMax", 1)
-        midiTesting_noteOn(1, 1, 127)
+        $NoteOn($Key1)
     elseif (ki == 2) then
-        midiTesting_noteOn(1, 2, 127)
+        $NoteOn($Key2)
     elseif (ki == 4) then
         {{CHECK_EQUAL_k '{+{State.HardOff}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-        midiTesting_noteOff(1, 1)
-        midiTesting_noteOff(1, 2)
+        $NoteOff($Key1)
+        $NoteOff($Key2)
         turnoff()
     endif
 {{/CsoundTest}}
@@ -184,13 +185,13 @@ endin
 
     if (ki == 1) then
         {{hostValueSet}}("Module::HardMax", 1)
-        midiTesting_noteOn(1, 1, 127)
+        $NoteOn($Key1)
     elseif (ki == 2) then
-        midiTesting_noteOn(1, 2, 127)
+        $NoteOn($Key2)
     elseif (ki == 5) then
         {{CHECK_EQUAL_k '{+{State.Muted}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-        midiTesting_noteOff(1, 1)
-        midiTesting_noteOff(1, 2)
+        $NoteOff($Key1)
+        $NoteOff($Key2)
         turnoff()
     endif
 {{/CsoundTest}}
@@ -205,13 +206,13 @@ endin
 
     if (ki == 1) then
         {{hostValueSet}}("Module::HardMax", 1)
-        midiTesting_noteOn(1, 1, 127)
+        $NoteOn($Key1)
     elseif (ki == 2) then
-        midiTesting_noteOn(1, 2, 127)
+        $NoteOn($Key2)
     elseif (ki == 4) then
         {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
-        midiTesting_noteOff(1, 1)
-        midiTesting_noteOff(1, 2)
+        $NoteOff($Key1)
+        $NoteOff($Key2)
         turnoff()
     endif
 {{/CsoundTest}}
@@ -226,14 +227,14 @@ endin
 
     if (ki == 1) then
         {{hostValueSet}}("Module::HardMax", 1)
-        midiTesting_noteOn(1, 1, 127)
+        $NoteOn($Key1)
     elseif (ki == 2) then
-        midiTesting_noteOn(1, 2, 127)
+        $NoteOn($Key2)
     elseif (ki == 3) then
-        midiTesting_noteOff(1, 2)
+        $NoteOff($Key2)
     elseif (ki == 4) then
         {{CHECK_EQUAL_k '{+{State.HardOff}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-        midiTesting_noteOff(1, 1)
+        $NoteOff($Key1)
         turnoff()
     endif
 {{/CsoundTest}}
@@ -248,14 +249,14 @@ endin
 
     if (ki == 1) then
         {{hostValueSet}}("Module::HardMax", 1)
-        midiTesting_noteOn(1, 1, 127)
+        $NoteOn($Key1)
     elseif (ki == 2) then
-        midiTesting_noteOn(1, 2, 127)
+        $NoteOn($Key2)
     elseif (ki == 3) then
-        midiTesting_noteOff(1, 2)
+        $NoteOff($Key2)
     elseif (ki == 5) then
         {{CHECK_EQUAL_k '{+{State.Muted}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-        midiTesting_noteOff(1, 1)
+        $NoteOff($Key1)
         turnoff()
     endif
 {{/CsoundTest}}
@@ -270,13 +271,13 @@ endin
 
     if (ki == 1) then
         {{hostValueSet}}("Module::HardMax", 2)
-        midiTesting_noteOn(1, 1, 127)
+        $NoteOn($Key1)
     elseif (ki == 2) then
-        midiTesting_noteOn(1, 2, 127)
+        $NoteOn($Key2)
     elseif (ki == 4) then
         {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-        midiTesting_noteOff(1, 1)
-        midiTesting_noteOff(1, 2)
+        $NoteOff($Key1)
+        $NoteOff($Key2)
         turnoff()
     endif
 {{/CsoundTest}}
@@ -292,13 +293,13 @@ endin
     if (ki == 1) then
         {{hostValueSet}}("Module::HardMax", 1)
         {{hostValueSet}}("Module::SoftMax", 1)
-        midiTesting_noteOn(1, 1, 127)
+        $NoteOn($Key1)
     elseif (ki == 2) then
-        midiTesting_noteOn(1, 2, 127)
+        $NoteOn($Key2)
     elseif (ki == 4) then
         {{CHECK_EQUAL_k '{+{State.HardOff}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-        midiTesting_noteOff(1, 1)
-        midiTesting_noteOff(1, 2)
+        $NoteOff($Key1)
+        $NoteOff($Key2)
         turnoff()
     endif
 {{/CsoundTest}}
@@ -314,15 +315,15 @@ endin
     if (ki == 1) then
         {{hostValueSet}}("Module::HardMax", 2)
         {{hostValueSet}}("Module::SoftMax", 1)
-        midiTesting_noteOn(1, 1, 127)
+        $NoteOn($Key1)
     elseif (ki == 2) then
-        midiTesting_noteOn(1, 2, 127)
-        midiTesting_noteOn(1, 3, 127)
+        $NoteOn($Key2)
+        $NoteOn($Key3)
     elseif (ki == 4) then
         {{CHECK_EQUAL_k '{+{State.HardOff}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-        midiTesting_noteOff(1, 1)
-        midiTesting_noteOff(1, 2)
-        midiTesting_noteOff(1, 3)
+        $NoteOff($Key1)
+        $NoteOff($Key2)
+        $NoteOff($Key3)
         turnoff()
     endif
 {{/CsoundTest}}
@@ -338,15 +339,15 @@ endin
     if (ki == 1) then
         {{hostValueSet}}("Module::HardMax", 2)
         {{hostValueSet}}("Module::SoftMax", 1)
-        midiTesting_noteOn(1, 1, 127)
+        $NoteOn($Key1)
     elseif (ki == 2) then
-        midiTesting_noteOn(1, 2, 127)
-        midiTesting_noteOn(1, 3, 127)
+        $NoteOn($Key2)
+        $NoteOn($Key3)
     elseif (ki == 4) then
         {{CHECK_EQUAL_k '{+{State.SoftOff}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
-        midiTesting_noteOff(1, 1)
-        midiTesting_noteOff(1, 2)
-        midiTesting_noteOff(1, 3)
+        $NoteOff($Key1)
+        $NoteOff($Key2)
+        $NoteOff($Key3)
         turnoff()
     endif
 {{/CsoundTest}}
@@ -361,13 +362,13 @@ endin
 
     if (ki == 1) then
         {{hostValueSet}}("Module::SoftMax", 1)
-        midiTesting_noteOn(1, 1, 127)
+        $NoteOn($Key1)
     elseif (ki == 2) then
-        midiTesting_noteOn(1, 2, 127)
+        $NoteOn($Key2)
     elseif (ki == 4) then
         {{CHECK_EQUAL_k '{+{State.SoftOff}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-        midiTesting_noteOff(1, 1)
-        midiTesting_noteOff(1, 2)
+        $NoteOff($Key1)
+        $NoteOff($Key2)
         turnoff()
     endif
 {{/CsoundTest}}
@@ -385,16 +386,16 @@ endin
 
     if (ki == 1) then
         {{hostValueSet}}("Module::SoftMax", 1)
-        midiTesting_noteOn(1, 1, 127)
+        $NoteOn($Key1)
     elseif (ki == 2) then
-        midiTesting_noteOn(1, 2, 127)
+        $NoteOn($Key2)
     elseif (ki == 3) then
         k_noteSoftOffStartTime = times()
     elseif (ki >= 4) then
         if (times() - k_noteSoftOffStartTime >= k_softOffFadeTime) then
             {{CHECK_EQUAL_k '{+{State.Muted}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-            midiTesting_noteOff(1, 1)
-            midiTesting_noteOff(1, 2)
+            $NoteOff($Key1)
+            $NoteOff($Key2)
             turnoff()
         endif
     endif
@@ -415,16 +416,16 @@ endin
 
     if (ki == 1) then
         {{hostValueSet}}("Module::SoftMax", 1)
-        midiTesting_noteOn(1, 1, 127)
+        $NoteOn($Key1)
     elseif (ki == 2) then
-        midiTesting_noteOn(1, 2, 127)
+        $NoteOn($Key2)
     elseif (ki == 3) then
         k_noteSoftOffStartTime = times()
     elseif (ki >= 4) then
         if (times() - k_noteSoftOffStartTime >= i_softOffFadeTime) then
             {{CHECK_EQUAL_k '{+{State.Muted}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-            midiTesting_noteOff(1, 1)
-            midiTesting_noteOff(1, 2)
+            $NoteOff($Key1)
+            $NoteOff($Key2)
             turnoff()
         endif
     endif
@@ -440,13 +441,13 @@ endin
 
     if (ki == 1) then
         {{hostValueSet}}("Module::SoftMax", 2)
-        midiTesting_noteOn(1, 1, 127)
+        $NoteOn($Key1)
     elseif (ki == 2) then
-        midiTesting_noteOn(1, 2, 127)
+        $NoteOn($Key2)
     elseif (ki == 4) then
         {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-        midiTesting_noteOff(1, 1)
-        midiTesting_noteOff(1, 2)
+        $NoteOff($Key1)
+        $NoteOff($Key2)
         turnoff()
     endif
 {{/CsoundTest}}
@@ -461,15 +462,15 @@ endin
 
     if (ki == 1) then
         {{hostValueSet}}("Module::SoftMax", 2)
-        midiTesting_noteOn(1, 1, 127)
-        midiTesting_noteOn(1, 2, 127)
+        $NoteOn($Key1)
+        $NoteOn($Key2)
     elseif (ki == 2) then
-        midiTesting_noteOn(1, 3, 127)
+        $NoteOn($Key3)
     elseif (ki == 4) then
         {{CHECK_EQUAL_k '{+{State.SoftOff}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
-        midiTesting_noteOff(1, 1)
-        midiTesting_noteOff(1, 2)
-        midiTesting_noteOff(1, 3)
+        $NoteOff($Key1)
+        $NoteOff($Key2)
+        $NoteOff($Key3)
         turnoff()
     endif
 {{/CsoundTest}}
