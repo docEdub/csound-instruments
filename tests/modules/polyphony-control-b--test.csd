@@ -16,6 +16,21 @@ nchnls = 1
 
 {{CsInstruments}}
 
+
+#define DefaultMidiChannel #1#
+#define DefaultVelocity  #127#
+
+#define Note1Key #1#
+#define Note2Key #2#
+
+#define HighNoteKey #127#
+#define MidNoteKey   #64#
+#define LowNoteKey    #1#
+
+#define NoteOn(key) # midiTesting_noteOn($DefaultMidiChannel, $key, $DefaultVelocity) #
+#define NoteOff(key) # midiTesting_noteOff($DefaultMidiChannel, $key) #
+
+
 {{InitializeModule "PolyphonyControl_B" "Module"}}
 
 {{#CsoundTestGroup "PolyphonyControl_B"}}
