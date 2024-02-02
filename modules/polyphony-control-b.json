@@ -50,7 +50,7 @@
         "Note": {
             "Id": 0,
             "Duration": 1,
-            "NoteNumber": 2,
+            "Number": 2,
             "Velocity": 3,
             "State": 6,
             "Amp": 7,

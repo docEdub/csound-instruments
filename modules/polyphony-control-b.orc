@@ -66,16 +66,28 @@ opcode {{Module_private}}_Instance_updateHighAndLowNoteNumbers, 0, i
     k_highNoteNumber = -1
     k_lowNoteNumber = 129
 
-    k_noteIndex = 0
-    while ($Note[{{Note.Id}}] != -1) do
-        k_noteNumber = $Note[{{Note.NoteNumber}}]
-        k_highNoteNumber = max(k_highNoteNumber, k_noteNumber)
-        k_lowNoteNumber = min(k_lowNoteNumber, k_noteNumber)
-        k_noteIndex += 1
-    od
+    if ($Instance[{{Instance.KeepHighNote}}] == $true) then
+        k_noteIndex = 0
+        while ($Note[{{Note.Id}}] != -1) do
+            k_noteNumber = $Note[{{Note.Number}}]
+            k_highNoteNumber = max(k_highNoteNumber, k_noteNumber)
+            k_noteIndex += 1
+        od
+    endif
+
+    if ($Instance[{{Instance.KeepLowNote}}] == $true) then
+        k_noteIndex = 0
+        while ($Note[{{Note.Id}}] != -1) do
+            k_noteNumber = $Note[{{Note.Number}}]
+            k_lowNoteNumber = min(k_lowNoteNumber, k_noteNumber)
+            k_noteIndex += 1
+        od
+    endif
 
     $Instance[{{Instance.HighNoteNumber}}] = k_highNoteNumber
     $Instance[{{Instance.LowNoteNumber}}] = k_lowNoteNumber
+    {{LogDebug_k '("Instance[%d].HighNoteNumber = %d", i_instanceIndex, $Instance[{+{Instance.HighNoteNumber}+}])'}}
+    {{LogDebug_k '("Instance[%d].LowNoteNumber = %d", i_instanceIndex, $Instance[{+{Instance.LowNoteNumber}+}])'}}
 endop
 
 
@@ -100,7 +112,7 @@ opcode {{Module_private}}_Note_initialize, k, i
         k_noteIndex = $Instance_getNextNoteIndex()
 
         $Note[{{Note.Id}}]                  = k_noteId
-        $Note[{{Note.NoteNumber}}]          = notnum()
+        $Note[{{Note.Number}}]              = notnum()
         $Note[{{Note.Velocity}}]            = veloc()
         $Note[{{Note.State}}]               = {{State.Initialized}}
         $Note[{{Note.Amp}}]                 = 1
@@ -364,7 +376,7 @@ instr {{Module_private}}_alwayson
 
             k_noteIndex = 0
             while ($Note[{{Note.Id}}] != -1 && k_hardMax < k_hardOffActiveNoteCount) do
-                if ($Note[{{Note.State}}] != {{State.HardOff}}) then
+                if ($Note[{{Note.State}}] != {{State.HardOff}} && $Note[{{Note.Number}}] != $Instance[{{Instance.HighNoteNumber}}]) then
                     $Note[{{Note.State}}] = {{State.HardOff}}
                     {{LogDebug_k '("Note[%d].State = State.HardOff", k_noteIndex)'}}
 
