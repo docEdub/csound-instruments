@@ -7,8 +7,6 @@
 </CsOptions>
 <CsInstruments>
 
-{{#with PolyphonyControl_B}}
-
 {{Enable-LogTrace false}}
 {{Enable-LogDebug false}}
 
@@ -16,31 +14,11 @@ sr = {{sr}}
 ksmps = {{ksmps}}
 nchnls = 1
 
-
-{{DeclareTests_Start 'PolyphonyControl_B'}}
-    {{Test "GivenAllValuesAreDefault_WhenNote1Starts_Note1StateShouldEqualOn"}}
-    {{Test "GivenAllValuesAreDefault_WhenNote1Ends_Note1StateShouldEqualOff"}}
-    {{Test "GivenReleaseTimeIs1_WhenNote1Ends_Note1StateShouldEqualOff_After1Second"}}
-    {{Test "GivenReleaseTimeIs1_WhenNote1Ends_Note1StateShouldEqualOn"}}
-    {{Test "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff_AtNote2StartKPlus2"}}
-    {{Test "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff_AtNote2StartKPlus3"}}
-    {{Test "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note2StateShouldEqualOn_AtNote2StartKPlus2"}}
-    {{Test "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2StartsAndStops_Note1StateShouldEqualHardOff_AtNote2StartKPlus2"}}
-    {{Test "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2StartsAndStops_Note1StateShouldEqualMuted_AtNote2StartKPlus3"}}
-    {{Test "GivenHardMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn_AtNote2StartKPlus2"}}
-    {{Test "GivenHardMaxIs1AndSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff_AtNote2StartKPlus2"}}
-    {{Test "GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note1StateShouldEqualHardOff_AtNote2StartKPlus2"}}
-    {{Test "GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note2StateShouldEqualSoftOff_AtNote2StartKPlus2"}}
-    {{Test "GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualSoftOff_AtNote2StartKPlus2"}}
-    {{Test "GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualMuted_AfterDefaultSoftOffFadeTime"}}
-    {{Test "GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn_AtNote2StartKPlus2"}}
-    {{Test "GivenSoftMaxIs2AndNotes1And2ArePlaying_WhenNote3Starts_Note1StateShouldEqualSoftOff_AtNote2StartKPlus2"}}
-{{DeclareTests_End}}
-
-
 {{CsInstruments}}
 
 {{InitializeModule "PolyphonyControl_B" "Module"}}
+
+{{#CsoundTestGroup "PolyphonyControl_B"}}
 
 
 instr Reset
@@ -83,9 +61,10 @@ instr 2
 endin
 
 
-instr GivenAllValuesAreDefault_WhenNote1Starts_Note1StateShouldEqualOn
-    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
-
+{{#CsoundTest "GivenAllValuesAreDefault_WhenNote1Starts_Note1StateShouldEqualOn"
+    solo=false
+    mute=false
+}}
     ki init 0
     ki += 1
 
@@ -96,12 +75,13 @@ instr GivenAllValuesAreDefault_WhenNote1Starts_Note1StateShouldEqualOn
         midiTesting_noteOff(1, 1)
         turnoff()
     endif
-endin
+{{/CsoundTest}}
 
 
-instr GivenAllValuesAreDefault_WhenNote1Ends_Note1StateShouldEqualOff
-    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
-
+{{#CsoundTest "GivenAllValuesAreDefault_WhenNote1Ends_Note1StateShouldEqualOff"
+    solo=false
+    mute=false
+}}
     ki init 0
     ki += 1
 
@@ -113,12 +93,13 @@ instr GivenAllValuesAreDefault_WhenNote1Ends_Note1StateShouldEqualOff
         {{CHECK_EQUAL_k '{+{State.Off}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
         turnoff()
     endif
-endin
+{{/CsoundTest}}
 
 
-instr GivenReleaseTimeIs1_WhenNote1Ends_Note1StateShouldEqualOff_After1Second
-    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
-
+{{#CsoundTest "GivenReleaseTimeIs1_WhenNote1Ends_Note1StateShouldEqualOff_After1Second"
+    solo=false
+    mute=false
+}}
     ki init 0
     ki += 1
 
@@ -136,12 +117,13 @@ instr GivenReleaseTimeIs1_WhenNote1Ends_Note1StateShouldEqualOff_After1Second
             turnoff()
         endif
     endif
-endin
+{{/CsoundTest}}
 
 
-instr GivenReleaseTimeIs1_WhenNote1Ends_Note1StateShouldEqualOn
-    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
-
+{{#CsoundTest "GivenReleaseTimeIs1_WhenNote1Ends_Note1StateShouldEqualOn"
+    solo=false
+    mute=false
+}}
     ki init 0
     ki += 1
 
@@ -154,12 +136,13 @@ instr GivenReleaseTimeIs1_WhenNote1Ends_Note1StateShouldEqualOn
         {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
         turnoff()
     endif
-endin
+{{/CsoundTest}}
 
 
-instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff_AtNote2StartKPlus2
-    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
-
+{{#CsoundTest "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff_AtNote2StartKPlus2"
+    solo=false
+    mute=false
+}}
     ki init 0
     ki += 1
 
@@ -174,12 +157,13 @@ instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHard
         midiTesting_noteOff(1, 2)
         turnoff()
     endif
-endin
+{{/CsoundTest}}
 
 
-instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff_AtNote2StartKPlus3
-    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
-
+{{#CsoundTest "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff_AtNote2StartKPlus3"
+    solo=false
+    mute=false
+}}
     ki init 0
     ki += 1
 
@@ -194,12 +178,13 @@ instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHard
         midiTesting_noteOff(1, 2)
         turnoff()
     endif
-endin
+{{/CsoundTest}}
 
 
-instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note2StateShouldEqualOn_AtNote2StartKPlus2
-    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
-
+{{#CsoundTest "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note2StateShouldEqualOn_AtNote2StartKPlus2"
+    solo=false
+    mute=false
+}}
     ki init 0
     ki += 1
 
@@ -214,12 +199,13 @@ instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note2StateShouldEqualOn_A
         midiTesting_noteOff(1, 2)
         turnoff()
     endif
-endin
+{{/CsoundTest}}
 
 
-instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2StartsAndStops_Note1StateShouldEqualHardOff_AtNote2StartKPlus2
-    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
-
+{{#CsoundTest "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2StartsAndStops_Note1StateShouldEqualHardOff_AtNote2StartKPlus2"
+    solo=false
+    mute=false
+}}
     ki init 0
     ki += 1
 
@@ -235,12 +221,13 @@ instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2StartsAndStops_Note1StateShouldE
         midiTesting_noteOff(1, 1)
         turnoff()
     endif
-endin
+{{/CsoundTest}}
 
 
-instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2StartsAndStops_Note1StateShouldEqualMuted_AtNote2StartKPlus3
-    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
-
+{{#CsoundTest "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2StartsAndStops_Note1StateShouldEqualMuted_AtNote2StartKPlus3"
+    solo=false
+    mute=false
+}}
     ki init 0
     ki += 1
 
@@ -256,12 +243,13 @@ instr GivenHardMaxIs1AndNote1IsPlaying_WhenNote2StartsAndStops_Note1StateShouldE
         midiTesting_noteOff(1, 1)
         turnoff()
     endif
-endin
+{{/CsoundTest}}
 
 
-instr GivenHardMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn_AtNote2StartKPlus2
-    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
-
+{{#CsoundTest "GivenHardMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn_AtNote2StartKPlus2"
+    solo=false
+    mute=false
+}}
     ki init 0
     ki += 1
 
@@ -276,12 +264,13 @@ instr GivenHardMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn_A
         midiTesting_noteOff(1, 2)
         turnoff()
     endif
-endin
+{{/CsoundTest}}
 
 
-instr GivenHardMaxIs1AndSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff_AtNote2StartKPlus2
-    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
-
+{{#CsoundTest "GivenHardMaxIs1AndSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff_AtNote2StartKPlus2"
+    solo=false
+    mute=false
+}}
     ki init 0
     ki += 1
 
@@ -297,12 +286,13 @@ instr GivenHardMaxIs1AndSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateSh
         midiTesting_noteOff(1, 2)
         turnoff()
     endif
-endin
+{{/CsoundTest}}
 
 
-instr GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note1StateShouldEqualHardOff_AtNote2StartKPlus2
-    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
-
+{{#CsoundTest "GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note1StateShouldEqualHardOff_AtNote2StartKPlus2"
+    solo=false
+    mute=false
+}}
     ki init 0
     ki += 1
 
@@ -320,12 +310,13 @@ instr GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note1Sta
         midiTesting_noteOff(1, 3)
         turnoff()
     endif
-endin
+{{/CsoundTest}}
 
 
-instr GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note2StateShouldEqualSoftOff_AtNote2StartKPlus2
-    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
-
+{{#CsoundTest "GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note2StateShouldEqualSoftOff_AtNote2StartKPlus2"
+    solo=false
+    mute=false
+}}
     ki init 0
     ki += 1
 
@@ -343,12 +334,13 @@ instr GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note2Sta
         midiTesting_noteOff(1, 3)
         turnoff()
     endif
-endin
+{{/CsoundTest}}
 
 
-instr GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualSoftOff_AtNote2StartKPlus2
-    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
-
+{{#CsoundTest "GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualSoftOff_AtNote2StartKPlus2"
+    solo=false
+    mute=false
+}}
     ki init 0
     ki += 1
 
@@ -363,12 +355,13 @@ instr GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualSoft
         midiTesting_noteOff(1, 2)
         turnoff()
     endif
-endin
+{{/CsoundTest}}
 
 
-instr GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualMuted_AfterDefaultSoftOffFadeTime
-    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
-
+{{#CsoundTest "GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualMuted_AfterDefaultSoftOffFadeTime"
+    solo=false
+    mute=false
+}}
     ki init 0
     k_noteSoftOffStartTime init 0
     k_softOffFadeTime init {{hostValueGet}}:i("Module::SoftOffFadeTime")
@@ -390,12 +383,13 @@ instr GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualMute
             turnoff()
         endif
     endif
-endin
+{{/CsoundTest}}
 
 
-instr GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn_AtNote2StartKPlus2
-    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
-
+{{#CsoundTest "GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn_AtNote2StartKPlus2"
+    solo=false
+    mute=false
+}}
     ki init 0
     ki += 1
 
@@ -410,12 +404,13 @@ instr GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn_A
         midiTesting_noteOff(1, 2)
         turnoff()
     endif
-endin
+{{/CsoundTest}}
 
 
-instr GivenSoftMaxIs2AndNotes1And2ArePlaying_WhenNote3Starts_Note1StateShouldEqualSoftOff_AtNote2StartKPlus2
-    {{LogTrace_i '("%s ...", nstrstr(p1))'}}
-
+{{#CsoundTest "GivenSoftMaxIs2AndNotes1And2ArePlaying_WhenNote3Starts_Note1StateShouldEqualSoftOff_AtNote2StartKPlus2"
+    solo=false
+    mute=false
+}}
     ki init 0
     ki += 1
 
@@ -432,14 +427,12 @@ instr GivenSoftMaxIs2AndNotes1And2ArePlaying_WhenNote3Starts_Note1StateShouldEqu
         midiTesting_noteOff(1, 3)
         turnoff()
     endif
-endin
+{{/CsoundTest}}
 
+
+{{/CsoundTestGroup}}
 
 {{include "csound-test/csound-test.orc"}}
-
-
-{{/with}}
-
 
 </CsInstruments>
 <CsScore>
