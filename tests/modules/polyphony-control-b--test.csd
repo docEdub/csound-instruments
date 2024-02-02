@@ -386,6 +386,36 @@ endin
 {{/CsoundTest}}
 
 
+{{#CsoundTest "GivenSoftMaxIs1AndSoftOffFadeTimeIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualMuted_AfterGivenSoftOffFadeTime"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    k_noteSoftOffStartTime init 0
+
+    i_softOffFadeTime = 2
+    {{hostValueSet}}("Module::SoftOffFadeTime", i_softOffFadeTime)
+
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::SoftMax", 1)
+        midiTesting_noteOn(1, 1, 127)
+    elseif (ki == 2) then
+        midiTesting_noteOn(1, 2, 127)
+    elseif (ki == 3) then
+        k_noteSoftOffStartTime = times()
+    elseif (ki >= 4) then
+        if (times() - k_noteSoftOffStartTime >= i_softOffFadeTime) then
+            {{CHECK_EQUAL_k '{+{State.Muted}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
+            midiTesting_noteOff(1, 1)
+            midiTesting_noteOff(1, 2)
+            turnoff()
+        endif
+    endif
+{{/CsoundTest}}
+
+
 {{#CsoundTest "GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn_AtNote2StartKPlus2"
     solo=false
     mute=false
