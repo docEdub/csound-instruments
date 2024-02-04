@@ -40,11 +40,12 @@
             "NoteCount": 8,
             "UpdateHardOffNotes": 9,
             "UpdateSoftOffNotes": 10,
-            "RemoveFinishedNotes": 11,
-            "HighNoteNumber": 12,
-            "LowNoteNumber": 13,
-            "HardOffActiveNoteCount": 14,
-            "SoftOffActiveNoteCount": 15
+            "UpdateSoftOnNotes": 11,
+            "RemoveFinishedNotes": 12,
+            "HighNoteNumber": 13,
+            "LowNoteNumber": 14,
+            "HardOffActiveNoteCount": 15,
+            "SoftOffActiveNoteCount": 16
         },
         "InstanceMemberCount": 16,
         "Note": {
