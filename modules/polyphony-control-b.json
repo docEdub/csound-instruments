@@ -40,25 +40,26 @@
             "NoteCount": 8,
             "UpdateHardOffNotes": 9,
             "UpdateSoftOffNotes": 10,
-            "UpdateSoftOnNotes": 11,
-            "RemoveFinishedNotes": 12,
-            "HighNoteNumber": 13,
-            "LowNoteNumber": 14,
-            "HardOffActiveNoteCount": 15,
-            "SoftOffActiveNoteCount": 16
+            "UpdateSoftOnHighNotes": 11,
+            "UpdateSoftOnLowNotes": 12,
+            "RemoveFinishedNotes": 13,
+            "HighNoteNumber": 14,
+            "LowNoteNumber": 15,
+            "HardOffActiveNoteCount": 16,
+            "SoftOffActiveNoteCount": 17
         },
-        "InstanceMemberCount": 16,
+        "InstanceMemberCount": 18,
         "Note": {
             "Id": 0,
             "Duration": 1,
             "Number": 2,
             "Velocity": 3,
-            "State": 6,
-            "Amp": 7,
-            "SoftOffActivated": 8,
-            "HardOffActivated": 9
+            "State": 4,
+            "Amp": 5,
+            "CountsTowardHardOff": 6,
+            "CountsTowardSoftOff": 7
         },
-        "NoteMemberCount": 10
+        "NoteMemberCount": 8
     },
     "uiTypes": [
         {
