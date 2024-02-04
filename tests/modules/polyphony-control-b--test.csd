@@ -176,7 +176,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenHardMaxIs1AndNote1IsOn_WhenNote2StartsAtK2_Note1StateShouldEqualHardOffAtK5"
+{{#CsoundTest "GivenHardMaxIs1AndNote1IsOn_WhenNote2StartsAtK2_Note1StateShouldEqualMutedAtK5"
     solo=false
     mute=false
 }}
