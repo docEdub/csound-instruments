@@ -170,8 +170,14 @@ opcode {{Module_private}}_Note_enterState_softOn, 0, ikk
     if (k_currentState != {{State.SoftOn}}) then
         // Init.
         {{LogTrace_k '("Note[%d].enterState_softOn", k_noteIndex)'}}
-        $DecrementArrayItem($Instance[{{Instance.SoftOffActiveNoteCount}}])
-        {{LogDebug_k '("Instance[%d].SoftOffActiveNoteCount-- = %d", i_instanceIndex, $Instance[{+{Instance.SoftOffActiveNoteCount}+}])'}}
+        $Note[{{Note.CountsTowardHardOff}}] = $true
+        $Note[{{Note.CountsTowardSoftOff}}] = $true
+        $IncrementArrayItem($Instance[{{Instance.HardOffActiveNoteCount}}])
+        $IncrementArrayItem($Instance[{{Instance.SoftOffActiveNoteCount}}])
+        {{LogDebug_k '("Instance[%d].HardOffActiveNoteCount++ = %d", i_instanceIndex, $Instance[{+{Instance.HardOffActiveNoteCount}+}])'}}
+        {{LogDebug_k '("Instance[%d].SoftOffActiveNoteCount++ = %d", i_instanceIndex, $Instance[{+{Instance.SoftOffActiveNoteCount}+}])'}}
+        $Instance[{{Instance.UpdateHardOffNotes}}] = $true
+        $Instance[{{Instance.UpdateSoftOffNotes}}] = $true
         k_amp = $Note[{{Note.Amp}}]
         k_ampDelta = (k(1) - k_amp) / (kr * {{moduleGet:k 'SoftOnFadeTime'}})
     else
