@@ -749,6 +749,84 @@ endin
 {{/CsoundTest}}
 
 
+{{#CsoundTest "GivenHardMaxIs1AndKeepHighAndLowNotesIsTrueAndHighAndLowNotesAreOn_WhenMidNoteIsOnAtK2AndHighNoteIsOffAtK4_MidNoteStateShouldEqualSoftOnAtK6"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::HardMax", 1)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        {{hostValueSet}}("Module::KeepLowNote", $true)
+        $NoteOn($HighNoteKey)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($MidNoteKey)
+    elseif (ki == 4) then
+        $NoteOff($HighNoteKey)
+    elseif (ki == 6) then
+        {{CHECK_EQUAL_k '{+{State.SoftOn}+}' '{+{hostValueGet}+}:k("Note.3.state")'}}
+        $NoteOff($LowNoteKey)
+        $NoteOff($MidNoteKey)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+
+{{#CsoundTest "GivenHardMaxIs1AndKeepHighAndLowNotesIsTrueAndHighAndLowNotesAreOn_WhenMidNoteIsOnAtK2AndLowNoteIsOffAtK4_MidNoteStateShouldEqualSoftOnAtK6"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::HardMax", 1)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        {{hostValueSet}}("Module::KeepLowNote", $true)
+        $NoteOn($HighNoteKey)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($MidNoteKey)
+    elseif (ki == 4) then
+        $NoteOff($LowNoteKey)
+    elseif (ki == 6) then
+        {{CHECK_EQUAL_k '{+{State.SoftOn}+}' '{+{hostValueGet}+}:k("Note.3.state")'}}
+        $NoteOff($HighNoteKey)
+        $NoteOff($MidNoteKey)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+
+{{#CsoundTest "GivenHardMaxIs1AndKeepHighAndLowNotesIsTrueAndHighAndLowNotesAreOn_WhenMidNoteIsOnAtK2AndHighAndLowNotesAreOffAtK4_MidNoteStateShouldEqualSoftOnAtK6"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::HardMax", 1)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        {{hostValueSet}}("Module::KeepLowNote", $true)
+        $NoteOn($HighNoteKey)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($MidNoteKey)
+    elseif (ki == 4) then
+        $NoteOff($LowNoteKey)
+        $NoteOff($HighNoteKey)
+    elseif (ki == 6) then
+        {{CHECK_EQUAL_k '{+{State.SoftOn}+}' '{+{hostValueGet}+}:k("Note.3.state")'}}
+        $NoteOff($MidNoteKey)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+
 {{/CsoundTestGroup}}
 
 {{include "csound-test/csound-test.orc"}}
