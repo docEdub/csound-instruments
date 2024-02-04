@@ -16,6 +16,7 @@
             "SoftMax": 90,
             "HardMax": 100,
             "SoftOffFadeTime": 1,
+            "SoftOnFadeTime": 1,
             "KeepHighNote": 0,
             "KeepLowNote": 0
         },

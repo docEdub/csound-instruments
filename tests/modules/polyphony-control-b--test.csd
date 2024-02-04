@@ -50,6 +50,7 @@ instr Reset
     {{hostValueSet}}("Module::SoftMax",         {{ChannelDefault.SoftMax}})
     {{hostValueSet}}("Module::HardMax",         {{ChannelDefault.HardMax}})
     {{hostValueSet}}("Module::SoftOffFadeTime", {{ChannelDefault.SoftOffFadeTime}})
+    {{hostValueSet}}("Module::SoftOnFadeTime",  {{ChannelDefault.SoftOnFadeTime}})
     {{hostValueSet}}("Module::KeepHighNote",    {{ChannelDefault.KeepHighNote}})
     {{hostValueSet}}("Module::KeepLowNote",     {{ChannelDefault.KeepLowNote}})
 
