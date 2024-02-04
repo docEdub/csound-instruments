@@ -149,8 +149,8 @@ opcode {{Module_private}}_Note_enterState_on, 0, ikk
         $IncrementArrayItem($Instance[{{Instance.SoftOffActiveNoteCount}}])
         {{LogDebug_k '("Instance[%d].HardOffActiveNoteCount++ = %d", i_instanceIndex, $Instance[{+{Instance.HardOffActiveNoteCount}+}])'}}
         {{LogDebug_k '("Instance[%d].SoftOffActiveNoteCount++ = %d", i_instanceIndex, $Instance[{+{Instance.SoftOffActiveNoteCount}+}])'}}
-        $Instance[{{Instance.UpdateHardNotes}}] = $true
-        $Instance[{{Instance.UpdateSoftNotes}}] = $true
+        $Instance[{{Instance.UpdateHardOffNotes}}] = $true
+        $Instance[{{Instance.UpdateSoftOffNotes}}] = $true
     endif
 endop
 
@@ -355,15 +355,15 @@ instr {{Module_private}}_alwayson
 
     {{LogTrace_i '("AF_Module_PolyphonyControl_B_alwayson: i_instanceIndex = %d", i_instanceIndex)'}}
 
-    if ($Instance[{{Instance.UpdateHardNotes}}] == $true || $Instance[{{Instance.UpdateSoftNotes}}] == $true) then
+    if ($Instance[{{Instance.UpdateHardOffNotes}}] == $true || $Instance[{{Instance.UpdateSoftOffNotes}}] == $true) then
         k_softOffActiveNoteCount = $Instance[{{Instance.SoftOffActiveNoteCount}}]
         {{LogDebug_k '("k_softOffActiveNoteCount = %d", k_softOffActiveNoteCount)'}}
 
         k_updateHighAndLowNoteNumbers = $true
     endif
 
-    if ($Instance[{{Instance.UpdateHardNotes}}] == $true) then
-        $Instance[{{Instance.UpdateHardNotes}}] = $false
+    if ($Instance[{{Instance.UpdateHardOffNotes}}] == $true) then
+        $Instance[{{Instance.UpdateHardOffNotes}}] = $false
 
         k_hardMax = $Instance[{{Instance.HardMax}}]
         k_hardOffActiveNoteCount = $Instance[{{Instance.HardOffActiveNoteCount}}]
@@ -392,8 +392,8 @@ instr {{Module_private}}_alwayson
         endif
     endif
 
-    if ($Instance[{{Instance.UpdateSoftNotes}}] == $true) then
-        $Instance[{{Instance.UpdateSoftNotes}}] = $false
+    if ($Instance[{{Instance.UpdateSoftOffNotes}}] == $true) then
+        $Instance[{{Instance.UpdateSoftOffNotes}}] = $false
 
         k_softMax = $Instance[{{Instance.SoftMax}}]
 
