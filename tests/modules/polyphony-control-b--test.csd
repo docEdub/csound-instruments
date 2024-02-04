@@ -112,7 +112,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenReleaseTimeIs1_WhenNote1Ends_Note1StateShouldEqualOff_After1Second"
+{{#CsoundTest "GivenReleaseTimeIs1_WhenNote1Ends_Note1StateShouldEqualOffAfter1Second"
     solo=false
     mute=false
 }}
@@ -155,7 +155,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff_AtNote2StartKPlus2"
+{{#CsoundTest "GivenHardMaxIs1AndNote1IsOn_WhenNote2StartsAtK2_Note1StateShouldEqualHardOffAtK4"
     solo=false
     mute=false
 }}
@@ -176,7 +176,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff_AtNote2StartKPlus3"
+{{#CsoundTest "GivenHardMaxIs1AndNote1IsOn_WhenNote2StartsAtK2_Note1StateShouldEqualHardOffAtK5"
     solo=false
     mute=false
 }}
@@ -197,7 +197,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note2StateShouldEqualOn_AtNote2StartKPlus2"
+{{#CsoundTest "GivenHardMaxIs1AndNote1IsOn_WhenNote2StartsAtK2_Note2StateShouldEqualOnAtK4"
     solo=false
     mute=false
 }}
@@ -218,7 +218,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2StartsAndStops_Note1StateShouldEqualHardOff_AtNote2StartKPlus2"
+{{#CsoundTest "GivenHardMaxIs1AndNote1IsOn_WhenNote2StartsAtK2AndStopsAtK3_Note1StateShouldEqualHardOffAtK4"
     solo=false
     mute=false
 }}
@@ -240,7 +240,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenHardMaxIs1AndNote1IsPlaying_WhenNote2StartsAndStops_Note1StateShouldEqualMuted_AtNote2StartKPlus3"
+{{#CsoundTest "GivenHardMaxIs1AndNote1IsOn_WhenNote2StartsAtK2AndStopsAtK3_Note1StateShouldEqualMutedAtK5"
     solo=false
     mute=false
 }}
@@ -262,7 +262,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenHardMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn_AtNote2StartKPlus2"
+{{#CsoundTest "GivenHardMaxIs2AndNote1IsOn_WhenNote2StartsAtK2_Note1StateShouldEqualOnAtK4"
     solo=false
     mute=false
 }}
@@ -283,7 +283,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenHardMaxIs1AndSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualHardOff_AtNote2StartKPlus2"
+{{#CsoundTest "GivenHardMaxIs1AndSoftMaxIs1AndNote1IsOn_WhenNote2StartsAtK2_Note1StateShouldEqualHardOffAtK4"
     solo=false
     mute=false
 }}
@@ -305,7 +305,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note1StateShouldEqualHardOff_AtNote2StartKPlus2"
+{{#CsoundTest "GivenHardMaxIs2AndSoftMaxIs1AndNote1IsOn_WhenNotes2And3StartAtK2_Note1StateShouldEqualHardOffAtK4"
     solo=false
     mute=false
 }}
@@ -329,7 +329,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenHardMaxIs2AndSoftMaxIs1AndNote1IsPlaying_WhenNotes2And3Start_Note2StateShouldEqualSoftOff_AtNote2StartKPlus2"
+{{#CsoundTest "GivenHardMaxIs2AndSoftMaxIs1AndNote1IsOn_WhenNotes2And3StartAtK2_Note2StateShouldEqualSoftOffAtK4"
     solo=false
     mute=false
 }}
@@ -353,7 +353,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualSoftOff_AtNote2StartKPlus2"
+{{#CsoundTest "GivenSoftMaxIs1AndNote1IsOn_WhenNote2StartsAtK2_Note1StateShouldEqualSoftOffAtK4"
     solo=false
     mute=false
 }}
@@ -374,7 +374,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenSoftMaxIs1AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualMuted_AfterDefaultSoftOffFadeTime"
+{{#CsoundTest "GivenSoftMaxIs1AndNote1IsOn_WhenNote2Starts_Note1StateShouldEqualMuted_AfterDefaultSoftOffFadeTime"
     solo=false
     mute=false
 }}
@@ -402,7 +402,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenSoftMaxIs1AndSoftOffFadeTimeIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualMuted_AfterGivenSoftOffFadeTime"
+{{#CsoundTest "GivenSoftMaxIs1AndSoftOffFadeTimeIs2AndNote1IsOn_WhenNote2Starts_Note1StateShouldEqualMuted_AfterGivenSoftOffFadeTime"
     solo=false
     mute=false
 }}
@@ -432,7 +432,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenSoftMaxIs2AndNote1IsPlaying_WhenNote2Starts_Note1StateShouldEqualOn_AtNote2StartKPlus2"
+{{#CsoundTest "GivenSoftMaxIs2AndNote1IsOn_WhenNote2StartsAtK2_Note1StateShouldEqualOnAtK4"
     solo=false
     mute=false
 }}
@@ -453,7 +453,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenSoftMaxIs2AndNotes1And2ArePlaying_WhenNote3Starts_Note1StateShouldEqualSoftOff_AtNote2StartKPlus2"
+{{#CsoundTest "GivenSoftMaxIs2AndNotes1And2AreOn_WhenNote3StartsAtK2_Note1StateShouldEqualSoftOffAtK4"
     solo=false
     mute=false
 }}
@@ -476,7 +476,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenHardMaxIs1AndKeepHighNoteIsTrueAndHighNoteIsPlaying_WhenMidNoteStarts_HighNoteStateShouldEqualOn_AtMidNoteStartKPlus2"
+{{#CsoundTest "GivenHardMaxIs1AndKeepHighNoteIsTrueAndHighNoteIsOn_WhenMidNoteStartsAtK2_HighNoteStateShouldEqualOnAtK4"
     solo=false
     mute=false
 }}
@@ -498,7 +498,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenHardMaxIs1AndKeepHighNoteIsTrueAndHighNoteIsPlaying_WhenMidNoteStarts_MidNoteStateShouldEqualHardOff_AtMidNoteStartKPlus2"
+{{#CsoundTest "GivenHardMaxIs1AndKeepHighNoteIsTrueAndHighNoteIsOn_WhenMidNoteStartsAtK2_MidNoteStateShouldEqualHardOffAtK4"
     solo=false
     mute=false
 }}
