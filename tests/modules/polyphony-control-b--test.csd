@@ -589,6 +589,37 @@ endin
 {{/CsoundTest}}
 
 
+{{#CsoundTest "GivenHardMaxIs1AndKeepHighNoteIsTrue_WhenMidNoteStateEntersSoftOn_MidNoteStateShouldEqualOn_AfterDefaultSoftOnFadeTime"
+    solo=false
+    mute=false
+}}
+    k_noteSoftOnStartTime init 0
+    k_softOnFadeTime init {{hostValueGet}}:i("Module::SoftOnFadeTime")
+
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::HardMax", 1)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        $NoteOn($HighNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($MidNoteKey)
+    elseif (ki == 3) then
+        $NoteOff($HighNoteKey)
+    elseif (ki == 5) then
+        {{CHECK_EQUAL_k '{+{State.SoftOn}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
+        k_noteSoftOnStartTime = times()
+    elseif (ki >= 6) then
+        if (times() - k_noteSoftOnStartTime >= k_softOnFadeTime) then
+            {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
+            $NoteOff($MidNoteKey)
+            turnoff()
+        endif
+    endif
+{{/CsoundTest}}
+
+
 {{/CsoundTestGroup}}
 
 {{include "csound-test/csound-test.orc"}}
