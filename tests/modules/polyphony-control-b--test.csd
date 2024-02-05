@@ -1106,6 +1106,324 @@ endin
 {{/CsoundTest}}
 
 
+{{#CsoundTest "GivenSoftMaxIs1AndKeepLowNoteIsTrue_WhenMidNoteStateEntersSoftOn_MidNoteStateShouldEqualOn_AfterDefaultSoftOnFadeTime"
+    solo=false
+    mute=false
+}}
+    k_noteSoftOnStartTime init 0
+    k_softOnFadeTime init {{hostValueGet}}:i("Module::SoftOnFadeTime")
+
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::SoftMax", 1)
+        {{hostValueSet}}("Module::KeepLowNote", $true)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($MidNoteKey)
+    elseif (ki == 3) then
+        $NoteOff($LowNoteKey)
+    elseif (ki == 5) then
+        {{CHECK_EQUAL_k '{+{State.SoftOn}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
+        k_noteSoftOnStartTime = times()
+    elseif (ki >= 6) then
+        if (times() - k_noteSoftOnStartTime >= k_softOnFadeTime) then
+            {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
+            $NoteOff($MidNoteKey)
+            turnoff()
+        endif
+    endif
+{{/CsoundTest}}
+
+
+{{#CsoundTest "GivenSoftMaxIs1AndKeepHighAndLowNotesIsTrueAndHighAndLowNotesAreOn_WhenMidNoteStartsAtK2_HighAndLowNoteStatesShouldEqualOnAtK4"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::SoftMax", 1)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        {{hostValueSet}}("Module::KeepLowNote", $true)
+        $NoteOn($HighNoteKey)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($MidNoteKey)
+    elseif (ki == 4) then
+        {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.1.state")'}}
+        {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
+        $NoteOff($HighNoteKey)
+        $NoteOff($LowNoteKey)
+        $NoteOff($MidNoteKey)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+
+{{#CsoundTest "GivenSoftMaxIs1AndKeepHighAndLowNotesIsTrueAndHighAndLowNotesAreOn_WhenMidNoteStartsAtK2_MidNoteStateShouldEqualSoftOffAtK4"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::SoftMax", 1)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        {{hostValueSet}}("Module::KeepLowNote", $true)
+        $NoteOn($HighNoteKey)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($MidNoteKey)
+    elseif (ki == 4) then
+        {{CHECK_EQUAL_k '{+{State.SoftOff}+}' '{+{hostValueGet}+}:k("Note.3.state")'}}
+        $NoteOff($HighNoteKey)
+        $NoteOff($LowNoteKey)
+        $NoteOff($MidNoteKey)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+
+{{#CsoundTest "GivenSoftMaxIs1AndKeepHighAndLowNotesIsTrueAndHighAndLowNotesAreOn_WhenMidNoteStartsAtK2_MidNoteStateShouldEqualMuted_AfterDefaultSoftOffFadeTime"
+    solo=false
+    mute=false
+}}
+    k_noteSoftOffStartTime init 0
+    k_softOffFadeTime init {{hostValueGet}}:i("Module::SoftOffFadeTime")
+
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::HardMax", 1)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        {{hostValueSet}}("Module::KeepLowNote", $true)
+        $NoteOn($HighNoteKey)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($MidNoteKey)
+    elseif (ki == 3) then
+        k_noteSoftOffStartTime = times()
+    elseif (ki >= 4) then
+        if (times() - k_noteSoftOffStartTime >= k_softOffFadeTime) then
+            {{CHECK_EQUAL_k '{+{State.Muted}+}' '{+{hostValueGet}+}:k("Note.3.state")'}}
+            $NoteOff($HighNoteKey)
+            $NoteOff($LowNoteKey)
+            $NoteOff($MidNoteKey)
+            turnoff()
+        endif
+    endif
+{{/CsoundTest}}
+
+
+{{#CsoundTest "GivenSoftMaxIs1AndKeepHighAndLowNotesIsTrueAndHighAndLowNotesAreOn_WhenMidNoteIsOnAtK2AndHighNoteIsOffAtK4_MidNoteStateShouldEqualSoftOnAtK6"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::SoftMax", 1)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        {{hostValueSet}}("Module::KeepLowNote", $true)
+        $NoteOn($HighNoteKey)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($MidNoteKey)
+    elseif (ki == 4) then
+        $NoteOff($HighNoteKey)
+    elseif (ki == 6) then
+        {{CHECK_EQUAL_k '{+{State.SoftOn}+}' '{+{hostValueGet}+}:k("Note.3.state")'}}
+        $NoteOff($LowNoteKey)
+        $NoteOff($MidNoteKey)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+
+{{#CsoundTest "GivenSoftMaxIs1AndKeepHighAndLowNotesIsTrueAndHighAndLowNotesAreOn_WhenMidNoteIsOnAtK2AndLowNoteIsOffAtK4_MidNoteStateShouldEqualSoftOnAtK6"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::SoftMax", 1)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        {{hostValueSet}}("Module::KeepLowNote", $true)
+        $NoteOn($HighNoteKey)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($MidNoteKey)
+    elseif (ki == 4) then
+        $NoteOff($LowNoteKey)
+    elseif (ki == 6) then
+        {{CHECK_EQUAL_k '{+{State.SoftOn}+}' '{+{hostValueGet}+}:k("Note.3.state")'}}
+        $NoteOff($HighNoteKey)
+        $NoteOff($MidNoteKey)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+
+{{#CsoundTest "GivenSoftMaxIs1AndKeepHighAndLowNotesIsTrueAndHighAndLowNotesAreOn_WhenMidNoteIsOnAtK2AndHighAndLowNotesAreOffAtK4_MidNoteStateShouldEqualSoftOnAtK6"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::SoftMax", 1)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        {{hostValueSet}}("Module::KeepLowNote", $true)
+        $NoteOn($HighNoteKey)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($MidNoteKey)
+    elseif (ki == 4) then
+        $NoteOff($LowNoteKey)
+        $NoteOff($HighNoteKey)
+    elseif (ki == 6) then
+        {{CHECK_EQUAL_k '{+{State.SoftOn}+}' '{+{hostValueGet}+}:k("Note.3.state")'}}
+        $NoteOff($MidNoteKey)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+
+{{#CsoundTest "GivenSoftMaxIs1AndKeepHighAndLowNotesIsTrueAndHighAndLowNotesAreOn_WhenMidAndMidHighNotesAreOnAtK2AndHighNoteIsOffAtK4_MidHighNoteStateShouldEqualSoftOnAtK6"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::SoftMax", 1)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        {{hostValueSet}}("Module::KeepLowNote", $true)
+        $NoteOn($HighNoteKey)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($MidNoteKey)
+        $NoteOn($MidHighNoteKey)
+    elseif (ki == 4) then
+        $NoteOff($HighNoteKey)
+    elseif (ki == 6) then
+        {{CHECK_EQUAL_k '{+{State.SoftOn}+}' '{+{hostValueGet}+}:k("Note.4.state")'}}
+        $NoteOff($LowNoteKey)
+        $NoteOff($MidNoteKey)
+        $NoteOff($MidHighNoteKey)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+
+{{#CsoundTest "GivenSoftMaxIs1AndKeepHighAndLowNotesIsTrueAndHighAndLowNotesAreOn_WhenMidAndMidHighNotesAreOnAtK2AndHighNoteIsOffAtK4_MidNoteStateShouldEqualMuted_AfterSoftOffFadeTime"
+    solo=false
+    mute=false
+}}
+    k_noteSoftOffStartTime init 0
+    k_softOffFadeTime init {{hostValueGet}}:i("Module::SoftOffFadeTime")
+
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::SoftMax", 1)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        {{hostValueSet}}("Module::KeepLowNote", $true)
+        $NoteOn($HighNoteKey)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($MidNoteKey)
+        $NoteOn($MidHighNoteKey)
+    elseif (ki == 4) then
+        $NoteOff($HighNoteKey)
+    elseif (ki == 5) then
+        k_noteSoftOffStartTime = times()
+    elseif (ki >= 6) then
+        if (times() - k_noteSoftOffStartTime >= k_softOffFadeTime) then
+            {{CHECK_EQUAL_k '{+{State.Muted}+}' '{+{hostValueGet}+}:k("Note.3.state")'}}
+            $NoteOff($LowNoteKey)
+            $NoteOff($MidNoteKey)
+            $NoteOff($MidHighNoteKey)
+            turnoff()
+        endif
+    endif
+{{/CsoundTest}}
+
+
+{{#CsoundTest "GivenSoftMaxIs1AndKeepHighAndLowNotesIsTrueAndHighAndLowNotesAreOn_WhenMidAndMidLowNotesAreOnAtK2AndLowNoteIsOffAtK4_MidLowNoteStateShouldEqualSoftOnAtK6"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::SoftMax", 1)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        {{hostValueSet}}("Module::KeepLowNote", $true)
+        $NoteOn($HighNoteKey)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($MidNoteKey)
+        $NoteOn($MidLowNoteKey)
+    elseif (ki == 4) then
+        $NoteOff($LowNoteKey)
+    elseif (ki == 5) then
+        k_noteSoftOffStartTime = times()
+    elseif (ki == 6) then
+        {{CHECK_EQUAL_k '{+{State.SoftOn}+}' '{+{hostValueGet}+}:k("Note.4.state")'}}
+        $NoteOff($HighNoteKey)
+        $NoteOff($MidNoteKey)
+        $NoteOff($MidLowNoteKey)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+
+{{#CsoundTest "GivenSoftMaxIs1AndKeepHighAndLowNotesIsTrueAndHighAndLowNotesAreOn_WhenMidAndMidLowNotesAreOnAtK2AndLowNoteIsOffAtK4_MidNoteStateShouldEqualMuted_AfterSoftOffFadeTime"
+    solo=false
+    mute=false
+}}
+    k_noteSoftOffStartTime init 0
+    k_softOffFadeTime init {{hostValueGet}}:i("Module::SoftOffFadeTime")
+
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::HardMax", 1)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        {{hostValueSet}}("Module::KeepLowNote", $true)
+        $NoteOn($HighNoteKey)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($MidNoteKey)
+        $NoteOn($MidLowNoteKey)
+    elseif (ki == 4) then
+        $NoteOff($LowNoteKey)
+    elseif (ki == 6) then
+        if (times() - k_noteSoftOffStartTime >= k_softOffFadeTime) then
+            {{CHECK_EQUAL_k '{+{State.Muted}+}' '{+{hostValueGet}+}:k("Note.3.state")'}}
+            $NoteOff($HighNoteKey)
+            $NoteOff($MidNoteKey)
+            $NoteOff($MidLowNoteKey)
+            turnoff()
+        endif
+    endif
+{{/CsoundTest}}
+
+
 {{/CsoundTestGroup}}
 
 {{include "csound-test/csound-test.orc"}}
