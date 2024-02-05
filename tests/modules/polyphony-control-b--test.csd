@@ -17,12 +17,12 @@ nchnls = 1
 {{CsInstruments}}
 
 
-#define DefaultMidiChannel #1#
-#define DefaultVelocity  #127#
+#define DefaultMidiChannel # 1 #
+#define DefaultVelocity  # 127 #
 
-#define Key1 #1#
-#define Key2 #2#
-#define Key3 #3#
+#define Key1    # 1 #
+#define Key2    # 2 #
+#define Key3    # 3 #
 
 #define HighNoteKey     # 127 #
 #define MidHighNoteKey  #  96 #
