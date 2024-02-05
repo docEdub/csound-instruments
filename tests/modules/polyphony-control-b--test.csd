@@ -30,8 +30,8 @@ nchnls = 1
 #define MidLowNoteKey   #  32 #
 #define LowNoteKey      #   1 #
 
-#define NoteOn(key) # midiTesting_noteOn($DefaultMidiChannel, $key, $DefaultVelocity) #
-#define NoteOff(key) # midiTesting_noteOff($DefaultMidiChannel, $key) #
+#define NoteOn(key)     # midiTesting_noteOn($DefaultMidiChannel, $key, $DefaultVelocity) #
+#define NoteOff(key)    # midiTesting_noteOff($DefaultMidiChannel, $key) #
 
 
 {{InitializeModule "PolyphonyControl_B" "Module"}}
