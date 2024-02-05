@@ -24,9 +24,11 @@ nchnls = 1
 #define Key2 #2#
 #define Key3 #3#
 
-#define HighNoteKey #127#
-#define MidNoteKey   #64#
-#define LowNoteKey    #1#
+#define HighNoteKey     # 127 #
+#define MidHighNoteKey  #  96 #
+#define MidNoteKey      #  64 #
+#define MidLowNoteKey   #  32 #
+#define LowNoteKey      #   1 #
 
 #define NoteOn(key) # midiTesting_noteOn($DefaultMidiChannel, $key, $DefaultVelocity) #
 #define NoteOff(key) # midiTesting_noteOff($DefaultMidiChannel, $key) #
