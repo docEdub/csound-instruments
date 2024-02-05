@@ -434,7 +434,10 @@ instr {{Module_private}}_alwayson
 
             k_noteIndex = 0
             while ($Note[{{Note.Id}}] != -1 && k_softMax < k_softOffActiveNoteCount) do
-                if ($Note[{{Note.State}}] != {{State.SoftOff}} && $Note[{{Note.State}}] != {{State.HardOff}}) then
+                if ($Note[{{Note.State}}] != {{State.SoftOff}} \
+                        && $Note[{{Note.State}}] != {{State.HardOff}} \
+                        && $Note[{{Note.Number}}] != $Instance[{{Instance.HighNoteNumber}}] \
+                        && $Note[{{Note.Number}}] != $Instance[{{Instance.LowNoteNumber}}]) then
                     $Note[{{Note.State}}] = {{State.SoftOff}}
                     {{LogDebug_k '("Note[%d].State = State.SoftOff", k_noteIndex)'}}
 
