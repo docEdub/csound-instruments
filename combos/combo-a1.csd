@@ -146,7 +146,8 @@ instr 2
 
     k_polyphonyControlNoteIndex = AF_Module_PolyphonyControl_B_noteIndex("Synth_2::Polyphony_2")
     k_polyphonyControlState = AF_Module_PolyphonyControl_B_state("Synth_2::Polyphony_2", k_polyphonyControlNoteIndex)
-    if (k_polyphonyControlState == {{eval '(Constants.PolyphonyControl_B.State.Off)'}}) then
+    if (k_polyphonyControlState == {{eval '(Constants.PolyphonyControl_B.State.Muted)'}} \
+            || k_polyphonyControlState == {{eval '(Constants.PolyphonyControl_B.State.Off)'}}) then
         kgoto end
     endif
 
