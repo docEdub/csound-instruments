@@ -1468,6 +1468,60 @@ endin
 {{/CsoundTest}}
 
 
+{{#CsoundTest "GivenHardMaxIs3AndKeepHighAndLowNotesAreTrueAndHighAndLowNotesAreOn_WhenHighAndLowNotes3And4AreOnAtK2_LowNote4StateShouldEqualHardOffAtK4"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::HardMax", 3)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        {{hostValueSet}}("Module::KeepLowNote", $true)
+        $NoteOn($HighNoteKey)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($HighNoteKey)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 4) then
+        {{CHECK_EQUAL_k '{+{State.HardOff}+}' '{+{hostValueGet}+}:k("Note.4.state")'}}
+        $NoteOff($HighNoteKey)
+        $NoteOff($LowNoteKey)
+        $NoteOff($HighNoteKey)
+        $NoteOff($LowNoteKey)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+
+{{#CsoundTest "GivenHardMaxIs3AndKeepHighAndLowNotesAreTrueAndHighAndLowNotesAreOn_WhenHighAndLowNotes3And4AreOnAtK2_HighNote3StateShouldEqualOnAtK4"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::HardMax", 3)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        {{hostValueSet}}("Module::KeepLowNote", $true)
+        $NoteOn($HighNoteKey)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($HighNoteKey)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 4) then
+        {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.3.state")'}}
+        $NoteOff($HighNoteKey)
+        $NoteOff($LowNoteKey)
+        $NoteOff($HighNoteKey)
+        $NoteOff($LowNoteKey)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+
 {{/CsoundTestGroup}}
 
 {{include "csound-test/csound-test.orc"}}
