@@ -433,6 +433,32 @@ instr {{Module_private}}_alwayson
                 k_noteIndex += 1
             od
 
+            // Turn off duplicate low notes if the hard threshold is still exceeded.
+            if (k_hardMax < k_hardOffActiveNoteCount) then
+                k_noteIndex = 0
+                k_skippedOldestLowNote = $false
+                while ($Note[{{Note.Id}}] != -1 && k_skippedOldestLowNote = $false) do
+                    if ($Note[{{Note.State}}] != {{State.HardOff}} \
+                            && $Note[{{Note.Number}}] == $Instance[{{Instance.LowNoteNumber}}]) then
+                        k_skippedOldestLowNote = $true
+                    endif
+                    k_noteIndex += 1
+                od
+                while ($Note[{{Note.Id}}] != -1 && k_hardMax < k_hardOffActiveNoteCount) do
+                    if ($Note[{{Note.State}}] != {{State.HardOff}} \
+                            && $Note[{{Note.Number}}] == $Instance[{{Instance.LowNoteNumber}}]) then
+                        $Note[{{Note.State}}] = {{State.HardOff}}
+                        {{LogDebug_k '("Note[%d].State = State.HardOff", k_noteIndex)'}}
+
+                        k_hardOffActiveNoteCount -= 1
+                        k_softOffActiveNoteCount -= 1
+                        {{LogDebug_k '("k_hardOffActiveNoteCount = %d", k_hardOffActiveNoteCount)'}}
+                        {{LogDebug_k '("k_softOffActiveNoteCount = %d", k_softOffActiveNoteCount)'}}
+                    endif
+                    k_noteIndex += 1
+                od
+            endif
+
             // Turn off duplicate high notes if the hard threshold is still exceeded.
             if (k_hardMax < k_hardOffActiveNoteCount) then
                 k_noteIndex = 0
