@@ -161,7 +161,7 @@ instr 2
     a_out = AF_Module_Filter_A("Synth_2::Filter_1", a_out)
     a_out *= a_envelope
     a_out = dcblock2(a_out, ksmps)
-    a_out = AF_Module_PolyphonyControl_B_audioProcessing("Synth2::Polyphony_2", a_out)
+    a_out = AF_Module_PolyphonyControl_B_audioProcessing("Synth2::Polyphony_2", k_polyphonyControlNoteIndex, a_out)
 
     vincr(ga_out_l, a_out)
     vincr(ga_out_r, a_out)

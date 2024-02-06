@@ -411,11 +411,13 @@ end:
 endop
 
 
-opcode {{Module_public}}_audioProcessing, a, Sa
-    S_channelPrefix, a_in xin
+opcode {{Module_public}}_audioProcessing, a, Ska
+    S_channelPrefix, k_noteIndex, a_in xin
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
-    xout(a_in)
+    a_amp = $Note[{{Note.Amp}}]
+
+    xout(a_in * a_amp)
 endop
 
 
