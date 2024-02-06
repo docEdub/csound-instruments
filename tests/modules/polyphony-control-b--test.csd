@@ -1424,6 +1424,28 @@ endin
 {{/CsoundTest}}
 
 
+{{#CsoundTest "GivenHardMaxIs1AndKeepHighNoteIsTrueAndHighNoteIsOn_WhenHighNote2IsOnAtK2_HighNote2StateShouldEqualHardOffAtK4"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::HardMax", 1)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        $NoteOn($HighNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($HighNoteKey)
+    elseif (ki == 4) then
+        {{CHECK_EQUAL_k '{+{State.HardOff}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
+        $NoteOff($HighNoteKey)
+        $NoteOff($HighNoteKey)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+
 {{/CsoundTestGroup}}
 
 {{include "csound-test/csound-test.orc"}}
