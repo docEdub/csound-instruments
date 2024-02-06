@@ -49,12 +49,13 @@ instr Reset
 
     {{hostValueSet}}("Note.releaseTime",        0);
 
-    {{hostValueSet}}("Module::SoftMax",         {{ChannelDefault.SoftMax}})
-    {{hostValueSet}}("Module::HardMax",         {{ChannelDefault.HardMax}})
-    {{hostValueSet}}("Module::SoftOffFadeTime", {{ChannelDefault.SoftOffFadeTime}})
-    {{hostValueSet}}("Module::SoftOnFadeTime",  {{ChannelDefault.SoftOnFadeTime}})
-    {{hostValueSet}}("Module::KeepHighNote",    {{ChannelDefault.KeepHighNote}})
-    {{hostValueSet}}("Module::KeepLowNote",     {{ChannelDefault.KeepLowNote}})
+    {{hostValueSet}}("Module::SoftMax",             {{ChannelDefault.SoftMax}})
+    {{hostValueSet}}("Module::HardMax",             {{ChannelDefault.HardMax}})
+    {{hostValueSet}}("Module::SoftOffFadeTime",     {{ChannelDefault.SoftOffFadeTime}})
+    {{hostValueSet}}("Module::SoftOnFadeTime",      {{ChannelDefault.SoftOnFadeTime}})
+    {{hostValueSet}}("Module::KeepHighNote",        {{ChannelDefault.KeepHighNote}})
+    {{hostValueSet}}("Module::KeepLowNote",         {{ChannelDefault.KeepLowNote}})
+    {{hostValueSet}}("Module::KeepDuplicateNotes",  {{ChannelDefault.KeepDuplicateNotes}})
 
     gi_noteId init 0
 
@@ -1517,6 +1518,93 @@ endin
         $NoteOff($LowNoteKey)
         $NoteOff($HighNoteKey)
         $NoteOff($LowNoteKey)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+
+{{#CsoundTest "GivenKeepDuplicateNotesIsTrueAndNote1IsOn_WhenNote2IsOnAtK2_Note2StateShouldEqualOnAtK3"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::KeepDuplicateNotes", $true)
+        $NoteOn($Key1)
+    elseif (ki == 2) then
+        $NoteOn($Key1)
+    elseif (ki == 3) then
+        {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
+        $NoteOff($Key1)
+        $NoteOff($Key1)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+
+{{#CsoundTest "GivenKeepDuplicateNotesIsFalseAndNote1IsOn_WhenNote2IsOnAtK2_Note2StateShouldEqualOffAtK3"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::KeepDuplicateNotes", $false)
+        $NoteOn($Key1)
+    elseif (ki == 2) then
+        $NoteOn($Key1)
+    elseif (ki == 3) then
+        {{CHECK_EQUAL_k '{+{State.Off}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
+        $NoteOff($Key1)
+        $NoteOff($Key1)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+
+{{#CsoundTest "GivenKeepDuplicateNotesIsFalseAndNote1IsOn_WhenNote1IsOffAtK2AndNote2IsOnAtK3_Note2StateShouldEqualOnAtK4"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::KeepDuplicateNotes", $false)
+        $NoteOn($Key1)
+    elseif (ki == 2) then
+        $NoteOff($Key1)
+    elseif (ki == 3) then
+        $NoteOn($Key1)
+    elseif (ki == 4) then
+        {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
+        $NoteOff($Key1)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+
+{{#CsoundTest "GivenKeepDuplicateNotesIsFalseAndReleaseTimeIs1AndNote1IsOn_WhenNote1IsOffAtK2AndNote2IsOnAtK3_Note2StateShouldEqualOnAtK4"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::KeepDuplicateNotes", $false)
+        {{hostValueSet}}("Note.releaseTime", 1);
+        $NoteOn($Key1)
+    elseif (ki == 2) then
+        $NoteOff($Key1)
+    elseif (ki == 3) then
+        $NoteOn($Key1)
+    elseif (ki == 4) then
+        {{CHECK_EQUAL_k '{+{State.On}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
+        $NoteOff($Key1)
         turnoff()
     endif
 {{/CsoundTest}}

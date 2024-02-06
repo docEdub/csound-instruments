@@ -13,10 +13,12 @@
 
 
 gk_{{Module_private}}_Instance[][] init 1, {{InstanceMemberCount}}
+gk_{{Module_private}}_Instance_NoteKeyOnCount[][] init 1, 128
 gk_{{Module_private}}_Note[][][] init 1, {{MaxNoteCount}}, {{NoteMemberCount}}
 
 
 #define Instance                                # gk_{{Module_private}}_Instance[i_instanceIndex] #
+#define NoteKeyOnCount                          # gk_{{Module_private}}_Instance_NoteKeyOnCount[i_instanceIndex] #
 #define Note                                    # gk_{{Module_private}}_Note[i_instanceIndex][k_noteIndex] #
 
 #define Instance_getNextNoteId()                # {{Module_private}}_Instance_getNextNoteId(i_instanceIndex) #
@@ -103,21 +105,23 @@ opcode {{Module_private}}_Note_initialize, k, i
     if (k_initialized == $false) then
         k_initialized = $true
 
-        $Instance[{{Instance.SoftMax}}]      = {{moduleGet:k 'SoftMax'}}
-        $Instance[{{Instance.HardMax}}]      = {{moduleGet:k 'HardMax'}}
-        $Instance[{{Instance.KeepHighNote}}] = {{moduleGet:k 'KeepHighNote'}}
-        $Instance[{{Instance.KeepLowNote}}]  = {{moduleGet:k 'KeepLowNote'}}
+        $Instance[{{Instance.SoftMax}}]             = {{moduleGet:k 'SoftMax'}}
+        $Instance[{{Instance.HardMax}}]             = {{moduleGet:k 'HardMax'}}
+        $Instance[{{Instance.KeepHighNote}}]        = {{moduleGet:k 'KeepHighNote'}}
+        $Instance[{{Instance.KeepLowNote}}]         = {{moduleGet:k 'KeepLowNote'}}
+        $Instance[{{Instance.KeepDuplicateNotes}}]  = {{moduleGet:k 'KeepDuplicateNotes'}}
 
         k_noteId = $Instance_getNextNoteId()
         k_noteIndex = $Instance_getNextNoteIndex()
 
-        $Note[{{Note.Id}}]                  = k_noteId
-        $Note[{{Note.Number}}]              = notnum()
-        $Note[{{Note.Velocity}}]            = veloc()
-        $Note[{{Note.State}}]               = {{State.Initialized}}
-        $Note[{{Note.Amp}}]                 = 1
-        $Note[{{Note.CountsTowardHardOff}}] = $true
-        $Note[{{Note.CountsTowardSoftOff}}] = $true
+        $Note[{{Note.Id}}]                      = k_noteId
+        $Note[{{Note.Number}}]                  = notnum()
+        $Note[{{Note.Velocity}}]                = veloc()
+        $Note[{{Note.State}}]                   = {{State.Initialized}}
+        $Note[{{Note.Amp}}]                     = 1
+        $Note[{{Note.CountsTowardHardOff}}]     = $true
+        $Note[{{Note.CountsTowardSoftOff}}]     = $true
+        $Note[{{Note.CountsTowardKeyCount}}]    = $true
     else
         // If the note got moved down in the note array, update its index.
         while ($Note[{{Note.Id}}] != k_noteId) do
@@ -304,6 +308,13 @@ opcode {{Module_private}}_Note_enterState_off, 0, ikk
         elseif ($Note[{{Note.Number}}] == $Instance[{{Instance.LowNoteNumber}}]) then
             $Instance[{{Instance.UpdateSoftOnLowNotes}}] = $true
         endif
+
+        if ($Note[{{Note.CountsTowardKeyCount}}] == $true) then
+            $Note[{{Note.CountsTowardKeyCount}}] = $false
+            $DecrementArrayItem($NoteKeyOnCount[$Note[{{Note.Number}}]])
+            {{LogDebug_k '("NoteKeyOnCount[%d]-- = %d", $Note[{+{Note.Number}+}], $NoteKeyOnCount[$Note[{+{Note.Number}+}]])'}}
+        endif
+
     endif
 endop
 
@@ -358,8 +369,24 @@ opcode {{Module_public}}, k, S
     k_currentState init {{State.Initialized}}
 
     if (k_currentState == {{State.Initialized}}) then
-        $Note[{{Note.State}}] = {{State.On}}
-        {{LogDebug_k '("Note[%d].State = State.On", k_noteIndex)'}}
+        if ($Instance[{{Instance.KeepDuplicateNotes}}] == $false) then
+            if ($NoteKeyOnCount[$Note[{{Note.Number}}]] > 0) then
+                $Note[{{Note.CountsTowardKeyCount}}] = $false
+                $Note[{{Note.State}}] = {{State.Off}}
+                {{LogDebug_k '("Note[%d].State = State.Off", k_noteIndex)'}}
+            endif
+        endif
+        if ($Note[{{Note.CountsTowardKeyCount}}] == $true) then
+            $Note[{{Note.State}}] = {{State.On}}
+            $IncrementArrayItem($NoteKeyOnCount[$Note[{{Note.Number}}]])
+            {{LogDebug_k '("Note[%d].State = State.On", k_noteIndex)'}}
+        endif
+    endif
+
+    if (release() == $true && $Note[{{Note.CountsTowardKeyCount}}] == $true) then
+        $Note[{{Note.CountsTowardKeyCount}}] = $false
+        $DecrementArrayItem($NoteKeyOnCount[$Note[{{Note.Number}}]])
+        {{LogDebug_k '("NoteKeyOnCount[%d]-- = %d", $Note[{+{Note.Number}+}], $NoteKeyOnCount[$Note[{+{Note.Number}+}]])'}}
     endif
 
     if (lastcycle() == $true) then
@@ -646,6 +673,7 @@ endin
 
 
 #undef Instance
+#undef NoteKeyOnCount
 #undef Note
 
 #undef Instance_getNextNoteId

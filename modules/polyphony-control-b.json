@@ -9,8 +9,9 @@
             "SoftOnFadeTime": 5,
             "KeepHighNote": 6,
             "KeepLowNote": 7,
-            "SoftCount": 8,
-            "HardCount": 9
+            "KeepDuplicateNotes": 8,
+            "SoftCount": 9,
+            "HardCount": 10
         },
         "ChannelDefault": {
             "SoftMax": 90,
@@ -18,7 +19,8 @@
             "SoftOffFadeTime": 1,
             "SoftOnFadeTime": 1,
             "KeepHighNote": 0,
-            "KeepLowNote": 0
+            "KeepLowNote": 0,
+            "KeepDuplicateNotes": 1
         },
         "State": {
             "Initialized": 0,
@@ -37,19 +39,20 @@
             "SoftOnFadeTime": 4,
             "KeepHighNote": 5,
             "KeepLowNote": 6,
-            "NextNoteId": 7,
-            "NoteCount": 8,
-            "UpdateHardOffNotes": 9,
-            "UpdateSoftOffNotes": 10,
-            "UpdateSoftOnHighNotes": 11,
-            "UpdateSoftOnLowNotes": 12,
-            "RemoveFinishedNotes": 13,
-            "HighNoteNumber": 14,
-            "LowNoteNumber": 15,
-            "HardOffActiveNoteCount": 16,
-            "SoftOffActiveNoteCount": 17
+            "KeepDuplicateNotes": 7,
+            "NextNoteId": 8,
+            "NoteCount": 9,
+            "UpdateHardOffNotes": 10,
+            "UpdateSoftOffNotes": 11,
+            "UpdateSoftOnHighNotes": 12,
+            "UpdateSoftOnLowNotes": 13,
+            "RemoveFinishedNotes": 14,
+            "HighNoteNumber": 15,
+            "LowNoteNumber": 16,
+            "HardOffActiveNoteCount": 17,
+            "SoftOffActiveNoteCount": 18
         },
-        "InstanceMemberCount": 18,
+        "InstanceMemberCount": 19,
         "Note": {
             "Id": 0,
             "Duration": 1,
@@ -58,9 +61,10 @@
             "State": 4,
             "Amp": 5,
             "CountsTowardHardOff": 6,
-            "CountsTowardSoftOff": 7
+            "CountsTowardSoftOff": 7,
+            "CountsTowardKeyCount": 8
         },
-        "NoteMemberCount": 8
+        "NoteMemberCount": 9
     },
     "uiTypes": [
         {
