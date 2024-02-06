@@ -144,7 +144,8 @@ instr 2
     // NB: We call the envelope module UDO here so the polyphony control UDO's `lastcycle` init sees the envelope's release time.
     a_envelope = AF_Module_Envelope_A("Synth_2::Envelope_1")
 
-    k_polyphonyControlState = AF_Module_PolyphonyControl_B("Synth_2::Polyphony_2")
+    k_polyphonyControlNoteIndex = AF_Module_PolyphonyControl_B_noteIndex("Synth_2::Polyphony_2")
+    k_polyphonyControlState = AF_Module_PolyphonyControl_B_state("Synth_2::Polyphony_2", k_polyphonyControlNoteIndex)
     if (k_polyphonyControlState == {{eval '(Constants.PolyphonyControl_B.State.Off)'}}) then
         kgoto end
     endif

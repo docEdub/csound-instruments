@@ -76,7 +76,8 @@ instr 2
 
     xtratim(i_releaseTime)
 
-    k_state = AF_Module_PolyphonyControl_B("Module")
+    k_polyphonyControlNoteIndex = AF_Module_PolyphonyControl_B_noteIndex("Module")
+    k_state = AF_Module_PolyphonyControl_B_state("Module", k_polyphonyControlNoteIndex)
     {{hostValueSet}}(sprintfk("Note.%d.state", i_noteId), k_state)
 endin
 

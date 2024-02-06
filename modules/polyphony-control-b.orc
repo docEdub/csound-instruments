@@ -356,16 +356,25 @@ opcode {{Module_private}}_Note_updateState, 0, ikk
 endop
 
 
-/// Main module opcode.
-/// @return k variable indicating the current polyphony state of the note.
-///
-/// NB: This needs to be called after any relevant envelopes with extended release segments are initialized.
-///
-opcode {{Module_public}}, k, S
+opcode {{Module_public}}_noteIndex, k, S
     S_channelPrefix xin
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
     k_noteIndex = $Note_initialize()
+
+    xout(k_noteIndex)
+endop
+
+
+/// Module state opcode.
+/// @return k variable indicating the current polyphony state of the note.
+///
+/// NB: This needs to be called after any relevant envelopes with extended release segments are initialized.
+///
+opcode {{Module_public}}_state, k, Sk
+    S_channelPrefix, k_noteIndex xin
+    i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
+
     k_currentState init {{State.Initialized}}
 
     if (k_currentState == {{State.Initialized}}) then
