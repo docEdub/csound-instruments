@@ -8,8 +8,8 @@
 
 {{#with PolyphonyControl_B}}
 
-{{Enable-LogTrace false}}
-{{Enable-LogDebug false}}
+{{Enable-LogTrace true}}
+{{Enable-LogDebug true}}
 
 
 gk_{{Module_private}}_Instance[][] init 1, {{InstanceMemberCount}}
@@ -99,6 +99,11 @@ opcode {{Module_private}}_Note_initialize, k, i
     k_noteId init -1
     k_noteIndex init -1
 
+    if ({{moduleGet:k 'Enabled'}} == $false) then
+        k_noteIndex = -1
+        kgoto end
+    endif
+
     $Note[{{Note.Duration}}] = timeinsts()
 
     k_initialized init $false
@@ -126,7 +131,7 @@ opcode {{Module_private}}_Note_initialize, k, i
         // If the note got moved down in the note array, update its index.
         while ($Note[{{Note.Id}}] != k_noteId) do
             k_noteIndex -= 1
-            {{LogDebug_k '("Note[%d]: id = %d, index-- = %d", k_noteIndex, $Note[{+{Note.Id}+}], k_noteIndex)'}}
+            {{LogDebug_k '("Note[%d]:%d: id = %d, index-- = %d", k_noteIndex, $Note[{+{Note.Number}+}], $Note[{+{Note.Id}+}], k_noteIndex)'}}
             if (k_noteIndex < 0) then
                 {{LogError_k '("AF_Module_PolyphonyControl_B: note id %d not found", k_noteId)'}}
                 kgoto end
@@ -149,7 +154,7 @@ opcode {{Module_private}}_Note_enterState_on, 0, ikk
 
     if (k_currentState != {{State.On}}) then
         // Init.
-        {{LogTrace_k '("Note[%d].enterState_on", k_noteIndex)'}}
+        {{LogTrace_k '("Note[%d]:%d.enterState_on", k_noteIndex, $Note[{+{Note.Number}+}])'}}
         $IncrementArrayItem($Instance[{{Instance.HardOffActiveNoteCount}}])
         $IncrementArrayItem($Instance[{{Instance.SoftOffActiveNoteCount}}])
         {{LogDebug_k '("Instance[%d].HardOffActiveNoteCount++ = %d", i_instanceIndex, $Instance[{+{Instance.HardOffActiveNoteCount}+}])'}}
@@ -173,7 +178,7 @@ opcode {{Module_private}}_Note_enterState_softOn, 0, ikk
 
     if (k_currentState != {{State.SoftOn}}) then
         // Init.
-        {{LogTrace_k '("Note[%d].enterState_softOn", k_noteIndex)'}}
+        {{LogTrace_k '("Note[%d]:%d.enterState_softOn", k_noteIndex, $Note[{+{Note.Number}+}])'}}
 
         if ($Note[{{Note.CountsTowardHardOff}}] == $false) then
             $Note[{{Note.CountsTowardHardOff}}] = $true
@@ -187,7 +192,7 @@ opcode {{Module_private}}_Note_enterState_softOn, 0, ikk
         {{LogDebug_k '("Instance[%d].SoftOffActiveNoteCount++ = %d", i_instanceIndex, $Instance[{+{Instance.SoftOffActiveNoteCount}+}])'}}
         $Instance[{{Instance.UpdateSoftOffNotes}}] = $true
 
-        {{LogTrace_k '("Note[%d].Amp = %f", k_noteIndex, $Note[{+{Note.Amp}+}])'}}
+        {{LogTrace_k '("Note[%d]:%d.Amp = %f", k_noteIndex, $Note[{+{Note.Number}+}], $Note[{+{Note.Amp}+}])'}}
         k_amp = $Note[{{Note.Amp}}]
         k_ampDelta = (k(1) - k_amp) / (kr * {{moduleGet:k 'SoftOnFadeTime'}})
     endif
@@ -196,10 +201,10 @@ opcode {{Module_private}}_Note_enterState_softOn, 0, ikk
     if (k_amp >= 1) then
         k_amp = 1
         $Note[{{Note.State}}] = {{State.On}}
-        {{LogDebug_k '("Note[%d].State = State.On", k_noteIndex)'}}
+        {{LogDebug_k '("Note[%d]:%d.State = State.On", k_noteIndex, $Note[{+{Note.Number}+}])'}}
     endif
     $Note[{{Note.Amp}}] = k_amp
-    ; {{LogTrace_k '("Note[%d].Amp = %f", k_noteIndex, $Note[{+{Note.Amp}+}])'}}
+    ; {{LogTrace_k '("Note[%d]:%d.Amp = %f", k_noteIndex, $Note[{+{Note.Number}+}], $Note[{+{Note.Amp}+}])'}}
 endop
 
 
@@ -215,12 +220,12 @@ opcode {{Module_private}}_Note_enterState_softOff, 0, ikk
     k_ampDelta init 0
 
     if (k_currentState != {{State.SoftOff}}) then
-        {{LogTrace_k '("Note[%d].enterState_softOff", k_noteIndex)'}}
+        {{LogTrace_k '("Note[%d]:%d.enterState_softOff", k_noteIndex, $Note[{+{Note.Number}+}])'}}
         $Note[{{Note.CountsTowardSoftOff}}] = $false
         $DecrementArrayItem($Instance[{{Instance.SoftOffActiveNoteCount}}])
         {{LogDebug_k '("Instance[%d].SoftOffActiveNoteCount-- = %d", i_instanceIndex, $Instance[{+{Instance.SoftOffActiveNoteCount}+}])'}}
 
-        {{LogTrace_k '("Note[%d].Amp = %f", k_noteIndex, $Note[{+{Note.Amp}+}])'}}
+        {{LogTrace_k '("Note[%d]:%d.Amp = %f", k_noteIndex, $Note[{+{Note.Number}+}], $Note[{+{Note.Amp}+}])'}}
         k_amp = $Note[{{Note.Amp}}]
         k_ampDelta = k_amp / (kr * {{moduleGet:k 'SoftOffFadeTime'}})
     endif
@@ -229,10 +234,10 @@ opcode {{Module_private}}_Note_enterState_softOff, 0, ikk
     if (k_amp <= 0) then
         k_amp = 0
         $Note[{{Note.State}}] = {{State.Muted}}
-        {{LogDebug_k '("Note[%d].State = State.Muted", k_noteIndex)'}}
+        {{LogDebug_k '("Note[%d]:%d.State = State.Muted", k_noteIndex, $Note[{+{Note.Number}+}])'}}
     endif
     $Note[{{Note.Amp}}] = k_amp
-    ; {{LogTrace_k '("Note[%d].Amp = %f", k_noteIndex, $Note[{+{Note.Amp}+}])'}}
+    ; {{LogTrace_k '("Note[%d]:%d.Amp = %f", k_noteIndex, $Note[{+{Note.Number}+}], $Note[{+{Note.Amp}+}])'}}
 endop
 
 
@@ -245,7 +250,7 @@ opcode {{Module_private}}_Note_enterState_hardOff, 0, ikk
     i_instanceIndex, k_noteIndex, k_currentState xin
 
     if (k_currentState != {{State.HardOff}}) then
-        {{LogTrace_k '("Note[%d].enterState_hardOff", k_noteIndex)'}}
+        {{LogTrace_k '("Note[%d]:%d.enterState_hardOff", k_noteIndex, $Note[{+{Note.Number}+}])'}}
         $Note[{{Note.CountsTowardHardOff}}] = $false
         $DecrementArrayItem($Instance[{{Instance.HardOffActiveNoteCount}}])
         {{LogDebug_k '("Instance[%d].HardOffActiveNoteCount-- = %d", i_instanceIndex, $Instance[{+{Instance.HardOffActiveNoteCount}+}])'}}
@@ -257,11 +262,11 @@ opcode {{Module_private}}_Note_enterState_hardOff, 0, ikk
         endif
     else
         $Note[{{Note.State}}] = {{State.Muted}}
-        {{LogDebug_k '("Note[%d].State = State.Muted", k_noteIndex)'}}
+        {{LogDebug_k '("Note[%d]:%d.State = State.Muted", k_noteIndex, $Note[{+{Note.Number}+}])'}}
     endif
 
     $Note[{{Note.Amp}}] = 0
-    {{LogTrace_k '("Note[%d].Amp = %f", k_noteIndex, $Note[{+{Note.Amp}+}])'}}
+    {{LogTrace_k '("Note[%d]:%d.Amp = %f", k_noteIndex, $Note[{+{Note.Number}+}], $Note[{+{Note.Amp}+}])'}}
 endop
 
 
@@ -274,7 +279,7 @@ opcode {{Module_private}}_Note_enterState_muted, 0, ikk
     i_instanceIndex, k_noteIndex, k_currentState xin
 
     if (k_currentState != {{State.Muted}}) then
-        {{LogTrace_k '("Note[%d].enterState_muted", k_noteIndex)'}}
+        {{LogTrace_k '("Note[%d]:%d.enterState_muted", k_noteIndex, $Note[{+{Note.Number}+}])'}}
     endif
 endop
 
@@ -289,7 +294,7 @@ opcode {{Module_private}}_Note_enterState_off, 0, ikk
 
     if (k_currentState != {{State.Off}}) then
         // Init.
-        {{LogTrace_k '("Note[%d].enterState_off", k_noteIndex)'}}
+        {{LogTrace_k '("Note[%d]:%d.enterState_off", k_noteIndex, $Note[{+{Note.Number}+}])'}}
         if ($Note[{{Note.CountsTowardHardOff}}] == $true) then
             $Note[{{Note.CountsTowardHardOff}}] = $false
             $DecrementArrayItem($Instance[{{Instance.HardOffActiveNoteCount}}])
@@ -360,8 +365,14 @@ opcode {{Module_public}}_noteIndex, k, S
     S_channelPrefix xin
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
+    if ({{moduleGet:k 'Enabled'}} == $false) then
+        k_noteIndex = -1
+        kgoto end
+    endif
+
     k_noteIndex = $Note_initialize()
 
+end:
     xout(k_noteIndex)
 endop
 
@@ -377,18 +388,25 @@ opcode {{Module_public}}_state, k, Sk
 
     k_currentState init {{State.Initialized}}
 
+    if (k_noteIndex == -1) then
+        k_currentState = {{State.On}}
+        kgoto end
+    endif
+
     if (k_currentState == {{State.Initialized}}) then
         if ($Instance[{{Instance.KeepDuplicateNotes}}] == $false) then
             if ($NoteKeyOnCount[$Note[{{Note.Number}}]] > 0) then
+                $Note[{{Note.CountsTowardHardOff}}] = $false
+                $Note[{{Note.CountsTowardSoftOff}}] = $false
                 $Note[{{Note.CountsTowardKeyCount}}] = $false
                 $Note[{{Note.State}}] = {{State.Off}}
-                {{LogDebug_k '("Note[%d].State = State.Off", k_noteIndex)'}}
+                {{LogDebug_k '("Note[%d]:%d.State = State.Off", k_noteIndex, $Note[{+{Note.Number}+}])'}}
             endif
         endif
         if ($Note[{{Note.CountsTowardKeyCount}}] == $true) then
             $Note[{{Note.State}}] = {{State.On}}
             $IncrementArrayItem($NoteKeyOnCount[$Note[{{Note.Number}}]])
-            {{LogDebug_k '("Note[%d].State = State.On", k_noteIndex)'}}
+            {{LogDebug_k '("Note[%d]:%d.State = State.On", k_noteIndex, $Note[{+{Note.Number}+}])'}}
         endif
     endif
 
@@ -400,13 +418,13 @@ opcode {{Module_public}}_state, k, Sk
 
     if (lastcycle() == $true) then
         $Note[{{Note.State}}] = {{State.Off}}
-        {{LogDebug_k '("Note[%d].State = State.Off", k_noteIndex)'}}
+        {{LogDebug_k '("Note[%d]:%d.State = State.Off", k_noteIndex, $Note[{+{Note.Number}+}])'}}
     endif
 
     $Note_updateState(k_currentState)
     k_currentState = $Note[{{Note.State}}]
 end:
-    ; {{LogDebug_k '("Note[%d]: id = %d, k_currentState = %d", k_noteIndex, $Note[{+{Note.Id}+}], k_currentState)'}}
+    ; {{LogDebug_k '("Note[%d]:%d: id = %d, k_currentState = %d", k_noteIndex, $Note[{+{Note.Number}+}], $Note[{+{Note.Id}+}], k_currentState)'}}
     xout(k_currentState)
 endop
 
@@ -415,9 +433,14 @@ opcode {{Module_public}}_audioProcessing, a, Ska
     S_channelPrefix, k_noteIndex, a_in xin
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
-    a_amp = $Note[{{Note.Amp}}]
+    if (k_noteIndex == -1) then
+        kgoto end
+    endif
 
-    xout(a_in * a_amp)
+    a_in *= a($Note[{{Note.Amp}}])
+
+end:
+    xout(a_in)
 endop
 
 
@@ -457,11 +480,11 @@ instr {{Module_private}}_alwayson
 
             k_noteIndex = 0
             while ($Note[{{Note.Id}}] != -1 && k_hardMax < k_hardOffActiveNoteCount) do
-                if ($Note[{{Note.State}}] != {{State.HardOff}} \
+                if ($Note[{{Note.CountsTowardHardOff}}] == $true \
                         && $Note[{{Note.Number}}] != $Instance[{{Instance.HighNoteNumber}}] \
                         && $Note[{{Note.Number}}] != $Instance[{{Instance.LowNoteNumber}}]) then
                     $Note[{{Note.State}}] = {{State.HardOff}}
-                    {{LogDebug_k '("Note[%d].State = State.HardOff", k_noteIndex)'}}
+                    {{LogDebug_k '("Note[%d]:%d.State = State.HardOff", k_noteIndex, $Note[{+{Note.Number}+}])'}}
 
                     k_hardOffActiveNoteCount -= 1
                     k_softOffActiveNoteCount -= 1
@@ -476,7 +499,7 @@ instr {{Module_private}}_alwayson
                 k_noteIndex = 0
                 k_skippedOldestLowNote = $false
                 while ($Note[{{Note.Id}}] != -1 && k_skippedOldestLowNote = $false) do
-                    if ($Note[{{Note.State}}] != {{State.HardOff}} \
+                    if ($Note[{{Note.CountsTowardHardOff}}] == $true \
                             && $Note[{{Note.Number}}] == $Instance[{{Instance.LowNoteNumber}}]) then
                         k_skippedOldestLowNote = $true
                     endif
@@ -484,9 +507,10 @@ instr {{Module_private}}_alwayson
                 od
                 while ($Note[{{Note.Id}}] != -1 && k_hardMax < k_hardOffActiveNoteCount) do
                     if ($Note[{{Note.State}}] != {{State.HardOff}} \
+                            && $Note[{{Note.CountsTowardHardOff}}] == $true \
                             && $Note[{{Note.Number}}] == $Instance[{{Instance.LowNoteNumber}}]) then
                         $Note[{{Note.State}}] = {{State.HardOff}}
-                        {{LogDebug_k '("Note[%d].State = State.HardOff", k_noteIndex)'}}
+                        {{LogDebug_k '("Note[%d]:%d.State = State.HardOff", k_noteIndex, $Note[{+{Note.Number}+}])'}}
 
                         k_hardOffActiveNoteCount -= 1
                         k_softOffActiveNoteCount -= 1
@@ -503,16 +527,17 @@ instr {{Module_private}}_alwayson
                 k_skippedOldestHighNote = $false
                 while ($Note[{{Note.Id}}] != -1 && k_skippedOldestHighNote = $false) do
                     if ($Note[{{Note.State}}] != {{State.HardOff}} \
+                            && $Note[{{Note.CountsTowardHardOff}}] == $true \
                             && $Note[{{Note.Number}}] == $Instance[{{Instance.HighNoteNumber}}]) then
                         k_skippedOldestHighNote = $true
                     endif
                     k_noteIndex += 1
                 od
                 while ($Note[{{Note.Id}}] != -1 && k_hardMax < k_hardOffActiveNoteCount) do
-                    if ($Note[{{Note.State}}] != {{State.HardOff}} \
+                    if ($Note[{{Note.CountsTowardHardOff}}] == $true \
                             && $Note[{{Note.Number}}] == $Instance[{{Instance.HighNoteNumber}}]) then
                         $Note[{{Note.State}}] = {{State.HardOff}}
-                        {{LogDebug_k '("Note[%d].State = State.HardOff", k_noteIndex)'}}
+                        {{LogDebug_k '("Note[%d]:%d.State = State.HardOff", k_noteIndex, $Note[{+{Note.Number}+}])'}}
 
                         k_hardOffActiveNoteCount -= 1
                         k_softOffActiveNoteCount -= 1
@@ -536,12 +561,13 @@ instr {{Module_private}}_alwayson
 
             k_noteIndex = 0
             while ($Note[{{Note.Id}}] != -1 && k_softMax < k_softOffActiveNoteCount) do
-                if ($Note[{{Note.State}}] != {{State.SoftOff}} \
-                        && $Note[{{Note.State}}] != {{State.HardOff}} \
+                if ($Note[{{Note.State}}] != {{State.HardOff}} \
+                        && $Note[{{Note.CountsTowardSoftOff}}] == $true \
+                        && $Note[{{Note.CountsTowardHardOff}}] == $true \
                         && $Note[{{Note.Number}}] != $Instance[{{Instance.HighNoteNumber}}] \
                         && $Note[{{Note.Number}}] != $Instance[{{Instance.LowNoteNumber}}]) then
                     $Note[{{Note.State}}] = {{State.SoftOff}}
-                    {{LogDebug_k '("Note[%d].State = State.SoftOff", k_noteIndex)'}}
+                    {{LogDebug_k '("Note[%d]:%d.State = State.SoftOff", k_noteIndex, $Note[{+{Note.Number}+}])'}}
 
                     k_softOffActiveNoteCount -= 1
                     {{LogDebug_k '("k_softOffActiveNoteCount = %d", k_softOffActiveNoteCount)'}}
@@ -557,7 +583,7 @@ instr {{Module_private}}_alwayson
         {{LogDebug_k '("Before removing finished notes ...")'}}
         k_noteIndex = 0
         while ($Note[{{Note.Id}}] != -1) do
-            {{LogDebug_k '("    Note[%d]: id = %d, state = %d", k_noteIndex, $Note[{+{Note.Id}+}], $Note[{+{Note.State}+}])'}}
+            {{LogDebug_k '("    Note[%d]:%d: id = %d, state = %d", k_noteIndex, $Note[{+{Note.Number}+}], $Note[{+{Note.Id}+}], $Note[{+{Note.State}+}])'}}
             k_noteIndex += 1
         od
 
@@ -591,7 +617,7 @@ instr {{Module_private}}_alwayson
         {{LogDebug_k '("After removing finished notes ...")'}}
         k_noteIndex = 0
         while ($Note[{{Note.Id}}] != -1) do
-            {{LogDebug_k '("    Note[%d]: id = %d, state = %d", k_noteIndex, $Note[{+{Note.Id}+}], $Note[{+{Note.State}+}])'}}
+            {{LogDebug_k '("    Note[%d]:%d: id = %d, state = %d", k_noteIndex, $Note[{+{Note.Number}+}], $Note[{+{Note.Id}+}], $Note[{+{Note.State}+}])'}}
             k_noteIndex += 1
         od
 
@@ -612,7 +638,7 @@ instr {{Module_private}}_alwayson
             if (k_noteState == {{State.Muted}} || k_noteState == {{State.SoftOff}} || k_noteState == {{State.HardOff}}) then
                 if ($Note[{{Note.Number}}] == $Instance[{{Instance.HighNoteNumber}}]) then
                     $Note[{{Note.State}}] = {{State.SoftOn}}
-                    {{LogDebug_k '("Note[%d].State = State.SoftOn", k_noteIndex)'}}
+                    {{LogDebug_k '("Note[%d]:%d.State = State.SoftOn", k_noteIndex, $Note[{+{Note.Number}+}])'}}
 
                     if ($Note[{{Note.CountsTowardHardOff}}] == $false) then
                         k_hardOffActiveNoteCount += 1
@@ -640,7 +666,7 @@ instr {{Module_private}}_alwayson
             if (k_noteState == {{State.Muted}} || k_noteState == {{State.SoftOff}} || k_noteState == {{State.HardOff}}) then
                 if ($Note[{{Note.Number}}] == $Instance[{{Instance.LowNoteNumber}}]) then
                     $Note[{{Note.State}}] = {{State.SoftOn}}
-                    {{LogDebug_k '("Note[%d].State = State.SoftOn", k_noteIndex)'}}
+                    {{LogDebug_k '("Note[%d]:%d.State = State.SoftOn", k_noteIndex, $Note[{+{Note.Number}+}])'}}
 
                     k_hardOffActiveNoteCount += 1
                     k_softOffActiveNoteCount += 1

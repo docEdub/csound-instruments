@@ -49,6 +49,7 @@ instr Reset
 
     {{hostValueSet}}("Note.releaseTime",        0);
 
+    {{hostValueSet}}("Module::Enabled",             $true)
     {{hostValueSet}}("Module::SoftMax",             {{ChannelDefault.SoftMax}})
     {{hostValueSet}}("Module::HardMax",             {{ChannelDefault.HardMax}})
     {{hostValueSet}}("Module::SoftOffFadeTime",     {{ChannelDefault.SoftOffFadeTime}})

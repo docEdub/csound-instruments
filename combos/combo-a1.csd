@@ -6,6 +6,9 @@
 </CsOptions>
 <CsInstruments>
 
+{{Enable-LogTrace true}}
+{{Enable-LogDebug true}}
+
 sr = {{sr}}
 ksmps = {{ksmps}}
 nchnls = 2
@@ -144,10 +147,23 @@ instr 2
     // NB: We call the envelope module UDO here so the polyphony control UDO's `lastcycle` init sees the envelope's release time.
     a_envelope = AF_Module_Envelope_A("Synth_2::Envelope_1")
 
+    ; k_muted init $false
+    k_turnedOff init $false
+    if (k_turnedOff == $true) then
+        kgoto end
+    endif
     k_polyphonyControlNoteIndex = AF_Module_PolyphonyControl_B_noteIndex("Synth_2::Polyphony_2")
     k_polyphonyControlState = AF_Module_PolyphonyControl_B_state("Synth_2::Polyphony_2", k_polyphonyControlNoteIndex)
-    if (k_polyphonyControlState == {{eval '(Constants.PolyphonyControl_B.State.Muted)'}} \
-            || k_polyphonyControlState == {{eval '(Constants.PolyphonyControl_B.State.Off)'}}) then
+    if (k_polyphonyControlState == {{eval '(Constants.PolyphonyControl_B.State.Muted)'}}) then
+        ; if (k_muted == $false || k_turnedOff == $true) then
+        ;     k_muted = $true
+        ;     {{LogTrace_k '("Synth 2 note %d muted.", notnum())'}}
+        ; endif
+        kgoto end
+    elseif (k_polyphonyControlState == {{eval '(Constants.PolyphonyControl_B.State.Off)'}}) then
+        {{LogTrace_k '("Synth 2 note %d turned off.", notnum())'}}
+        k_turnedOff = $true
+        ; turnoff()
         kgoto end
     endif
 
