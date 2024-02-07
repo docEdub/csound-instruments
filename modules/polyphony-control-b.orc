@@ -71,8 +71,10 @@ opcode {{Module_private}}_Instance_updateHighAndLowNoteNumbers, 0, i
     if ($Instance[{{Instance.KeepHighNote}}] == $true) then
         k_noteIndex = 0
         while ($Note[{{Note.Id}}] != -1) do
-            k_noteNumber = $Note[{{Note.Number}}]
-            k_highNoteNumber = max(k_highNoteNumber, k_noteNumber)
+            if ($Note[{{Note.Released}}] == $false) then
+                k_noteNumber = $Note[{{Note.Number}}]
+                k_highNoteNumber = max(k_highNoteNumber, k_noteNumber)
+            endif
             k_noteIndex += 1
         od
     endif
@@ -80,8 +82,10 @@ opcode {{Module_private}}_Instance_updateHighAndLowNoteNumbers, 0, i
     if ($Instance[{{Instance.KeepLowNote}}] == $true) then
         k_noteIndex = 0
         while ($Note[{{Note.Id}}] != -1) do
-            k_noteNumber = $Note[{{Note.Number}}]
-            k_lowNoteNumber = min(k_lowNoteNumber, k_noteNumber)
+            if ($Note[{{Note.Released}}] == $false) then
+                k_noteNumber = $Note[{{Note.Number}}]
+                k_lowNoteNumber = min(k_lowNoteNumber, k_noteNumber)
+            endif
             k_noteIndex += 1
         od
     endif
@@ -124,6 +128,7 @@ opcode {{Module_private}}_Note_initialize, k, i
         $Note[{{Note.Velocity}}]                = veloc()
         $Note[{{Note.State}}]                   = {{State.Initialized}}
         $Note[{{Note.Amp}}]                     = 1
+        $Note[{{Note.Released}}]                = $false
         $Note[{{Note.CountsTowardHardOff}}]     = $true
         $Note[{{Note.CountsTowardSoftOff}}]     = $true
         $Note[{{Note.CountsTowardKeyCount}}]    = $true
@@ -411,9 +416,15 @@ opcode {{Module_public}}_state, k, Sk
     endif
 
     if (release() == $true && $Note[{{Note.CountsTowardKeyCount}}] == $true) then
+        $Note[{{Note.Released}}] = $true
+        {{LogDebug_k '("Note[%d]:%d.Released = true", k_noteIndex, $Note[{+{Note.Number}+}])'}}
+
         $Note[{{Note.CountsTowardKeyCount}}] = $false
         $DecrementArrayItem($NoteKeyOnCount[$Note[{{Note.Number}}]])
         {{LogDebug_k '("NoteKeyOnCount[%d]-- = %d", $Note[{+{Note.Number}+}], $NoteKeyOnCount[$Note[{+{Note.Number}+}]])'}}
+
+        $Instance[{{Instance.UpdateSoftOnHighNotes}}] = $true
+        $Instance[{{Instance.UpdateSoftOnLowNotes}}] = $true
     endif
 
     if (lastcycle() == $true) then
@@ -451,7 +462,10 @@ instr {{Module_private}}_alwayson
     {{LogTrace_i '("AF_Module_PolyphonyControl_B_alwayson: i_instanceIndex = %d", i_instanceIndex)'}}
 
     // Update variables used when processing multiple flags.
-    if ($Instance[{{Instance.UpdateHardOffNotes}}] == $true || $Instance[{{Instance.UpdateSoftOffNotes}}] == $true) then
+    if ($Instance[{{Instance.UpdateHardOffNotes}}] == $true \
+            || $Instance[{{Instance.UpdateSoftOffNotes}}] == $true \
+            || $Instance[{{Instance.UpdateSoftOnHighNotes}}] == $true \
+            || $Instance[{{Instance.UpdateSoftOnLowNotes}}] == $true) then
         k_softOffActiveNoteCount = $Instance[{{Instance.SoftOffActiveNoteCount}}]
         {{LogDebug_k '("k_softOffActiveNoteCount = %d", k_softOffActiveNoteCount)'}}
         k_updateHighAndLowNoteNumbers = $true
@@ -632,11 +646,20 @@ instr {{Module_private}}_alwayson
             k_updateHighAndLowNoteNumbers = $false
         endif
 
+        {{LogDebug_k '("Instance[%d] high note = %d", i_instanceIndex, $Instance[{+{Instance.HighNoteNumber}+}])'}}
+        {{LogDebug_k '("Before updating soft on high notes ...")'}}
         k_noteIndex = 0
         while ($Note[{{Note.Id}}] != -1) do
+            {{LogDebug_k '("    Note[%d]:%d: id = %d, state = %d, released = %d", k_noteIndex, $Note[{+{Note.Number}+}], $Note[{+{Note.Id}+}], $Note[{+{Note.State}+}], $Note[{+{Note.Released}+}])'}}
+            k_noteIndex += 1
+        od
+
+        k_noteIndex = 0
+        k_continue = $true
+        while (k_continue == $true && $Note[{{Note.Id}}] != -1) do
             k_noteState = $Note[{{Note.State}}]
             if (k_noteState == {{State.Muted}} || k_noteState == {{State.SoftOff}} || k_noteState == {{State.HardOff}}) then
-                if ($Note[{{Note.Number}}] == $Instance[{{Instance.HighNoteNumber}}]) then
+                if ($Note[{{Note.Number}}] == $Instance[{{Instance.HighNoteNumber}}] && $Note[{{Note.Released}}] == $false) then
                     $Note[{{Note.State}}] = {{State.SoftOn}}
                     {{LogDebug_k '("Note[%d]:%d.State = State.SoftOn", k_noteIndex, $Note[{+{Note.Number}+}])'}}
 
@@ -647,8 +670,21 @@ instr {{Module_private}}_alwayson
 
                     k_softOffActiveNoteCount += 1
                     {{LogDebug_k '("k_softOffActiveNoteCount = %d", k_softOffActiveNoteCount)'}}
+
+                    if ($Instance[{{Instance.KeepDuplicateNotes}}] == $false) then
+                        k_continue = $false
+                    elseif (k_hardMax >= k_hardOffActiveNoteCount || k_softMax >= k_softOffActiveNoteCount) then
+                        k_continue = $false
+                    endif
                 endif
             endif
+            k_noteIndex += 1
+        od
+
+        {{LogDebug_k '("After updating soft on high notes ...")'}}
+        k_noteIndex = 0
+        while ($Note[{{Note.Id}}] != -1) do
+            {{LogDebug_k '("    Note[%d]:%d: id = %d, state = %d, released = %d", k_noteIndex, $Note[{+{Note.Number}+}], $Note[{+{Note.Id}+}], $Note[{+{Note.State}+}], $Note[{+{Note.Released}+}])'}}
             k_noteIndex += 1
         od
     endif
@@ -660,11 +696,20 @@ instr {{Module_private}}_alwayson
             $Instance_updateHighAndLowNoteNumbers()
         endif
 
+        ; {{LogDebug_k '("Instance[%d] low note = %d", i_instanceIndex, $Instance[{+{Instance.LowNoteNumber}+}])'}}
+        ; {{LogDebug_k '("Before updating soft on low notes ...")'}}
+        ; k_noteIndex = 0
+        ; while ($Note[{{Note.Id}}] != -1) do
+        ;     {{LogDebug_k '("    Note[%d]:%d: id = %d, state = %d, released = %d", k_noteIndex, $Note[{+{Note.Number}+}], $Note[{+{Note.Id}+}], $Note[{+{Note.State}+}], $Note[{+{Note.Released}+}])'}}
+        ;     k_noteIndex += 1
+        ; od
+
         k_noteIndex = 0
-        while ($Note[{{Note.Id}}] != -1) do
+        k_continue = $true
+        while (k_continue == $true && $Note[{{Note.Id}}] != -1) do
             k_noteState = $Note[{{Note.State}}]
             if (k_noteState == {{State.Muted}} || k_noteState == {{State.SoftOff}} || k_noteState == {{State.HardOff}}) then
-                if ($Note[{{Note.Number}}] == $Instance[{{Instance.LowNoteNumber}}]) then
+                if ($Note[{{Note.Number}}] == $Instance[{{Instance.LowNoteNumber}}] && $Note[{{Note.Released}}] == $false) then
                     $Note[{{Note.State}}] = {{State.SoftOn}}
                     {{LogDebug_k '("Note[%d]:%d.State = State.SoftOn", k_noteIndex, $Note[{+{Note.Number}+}])'}}
 
@@ -672,10 +717,23 @@ instr {{Module_private}}_alwayson
                     k_softOffActiveNoteCount += 1
                     {{LogDebug_k '("k_hardOffActiveNoteCount = %d", k_hardOffActiveNoteCount)'}}
                     {{LogDebug_k '("k_softOffActiveNoteCount = %d", k_softOffActiveNoteCount)'}}
+
+                    if ($Instance[{{Instance.KeepDuplicateNotes}}] == $false) then
+                        k_continue = $false
+                    elseif (k_hardMax >= k_hardOffActiveNoteCount || k_softMax >= k_softOffActiveNoteCount) then
+                        k_continue = $false
+                    endif
                 endif
             endif
             k_noteIndex += 1
         od
+
+        ; {{LogDebug_k '("After updating soft on low notes ...")'}}
+        ; k_noteIndex = 0
+        ; while ($Note[{{Note.Id}}] != -1) do
+        ;     {{LogDebug_k '("    Note[%d]:%d: id = %d, state = %d, released = %d", k_noteIndex, $Note[{+{Note.Number}+}], $Note[{+{Note.Id}+}], $Note[{+{Note.State}+}], $Note[{+{Note.Released}+}])'}}
+        ;     k_noteIndex += 1
+        ; od
     endif
 endin
 

@@ -60,11 +60,12 @@
             "Velocity": 3,
             "State": 4,
             "Amp": 5,
-            "CountsTowardHardOff": 6,
-            "CountsTowardSoftOff": 7,
-            "CountsTowardKeyCount": 8
+            "Released": 6,
+            "CountsTowardHardOff": 7,
+            "CountsTowardSoftOff": 8,
+            "CountsTowardKeyCount": 9
         },
-        "NoteMemberCount": 9
+        "NoteMemberCount": 10
     },
     "uiTypes": [
         {
