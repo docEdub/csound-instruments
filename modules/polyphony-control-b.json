@@ -70,7 +70,7 @@
         {
             "type": "polyphony-control-b-module",
             "extends": "module",
-            "height": 250,
+            "height": 241,
             "row-label-width": "60%",
             "row-value-width": "40%",
             "children": [
@@ -81,19 +81,8 @@
                 {
                     "type": "module-row-group",
                     "background": "(Constants.Module.Color.BlueGroup)",
-                    "row-count": 5,
+                    "row-count": 7,
                     "children": [
-                        {
-                            "label": "Soft max",
-                            "type": "module-number-box-slider",
-                            "value-channel": "SoftMax",
-                            "value-range": {
-                                "min": 1,
-                                "max": 100,
-                                "value": "(Constants.PolyphonyControl_B.ChannelDefault.SoftMax)",
-                                "step": 1
-                            }
-                        },
                         {
                             "label": "Hard max",
                             "type": "module-number-box-slider",
@@ -106,7 +95,18 @@
                             }
                         },
                         {
-                            "label": "Fade time",
+                            "label": "Soft max",
+                            "type": "module-number-box-slider",
+                            "value-channel": "SoftMax",
+                            "value-range": {
+                                "min": 1,
+                                "max": 100,
+                                "value": "(Constants.PolyphonyControl_B.ChannelDefault.SoftMax)",
+                                "step": 1
+                            }
+                        },
+                        {
+                            "label": "Off fade",
                             "type": "module-number-box-slider",
                             "value-channel": "SoftOffFadeTime",
                             "value-range": {
@@ -117,16 +117,33 @@
                             }
                         },
                         {
+                            "label": "On fade",
+                            "type": "module-number-box-slider",
+                            "value-channel": "SoftOnFadeTime",
+                            "value-range": {
+                                "min": 0,
+                                "max": 10,
+                                "value": "(Constants.PolyphonyControl_B.ChannelDefault.SoftOnFadeTime)",
+                                "step": 0.1
+                            }
+                        },
+                        {
                             "label": "Keep high",
                             "type": "module-checkbox",
                             "value-channel": "KeepHighNote",
-                            "value-default": "(Constants.PolyphonyControl_B.ChannelDefault[json['value-channel']])"
+                            "value-default": "(Constants.PolyphonyControl_B.ChannelDefault.KeepHighNote)"
                         },
                         {
                             "label": "Keep low",
                             "type": "module-checkbox",
                             "value-channel": "KeepLowNote",
-                            "value-default": "(Constants.PolyphonyControl_B.ChannelDefault[json['value-channel']])"
+                            "value-default": "(Constants.PolyphonyControl_B.ChannelDefault.KeepLowNote)"
+                        },
+                        {
+                            "label": "Keep dupes",
+                            "type": "module-checkbox",
+                            "value-channel": "KeepDuplicateNotes",
+                            "value-default": "(Constants.PolyphonyControl_B.ChannelDefault.KeepDuplicateNotes)"
                         }
                     ]
                 }
