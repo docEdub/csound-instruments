@@ -170,30 +170,30 @@ end:
 endin
 
 
-{{InitializeModule "AF_Module_BodyTracking_A"       "XR::BodyTracking"}}
+{{InitializeModule "BodyTracking_A"       "XR::BodyTracking"}}
 
-{{InitializeModule "AF_Module_DelayMono_A"          "Piano_FX::Delay_1"}}
-{{InitializeModule "AF_Module_DelayStereo_A"        "Piano_FX::Delay_2"}}
-{{InitializeModule "AF_Module_Volume_A"             "Piano_FX::Volume_1"}}
+{{InitializeModule "DelayMono_A"          "Piano_FX::Delay_1"}}
+{{InitializeModule "DelayStereo_A"        "Piano_FX::Delay_2"}}
+{{InitializeModule "Volume_A"             "Piano_FX::Volume_1"}}
 
-{{InitializeModule "AF_Module_LFO_A"                "Common::LFO_G1"}}
-{{InitializeModule "AF_Module_LFO_A"                "Common::LFO_G2"}}
-{{InitializeModule "AF_Module_LFO_A"                "Common::LFO_G3"}}
-{{InitializeModule "AF_Module_LFO_A"                "Common::LFO_G4"}}
+{{InitializeModule "LFO_A"                "Common::LFO_G1"}}
+{{InitializeModule "LFO_A"                "Common::LFO_G2"}}
+{{InitializeModule "LFO_A"                "Common::LFO_G3"}}
+{{InitializeModule "LFO_A"                "Common::LFO_G4"}}
 
-{{InitializeModule "AF_Module_Source_A"             "Synth_2::Source_1"}}
-{{InitializeModule "AF_Module_Source_A"             "Synth_2::Source_2"}}
-{{InitializeModule "AF_Module_Source_A"             "Synth_2::Source_3"}}
-{{InitializeModule "AF_Module_Source_A"             "Synth_2::Source_4"}}
-{{InitializeModule "AF_Module_Envelope_A"           "Synth_2::Envelope_1"}}
-{{InitializeModule "AF_Module_Filter_A"             "Synth_2::Filter_1"}}
-{{InitializeModule "AF_Module_Volume_A"             "Synth_2::Volume_1"}}
-{{InitializeModule "AF_Module_PolyphonyControl_B"   "Synth_2::Polyphony_2"}}
+{{InitializeModule "Source_A"             "Synth_2::Source_1"}}
+{{InitializeModule "Source_A"             "Synth_2::Source_2"}}
+{{InitializeModule "Source_A"             "Synth_2::Source_3"}}
+{{InitializeModule "Source_A"             "Synth_2::Source_4"}}
+{{InitializeModule "Envelope_A"           "Synth_2::Envelope_1"}}
+{{InitializeModule "Filter_A"             "Synth_2::Filter_1"}}
+{{InitializeModule "Volume_A"             "Synth_2::Volume_1"}}
+{{InitializeModule "PolyphonyControl_B"   "Synth_2::Polyphony_2"}}
 
-{{InitializeModule "AF_Module_Volume_A"             "Master_FX::PianoReverb_1"}}
-{{InitializeModule "AF_Module_Volume_A"             "Master_FX::Synth1Reverb_1"}}
-{{InitializeModule "AF_Module_Volume_A"             "Master_FX::Synth2Reverb_1"}}
-{{InitializeModule "AF_Module_Reverb_A"             "Master_FX::Reverb_1"}}
+{{InitializeModule "Volume_A"             "Master_FX::PianoReverb_1"}}
+{{InitializeModule "Volume_A"             "Master_FX::Synth1Reverb_1"}}
+{{InitializeModule "Volume_A"             "Master_FX::Synth2Reverb_1"}}
+{{InitializeModule "Reverb_A"             "Master_FX::Reverb_1"}}
 
 
 </CsInstruments>
