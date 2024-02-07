@@ -404,8 +404,8 @@ opcode {{Module_public}}_state, k, Sk
                 $Note[{{Note.CountsTowardHardOff}}] = $false
                 $Note[{{Note.CountsTowardSoftOff}}] = $false
                 $Note[{{Note.CountsTowardKeyCount}}] = $false
-                $Note[{{Note.State}}] = {{State.Off}}
-                {{LogDebug_k '("Note[%d]:%d.State = State.Off", k_noteIndex, $Note[{+{Note.Number}+}])'}}
+                $Note[{{Note.State}}] = {{State.Muted}}
+                {{LogDebug_k '("Note[%d]:%d.State = State.Muted duplicate", k_noteIndex, $Note[{+{Note.Number}+}])'}}
             endif
         endif
         if ($Note[{{Note.CountsTowardKeyCount}}] == $true) then
@@ -423,8 +423,33 @@ opcode {{Module_public}}_state, k, Sk
         $DecrementArrayItem($NoteKeyOnCount[$Note[{{Note.Number}}]])
         {{LogDebug_k '("NoteKeyOnCount[%d]-- = %d", $Note[{+{Note.Number}+}], $NoteKeyOnCount[$Note[{+{Note.Number}+}]])'}}
 
-        $Instance[{{Instance.UpdateSoftOnHighNotes}}] = $true
-        $Instance[{{Instance.UpdateSoftOnLowNotes}}] = $true
+        if ($Instance[{{Instance.KeepHighNote}}] == $true && $Note[{{Note.Number}}] == $Instance[{{Instance.HighNoteNumber}}]) then
+            $Instance[{{Instance.UpdateSoftOnHighNotes}}] = $true
+            if ($Note[{{Note.CountsTowardHardOff}}] == $true) then
+                $DecrementArrayItem($Instance[{{Instance.HardOffActiveNoteCount}}])
+                ; {{LogDebug_k '("Instance[%d].HardOffActiveNoteCount-- = %d", i_instanceIndex, $Instance[{+{Instance.HardOffActiveNoteCount}+}])'}}
+            endif
+            if ($Note[{{Note.CountsTowardSoftOff}}] == $true) then
+                $DecrementArrayItem($Instance[{{Instance.SoftOffActiveNoteCount}}])
+                ; {{LogDebug_k '("Instance[%d].SoftOffActiveNoteCount-- = %d", i_instanceIndex, $Instance[{+{Instance.SoftOffActiveNoteCount}+}])'}}
+            endif
+            $Note[{{Note.CountsTowardHardOff}}] = $false
+            $Note[{{Note.CountsTowardSoftOff}}] = $false
+        endif
+
+        if ($Instance[{{Instance.KeepLowNote}}] == $true && $Note[{{Note.Number}}] == $Instance[{{Instance.LowNoteNumber}}]) then
+            $Instance[{{Instance.UpdateSoftOnLowNotes}}] = $true
+            if ($Note[{{Note.CountsTowardHardOff}}] == $true) then
+                $DecrementArrayItem($Instance[{{Instance.HardOffActiveNoteCount}}])
+                ; {{LogDebug_k '("Instance[%d].HardOffActiveNoteCount-- = %d", i_instanceIndex, $Instance[{+{Instance.HardOffActiveNoteCount}+}])'}}
+            endif
+            if ($Note[{{Note.CountsTowardSoftOff}}] == $true) then
+                $DecrementArrayItem($Instance[{{Instance.SoftOffActiveNoteCount}}])
+                ; {{LogDebug_k '("Instance[%d].SoftOffActiveNoteCount-- = %d", i_instanceIndex, $Instance[{+{Instance.SoftOffActiveNoteCount}+}])'}}
+            endif
+            $Note[{{Note.CountsTowardHardOff}}] = $false
+            $Note[{{Note.CountsTowardSoftOff}}] = $false
+        endif
     endif
 
     if (lastcycle() == $true) then
