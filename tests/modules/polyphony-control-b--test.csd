@@ -1546,7 +1546,7 @@ endin
 {{/CsoundTest}}
 
 
-{{#CsoundTest "GivenKeepDuplicateNotesIsFalseAndNote1IsOn_WhenNote2IsOnAtK2_Note2StateShouldEqualOffAtK3"
+{{#CsoundTest "GivenKeepDuplicateNotesIsFalseAndNote1IsOn_WhenNote2IsOnAtK2_Note2StateShouldEqualMutedAtK3"
     solo=false
     mute=false
 }}
@@ -1559,7 +1559,7 @@ endin
     elseif (ki == 2) then
         $NoteOn($Key1)
     elseif (ki == 3) then
-        {{CHECK_EQUAL_k '{+{State.Off}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
+        {{CHECK_EQUAL_k '{+{State.Muted}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
         $NoteOff($Key1)
         $NoteOff($Key1)
         turnoff()
