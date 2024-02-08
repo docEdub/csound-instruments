@@ -29,15 +29,36 @@ gk_{{Module_private}}_Note[][][] init 1, {{MaxNoteCount}}, {{NoteMemberCount}}
 #define Note_updateState(k_currentState)        # {{Module_private}}_Note_updateState(i_instanceIndex, k_noteIndex, k_currentState) #
 
 
-opcode {{Module_public}}_log_notes, 0, S
-    S_channelPrefix xin
-    i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
+opcode {{Module_public}}_log_instance, 0, i
+    i_instanceIndex xin
+
+    {{LogDebug_k '("  ---")'}}
+    {{LogDebug_k '("  - Instance[%d].UpdateHardOffNotes = %s", i_instanceIndex, $Instance[{+{Instance.UpdateHardOffNotes}+}] == $true ? "true" : "false")'}}
+    {{LogDebug_k '("  - Instance[%d].UpdateSoftOffNotes = %s", i_instanceIndex, $Instance[{+{Instance.UpdateSoftOffNotes}+}] == $true ? "true" : "false")'}}
+    {{LogDebug_k '("  - Instance[%d].UpdateSoftOnHighNotes = %s", i_instanceIndex, $Instance[{+{Instance.UpdateSoftOnHighNotes}+}] == $true ? "true" : "false")'}}
+    {{LogDebug_k '("  - Instance[%d].UpdateSoftOnLowNotes = %s", i_instanceIndex, $Instance[{+{Instance.UpdateSoftOnLowNotes}+}] == $true ? "true" : "false")'}}
+    {{LogDebug_k '("  - Instance[%d].RemoveFinishedNotes = %s", i_instanceIndex, $Instance[{+{Instance.RemoveFinishedNotes}+}] == $true ? "true" : "false")'}}
+    {{LogDebug_k '("  ---")'}}
+endop
+
+
+opcode {{Module_public}}_log_note, 0, ik
+    i_instanceIndex, k_noteIndex xin
+    {{LogDebug_k '("  - Note[%d]:%d: id = %d, state = %d, released = %d", k_noteIndex, $Note[{+{Note.Number}+}], $Note[{+{Note.Id}+}], $Note[{+{Note.State}+}], $Note[{+{Note.Released}+}])'}}
+endop
+
+
+opcode {{Module_public}}_log_notes, 0, i
+    i_instanceIndex xin
+
+    {{LogDebug_k '("  ---")'}}
 
     k_noteIndex = 0
     while ($Note[{{Note.Id}}] != -1) do
-        {{LogDebug_k '("Note[%d]: id = %d, state = %d", k_noteIndex, $Note[{+{Note.Id}+}], $Note[{+{Note.State}+}])'}}
+        {{Module_public}}_log_note(i_instanceIndex, k_noteIndex)
         k_noteIndex += 1
     od
+    {{LogDebug_k '("  ---")'}}
 endop
 
 
@@ -301,6 +322,8 @@ opcode {{Module_private}}_Note_enterState_off, 0, ikk
     if (k_currentState != {{State.Off}}) then
         // Init.
         {{LogTrace_k '("Note[%d]:%d.enterState_off", k_noteIndex, $Note[{+{Note.Number}+}])'}}
+        {{Module_public}}_log_note(i_instanceIndex, k_noteIndex)
+
         if ($Note[{{Note.CountsTowardHardOff}}] == $true) then
             $Note[{{Note.CountsTowardHardOff}}] = $false
             $DecrementArrayItem($Instance[{{Instance.HardOffActiveNoteCount}}])
@@ -492,6 +515,8 @@ instr {{Module_private}}_alwayson
 
     {{LogTrace_i '("AF_Module_PolyphonyControl_B_alwayson: i_instanceIndex = %d", i_instanceIndex)'}}
 
+    {{Module_public}}_log_instance(i_instanceIndex)
+
     // Update variables used when processing multiple flags.
     if ($Instance[{{Instance.UpdateHardOffNotes}}] == $true \
             || $Instance[{{Instance.UpdateSoftOffNotes}}] == $true \
@@ -626,11 +651,7 @@ instr {{Module_private}}_alwayson
         $Instance[{{Instance.RemoveFinishedNotes}}] = $false
 
         {{LogDebug_k '("Before removing finished notes ...")'}}
-        k_noteIndex = 0
-        while ($Note[{{Note.Id}}] != -1) do
-            {{LogDebug_k '("    Note[%d]:%d: id = %d, state = %d", k_noteIndex, $Note[{+{Note.Number}+}], $Note[{+{Note.Id}+}], $Note[{+{Note.State}+}])'}}
-            k_noteIndex += 1
-        od
+        {{Module_public}}_log_notes(i_instanceIndex)
 
         // Move active notes down in the note array to fill gaps left by inactive notes.
         k_activeNoteIndex = 0
@@ -660,11 +681,7 @@ instr {{Module_private}}_alwayson
         $Instance[{{Instance.NoteCount}}] = k_activeNoteIndex
 
         {{LogDebug_k '("After removing finished notes ...")'}}
-        k_noteIndex = 0
-        while ($Note[{{Note.Id}}] != -1) do
-            {{LogDebug_k '("    Note[%d]:%d: id = %d, state = %d", k_noteIndex, $Note[{+{Note.Number}+}], $Note[{+{Note.Id}+}], $Note[{+{Note.State}+}])'}}
-            k_noteIndex += 1
-        od
+        {{Module_public}}_log_notes(i_instanceIndex)
 
         k_updateHighAndLowNoteNumbers = $true
     endif
@@ -727,13 +744,8 @@ instr {{Module_private}}_alwayson
             $Instance_updateHighAndLowNoteNumbers()
         endif
 
-        ; {{LogDebug_k '("Instance[%d] low note = %d", i_instanceIndex, $Instance[{+{Instance.LowNoteNumber}+}])'}}
-        ; {{LogDebug_k '("Before updating soft on low notes ...")'}}
-        ; k_noteIndex = 0
-        ; while ($Note[{{Note.Id}}] != -1) do
-        ;     {{LogDebug_k '("    Note[%d]:%d: id = %d, state = %d, released = %d", k_noteIndex, $Note[{+{Note.Number}+}], $Note[{+{Note.Id}+}], $Note[{+{Note.State}+}], $Note[{+{Note.Released}+}])'}}
-        ;     k_noteIndex += 1
-        ; od
+        {{LogDebug_k '("Before updating soft on low notes ...")'}}
+        {{Module_public}}_log_notes(i_instanceIndex)
 
         k_noteIndex = 0
         k_continue = $true
@@ -759,12 +771,8 @@ instr {{Module_private}}_alwayson
             k_noteIndex += 1
         od
 
-        ; {{LogDebug_k '("After updating soft on low notes ...")'}}
-        ; k_noteIndex = 0
-        ; while ($Note[{{Note.Id}}] != -1) do
-        ;     {{LogDebug_k '("    Note[%d]:%d: id = %d, state = %d, released = %d", k_noteIndex, $Note[{+{Note.Number}+}], $Note[{+{Note.Id}+}], $Note[{+{Note.State}+}], $Note[{+{Note.Released}+}])'}}
-        ;     k_noteIndex += 1
-        ; od
+        {{LogDebug_k '("After updating soft on low notes ...")'}}
+        {{Module_public}}_log_notes(i_instanceIndex)
     endif
 endin
 
