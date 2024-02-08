@@ -285,6 +285,7 @@ opcode {{Module_private}}_Note_enterState_muted, 0, ikk
 
     if (k_currentState != {{State.Muted}}) then
         {{LogTrace_k '("Note[%d]:%d.enterState_muted", k_noteIndex, $Note[{+{Note.Number}+}])'}}
+        $Note[{{Note.Amp}}] = 0
     endif
 endop
 
@@ -325,6 +326,11 @@ opcode {{Module_private}}_Note_enterState_off, 0, ikk
             {{LogDebug_k '("NoteKeyOnCount[%d]-- = %d", $Note[{+{Note.Number}+}], $NoteKeyOnCount[$Note[{+{Note.Number}+}]])'}}
         endif
 
+        {{Module_private}}_Instance_updateHighAndLowNoteNumbers(i_instanceIndex)
+
+        if ($Instance[{{Instance.KeepHighNote}}] == $true && $Note[{{Note.Number}}] == $Instance[{{Instance.HighNoteNumber}}]) then
+            $Instance[{{Instance.UpdateSoftOnHighNotes}}] = $true
+        endif
     endif
 endop
 
