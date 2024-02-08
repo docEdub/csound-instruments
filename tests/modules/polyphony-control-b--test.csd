@@ -1611,6 +1611,51 @@ endin
     endif
 {{/CsoundTest}}
 
+{{#CsoundTest "GivenHardMaxIs1AndKeepHighNoteIsTrueAndKeepDuplicateNotesIsFalseAndHighNote1IsOn_WhenHighNote2IsOnAtK2_HighNote2StateShouldEqualMutedAtK3"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::HardMax", 1)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        {{hostValueSet}}("Module::KeepDuplicateNotes", $false)
+        $NoteOn($HighNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($HighNoteKey)
+    elseif (ki == 3) then
+        {{CHECK_EQUAL_k '{+{State.Muted}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
+        $NoteOff($HighNoteKey)
+        $NoteOff($HighNoteKey)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
+{{#CsoundTest "GivenHardMaxIs1AndKeepHighNoteIsTrueAndKeepDuplicateNotesIsFalseAndHighNote1IsOnAndHighNote2IsOnAtK2_WhenHighNote1IsOffAtK4_HighNote2StateShouldEqualSoftOnAtK6"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::HardMax", 1)
+        {{hostValueSet}}("Module::KeepHighNote", $true)
+        {{hostValueSet}}("Module::KeepDuplicateNotes", $false)
+        $NoteOn($HighNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($HighNoteKey)
+    elseif (ki == 4) then
+        $NoteOff($HighNoteKey)
+    elseif (ki == 8) then
+        {{CHECK_EQUAL_k '{+{State.SoftOn}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
+        $NoteOff($HighNoteKey)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
 
 {{/CsoundTestGroup}}
 
