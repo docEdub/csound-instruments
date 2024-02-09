@@ -1415,7 +1415,8 @@ endin
         $NoteOn($MidLowNoteKey)
     elseif (ki == 4) then
         $NoteOff($LowNoteKey)
-    elseif (ki == 6) then
+        k_noteSoftOffStartTime = times()
+    elseif (ki >= 6) then
         if (times() - k_noteSoftOffStartTime >= k_softOffFadeTime) then
             {{CHECK_EQUAL_k '{+{State.Muted}+}' '{+{hostValueGet}+}:k("Note.3.state")'}}
             $NoteOff($HighNoteKey)
