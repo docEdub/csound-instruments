@@ -570,6 +570,13 @@ instr {{Module_private}}_alwayson
 
     {{LogTrace_i '("AF_Module_PolyphonyControl_B_alwayson: i_instanceIndex = %d", i_instanceIndex)'}}
 
+    k_previousTime init 0
+    k_currentTime = timeinsts()
+    if (k_currentTime - k_previousTime < 0.25) then
+        kgoto end
+    endif
+    k_previousTime = k_currentTime
+
     if ($Instance[{{Instance.UpdateHardOffNotes}}] == $true \
             || $Instance[{{Instance.UpdateSoftOffNotes}}] == $true \
             || $Instance[{{Instance.RemoveFinishedNotes}}] == $true \
@@ -827,6 +834,7 @@ instr {{Module_private}}_alwayson
         {{LogDebug_k '("After updating soft on low notes ...")'}}
         ; {{Module_public}}_log_notes(i_instanceIndex)
     endif
+end:
 endin
 
 
