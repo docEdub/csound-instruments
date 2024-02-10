@@ -6,8 +6,8 @@
 </CsOptions>
 <CsInstruments>
 
-{{Enable-LogTrace true}}
-{{Enable-LogDebug true}}
+{{Enable-LogTrace false}}
+{{Enable-LogDebug false}}
 
 sr = {{sr}}
 ksmps = {{ksmps}}
