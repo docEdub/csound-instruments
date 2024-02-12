@@ -570,9 +570,14 @@ instr {{Module_private}}_alwayson
 
     {{LogTrace_i '("AF_Module_PolyphonyControl_B_alwayson: i_instanceIndex = %d", i_instanceIndex)'}}
 
+    k_updateCps = 0
+    k_updateRate = {{moduleGet:k 'UpdateRate'}}
+    if (k_updateRate > 0) then
+        k_updateCps = 1 / k_updateRate
+    endif
     k_previousTime init 0
     k_currentTime = timeinsts()
-    if (k_currentTime - k_previousTime < 0.25) then
+    if (k_currentTime - k_previousTime < k_updateCps) then
         kgoto end
     endif
     k_previousTime = k_currentTime

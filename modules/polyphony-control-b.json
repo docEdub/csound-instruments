@@ -10,8 +10,9 @@
             "KeepHighNote": 6,
             "KeepLowNote": 7,
             "KeepDuplicateNotes": 8,
-            "SoftCount": 9,
-            "HardCount": 10
+            "UpdateRate": 9,
+            "SoftCount": 10,
+            "HardCount": 11
         },
         "ChannelDefault": {
             "SoftMax": 90,
@@ -20,7 +21,8 @@
             "SoftOnFadeTime": 1,
             "KeepHighNote": 0,
             "KeepLowNote": 0,
-            "KeepDuplicateNotes": 1
+            "KeepDuplicateNotes": 1,
+            "UpdateRate": 0
         },
         "State": {
             "Initialized": 0,
@@ -71,7 +73,7 @@
         {
             "type": "polyphony-control-b-module",
             "extends": "module",
-            "height": 241,
+            "height": 261,
             "row-label-width": "60%",
             "row-value-width": "40%",
             "children": [
@@ -82,7 +84,7 @@
                 {
                     "type": "module-row-group",
                     "background": "(Constants.Module.Color.BlueGroup)",
-                    "row-count": 7,
+                    "row-count": 8,
                     "children": [
                         {
                             "label": "Hard max",
@@ -145,6 +147,17 @@
                             "type": "module-checkbox",
                             "value-channel": "KeepDuplicateNotes",
                             "value-default": "(Constants.PolyphonyControl_B.ChannelDefault.KeepDuplicateNotes)"
+                        },
+                        {
+                            "label": "Update rate",
+                            "type": "module-number-box-slider",
+                            "value-channel": "UpdateRate",
+                            "value-range": {
+                                "min": 0,
+                                "max": 100,
+                                "value": "(Constants.PolyphonyControl_B.ChannelDefault.UpdateRate)",
+                                "step": 1
+                            }
                         }
                     ]
                 }
