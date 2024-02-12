@@ -385,6 +385,9 @@ opcode {{Module_private}}_Note_enterState_off, 0, ikk
         if ($Instance[{{Instance.KeepHighNote}}] == $true && $Note[{{Note.Number}}] == $Instance[{{Instance.HighNoteNumber}}]) then
             $Instance[{{Instance.UpdateSoftOnHighNotes}}] = $true
         endif
+        if ($Instance[{{Instance.KeepLowNote}}] == $true && $Note[{{Note.Number}}] == $Instance[{{Instance.LowNoteNumber}}]) then
+            $Instance[{{Instance.UpdateSoftOnLowNotes}}] = $true
+        endif
     endif
 endop
 
