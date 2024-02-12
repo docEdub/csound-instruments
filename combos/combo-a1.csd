@@ -6,6 +6,9 @@
 </CsOptions>
 <CsInstruments>
 
+{{Enable-LogTrace false}}
+{{Enable-LogDebug false}}
+
 sr = {{sr}}
 ksmps = {{ksmps}}
 nchnls = 2
@@ -144,8 +147,23 @@ instr 2
     // NB: We call the envelope module UDO here so the polyphony control UDO's `lastcycle` init sees the envelope's release time.
     a_envelope = AF_Module_Envelope_A("Synth_2::Envelope_1")
 
-    k_polyphonyControlState = AF_Module_PolyphonyControl_B("Synth_2::Polyphony_2")
-    if (k_polyphonyControlState == {{eval '(Constants.PolyphonyControl_B.State.Off)'}}) then
+    ; k_muted init $false
+    k_turnedOff init $false
+    if (k_turnedOff == $true) then
+        kgoto end
+    endif
+    k_polyphonyControlNoteIndex = AF_Module_PolyphonyControl_B_noteIndex("Synth_2::Polyphony_2")
+    k_polyphonyControlState = AF_Module_PolyphonyControl_B_state("Synth_2::Polyphony_2", k_polyphonyControlNoteIndex)
+    if (k_polyphonyControlState == {{eval '(Constants.PolyphonyControl_B.State.Muted)'}}) then
+        ; if (k_muted == $false || k_turnedOff == $true) then
+        ;     k_muted = $true
+        ;     {{LogTrace_k '("Synth 2 note %d muted.", notnum())'}}
+        ; endif
+        kgoto end
+    elseif (k_polyphonyControlState == {{eval '(Constants.PolyphonyControl_B.State.Off)'}}) then
+        {{LogTrace_k '("Synth 2 note %d turned off.", notnum())'}}
+        k_turnedOff = $true
+        ; turnoff()
         kgoto end
     endif
 
@@ -160,7 +178,7 @@ instr 2
     a_out = AF_Module_Filter_A("Synth_2::Filter_1", a_out)
     a_out *= a_envelope
     a_out = dcblock2(a_out, ksmps)
-    a_out = AF_Module_PolyphonyControl_B_audioProcessing("Synth2::Polyphony_2", a_out)
+    a_out = AF_Module_PolyphonyControl_B_audioProcessing("Synth2::Polyphony_2", k_polyphonyControlNoteIndex, a_out)
 
     vincr(ga_out_l, a_out)
     vincr(ga_out_r, a_out)
@@ -168,30 +186,30 @@ end:
 endin
 
 
-{{InitializeModule "AF_Module_BodyTracking_A"       "XR::BodyTracking"}}
+{{InitializeModule "BodyTracking_A"       "XR::BodyTracking"}}
 
-{{InitializeModule "AF_Module_DelayMono_A"          "Piano_FX::Delay_1"}}
-{{InitializeModule "AF_Module_DelayStereo_A"        "Piano_FX::Delay_2"}}
-{{InitializeModule "AF_Module_Volume_A"             "Piano_FX::Volume_1"}}
+{{InitializeModule "DelayMono_A"          "Piano_FX::Delay_1"}}
+{{InitializeModule "DelayStereo_A"        "Piano_FX::Delay_2"}}
+{{InitializeModule "Volume_A"             "Piano_FX::Volume_1"}}
 
-{{InitializeModule "AF_Module_LFO_A"                "Common::LFO_G1"}}
-{{InitializeModule "AF_Module_LFO_A"                "Common::LFO_G2"}}
-{{InitializeModule "AF_Module_LFO_A"                "Common::LFO_G3"}}
-{{InitializeModule "AF_Module_LFO_A"                "Common::LFO_G4"}}
+{{InitializeModule "LFO_A"                "Common::LFO_G1"}}
+{{InitializeModule "LFO_A"                "Common::LFO_G2"}}
+{{InitializeModule "LFO_A"                "Common::LFO_G3"}}
+{{InitializeModule "LFO_A"                "Common::LFO_G4"}}
 
-{{InitializeModule "AF_Module_Source_A"             "Synth_2::Source_1"}}
-{{InitializeModule "AF_Module_Source_A"             "Synth_2::Source_2"}}
-{{InitializeModule "AF_Module_Source_A"             "Synth_2::Source_3"}}
-{{InitializeModule "AF_Module_Source_A"             "Synth_2::Source_4"}}
-{{InitializeModule "AF_Module_Envelope_A"           "Synth_2::Envelope_1"}}
-{{InitializeModule "AF_Module_Filter_A"             "Synth_2::Filter_1"}}
-{{InitializeModule "AF_Module_Volume_A"             "Synth_2::Volume_1"}}
-{{InitializeModule "AF_Module_PolyphonyControl_B"   "Synth_2::Polyphony_2"}}
+{{InitializeModule "Source_A"             "Synth_2::Source_1"}}
+{{InitializeModule "Source_A"             "Synth_2::Source_2"}}
+{{InitializeModule "Source_A"             "Synth_2::Source_3"}}
+{{InitializeModule "Source_A"             "Synth_2::Source_4"}}
+{{InitializeModule "Envelope_A"           "Synth_2::Envelope_1"}}
+{{InitializeModule "Filter_A"             "Synth_2::Filter_1"}}
+{{InitializeModule "Volume_A"             "Synth_2::Volume_1"}}
+{{InitializeModule "PolyphonyControl_B"   "Synth_2::Polyphony_2"}}
 
-{{InitializeModule "AF_Module_Volume_A"             "Master_FX::PianoReverb_1"}}
-{{InitializeModule "AF_Module_Volume_A"             "Master_FX::Synth1Reverb_1"}}
-{{InitializeModule "AF_Module_Volume_A"             "Master_FX::Synth2Reverb_1"}}
-{{InitializeModule "AF_Module_Reverb_A"             "Master_FX::Reverb_1"}}
+{{InitializeModule "Volume_A"             "Master_FX::PianoReverb_1"}}
+{{InitializeModule "Volume_A"             "Master_FX::Synth1Reverb_1"}}
+{{InitializeModule "Volume_A"             "Master_FX::Synth2Reverb_1"}}
+{{InitializeModule "Reverb_A"             "Master_FX::Reverb_1"}}
 
 
 </CsInstruments>

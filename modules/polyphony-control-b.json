@@ -9,15 +9,18 @@
             "SoftOnFadeTime": 5,
             "KeepHighNote": 6,
             "KeepLowNote": 7,
-            "SoftCount": 8,
-            "HardCount": 9
+            "KeepDuplicateNotes": 8,
+            "UpdateRate": 9
         },
         "ChannelDefault": {
             "SoftMax": 90,
             "HardMax": 100,
             "SoftOffFadeTime": 1,
+            "SoftOnFadeTime": 1,
             "KeepHighNote": 0,
-            "KeepLowNote": 0
+            "KeepLowNote": 0,
+            "KeepDuplicateNotes": 1,
+            "UpdateRate": 0
         },
         "State": {
             "Initialized": 0,
@@ -30,32 +33,37 @@
         },
         "Instance": {
             "Enabled": 0,
-            "SoftMax": 1,
-            "HardMax": 2,
+            "HardMax": 1,
+            "SoftMax": 2,
             "SoftOffFadeTime": 3,
             "SoftOnFadeTime": 4,
             "KeepHighNote": 5,
             "KeepLowNote": 6,
-            "NextNoteId": 7,
-            "NoteCount": 8,
-            "UpdateSoftNotes": 9,
-            "UpdateHardNotes": 10,
-            "RemoveFinishedNotes": 11,
-            "HighNoteNumber": 12,
-            "LowNoteNumber": 13,
-            "HardOffActiveNoteCount": 14,
-            "SoftOffActiveNoteCount": 15
+            "KeepDuplicateNotes": 7,
+            "NextNoteId": 8,
+            "NoteCount": 9,
+            "UpdateHardOffNotes": 10,
+            "UpdateSoftOffNotes": 11,
+            "UpdateSoftOnHighNotes": 12,
+            "UpdateSoftOnLowNotes": 13,
+            "RemoveFinishedNotes": 14,
+            "HighNoteNumber": 15,
+            "LowNoteNumber": 16,
+            "HardOffActiveNoteCount": 17,
+            "SoftOffActiveNoteCount": 18
         },
-        "InstanceMemberCount": 16,
+        "InstanceMemberCount": 19,
         "Note": {
             "Id": 0,
             "Duration": 1,
-            "NoteNumber": 2,
+            "Number": 2,
             "Velocity": 3,
-            "State": 6,
-            "Amp": 7,
-            "SoftOffActivated": 8,
-            "HardOffActivated": 9
+            "State": 4,
+            "Amp": 5,
+            "Released": 6,
+            "CountsTowardHardOff": 7,
+            "CountsTowardSoftOff": 8,
+            "CountsTowardKeyCount": 9
         },
         "NoteMemberCount": 10
     },
@@ -63,7 +71,7 @@
         {
             "type": "polyphony-control-b-module",
             "extends": "module",
-            "height": 250,
+            "height": 261,
             "row-label-width": "60%",
             "row-value-width": "40%",
             "children": [
@@ -74,19 +82,8 @@
                 {
                     "type": "module-row-group",
                     "background": "(Constants.Module.Color.BlueGroup)",
-                    "row-count": 5,
+                    "row-count": 8,
                     "children": [
-                        {
-                            "label": "Soft max",
-                            "type": "module-number-box-slider",
-                            "value-channel": "SoftMax",
-                            "value-range": {
-                                "min": 1,
-                                "max": 100,
-                                "value": "(Constants.PolyphonyControl_B.ChannelDefault.SoftMax)",
-                                "step": 1
-                            }
-                        },
                         {
                             "label": "Hard max",
                             "type": "module-number-box-slider",
@@ -99,7 +96,18 @@
                             }
                         },
                         {
-                            "label": "Fade time",
+                            "label": "Soft max",
+                            "type": "module-number-box-slider",
+                            "value-channel": "SoftMax",
+                            "value-range": {
+                                "min": 1,
+                                "max": 100,
+                                "value": "(Constants.PolyphonyControl_B.ChannelDefault.SoftMax)",
+                                "step": 1
+                            }
+                        },
+                        {
+                            "label": "Off fade",
                             "type": "module-number-box-slider",
                             "value-channel": "SoftOffFadeTime",
                             "value-range": {
@@ -110,16 +118,44 @@
                             }
                         },
                         {
+                            "label": "On fade",
+                            "type": "module-number-box-slider",
+                            "value-channel": "SoftOnFadeTime",
+                            "value-range": {
+                                "min": 0,
+                                "max": 10,
+                                "value": "(Constants.PolyphonyControl_B.ChannelDefault.SoftOnFadeTime)",
+                                "step": 0.1
+                            }
+                        },
+                        {
                             "label": "Keep high",
                             "type": "module-checkbox",
                             "value-channel": "KeepHighNote",
-                            "value-default": "(Constants.PolyphonyControl_B.ChannelDefault[json['value-channel']])"
+                            "value-default": "(Constants.PolyphonyControl_B.ChannelDefault.KeepHighNote)"
                         },
                         {
                             "label": "Keep low",
                             "type": "module-checkbox",
                             "value-channel": "KeepLowNote",
-                            "value-default": "(Constants.PolyphonyControl_B.ChannelDefault[json['value-channel']])"
+                            "value-default": "(Constants.PolyphonyControl_B.ChannelDefault.KeepLowNote)"
+                        },
+                        {
+                            "label": "Keep dupes",
+                            "type": "module-checkbox",
+                            "value-channel": "KeepDuplicateNotes",
+                            "value-default": "(Constants.PolyphonyControl_B.ChannelDefault.KeepDuplicateNotes)"
+                        },
+                        {
+                            "label": "Update rate",
+                            "type": "module-number-box-slider",
+                            "value-channel": "UpdateRate",
+                            "value-range": {
+                                "min": 0,
+                                "max": 100,
+                                "value": "(Constants.PolyphonyControl_B.ChannelDefault.UpdateRate)",
+                                "step": 1
+                            }
                         }
                     ]
                 }
