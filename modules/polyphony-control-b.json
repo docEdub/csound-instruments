@@ -10,9 +10,7 @@
             "KeepHighNote": 6,
             "KeepLowNote": 7,
             "KeepDuplicateNotes": 8,
-            "UpdateRate": 9,
-            "SoftCount": 10,
-            "HardCount": 11
+            "UpdateRate": 9
         },
         "ChannelDefault": {
             "SoftMax": 90,
