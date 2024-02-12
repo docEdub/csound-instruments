@@ -1,6 +1,7 @@
 {
     "nodemonConfig": {
-        "exec": "cmake --build .build && ctest --test-dir .build --verbose",
+        "//exec": "cmake --build .build && ctest --test-dir .build --verbose",
+        "exec": "cmake --build .build",
         "ext": "cmake,csd,js,json,txt,orc,ts",
         "ignore": [
             ".git",
