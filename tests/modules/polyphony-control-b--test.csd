@@ -1657,6 +1657,29 @@ endin
     endif
 {{/CsoundTest}}
 
+{{#CsoundTest "GivenHardMaxIs1AndKeepLowNoteIsTrueAndKeepDuplicateNotesIsFalseAndLowNote1IsOnAndLowNote2IsOnAtK2_WhenLowNote1IsOffAtK4_LowNote2StateShouldEqualSoftOnAtK6"
+    solo=false
+    mute=false
+}}
+    ki init 0
+    ki += 1
+
+    if (ki == 1) then
+        {{hostValueSet}}("Module::HardMax", 1)
+        {{hostValueSet}}("Module::KeepLowNote", $true)
+        {{hostValueSet}}("Module::KeepDuplicateNotes", $false)
+        $NoteOn($LowNoteKey)
+    elseif (ki == 2) then
+        $NoteOn($LowNoteKey)
+    elseif (ki == 4) then
+        $NoteOff($LowNoteKey)
+    elseif (ki == 8) then
+        {{CHECK_EQUAL_k '{+{State.SoftOn}+}' '{+{hostValueGet}+}:k("Note.2.state")'}}
+        $NoteOff($LowNoteKey)
+        turnoff()
+    endif
+{{/CsoundTest}}
+
 
 {{/CsoundTestGroup}}
 
