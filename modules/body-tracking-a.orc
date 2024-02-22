@@ -71,6 +71,9 @@ instr {{Module_private}}_websocketListener
 
     k_leftWrist[] init 3
     k_leftWrist = websocket_getArray_k(i_websocketPort, "/hands/left/wrist/position")
+    ; if (changed:k(k_leftWrist[0], k_leftWrist[1], k_leftWrist[2]) == $true) then
+    ;     {{LogInfo_k '("k_leftWrist = [%f, %f, %f]", k_leftWrist[0], k_leftWrist[1], k_leftWrist[2])'}}
+    ; endif
 
     k_leftTip1[] init 3
     k_leftTip1 = websocket_getArray_k(i_websocketPort, "/hands/left/finger/1/tip/position")
@@ -89,6 +92,10 @@ instr {{Module_private}}_websocketListener
 
     k_rightWrist[] init 3
     k_rightWrist = websocket_getArray_k(i_websocketPort, "/hands/right/wrist/position")
+    ; if (changed:k(k_rightWrist[0], k_rightWrist[1], k_rightWrist[2]) == $true) then
+    ;     {{LogInfo_k '("k_rightWrist = [%f, %f, %f]", k_rightWrist[0], k_rightWrist[1], k_rightWrist[2])'}}
+    ; endif
+
 
     k_rightTip1[] init 3
     k_rightTip1 = websocket_getArray_k(i_websocketPort, "/hands/right/finger/1/tip/position")
@@ -111,58 +118,57 @@ instr {{Module_private}}_websocketListener
     k_headRotation[] init 3
     k_headRotation = websocket_getArray_k(i_websocketPort, "/head/rotation")
 
-    ; {{hostValueSet}}("/hands/left/wrist/position/x", k_leftWrist[0] / 51)
-    {{moduleSet:k 'LeftWristX' 'k_leftWrist[0] / 51'}}
-    {{moduleSet:k 'LeftWristY' 'k_leftWrist[1] / 51'}}
-    {{moduleSet:k 'LeftWristZ' 'k_leftWrist[2] / 51'}}
+    {{moduleSet:k 'LeftWristX' 'k_leftWrist[0]'}}
+    {{moduleSet:k 'LeftWristY' 'k_leftWrist[1]'}}
+    {{moduleSet:k 'LeftWristZ' 'k_leftWrist[2]'}}
 
-    {{moduleSet:k 'LeftFingerTip1X' 'k_leftTip1[0] / 51'}}
-    {{moduleSet:k 'LeftFingerTip1Y' 'k_leftTip1[1] / 51'}}
-    {{moduleSet:k 'LeftFingerTip1Z' 'k_leftTip1[2] / 51'}}
+    {{moduleSet:k 'LeftFingerTip1X' 'k_leftTip1[0]'}}
+    {{moduleSet:k 'LeftFingerTip1Y' 'k_leftTip1[1]'}}
+    {{moduleSet:k 'LeftFingerTip1Z' 'k_leftTip1[2]'}}
 
-    {{moduleSet:k 'LeftFingerTip2X' 'k_leftTip2[0] / 51'}}
-    {{moduleSet:k 'LeftFingerTip2Y' 'k_leftTip2[1] / 51'}}
-    {{moduleSet:k 'LeftFingerTip2Z' 'k_leftTip2[2] / 51'}}
+    {{moduleSet:k 'LeftFingerTip2X' 'k_leftTip2[0]'}}
+    {{moduleSet:k 'LeftFingerTip2Y' 'k_leftTip2[1]'}}
+    {{moduleSet:k 'LeftFingerTip2Z' 'k_leftTip2[2]'}}
 
-    {{moduleSet:k 'LeftFingerTip3X' 'k_leftTip3[0] / 51'}}
-    {{moduleSet:k 'LeftFingerTip3Y' 'k_leftTip3[1] / 51'}}
-    {{moduleSet:k 'LeftFingerTip3Z' 'k_leftTip3[2] / 51'}}
+    {{moduleSet:k 'LeftFingerTip3X' 'k_leftTip3[0]'}}
+    {{moduleSet:k 'LeftFingerTip3Y' 'k_leftTip3[1]'}}
+    {{moduleSet:k 'LeftFingerTip3Z' 'k_leftTip3[2]'}}
 
-    {{moduleSet:k 'LeftFingerTip4X' 'k_leftTip4[0] / 51'}}
-    {{moduleSet:k 'LeftFingerTip4Y' 'k_leftTip4[1] / 51'}}
-    {{moduleSet:k 'LeftFingerTip4Z' 'k_leftTip4[2] / 51'}}
+    {{moduleSet:k 'LeftFingerTip4X' 'k_leftTip4[0]'}}
+    {{moduleSet:k 'LeftFingerTip4Y' 'k_leftTip4[1]'}}
+    {{moduleSet:k 'LeftFingerTip4Z' 'k_leftTip4[2]'}}
 
-    {{moduleSet:k 'LeftFingerTip5X' 'k_leftTip5[0] / 51'}}
-    {{moduleSet:k 'LeftFingerTip5Y' 'k_leftTip5[1] / 51'}}
-    {{moduleSet:k 'LeftFingerTip5Z' 'k_leftTip5[2] / 51'}}
+    {{moduleSet:k 'LeftFingerTip5X' 'k_leftTip5[0]'}}
+    {{moduleSet:k 'LeftFingerTip5Y' 'k_leftTip5[1]'}}
+    {{moduleSet:k 'LeftFingerTip5Z' 'k_leftTip5[2]'}}
 
-    {{moduleSet:k 'RightWristX' 'k_rightWrist[0] / 51'}}
-    {{moduleSet:k 'RightWristY' 'k_rightWrist[1] / 51'}}
-    {{moduleSet:k 'RightWristZ' 'k_rightWrist[2] / 51'}}
+    {{moduleSet:k 'RightWristX' 'k_rightWrist[0]'}}
+    {{moduleSet:k 'RightWristY' 'k_rightWrist[1]'}}
+    {{moduleSet:k 'RightWristZ' 'k_rightWrist[2]'}}
 
-    {{moduleSet:k 'RightFingerTip1X' 'k_rightTip1[0] / 51'}}
-    {{moduleSet:k 'RightFingerTip1Y' 'k_rightTip1[1] / 51'}}
-    {{moduleSet:k 'RightFingerTip1Z' 'k_rightTip1[2] / 51'}}
+    {{moduleSet:k 'RightFingerTip1X' 'k_rightTip1[0]'}}
+    {{moduleSet:k 'RightFingerTip1Y' 'k_rightTip1[1]'}}
+    {{moduleSet:k 'RightFingerTip1Z' 'k_rightTip1[2]'}}
 
-    {{moduleSet:k 'RightFingerTip2X' 'k_rightTip2[0] / 51'}}
-    {{moduleSet:k 'RightFingerTip2Y' 'k_rightTip2[1] / 51'}}
-    {{moduleSet:k 'RightFingerTip2Z' 'k_rightTip2[2] / 51'}}
+    {{moduleSet:k 'RightFingerTip2X' 'k_rightTip2[0]'}}
+    {{moduleSet:k 'RightFingerTip2Y' 'k_rightTip2[1]'}}
+    {{moduleSet:k 'RightFingerTip2Z' 'k_rightTip2[2]'}}
 
-    {{moduleSet:k 'RightFingerTip3X' 'k_rightTip3[0] / 51'}}
-    {{moduleSet:k 'RightFingerTip3Y' 'k_rightTip3[1] / 51'}}
-    {{moduleSet:k 'RightFingerTip3Z' 'k_rightTip3[2] / 51'}}
+    {{moduleSet:k 'RightFingerTip3X' 'k_rightTip3[0]'}}
+    {{moduleSet:k 'RightFingerTip3Y' 'k_rightTip3[1]'}}
+    {{moduleSet:k 'RightFingerTip3Z' 'k_rightTip3[2]'}}
 
-    {{moduleSet:k 'RightFingerTip4X' 'k_rightTip4[0] / 51'}}
-    {{moduleSet:k 'RightFingerTip4Y' 'k_rightTip4[1] / 51'}}
-    {{moduleSet:k 'RightFingerTip4Z' 'k_rightTip4[2] / 51'}}
+    {{moduleSet:k 'RightFingerTip4X' 'k_rightTip4[0]'}}
+    {{moduleSet:k 'RightFingerTip4Y' 'k_rightTip4[1]'}}
+    {{moduleSet:k 'RightFingerTip4Z' 'k_rightTip4[2]'}}
 
-    {{moduleSet:k 'RightFingerTip5X' 'k_rightTip5[0] / 51'}}
-    {{moduleSet:k 'RightFingerTip5Y' 'k_rightTip5[1] / 51'}}
-    {{moduleSet:k 'RightFingerTip5Z' 'k_rightTip5[2] / 51'}}
+    {{moduleSet:k 'RightFingerTip5X' 'k_rightTip5[0]'}}
+    {{moduleSet:k 'RightFingerTip5Y' 'k_rightTip5[1]'}}
+    {{moduleSet:k 'RightFingerTip5Z' 'k_rightTip5[2]'}}
 
-    {{moduleSet:k 'HeadPositionX' 'k_headPosition[0] / 51'}}
-    {{moduleSet:k 'HeadPositionY' 'k_headPosition[1] / 51'}}
-    {{moduleSet:k 'HeadPositionZ' 'k_headPosition[2] / 51'}}
+    {{moduleSet:k 'HeadPositionX' 'k_headPosition[0]'}}
+    {{moduleSet:k 'HeadPositionY' 'k_headPosition[1]'}}
+    {{moduleSet:k 'HeadPositionZ' 'k_headPosition[2]'}}
 
     ki = 0
     while (ki < 3) do
