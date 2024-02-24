@@ -12,6 +12,7 @@
         "watch": [
             ".build/_deps/csoundtemplating-src",
             "combos",
+            "effects",
             "instruments",
             "modules",
             "shared",

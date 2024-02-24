@@ -76,6 +76,10 @@ macro(add_combo NAME)
     add_plugin("combos/${NAME}" "EFFECT")
 endmacro()
 
+macro(add_effect NAME)
+    add_plugin("effects/${NAME}" "EFFECT")
+endmacro()
+
 macro(add_instrument NAME)
     add_plugin("instruments/${NAME}" "SYNTH")
 endmacro()
@@ -83,6 +87,8 @@ endmacro()
 
 add_combo("combo-a1")
 # add_combo("combo-a2")
+
+add_effect("effect-a1")
 
 # add_instrument("synth-a1")
 # add_instrument("synth-a2")
