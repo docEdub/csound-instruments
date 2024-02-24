@@ -85,10 +85,9 @@ macro(add_instrument NAME)
 endmacro()
 
 
+add_combo("body-tracking-a1")
 add_combo("combo-a1")
 # add_combo("combo-a2")
-
-add_effect("effect-a1")
 
 # add_instrument("synth-a1")
 # add_instrument("synth-a2")

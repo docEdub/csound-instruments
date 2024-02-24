@@ -4,8 +4,8 @@
     },
     "ui": {
         "type": "combo-form",
-        "name": "Effect A1",
-        "id": "e:a1",
+        "name": "Body Tracking A1",
+        "id": "bta1",
         "width": 1200,
         "height": 625,
         "children": [
@@ -32,7 +32,7 @@
                         "width": 0,
                         "height": 0,
                         "channel": "dummy",
-                        "items": ["dymmy"],
+                        "items": ["dummy"],
                         "backgrounds": ["green"],
                         "colors": ["white"]
                     }
