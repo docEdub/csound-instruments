@@ -84,8 +84,21 @@ macro(add_instrument NAME)
     add_plugin("instruments/${NAME}" "SYNTH")
 endmacro()
 
+#######################################################################################################################
 
-add_combo("body-tracking-a1")
+add_csound_templates(
+    PACKAGES
+        cabbage-core
+        cabbage-tab-group
+        csound-core
+    JSON
+        "shared/common-ui-types.json"
+        "styles/default.json"
+        "combos/body-tracking-a1.json"
+    EFFECT_SOURCES
+        "combos/body-tracking-a1.csd"
+)
+
 add_combo("combo-a1")
 # add_combo("combo-a2")
 
@@ -94,5 +107,7 @@ add_combo("combo-a1")
 
 enable_testing()
 add_module_test("polyphony-control-b")
+
+#######################################################################################################################
 
 generate_csound_templates()

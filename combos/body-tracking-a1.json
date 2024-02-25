@@ -26,23 +26,8 @@
                                 "height": "100%"
                             }
                         ]
-                    },
-                    {
-                        "type": "extended-option-button",
-                        "width": 0,
-                        "height": 0,
-                        "channel": "dummy",
-                        "items": ["dummy"],
-                        "backgrounds": ["green"],
-                        "colors": ["white"]
                     }
                 ]
-            },
-            {
-                "type": "presets"
-            },
-            {
-                "type": "form-footer"
             }
         ]
     }
