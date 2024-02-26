@@ -7,7 +7,7 @@
 <CsInstruments>
 
 {{Enable-LogTrace false}}
-{{Enable-LogDebug false}}
+{{Enable-LogDebug true}}
 
 sr = {{sr}}
 ksmps = {{ksmps}}
@@ -16,7 +16,7 @@ nchnls_i = 2
 
 {{CsInstruments}}
 
-massign 0, 2
+massign 0, 3
 pgmassign 0, 0
 
 
@@ -26,29 +26,68 @@ ga_out_r init 0
 
 instr AF_Combo_A1_alwayson
 
+    setksmps(1)
+
     // XR hands and head tracking ...
 
-    ; k_leftWristX = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.LeftWristX}})
-    ; k_leftWristY = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.LeftWristY}})
-    ; k_leftWristZ = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.LeftWristZ}})
+    k_bodyTrackingData_msb[] init 42
+    k_bodyTrackingData_lsb[] init 42
+    k_bodyTrackingData[] init 42
+    k_currentBodyTrackingId init -1
 
-    ; k_rightWristX = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.RightWristX}})
-    ; k_rightWristY = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.RightWristY}})
-    ; k_rightWristZ = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.RightWristZ}})
 
-    ; k_leftFingerTip1X = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.LeftFingerTip1X}})
-    ; k_leftFingerTip1Y = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.LeftFingerTip1Y}})
-    ; k_leftFingerTip5X = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.LeftFingerTip5X}})
-    ; k_leftFingerTip5Y = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.LeftFingerTip5Y}})
+    k_midi_read = 0
 
-    ; k_rightFingerTip1X = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.RightFingerTip1X}})
-    ; k_rightFingerTip1Y = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.RightFingerTip1Y}})
-    ; k_rightFingerTip5X = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.RightFingerTip5X}})
-    ; k_rightFingerTip5Y = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.RightFingerTip5Y}})
+    read_midi:
+    k_midi_status, k_midi_chan, k_midi_byte1, k_midi_byte2 midiin
+    if (k_midi_status != 0) then
+        {{LogDebug_k '("MIDI: %d %d %d %d", k_midi_status, k_midi_chan, k_midi_byte1, k_midi_byte2)'}}
+        if (k_midi_status == 176) then
+            if (k_midi_byte1 == 99) then
+                k_currentBodyTrackingId = k_midi_byte2
+            elseif (k_midi_byte1 == 6) then
+                k_bodyTrackingData_msb[k_currentBodyTrackingId] = k_midi_byte2
+            elseif (k_midi_byte1 == 38) then
+                k_bodyTrackingData_lsb[k_currentBodyTrackingId] = k_midi_byte2
+                k_bodyTrackingData[k_currentBodyTrackingId] = ((k_bodyTrackingData_msb[k_currentBodyTrackingId] * 128) + k_bodyTrackingData_lsb[k_currentBodyTrackingId]) / 16383 * 2 - 1
+                {{LogDebug_k '("k_bodyTrackingData[%d] = %f", k_currentBodyTrackingId, k_bodyTrackingData[k_currentBodyTrackingId])'}}
+            endif
+        endif
+        kgoto read_midi
+    ; else
+    ;     k_midi_read += 1
+    ;     if (k_midi_read < 10) then
+    ;         kgoto read_midi
+    ;     endif
+    endif
 
-    ; k_headPositionX = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.HeadPositionX}})
-    ; k_headPositionY = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.HeadPositionY}})
-    ; k_headPositionZ = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.HeadPositionZ}})
+    ; k_leftWristX = k_bodyTrackingData[0]
+    ; k_leftWristY = k_bodyTrackingData[1]
+    ; k_leftWristZ = k_bodyTrackingData[2]
+
+    ; k_leftFingerTip1X = k_bodyTrackingData[3]
+    ; k_leftFingerTip1Y = k_bodyTrackingData[4]
+
+    ; k_leftFingerTip5X = k_bodyTrackingData[15]
+    ; k_leftFingerTip5Y = k_bodyTrackingData[16]
+
+    ; k_rightWristX = k_bodyTrackingData[18]
+    ; k_rightWristY = k_bodyTrackingData[19]
+    ; k_rightWristZ = k_bodyTrackingData[20]
+
+    ; k_rightFingerTip1X = k_bodyTrackingData[21]
+    ; k_rightFingerTip1Y = k_bodyTrackingData[22]
+
+    ; k_rightFingerTip5X = k_bodyTrackingData[33]
+    ; k_rightFingerTip5Y = k_bodyTrackingData[34]
+
+    ; k_headPositionX = k_bodyTrackingData[36]
+    ; k_headPositionY = k_bodyTrackingData[37]
+    ; k_headPositionZ = k_bodyTrackingData[38]
+
+    ; if (changed2:k(k_leftWristX, k_leftWristY, k_leftWristZ) == $true) then
+    ;     {{LogDebug_k '("Left wrist: %f %f %f", k_leftWristX, k_leftWristY, k_leftWristZ)'}}
+    ; endif
 
     ; k_synth2_filterFreq_mod = limit(k_leftWristX * 2, 0, 1)
     ; AF_Module_Filter_A_setMod("Synth_2::Filter_1", {{eval '(Constants.Filter_A.Channel.Frequency)'}}, k_synth2_filterFreq_mod)
@@ -72,70 +111,70 @@ instr AF_Combo_A1_alwayson
     ; AF_Module_Reverb_A_setMod("Master_FX::Reverb_1", {{eval '(Constants.Reverb_A.Channel.Cutoff)'}}, k_reverb_cutoff_mod) ; Range = [ 0.0, 1.0 ]
 
 
-    // Piano FX ...
+    ; // Piano FX ...
 
-    a_piano_l inch 1
+    ; a_piano_l inch 1
 
-    a_piano_l = AF_Module_DelayMono_A("Piano_FX::Delay_1", a_piano_l)
-    a_piano_l, a_piano_r AF_Module_DelayStereo_A "Piano_FX::Delay_2", a_piano_l
+    ; a_piano_l = AF_Module_DelayMono_A("Piano_FX::Delay_1", a_piano_l)
+    ; a_piano_l, a_piano_r AF_Module_DelayStereo_A "Piano_FX::Delay_2", a_piano_l
 
-    k_piano_amp = AF_Module_Volume_A:k("Piano_FX::Volume_1")
-    a_piano_l *= k_piano_amp
-    a_piano_r *= k_piano_amp
-
-
-    // Common ...
-
-    k_lfo_g1 = AF_Module_LFO_A:k("Common::LFO_G1")
-    k_pw_1 = (k_lfo_g1 / 2 + 0.5) * 0.45 + 0.05
-    AF_Module_Source_A_setMod("Synth_2::Source_1", {{eval '(Constants.Source_A.Channel.Osc1PulseWidth)'}}, 0.5 - k_pw_1) ; Range = [ 0.50, 0.05 ]
-
-    k_lfo_g2 = AF_Module_LFO_A:k("Common::LFO_G2")
-    k_pw_2 = (k_lfo_g2 / 2 + 0.5) * 0.45 + 0.05
-    AF_Module_Source_A_setMod("Synth_2::Source_2", {{eval '(Constants.Source_A.Channel.Osc1PulseWidth)'}}, 0.5 - k_pw_2) ; Range = [ 0.50, 0.05 ]
-
-    k_lfo_g3 = AF_Module_LFO_A:k("Common::LFO_G3")
-    AF_Module_Source_A_setMod("Synth_2::Source_3", {{eval '(Constants.Source_A.Channel.Osc1Semi)'}}, k_lfo_g3 * 0.5) ; Range = [ -0.5, 0.5 ]
-
-    k_lfo_g4 = AF_Module_LFO_A:k("Common::LFO_G4")
-    AF_Module_Source_A_setMod("Synth_2::Source_4", {{eval '(Constants.Source_A.Channel.Osc1Semi)'}}, k_lfo_g4 * 0.5) ; Range = [ -0.5, 0.5 ]
+    ; k_piano_amp = AF_Module_Volume_A:k("Piano_FX::Volume_1")
+    ; a_piano_l *= k_piano_amp
+    ; a_piano_r *= k_piano_amp
 
 
-    // Synth 2 ...
+    ; // Common ...
 
-    k_synth2_amp = AF_Module_Volume_A:k("Synth_2::Volume_1")
-    ga_out_l *= k_synth2_amp
-    ga_out_r *= k_synth2_amp
+    ; k_lfo_g1 = AF_Module_LFO_A:k("Common::LFO_G1")
+    ; k_pw_1 = (k_lfo_g1 / 2 + 0.5) * 0.45 + 0.05
+    ; AF_Module_Source_A_setMod("Synth_2::Source_1", {{eval '(Constants.Source_A.Channel.Osc1PulseWidth)'}}, 0.5 - k_pw_1) ; Range = [ 0.50, 0.05 ]
 
+    ; k_lfo_g2 = AF_Module_LFO_A:k("Common::LFO_G2")
+    ; k_pw_2 = (k_lfo_g2 / 2 + 0.5) * 0.45 + 0.05
+    ; AF_Module_Source_A_setMod("Synth_2::Source_2", {{eval '(Constants.Source_A.Channel.Osc1PulseWidth)'}}, 0.5 - k_pw_2) ; Range = [ 0.50, 0.05 ]
 
-    // Master FX ...
+    ; k_lfo_g3 = AF_Module_LFO_A:k("Common::LFO_G3")
+    ; AF_Module_Source_A_setMod("Synth_2::Source_3", {{eval '(Constants.Source_A.Channel.Osc1Semi)'}}, k_lfo_g3 * 0.5) ; Range = [ -0.5, 0.5 ]
 
-    k_pianoReverbAmp = AF_Module_Volume_A:k("Master_FX::PianoReverb_1")
-    k_synth1ReverbAmp = AF_Module_Volume_A:k("Master_FX::Synth1Reverb_1")
-    k_synth2ReverbAmp = AF_Module_Volume_A:k("Master_FX::Synth2Reverb_1")
-
-    a_reverbIn_l = a_piano_l * k_pianoReverbAmp + ga_out_l * k_synth2ReverbAmp
-    a_reverbIn_r = a_piano_r * k_pianoReverbAmp + ga_out_r * k_synth2ReverbAmp
-
-    a_reverbOut_l, a_reverbOut_r AF_Module_Reverb_A "Master_FX::Reverb_1", a_reverbIn_l, a_reverbIn_r
-
-    vincr(ga_out_l, a_reverbOut_l)
-    vincr(ga_out_r, a_reverbOut_r)
-
-    vincr(ga_out_l, a_piano_l)
-    vincr(ga_out_r, a_piano_r)
+    ; k_lfo_g4 = AF_Module_LFO_A:k("Common::LFO_G4")
+    ; AF_Module_Source_A_setMod("Synth_2::Source_4", {{eval '(Constants.Source_A.Channel.Osc1Semi)'}}, k_lfo_g4 * 0.5) ; Range = [ -0.5, 0.5 ]
 
 
-    // Output ...
+    ; // Synth 2 ...
 
-    outs(ga_out_l, ga_out_r)
-    clear(ga_out_l, ga_out_r)
+    ; k_synth2_amp = AF_Module_Volume_A:k("Synth_2::Volume_1")
+    ; ga_out_l *= k_synth2_amp
+    ; ga_out_r *= k_synth2_amp
 
 
-    // UI updates ...
+    ; // Master FX ...
 
-    processSelectedChannels()
-    updateModVisibilityChannels()
+    ; k_pianoReverbAmp = AF_Module_Volume_A:k("Master_FX::PianoReverb_1")
+    ; k_synth1ReverbAmp = AF_Module_Volume_A:k("Master_FX::Synth1Reverb_1")
+    ; k_synth2ReverbAmp = AF_Module_Volume_A:k("Master_FX::Synth2Reverb_1")
+
+    ; a_reverbIn_l = a_piano_l * k_pianoReverbAmp + ga_out_l * k_synth2ReverbAmp
+    ; a_reverbIn_r = a_piano_r * k_pianoReverbAmp + ga_out_r * k_synth2ReverbAmp
+
+    ; a_reverbOut_l, a_reverbOut_r AF_Module_Reverb_A "Master_FX::Reverb_1", a_reverbIn_l, a_reverbIn_r
+
+    ; vincr(ga_out_l, a_reverbOut_l)
+    ; vincr(ga_out_r, a_reverbOut_r)
+
+    ; vincr(ga_out_l, a_piano_l)
+    ; vincr(ga_out_r, a_piano_r)
+
+
+    ; // Output ...
+
+    ; outs(ga_out_l, ga_out_r)
+    ; clear(ga_out_l, ga_out_r)
+
+
+    ; // UI updates ...
+
+    ; processSelectedChannels()
+    ; updateModVisibilityChannels()
 endin
 
 

@@ -3,12 +3,12 @@
 {{CsOptions}}
 {{HostOptions}}
 -Q0
---messagelevel=0
+; --messagelevel=0
 </CsOptions>
 <CsInstruments>
 
 {{Enable-LogTrace false}}
-{{Enable-LogDebug false}}
+{{Enable-LogDebug true}}
 
 sr = {{sr}}
 ksmps = 1
@@ -19,25 +19,26 @@ nchnls = 42
 
 gk_websocketPort init 12345
 
+gk_currentBodyTrackingValues[] init 42
+gk_previousBodyTrackingValues[] init 42
 
-opcode sendBodyTrackingMidiMessage, 0, iik
-    i_midiChannel, i_bodyTrackingId, k_value xin
 
-    i_bodyTrackingId_msb = int(i_bodyTrackingId / 128)
-    i_bodyTrackingId_lsb = i_bodyTrackingId % 128
+opcode sendBodyTrackingMidiMessage, k, ikk
+    i_midiChannel, k_bodyTrackingId, k_value xin
 
     k_value_scaled = 16383 * (limit:k(k_value, -1, 1) + 1) / 2
     if (changed2:k(k_value_scaled) == $true) then
         k_value_msb = int(k_value_scaled / 128)
         k_value_lsb = k_value_scaled % 128
 
-        midiout(176, i_midiChannel, 99, i_bodyTrackingId_msb)
-        midiout(176, i_midiChannel, 98, i_bodyTrackingId_lsb)
+        midiout(176, i_midiChannel, 99, k_bodyTrackingId)
         midiout(176, i_midiChannel, 6, k_value_msb)
         midiout(176, i_midiChannel, 38, k_value_lsb)
 
-        ; {{LogDebug_k '("MIDI: %d %d %d = %f", i_midiChannel, i_bodyTrackingId, k_value_scaled, k_value)'}}
+        ; {{LogDebug_k '("MIDI: %d %d %d = %f", i_midiChannel, k_bodyTrackingId, k_value_scaled, k_value)'}}
     endif
+
+    xout k(0)
 endop
 
 
@@ -237,71 +238,93 @@ instr AF_BodyTracking_A1_alwayson
 
     // TODO: Send recorded body tracking data to host as MIDI NRPN messages.
 
-    ; if (changed2:k(k_leftWrist[0], k_leftWrist[1], k_leftWrist[2]) == $true) then
-    ;     {{LogDebug_k '("k_leftWrist = [%f, %f, %f]", k_leftWrist[0], k_leftWrist[1], k_leftWrist[2])'}}
-    ; endif
+    gk_currentBodyTrackingValues[0] = k_leftWrist[0]
+    gk_currentBodyTrackingValues[1] = k_leftWrist[1]
+    gk_currentBodyTrackingValues[2] = k_leftWrist[2]
 
-    sendBodyTrackingMidiMessage(1, 0, k_leftWrist[0])
-    sendBodyTrackingMidiMessage(1, 1, k_leftWrist[1])
-    sendBodyTrackingMidiMessage(1, 2, k_leftWrist[2])
+    gk_currentBodyTrackingValues[3] = k_leftTip1[0]
+    gk_currentBodyTrackingValues[4] = k_leftTip1[1]
+    gk_currentBodyTrackingValues[5] = k_leftTip1[2]
 
-    sendBodyTrackingMidiMessage(1, 3, k_leftTip1[0])
-    sendBodyTrackingMidiMessage(1, 4, k_leftTip1[1])
-    sendBodyTrackingMidiMessage(1, 5, k_leftTip1[2])
+    gk_currentBodyTrackingValues[6] = k_leftTip2[0]
+    gk_currentBodyTrackingValues[7] = k_leftTip2[1]
+    gk_currentBodyTrackingValues[8] = k_leftTip2[2]
 
-    sendBodyTrackingMidiMessage(1, 6, k_leftTip2[0])
-    sendBodyTrackingMidiMessage(1, 7, k_leftTip2[1])
-    sendBodyTrackingMidiMessage(1, 8, k_leftTip2[2])
+    gk_currentBodyTrackingValues[9] = k_leftTip3[0]
+    gk_currentBodyTrackingValues[10] = k_leftTip3[1]
+    gk_currentBodyTrackingValues[11] = k_leftTip3[2]
 
-    sendBodyTrackingMidiMessage(1, 9, k_leftTip3[0])
-    sendBodyTrackingMidiMessage(1, 10, k_leftTip3[1])
-    sendBodyTrackingMidiMessage(1, 11, k_leftTip3[2])
+    gk_currentBodyTrackingValues[12] = k_leftTip4[0]
+    gk_currentBodyTrackingValues[13] = k_leftTip4[1]
+    gk_currentBodyTrackingValues[14] = k_leftTip4[2]
 
-    sendBodyTrackingMidiMessage(1, 12, k_leftTip4[0])
-    sendBodyTrackingMidiMessage(1, 13, k_leftTip4[1])
-    sendBodyTrackingMidiMessage(1, 14, k_leftTip4[2])
+    gk_currentBodyTrackingValues[15] = k_leftTip5[0]
+    gk_currentBodyTrackingValues[16] = k_leftTip5[1]
+    gk_currentBodyTrackingValues[17] = k_leftTip5[2]
 
-    sendBodyTrackingMidiMessage(1, 15, k_leftTip5[0])
-    sendBodyTrackingMidiMessage(1, 16, k_leftTip5[1])
-    sendBodyTrackingMidiMessage(1, 17, k_leftTip5[2])
+    gk_currentBodyTrackingValues[18] = k_rightWrist[0]
+    gk_currentBodyTrackingValues[19] = k_rightWrist[1]
+    gk_currentBodyTrackingValues[20] = k_rightWrist[2]
 
-    sendBodyTrackingMidiMessage(1, 18, k_rightWrist[0])
-    sendBodyTrackingMidiMessage(1, 19, k_rightWrist[1])
-    sendBodyTrackingMidiMessage(1, 20, k_rightWrist[2])
+    gk_currentBodyTrackingValues[21] = k_rightTip1[0]
+    gk_currentBodyTrackingValues[22] = k_rightTip1[1]
+    gk_currentBodyTrackingValues[23] = k_rightTip1[2]
 
-    sendBodyTrackingMidiMessage(1, 21, k_rightTip1[0])
-    sendBodyTrackingMidiMessage(1, 22, k_rightTip1[1])
-    sendBodyTrackingMidiMessage(1, 23, k_rightTip1[2])
+    gk_currentBodyTrackingValues[24] = k_rightTip2[0]
+    gk_currentBodyTrackingValues[25] = k_rightTip2[1]
+    gk_currentBodyTrackingValues[26] = k_rightTip2[2]
 
-    sendBodyTrackingMidiMessage(1, 24, k_rightTip2[0])
-    sendBodyTrackingMidiMessage(1, 25, k_rightTip2[1])
-    sendBodyTrackingMidiMessage(1, 26, k_rightTip2[2])
+    gk_currentBodyTrackingValues[27] = k_rightTip3[0]
+    gk_currentBodyTrackingValues[28] = k_rightTip3[1]
+    gk_currentBodyTrackingValues[29] = k_rightTip3[2]
 
-    sendBodyTrackingMidiMessage(1, 27, k_rightTip3[0])
-    sendBodyTrackingMidiMessage(1, 28, k_rightTip3[1])
-    sendBodyTrackingMidiMessage(1, 29, k_rightTip3[2])
+    gk_currentBodyTrackingValues[30] = k_rightTip4[0]
+    gk_currentBodyTrackingValues[31] = k_rightTip4[1]
+    gk_currentBodyTrackingValues[32] = k_rightTip4[2]
 
-    sendBodyTrackingMidiMessage(1, 30, k_rightTip4[0])
-    sendBodyTrackingMidiMessage(1, 31, k_rightTip4[1])
-    sendBodyTrackingMidiMessage(1, 32, k_rightTip4[2])
+    gk_currentBodyTrackingValues[33] = k_rightTip5[0]
+    gk_currentBodyTrackingValues[34] = k_rightTip5[1]
+    gk_currentBodyTrackingValues[35] = k_rightTip5[2]
 
-    sendBodyTrackingMidiMessage(1, 33, k_rightTip5[0])
-    sendBodyTrackingMidiMessage(1, 34, k_rightTip5[1])
-    sendBodyTrackingMidiMessage(1, 35, k_rightTip5[2])
+    gk_currentBodyTrackingValues[36] = k_headPosition[0]
+    gk_currentBodyTrackingValues[37] = k_headPosition[1]
+    gk_currentBodyTrackingValues[38] = k_headPosition[2]
 
-    sendBodyTrackingMidiMessage(1, 36, k_headPosition[0])
-    sendBodyTrackingMidiMessage(1, 37, k_headPosition[1])
-    sendBodyTrackingMidiMessage(1, 38, k_headPosition[2])
+    gk_currentBodyTrackingValues[39] = k_headRotation[0]
+    gk_currentBodyTrackingValues[40] = k_headRotation[1]
+    gk_currentBodyTrackingValues[41] = k_headRotation[2]
+endin
 
-    sendBodyTrackingMidiMessage(1, 39, k_headRotation[0])
-    sendBodyTrackingMidiMessage(1, 40, k_headRotation[1])
-    sendBodyTrackingMidiMessage(1, 41, k_headRotation[2])
+
+instr AF_BodyTracking_A1_midiout
+    i_midiChannel = 1
+    k_bodyTrackingId init p4
+
+    k_value = gk_currentBodyTrackingValues[k_bodyTrackingId]
+    if (gk_previousBodyTrackingValues[k_bodyTrackingId] != k_value) then
+        gk_previousBodyTrackingValues[k_bodyTrackingId] = k_value
+
+        k_value_scaled = 16383 * (limit:k(k_value, -1, 1) + 1) / 2
+        k_value_msb = int(k_value_scaled / 128)
+        k_value_lsb = k_value_scaled % 128
+
+        midiout(176, 1, 99, k_bodyTrackingId)
+        midiout(176, 1,  6, k_value_msb)
+        midiout(176, 1, 38, k_value_lsb)
+
+        {{LogDebug_k '("MIDI: %d %d = %f", k_bodyTrackingId, k_value_scaled, k_value)'}}
+    endif
 endin
 
 
 // Start at 1 second to give the host time to set it's values.
 scoreline_i("i\"AF_BodyTracking_A1_alwayson\" 1 -1")
 
+ii = 0
+while (ii < 42) do
+    scoreline_i(sprintf("i\"AF_BodyTracking_A1_midiout.%02d\" 1 -1 %d", ii, ii))
+    ii += 1
+od
 
 </CsInstruments>
 <CsScore>
