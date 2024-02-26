@@ -14,13 +14,11 @@ macro(add_plugin NAME TYPE)
     add_csound_templates(
         PACKAGES
             cabbage-core
-            cabbage-extended-option-button
             cabbage-tab-group
             csound-core
             csound-module
         OPCODES
             "modules/shared/filter.orc"
-            "modules/body-tracking-a.orc"
             "modules/delay-mono-a.orc"
             "modules/delay-stereo-a.orc"
             "modules/envelope-a.orc"
@@ -32,7 +30,6 @@ macro(add_plugin NAME TYPE)
             "modules/source-a.orc"
             "modules/volume-a.orc"
         JSON
-            "modules/body-tracking-a.json"
             "modules/delay-mono-a.json"
             "modules/delay-stereo-a.json"
             "modules/envelope-a.json"
