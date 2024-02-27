@@ -3,7 +3,7 @@
 {{CsOptions}}
 {{HostOptions}}
 -Q0
-; --messagelevel=0
+--messagelevel=0
 </CsOptions>
 <CsInstruments>
 
@@ -44,6 +44,8 @@ endop
 
 instr AF_BodyTracking_A1_alwayson
     i_websocketPort = i(gk_websocketPort)
+
+    k_dawTime = chnget:k("TIME_IN_SECONDS")
 
     k_isRecording init $false
     k_isRecording = chnget:k("IS_RECORDING")
@@ -239,7 +241,7 @@ instr AF_BodyTracking_A1_alwayson
     // TODO: Send recorded body tracking data to host as MIDI NRPN messages.
 
     if (changed2:k(k_leftWrist[0], k_leftWrist[1], k_leftWrist[2]) == $true) then
-        {{LogDebug_k '("k_leftWrist = [%f %f %f]", k_leftWrist[0], k_leftWrist[1], k_leftWrist[2])'}}
+        {{LogDebug_k '("%f: k_leftWrist = [%f %f %f]", k_dawTime, k_leftWrist[0], k_leftWrist[1], k_leftWrist[2])'}}
     endif
 
     gk_currentBodyTrackingValues[0] = k_leftWrist[0]

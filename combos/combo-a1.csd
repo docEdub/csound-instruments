@@ -11,7 +11,8 @@
 {{Enable-LogDebug true}}
 
 sr = {{sr}}
-ksmps = {{ksmps}}
+; ksmps = {{ksmps}}
+ksmps = 1
 nchnls = 2
 nchnls_i = 2
 
@@ -80,8 +81,10 @@ instr AF_Combo_A1_alwayson
     k_headPositionY = k_bodyTrackingData[37]
     k_headPositionZ = k_bodyTrackingData[38]
 
+    k_dawTime = chnget:k("TIME_IN_SECONDS")
+
     if (changed2:k(k_leftWristX, k_leftWristY, k_leftWristZ) == $true) then
-        {{LogDebug_k '("Left wrist: %f %f %f", k_leftWristX, k_leftWristY, k_leftWristZ)'}}
+        {{LogDebug_k '("%f: Left wrist: %f %f %f", k_dawTime, k_leftWristX, k_leftWristY, k_leftWristZ)'}}
     endif
 
     k_synth2_filterFreq_mod = limit(k_leftWristX * 2, 0, 1)
