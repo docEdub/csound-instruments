@@ -1,9 +1,8 @@
--<CsoundSynthesizer>
+----<CsoundSynthesizer>
 <CsOptions>
 {{CsOptions}}
 {{HostOptions}}
 --messagelevel=0
-; -+raw_controller_mode=yes
 </CsOptions>
 <CsInstruments>
 
@@ -11,8 +10,7 @@
 {{Enable-LogDebug true}}
 
 sr = {{sr}}
-; ksmps = {{ksmps}}
-ksmps = 1
+ksmps = {{ksmps}}
 nchnls = 2
 nchnls_i = 2
 
@@ -28,34 +26,24 @@ ga_out_r init 0
 
 instr AF_Combo_A1_alwayson
 
-    setksmps(1)
-
     // XR hands and head tracking ...
 
-    k_bodyTrackingData_msb[] init 42
-    k_bodyTrackingData_lsb[] init 42
+    a_bodyTrackingData = inch(1)
+    k_bodyTrackingId init -1
     k_bodyTrackingData[] init 42
-    k_currentBodyTrackingId init -1
-
-
-    k_midi_read = 0
-
-    read_midi:
-    k_midi_status, k_midi_chan, k_midi_byte1, k_midi_byte2 midiin
-    if (k_midi_status != 0) then
-        ; {{LogDebug_k '("MIDI: %d %d %d %d", k_midi_status, k_midi_chan, k_midi_byte1, k_midi_byte2)'}}
-        if (k_midi_status == 160) then
-            k_currentBodyTrackingId = k_midi_byte1
-            if (k_midi_chan == 2) then
-                k_bodyTrackingData_msb[k_currentBodyTrackingId] = k_midi_byte2
-            elseif (k_midi_chan == 3) then
-                k_bodyTrackingData_lsb[k_currentBodyTrackingId] = k_midi_byte2
-                k_bodyTrackingData[k_currentBodyTrackingId] = ((k_bodyTrackingData_msb[k_currentBodyTrackingId] * 128) + k_bodyTrackingData_lsb[k_currentBodyTrackingId]) / 16382 * 2 - 1
-                ; {{LogDebug_k '("k_bodyTrackingData[%d] = %f", k_currentBodyTrackingId, k_bodyTrackingData[k_currentBodyTrackingId])'}}
-            endif
+    ki = 0
+    while (ki < ksmps) do
+        k_bodyTrackingValue = vaget(ki, a_bodyTrackingData)
+        if (k_bodyTrackingValue > 0.999999) then
+            k_bodyTrackingId = 0
+        elseif (k_bodyTrackingValue < -0.999999) then
+            k_bodyTrackingId = -1
+        elseif (k_bodyTrackingId >= 0 && k_bodyTrackingId < 42) then
+            k_bodyTrackingData[k_bodyTrackingId] = k_bodyTrackingValue
+            k_bodyTrackingId += 1
         endif
-        kgoto read_midi
-    endif
+        ki += 1
+    od
 
     k_leftWristX = k_bodyTrackingData[0]
     k_leftWristY = k_bodyTrackingData[1]
@@ -81,11 +69,10 @@ instr AF_Combo_A1_alwayson
     k_headPositionY = k_bodyTrackingData[37]
     k_headPositionZ = k_bodyTrackingData[38]
 
-    k_dawTime = chnget:k("TIME_IN_SECONDS")
-
     if (changed2:k(k_leftWristX, k_leftWristY, k_leftWristZ) == $true) then
-        {{LogDebug_k '("%f: Left wrist: %f %f %f", k_dawTime, k_leftWristX, k_leftWristY, k_leftWristZ)'}}
+        {{LogDebug_k '("k_leftWrist = [%f %f %f]", k_leftWristX, k_leftWristY, k_leftWristZ)'}}
     endif
+
 
     k_synth2_filterFreq_mod = limit(k_leftWristX * 2, 0, 1)
     AF_Module_Filter_A_setMod("Synth_2::Filter_1", {{eval '(Constants.Filter_A.Channel.Frequency)'}}, k_synth2_filterFreq_mod)
@@ -111,7 +98,7 @@ instr AF_Combo_A1_alwayson
 
     // Piano FX ...
 
-    a_piano_l inch 1
+    a_piano_l = inch(2)
 
     a_piano_l = AF_Module_DelayMono_A("Piano_FX::Delay_1", a_piano_l)
     a_piano_l, a_piano_r AF_Module_DelayStereo_A "Piano_FX::Delay_2", a_piano_l
