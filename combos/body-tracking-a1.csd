@@ -238,6 +238,10 @@ instr AF_BodyTracking_A1_alwayson
 
     // TODO: Send recorded body tracking data to host as MIDI NRPN messages.
 
+    if (changed2:k(k_leftWrist[0], k_leftWrist[1], k_leftWrist[2]) == $true) then
+        {{LogDebug_k '("k_leftWrist = [%f %f %f]", k_leftWrist[0], k_leftWrist[1], k_leftWrist[2])'}}
+    endif
+
     gk_currentBodyTrackingValues[0] = k_leftWrist[0]
     gk_currentBodyTrackingValues[1] = k_leftWrist[1]
     gk_currentBodyTrackingValues[2] = k_leftWrist[2]
@@ -304,15 +308,14 @@ instr AF_BodyTracking_A1_midiout
     if (gk_previousBodyTrackingValues[k_bodyTrackingId] != k_value) then
         gk_previousBodyTrackingValues[k_bodyTrackingId] = k_value
 
-        k_value_scaled = 16383 * (limit:k(k_value, -1, 1) + 1) / 2
+        k_value_scaled = 16382 * (limit:k(k_value, -1, 1) + 1) / 2
         k_value_msb = int(k_value_scaled / 128)
         k_value_lsb = k_value_scaled % 128
 
-        midiout(176, 1, 99, k_bodyTrackingId)
-        midiout(176, 1,  6, k_value_msb)
-        midiout(176, 1, 38, k_value_lsb)
+        midiout(160, 2, k_bodyTrackingId, k_value_msb)
+        midiout(160, 3, k_bodyTrackingId, k_value_lsb)
 
-        {{LogDebug_k '("MIDI: %d %d = %f", k_bodyTrackingId, k_value_scaled, k_value)'}}
+        ; {{LogDebug_k '("MIDI: %d %d = %f", k_bodyTrackingId, k_value_scaled, k_value)'}}
     endif
 endin
 
