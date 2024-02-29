@@ -1,1 +1,5 @@
 node_modules
+
+# Reaper track recorded .wav files and peaks.
+.*.wav
+.*.wav.reapeaks

@@ -17,17 +17,6 @@
                 "children": [
                     {
                         "type": "main-tab",
-                        "label": "XR",
-                        "channel-prefix": "XR",
-                        "children": [
-                            {
-                                "type": "body-tracking-a-module",
-                                "name": "BodyTracking"
-                            }
-                        ]
-                    },
-                    {
-                        "type": "main-tab",
                         "label": "Piano FX",
                         "channel-prefix": "Piano_FX",
                         "children": [

@@ -14,13 +14,11 @@ macro(add_plugin NAME TYPE)
     add_csound_templates(
         PACKAGES
             cabbage-core
-            cabbage-extended-option-button
             cabbage-tab-group
             csound-core
             csound-module
         OPCODES
             "modules/shared/filter.orc"
-            "modules/body-tracking-a.orc"
             "modules/delay-mono-a.orc"
             "modules/delay-stereo-a.orc"
             "modules/envelope-a.orc"
@@ -32,7 +30,6 @@ macro(add_plugin NAME TYPE)
             "modules/source-a.orc"
             "modules/volume-a.orc"
         JSON
-            "modules/body-tracking-a.json"
             "modules/delay-mono-a.json"
             "modules/delay-stereo-a.json"
             "modules/envelope-a.json"
@@ -84,16 +81,30 @@ macro(add_instrument NAME)
     add_plugin("instruments/${NAME}" "SYNTH")
 endmacro()
 
+#######################################################################################################################
+
+add_csound_templates(
+    PACKAGES
+        cabbage-core
+        cabbage-tab-group
+        csound-core
+    JSON
+        "shared/common-ui-types.json"
+        "styles/default.json"
+        "combos/body-tracking-a1.json"
+    EFFECT_SOURCES
+        "combos/body-tracking-a1.csd"
+)
 
 add_combo("combo-a1")
 # add_combo("combo-a2")
-
-add_effect("effect-a1")
 
 # add_instrument("synth-a1")
 # add_instrument("synth-a2")
 
 enable_testing()
 add_module_test("polyphony-control-b")
+
+#######################################################################################################################
 
 generate_csound_templates()

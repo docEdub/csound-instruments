@@ -1,4 +1,4 @@
--<CsoundSynthesizer>
+----<CsoundSynthesizer>
 <CsOptions>
 {{CsOptions}}
 {{HostOptions}}
@@ -7,7 +7,7 @@
 <CsInstruments>
 
 {{Enable-LogTrace false}}
-{{Enable-LogDebug false}}
+{{Enable-LogDebug true}}
 
 sr = {{sr}}
 ksmps = {{ksmps}}
@@ -28,53 +28,78 @@ instr AF_Combo_A1_alwayson
 
     // XR hands and head tracking ...
 
-    k_leftWristX = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.LeftWristX}})
-    k_leftWristY = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.LeftWristY}})
-    k_leftWristZ = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.LeftWristZ}})
+    a_bodyTrackingData = inch(1)
+    k_bodyTrackingId init -1
+    k_bodyTrackingData[] init 42
+    ki = 0
+    while (ki < ksmps) do
+        k_bodyTrackingValue = vaget(ki, a_bodyTrackingData)
+        if (k_bodyTrackingValue > 0.999999) then
+            k_bodyTrackingId = 0
+        elseif (k_bodyTrackingValue < -0.999999) then
+            k_bodyTrackingId = -1
+        elseif (k_bodyTrackingId >= 0 && k_bodyTrackingId < 42) then
+            k_bodyTrackingData[k_bodyTrackingId] = k_bodyTrackingValue
+            k_bodyTrackingId += 1
+        endif
+        ki += 1
+    od
 
-    k_rightWristX = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.RightWristX}})
-    k_rightWristY = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.RightWristY}})
-    k_rightWristZ = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.RightWristZ}})
+    k_leftWristX = k_bodyTrackingData[0]
+    k_leftWristY = k_bodyTrackingData[1]
+    k_leftWristZ = k_bodyTrackingData[2]
 
-    k_leftFingerTip1X = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.LeftFingerTip1X}})
-    k_leftFingerTip1Y = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.LeftFingerTip1Y}})
-    k_leftFingerTip5X = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.LeftFingerTip5X}})
-    k_leftFingerTip5Y = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.LeftFingerTip5Y}})
+    k_leftFingerTip1X = k_bodyTrackingData[3]
+    k_leftFingerTip1Y = k_bodyTrackingData[4]
 
-    k_rightFingerTip1X = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.RightFingerTip1X}})
-    k_rightFingerTip1Y = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.RightFingerTip1Y}})
-    k_rightFingerTip5X = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.RightFingerTip5X}})
-    k_rightFingerTip5Y = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.RightFingerTip5Y}})
+    k_leftFingerTip5X = k_bodyTrackingData[15]
+    k_leftFingerTip5Y = k_bodyTrackingData[16]
 
-    k_headPositionX = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.HeadPositionX}})
-    k_headPositionY = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.HeadPositionY}})
-    k_headPositionZ = AF_Module_BodyTracking_A("XR::BodyTracking", {{BodyTracking_A.Channel.HeadPositionZ}})
+    k_rightWristX = k_bodyTrackingData[18]
+    k_rightWristY = k_bodyTrackingData[19]
+    k_rightWristZ = k_bodyTrackingData[20]
 
-    k_synth2_filterFreq_mod = limit(k_leftWristX * 2, 0, 1)
+    k_rightFingerTip1X = k_bodyTrackingData[21]
+    k_rightFingerTip1Y = k_bodyTrackingData[22]
+
+    k_rightFingerTip5X = k_bodyTrackingData[33]
+    k_rightFingerTip5Y = k_bodyTrackingData[34]
+
+    k_headPositionX = k_bodyTrackingData[36]
+    k_headPositionY = k_bodyTrackingData[37]
+    k_headPositionZ = k_bodyTrackingData[38]
+
+
+    ; k_synth2_filterFreq_mod = limit(k_leftWristX * 2, 0, 1)
+    k_synth2_filterFreq_mod = limit(k_leftWristX, -1, 1) * 0.5 + 0.5
     AF_Module_Filter_A_setMod("Synth_2::Filter_1", {{eval '(Constants.Filter_A.Channel.Frequency)'}}, k_synth2_filterFreq_mod)
 
-    k_synth2_filterEnv_mod = limit((k_rightWristX - 0.5) * 4, 0, 1)
+    ; k_synth2_filterEnv_mod = limit((k_rightWristX - 0.5) * 4, 0, 1)
+    k_synth2_filterEnv_mod = limit(k_rightWristX, 0, 1) * 2
     AF_Module_Filter_A_setMod("Synth_2::Filter_1", {{eval '(Constants.Filter_A.Channel.EnvelopeAmount)'}}, k_synth2_filterEnv_mod)
 
-    k_synth2_source1_subAmp_mod = limit(abs(k_leftFingerTip5Y - k_leftFingerTip1Y) * 7, 0, 1)
+    ; k_synth2_source1_subAmp_mod = limit(abs(k_leftFingerTip5Y - k_leftFingerTip1Y) * 7, 0, 1)
+    k_synth2_source1_subAmp_mod = limit(abs(k_leftFingerTip5Y - k_leftFingerTip1Y) * 7, -1, 1) * 0.5 + 0.5
     AF_Module_Source_A_setMod("Synth_2::Source_1", {{eval '(Constants.Source_A.Channel.SubAmp)'}}, k_synth2_source1_subAmp_mod)
 
-    k_synth2_filter_q_mod = limit(abs(k_rightFingerTip5Y - k_rightFingerTip1Y) * 70, 1, 7.5)
+    ; k_synth2_filter_q_mod = limit(abs(k_rightFingerTip5Y - k_rightFingerTip1Y) * 70, 1, 7.5)
+    k_synth2_filter_q_mod = limit(abs(k_rightFingerTip5Y - k_rightFingerTip1Y) * 70 * 0.5 + 0.5, 1, 7.5)
     AF_Module_Filter_A_setMod("Synth_2::Filter_1", {{eval '(Constants.Filter_A.Channel.Q)'}}, k_synth2_filter_q_mod)
 
-    k_synth2_volumeAmp_mod = lag(max(k_leftWristY, k_rightWristY), 2)
+    ; k_synth2_volumeAmp_mod = lag(max(k_leftWristY, k_rightWristY), 2)
+    k_synth2_volumeAmp_mod = lag(limit(max(k_leftWristY, k_rightWristY), 0, 1), 2)
     AF_Module_Volume_A_setMod("Synth_2::Volume_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_synth2_volumeAmp_mod)
 
     k_piano_reverbSendAmp_mod = min(0, -((min(round((k_headPositionY + k_headPositionZ) * 3 * 1000) / 1000, 1.5)) - 0.5) * 2)
     AF_Module_Volume_A_setMod("Master_FX::PianoReverb_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_piano_reverbSendAmp_mod) ; Range = [ 0.0, -0.5... ]
 
-    k_reverb_cutoff_mod = limit:k(round(k_headPositionX * 1000) / 1000, 0, 1)
+    k_reverb_cutoff_mod = limit:k(round((k_headPositionX * 0.5 + 0.5) * 1000) / 1000, 0, 1)
     AF_Module_Reverb_A_setMod("Master_FX::Reverb_1", {{eval '(Constants.Reverb_A.Channel.Cutoff)'}}, k_reverb_cutoff_mod) ; Range = [ 0.0, 1.0 ]
 
 
     // Piano FX ...
 
-    a_piano_l inch 1
+    a_piano_l = inch(2)
 
     a_piano_l = AF_Module_DelayMono_A("Piano_FX::Delay_1", a_piano_l)
     a_piano_l, a_piano_r AF_Module_DelayStereo_A "Piano_FX::Delay_2", a_piano_l
@@ -167,8 +192,6 @@ instr 2
         kgoto end
     endif
 
-    AF_Module_BodyTracking_A_onMidiNote("XR::BodyTracking")
-
     a_source_1 = AF_Module_Source_A("Synth_2::Source_1")
     a_source_2 = AF_Module_Source_A("Synth_2::Source_2")
     a_source_3 = AF_Module_Source_A("Synth_2::Source_3")
@@ -185,8 +208,6 @@ instr 2
 end:
 endin
 
-
-{{InitializeModule "BodyTracking_A"       "XR::BodyTracking"}}
 
 {{InitializeModule "DelayMono_A"          "Piano_FX::Delay_1"}}
 {{InitializeModule "DelayStereo_A"        "Piano_FX::Delay_2"}}
