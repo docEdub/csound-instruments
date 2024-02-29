@@ -101,9 +101,12 @@ instr AF_BodyTracking_A1_alwayson
         k_headPosition = websocket_getArray_k(i_websocketPort, "/head/position")
         k_headRotation = websocket_getArray_k(i_websocketPort, "/head/rotation")
 
-        if (changed2:k(k_leftWrist[0], k_leftWrist[1], k_leftWrist[2]) == $true) then
-            {{LogDebug_k '("k_leftWrist = [%f %f %f]", k_leftWrist[0], k_leftWrist[1], k_leftWrist[2])'}}
-        endif
+        ; if (changed2:k(k_headPosition[0], k_headPosition[1], k_headPosition[2]) == $true) then
+        ;     {{LogDebug_k '("k_headPosition = [%f %f %f]", k_headPosition[0], k_headPosition[1], k_headPosition[2])'}}
+        ; endif
+        ; if (changed2:k(k_headRotation[0], k_headRotation[1], k_headRotation[2]) == $true) then
+        ;     {{LogDebug_k '("k_headRotation = [%f %f %f]", k_headRotation[0], k_headRotation[1], k_headRotation[2])'}}
+        ; endif
 
         k_currentBodyTrackingValues[0] = k_leftWrist[0]
         k_currentBodyTrackingValues[1] = k_leftWrist[1]
