@@ -1,0 +1,39 @@
+{
+    "MidiKeyRange_A": {
+        "Channel": {
+            "Enabled": 1,
+            "High": 2,
+            "Low": 3
+        }
+    },
+    "uiTypes": [
+        {
+            "type": "midi-key-range-a-module",
+            "extends": "module",
+            "height": 106,
+            "children": [
+                {
+                    "type": "module-main-label-and-enabled-checkbox",
+                    "value-default": "(tryInherit('value-default') ?? false)"
+                },
+                {
+                    "type": "module-row-group",
+                    "background": "(Constants.Module.Color.BlueGroup)",
+                    "row-count": 2,
+                    "children": [
+                        {
+                            "label": "High",
+                            "type": "module-number-box-slider",
+                            "value-range": { "min": 0, "max": 127, "value": 127, "step": 1 }
+                        },
+                        {
+                            "label": "Low",
+                            "type": "module-number-box-slider",
+                            "value-range": { "min": 0, "max": 127, "value": 0, "step": 1 }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

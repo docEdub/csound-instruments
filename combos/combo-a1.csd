@@ -7,7 +7,7 @@
 <CsInstruments>
 
 {{Enable-LogTrace false}}
-{{Enable-LogDebug true}}
+{{Enable-LogDebug false}}
 
 sr = {{sr}}
 ksmps = {{ksmps}}
@@ -169,6 +169,12 @@ scoreline_i("i\"AF_Combo_A1_alwayson\" 1 -1")
 
 
 instr 2
+    i_isInMidiKeyRange = AF_Module_MidiKeyRange_A:i("Common::KeyRange_G1", notnum())
+    if (i_isInMidiKeyRange == $false) then
+        {{LogTrace_i '("Note %d is out of range.", notnum())'}}
+        goto end
+    endif
+
     // NB: We call the envelope module UDO here so the polyphony control UDO's `lastcycle` init sees the envelope's release time.
     a_envelope = AF_Module_Envelope_A("Synth_2::Envelope_1")
 
@@ -217,6 +223,7 @@ endin
 {{InitializeModule "LFO_A"                "Common::LFO_G2"}}
 {{InitializeModule "LFO_A"                "Common::LFO_G3"}}
 {{InitializeModule "LFO_A"                "Common::LFO_G4"}}
+{{InitializeModule "MidiKeyRange_A"       "Common::KeyRange_G1"}}
 
 {{InitializeModule "Source_A"             "Synth_2::Source_1"}}
 {{InitializeModule "Source_A"             "Synth_2::Source_2"}}
