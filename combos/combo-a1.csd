@@ -174,7 +174,10 @@ scoreline_i("i\"AF_Combo_A1_alwayson\" 1 -1")
 
 
 instr 2
-    i_isInMidiKeyRange = AF_Module_MidiKeyRange_A:i("Common::KeyRange_G1", notnum())
+    i_noteNumber = notnum()
+    i_noteNumber += AF_Module_MidiKeyTranspose_A:i("Common::KeyTranspose_G1")
+
+    i_isInMidiKeyRange = AF_Module_MidiKeyRange_A:i("Common::KeyRange_G1", i_noteNumber)
     if (i_isInMidiKeyRange == $false) then
         {{LogTrace_i '("Note %d is out of range.", notnum())'}}
         goto end
@@ -203,10 +206,10 @@ instr 2
         kgoto end
     endif
 
-    a_source_1 = AF_Module_Source_A("Synth_2::Source_1")
-    a_source_2 = AF_Module_Source_A("Synth_2::Source_2")
-    a_source_3 = AF_Module_Source_A("Synth_2::Source_3")
-    a_source_4 = AF_Module_Source_A("Synth_2::Source_4")
+    a_source_1 = AF_Module_Source_A("Synth_2::Source_1", i_noteNumber)
+    a_source_2 = AF_Module_Source_A("Synth_2::Source_2", i_noteNumber)
+    a_source_3 = AF_Module_Source_A("Synth_2::Source_3", i_noteNumber)
+    a_source_4 = AF_Module_Source_A("Synth_2::Source_4", i_noteNumber)
     a_out = sum(a_source_1, a_source_2, a_source_3, a_source_4)
 
     a_out = AF_Module_Filter_A("Synth_2::Filter_1", a_out)
@@ -229,6 +232,7 @@ endin
 {{InitializeModule "LFO_A"                "Common::LFO_G3"}}
 {{InitializeModule "LFO_A"                "Common::LFO_G4"}}
 {{InitializeModule "MidiKeyRange_A"       "Common::KeyRange_G1"}}
+{{InitializeModule "MidiKeyTranspose_A"   "Common::KeyTranspose_G1"}}
 
 {{InitializeModule "Source_A"             "Synth_2::Source_1"}}
 {{InitializeModule "Source_A"             "Synth_2::Source_2"}}

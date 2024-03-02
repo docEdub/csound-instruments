@@ -74,6 +74,11 @@
                                         "type": "module-group",
                                         "children": [
                                             {
+                                                "type": "midi-key-transpose-a-module",
+                                                "name": "KeyTranspose_G1",
+                                                "value-default": false
+                                            },
+                                            {
                                                 "type": "midi-key-range-a-module",
                                                 "name": "KeyRange_G1",
                                                 "value-default": false
