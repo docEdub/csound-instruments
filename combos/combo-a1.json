@@ -153,6 +153,10 @@
                                             {
                                                 "type": "offset-a-module",
                                                 "name": "VolumeOffset_1"
+                                            },
+                                            {
+                                                "type": "clamp-a-module",
+                                                "name": "VolumeClamp_1"
                                             }
                                         ]
                                     }

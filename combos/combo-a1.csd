@@ -127,6 +127,7 @@ instr AF_Combo_A1_alwayson
 
     k_synth2_amp = AF_Module_Volume_A:k("Synth_2::Volume_1")
     k_synth2_amp += AF_Module_Offset_A:k("Synth_2::VolumeOffset_1")
+    k_synth2_amp = AF_Module_Clamp_A:k("Synth_2::VolumeClamp_1", k_synth2_amp)
 
     ga_out_l *= k_synth2_amp
     ga_out_r *= k_synth2_amp
@@ -245,6 +246,7 @@ endin
 {{InitializeModule "PolyphonyControl_B"   "Synth_2::Polyphony_2"}}
 {{InitializeModule "Volume_A"             "Synth_2::Volume_1"}}
 {{InitializeModule "Offset_A"             "Synth_2::VolumeOffset_1"}}
+{{InitializeModule "Clamp_A"              "Synth_2::VolumeClamp_1"}}
 
 {{InitializeModule "Volume_A"             "Master_FX::PianoMix_1"}}
 {{InitializeModule "Volume_A"             "Master_FX::Synth2Mix_1"}}
