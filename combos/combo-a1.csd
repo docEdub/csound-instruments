@@ -91,7 +91,7 @@ instr AF_Combo_A1_alwayson
     ; k_reverb_cutoff_mod = limit:k(round((k_headPositionX * 0.5 + 0.5) * 1000) / 1000, 0, 1)
     ; AF_Module_Reverb_A_setMod("Master_FX::Reverb_1", {{eval '(Constants.Reverb_A.Channel.Cutoff)'}}, k_reverb_cutoff_mod) ; Range = [ 0.0, 1.0 ]
 
-    k_synth2_volumeAmp_mod = lagud((limit(k_headPositionY, 0.3, 0.5) - 0.3) * 5, 2, 5)
+    k_synth2_volumeAmp_mod = ampdb(lagud((limit(k_headPositionY, 0, 0.5) - 0) * 2, 5, 10) * 90) / 32000
     AF_Module_Volume_A_setMod("Synth_2::Volume_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_synth2_volumeAmp_mod)
 
     // Piano FX ...
