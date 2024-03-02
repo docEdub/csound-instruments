@@ -9,7 +9,7 @@
         {
             "type": "midi-key-transpose-a-module",
             "extends": "module",
-            "height": 90,
+            "height": 79,
             "children": [
                 {
                     "type": "module-main-label-and-enabled-checkbox",
