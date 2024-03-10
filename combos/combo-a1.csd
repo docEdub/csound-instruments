@@ -70,32 +70,30 @@ instr AF_Combo_A1_alwayson
     k_headPositionZ = k_bodyTrackingData[38]
 
 
-    ; k_synth2_filterFreq_mod = limit(k_leftWristX * 2, 0, 1)
-    k_synth2_filterFreq_mod = limit(k_leftWristX, -1, 1) * 0.5 + 0.5
-    AF_Module_Filter_A_setMod("Synth_2::Filter_1", {{eval '(Constants.Filter_A.Channel.Frequency)'}}, k_synth2_filterFreq_mod)
+    ; k_synth2_filterFreq_mod = limit(k_leftWristX, -1, 1) * 0.5 + 0.5
+    ; AF_Module_Filter_A_setMod("Synth_2::Filter_1", {{eval '(Constants.Filter_A.Channel.Frequency)'}}, k_synth2_filterFreq_mod)
 
-    ; k_synth2_filterEnv_mod = limit((k_rightWristX - 0.5) * 4, 0, 1)
-    k_synth2_filterEnv_mod = limit(k_rightWristX, 0, 1) * 2
-    AF_Module_Filter_A_setMod("Synth_2::Filter_1", {{eval '(Constants.Filter_A.Channel.EnvelopeAmount)'}}, k_synth2_filterEnv_mod)
+    ; k_synth2_filterEnv_mod = limit(k_rightWristX, 0, 1) * 2
+    ; AF_Module_Filter_A_setMod("Synth_2::Filter_1", {{eval '(Constants.Filter_A.Channel.EnvelopeAmount)'}}, k_synth2_filterEnv_mod)
 
-    ; k_synth2_source1_subAmp_mod = limit(abs(k_leftFingerTip5Y - k_leftFingerTip1Y) * 7, 0, 1)
-    k_synth2_source1_subAmp_mod = limit(abs(k_leftFingerTip5Y - k_leftFingerTip1Y) * 7, -1, 1) * 0.5 + 0.5
-    AF_Module_Source_A_setMod("Synth_2::Source_1", {{eval '(Constants.Source_A.Channel.SubAmp)'}}, k_synth2_source1_subAmp_mod)
+    ; k_synth2_source1_subAmp_mod = limit(abs(k_leftFingerTip5Y - k_leftFingerTip1Y) * 7, -1, 1) * 0.5 + 0.5
+    ; AF_Module_Source_A_setMod("Synth_2::Source_1", {{eval '(Constants.Source_A.Channel.SubAmp)'}}, k_synth2_source1_subAmp_mod)
 
-    ; k_synth2_filter_q_mod = limit(abs(k_rightFingerTip5Y - k_rightFingerTip1Y) * 70, 1, 7.5)
-    k_synth2_filter_q_mod = limit(abs(k_rightFingerTip5Y - k_rightFingerTip1Y) * 70 * 0.5 + 0.5, 1, 7.5)
-    AF_Module_Filter_A_setMod("Synth_2::Filter_1", {{eval '(Constants.Filter_A.Channel.Q)'}}, k_synth2_filter_q_mod)
+    ; k_synth2_filter_q_mod = limit(abs(k_rightFingerTip5Y - k_rightFingerTip1Y) * 70 * 0.5 + 0.5, 1, 7.5)
+    ; AF_Module_Filter_A_setMod("Synth_2::Filter_1", {{eval '(Constants.Filter_A.Channel.Q)'}}, k_synth2_filter_q_mod)
 
-    ; k_synth2_volumeAmp_mod = lag(max(k_leftWristY, k_rightWristY), 2)
-    k_synth2_volumeAmp_mod = lag(limit(max(k_leftWristY, k_rightWristY), 0, 1), 2)
+    ; k_synth2_volumeAmp_mod = lag(limit(max(k_leftWristY, k_rightWristY), 0, 1), 2)
+    ; AF_Module_Volume_A_setMod("Synth_2::Volume_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_synth2_volumeAmp_mod)
+
+    ; k_piano_reverbSendAmp_mod = min(0, -((min(round((k_headPositionY + k_headPositionZ) * 3 * 1000) / 1000, 1.5)) - 0.5) * 2)
+    ; AF_Module_Volume_A_setMod("Master_FX::PianoReverb_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_piano_reverbSendAmp_mod) ; Range = [ 0.0, -0.5... ]
+
+    ; k_reverb_cutoff_mod = limit:k(round((k_headPositionX * 0.5 + 0.5) * 1000) / 1000, 0, 1)
+    ; AF_Module_Reverb_A_setMod("Master_FX::Reverb_1", {{eval '(Constants.Reverb_A.Channel.Cutoff)'}}, k_reverb_cutoff_mod) ; Range = [ 0.0, 1.0 ]
+
+    ; k_synth2_volumeAmp_mod = ampdb(lagud((limit(k_headPositionY, 0, 0.5) - 0) * 2, 5, 10) * 90) / 32000
+    k_synth2_volumeAmp_mod = lagud(limit((k_headPositionZ - 0.2) * 1.25 * 5, 0, 1), 5, 5)
     AF_Module_Volume_A_setMod("Synth_2::Volume_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_synth2_volumeAmp_mod)
-
-    k_piano_reverbSendAmp_mod = min(0, -((min(round((k_headPositionY + k_headPositionZ) * 3 * 1000) / 1000, 1.5)) - 0.5) * 2)
-    AF_Module_Volume_A_setMod("Master_FX::PianoReverb_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_piano_reverbSendAmp_mod) ; Range = [ 0.0, -0.5... ]
-
-    k_reverb_cutoff_mod = limit:k(round((k_headPositionX * 0.5 + 0.5) * 1000) / 1000, 0, 1)
-    AF_Module_Reverb_A_setMod("Master_FX::Reverb_1", {{eval '(Constants.Reverb_A.Channel.Cutoff)'}}, k_reverb_cutoff_mod) ; Range = [ 0.0, 1.0 ]
-
 
     // Piano FX ...
 
@@ -129,11 +127,22 @@ instr AF_Combo_A1_alwayson
     // Synth 2 ...
 
     k_synth2_amp = AF_Module_Volume_A:k("Synth_2::Volume_1")
+    k_synth2_amp += AF_Module_Offset_A:k("Synth_2::VolumeOffset_1")
+    k_synth2_amp = AF_Module_Clamp_A:k("Synth_2::VolumeClamp_1", k_synth2_amp)
+
     ga_out_l *= k_synth2_amp
     ga_out_r *= k_synth2_amp
 
 
     // Master FX ...
+
+    k_pianoMix = AF_Module_Volume_A:k("Master_FX::PianoMix_1")
+    k_synth2Mix = AF_Module_Volume_A:k("Master_FX::Synth2Mix_1")
+
+    a_piano_l *= k_pianoMix
+    a_piano_r *= k_pianoMix
+    ga_out_l *= k_synth2Mix
+    ga_out_r *= k_synth2Mix
 
     k_pianoReverbAmp = AF_Module_Volume_A:k("Master_FX::PianoReverb_1")
     k_synth1ReverbAmp = AF_Module_Volume_A:k("Master_FX::Synth1Reverb_1")
@@ -169,7 +178,10 @@ scoreline_i("i\"AF_Combo_A1_alwayson\" 1 -1")
 
 
 instr 2
-    i_isInMidiKeyRange = AF_Module_MidiKeyRange_A:i("Common::KeyRange_G1", notnum())
+    i_noteNumber = notnum()
+    i_noteNumber += AF_Module_MidiKeyTranspose_A:i("Common::KeyTranspose_G1")
+
+    i_isInMidiKeyRange = AF_Module_MidiKeyRange_A:i("Common::KeyRange_G1", i_noteNumber)
     if (i_isInMidiKeyRange == $false) then
         {{LogTrace_i '("Note %d is out of range.", notnum())'}}
         goto end
@@ -198,10 +210,10 @@ instr 2
         kgoto end
     endif
 
-    a_source_1 = AF_Module_Source_A("Synth_2::Source_1")
-    a_source_2 = AF_Module_Source_A("Synth_2::Source_2")
-    a_source_3 = AF_Module_Source_A("Synth_2::Source_3")
-    a_source_4 = AF_Module_Source_A("Synth_2::Source_4")
+    a_source_1 = AF_Module_Source_A("Synth_2::Source_1", i_noteNumber)
+    a_source_2 = AF_Module_Source_A("Synth_2::Source_2", i_noteNumber)
+    a_source_3 = AF_Module_Source_A("Synth_2::Source_3", i_noteNumber)
+    a_source_4 = AF_Module_Source_A("Synth_2::Source_4", i_noteNumber)
     a_out = sum(a_source_1, a_source_2, a_source_3, a_source_4)
 
     a_out = AF_Module_Filter_A("Synth_2::Filter_1", a_out)
@@ -224,6 +236,7 @@ endin
 {{InitializeModule "LFO_A"                "Common::LFO_G3"}}
 {{InitializeModule "LFO_A"                "Common::LFO_G4"}}
 {{InitializeModule "MidiKeyRange_A"       "Common::KeyRange_G1"}}
+{{InitializeModule "MidiKeyTranspose_A"   "Common::KeyTranspose_G1"}}
 
 {{InitializeModule "Source_A"             "Synth_2::Source_1"}}
 {{InitializeModule "Source_A"             "Synth_2::Source_2"}}
@@ -231,9 +244,13 @@ endin
 {{InitializeModule "Source_A"             "Synth_2::Source_4"}}
 {{InitializeModule "Envelope_A"           "Synth_2::Envelope_1"}}
 {{InitializeModule "Filter_A"             "Synth_2::Filter_1"}}
-{{InitializeModule "Volume_A"             "Synth_2::Volume_1"}}
 {{InitializeModule "PolyphonyControl_B"   "Synth_2::Polyphony_2"}}
+{{InitializeModule "Volume_A"             "Synth_2::Volume_1"}}
+{{InitializeModule "Offset_A"             "Synth_2::VolumeOffset_1"}}
+{{InitializeModule "Clamp_A"              "Synth_2::VolumeClamp_1"}}
 
+{{InitializeModule "Volume_A"             "Master_FX::PianoMix_1"}}
+{{InitializeModule "Volume_A"             "Master_FX::Synth2Mix_1"}}
 {{InitializeModule "Volume_A"             "Master_FX::PianoReverb_1"}}
 {{InitializeModule "Volume_A"             "Master_FX::Synth1Reverb_1"}}
 {{InitializeModule "Volume_A"             "Master_FX::Synth2Reverb_1"}}

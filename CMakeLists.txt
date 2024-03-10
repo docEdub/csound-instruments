@@ -19,6 +19,7 @@ macro(add_plugin NAME TYPE)
             csound-module
         OPCODES
             "modules/shared/filter.orc"
+            "modules/clamp-a.orc"
             "modules/delay-mono-a.orc"
             "modules/delay-stereo-a.orc"
             "modules/envelope-a.orc"
@@ -26,11 +27,14 @@ macro(add_plugin NAME TYPE)
             "modules/filter-b.orc"
             "modules/lfo-a.orc"
             "modules/midi-key-range-a.orc"
+            "modules/midi-key-transpose-a.orc"
+            "modules/offset-a.orc"
             "modules/polyphony-control-b.orc"
             "modules/reverb-a.orc"
             "modules/source-a.orc"
             "modules/volume-a.orc"
         JSON
+            "modules/clamp-a.json"
             "modules/delay-mono-a.json"
             "modules/delay-stereo-a.json"
             "modules/envelope-a.json"
@@ -38,6 +42,8 @@ macro(add_plugin NAME TYPE)
             "modules/filter-b.json"
             "modules/lfo-a.json"
             "modules/midi-key-range-a.json"
+            "modules/midi-key-transpose-a.json"
+            "modules/offset-a.json"
             "modules/polyphony-control-b.json"
             "modules/reverb-a.json"
             "modules/source-a.json"

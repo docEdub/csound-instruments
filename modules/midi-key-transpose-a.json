@@ -1,0 +1,33 @@
+{
+    "MidiKeyTranspose_A": {
+        "Channel": {
+            "Enabled": 1,
+            "Offset": 2
+        }
+    },
+    "uiTypes": [
+        {
+            "type": "midi-key-transpose-a-module",
+            "extends": "module",
+            "height": 79,
+            "children": [
+                {
+                    "type": "module-main-label-and-enabled-checkbox",
+                    "value-default": "(tryInherit('value-default') ?? false)"
+                },
+                {
+                    "type": "module-row-group",
+                    "background": "(Constants.Module.Color.BlueGroup)",
+                    "row-count": 1,
+                    "children": [
+                        {
+                            "label": "Offset",
+                            "type": "module-number-box-slider",
+                            "value-range": { "min": -24, "max": 24, "value": 0, "step": 1 }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
