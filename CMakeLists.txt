@@ -104,6 +104,26 @@ add_csound_templates(
         "combos/body-tracking-a1.csd"
 )
 
+add_csound_templates(
+    PACKAGES
+        cabbage-core
+        cabbage-tab-group
+        csound-core
+        csound-module
+    EFFECT_SOURCES
+        "effects/reverb-a1.csd"
+    JSON
+        "effects/reverb-a1.json"
+
+        "modules/reverb-a.json"
+        "shared/common-ui-types.json"
+        "shared/module-constants.json"
+        "shared/module-ui-types.json"
+        "styles/default.json"
+    OPCODES
+        "modules/reverb-a.orc"
+)
+
 add_combo("combo-a1")
 # add_combo("combo-a2")
 

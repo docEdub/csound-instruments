@@ -1,0 +1,50 @@
+{
+    "cabbage-output-config": {
+        "debug": false
+    },
+    "ui": {
+        "type": "combo-form",
+        "name": "Reverb A1",
+        "id": "e:a1",
+        "width": 600,
+        "height": 625,
+        "children": [
+            {
+                "type": "styled-tab-group",
+                "id": "main-tabs",
+                "width": "100%",
+                "height": 600,
+                "children": [
+                    {
+                        "type": "main-tab",
+                        "label": "Reverb",
+                        "children": [
+                            {
+                                "type": "reverb-a-module",
+                                "name": "Reverb_1"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "main-tab",
+                        "label": "Console",
+                        "tab-width": 80,
+                        "children": [
+                            {
+                                "type": "styled-console",
+                                "width": "100%",
+                                "height": "100%"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "type": "presets"
+            },
+            {
+                "type": "form-footer"
+            }
+        ]
+    }
+}
