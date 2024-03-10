@@ -1,4 +1,4 @@
-----<CsoundSynthesizer>
+<CsoundSynthesizer>
 <CsOptions>
 {{CsOptions}}
 {{HostOptions}}
