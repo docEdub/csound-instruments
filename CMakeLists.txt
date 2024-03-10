@@ -124,6 +124,18 @@ add_csound_templates(
         "modules/reverb-a.orc"
 )
 
+add_csound_templates(
+    PACKAGES
+        cabbage-core
+        csound-core
+    JSON
+        "shared/common-ui-types.json"
+        "styles/default.json"
+        "instruments/hand-sines-a3.json"
+    EFFECT_SOURCES
+        "instruments/hand-sines-a3.csd"
+)
+
 add_combo("combo-a1")
 # add_combo("combo-a2")
 
