@@ -31,7 +31,7 @@ endin
 scoreline_i("i\"AF_Reverb_A1_alwayson\" 1 -1")
 
 
-{{InitializeModule "Reverb_A"             "Reverb_1"}}
+{{InitializeModule "Reverb_A" "Reverb_1"}}
 
 
 </CsInstruments>
