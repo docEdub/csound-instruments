@@ -19,7 +19,7 @@ nchnls_i = 2
 
 instr AF_Reverb_A1_alwayson
     a_in_l, a_in_r inch 1, 2
-    a_out_l, a_out_r AF_Module_Reverb_A "Reverb_1", a_in_l, a_in_r
+    a_out_l, a_out_r AF_Module_Reverb_A "Main::Reverb_1", a_in_l, a_in_r
     outs(a_out_l, a_out_r)
 
     processSelectedChannels()
@@ -31,7 +31,7 @@ endin
 scoreline_i("i\"AF_Reverb_A1_alwayson\" 1 -1")
 
 
-{{InitializeModule "Reverb_A" "Reverb_1"}}
+{{InitializeModule "Reverb_A" "Main::Reverb_1"}}
 
 
 </CsInstruments>

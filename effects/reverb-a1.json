@@ -18,6 +18,7 @@
                     {
                         "type": "main-tab",
                         "label": "Reverb",
+                        "channel-prefix": "Main",
                         "children": [
                             {
                                 "type": "reverb-a-module",
