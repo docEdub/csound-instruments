@@ -127,6 +127,26 @@ add_csound_templates(
 add_csound_templates(
     PACKAGES
         cabbage-core
+        cabbage-tab-group
+        csound-core
+        csound-module
+    EFFECT_SOURCES
+        "instruments/hand-grains-a4.csd"
+    JSON
+        "instruments/hand-grains-a4.json"
+
+        "modules/diskgrain-a.json"
+        "shared/common-ui-types.json"
+        "shared/module-constants.json"
+        "shared/module-ui-types.json"
+        "styles/default.json"
+    OPCODES
+        "modules/diskgrain-a.orc"
+)
+
+add_csound_templates(
+    PACKAGES
+        cabbage-core
         csound-core
     JSON
         "shared/common-ui-types.json"
