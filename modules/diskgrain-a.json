@@ -70,21 +70,21 @@
                             "type": "module-number-box-slider",
                             "label": "Pitch",
                             "value-channel": "Pitch",
-                            "value-range": { "min": -20, "max": 20, "value": 1, "step": 0.01 }
+                            "value-range": { "min": -200, "max": 200, "value": 1, "step": 0.01 }
                         },
                         {
                             "comment": "Size",
                             "type": "module-number-box-slider",
                             "label": "Size",
                             "value-channel": "Size",
-                            "value-range": { "min": 0.001, "max": 0.2, "value": 0.02, "step": 0.001 }
+                            "value-range": { "min": 0.001, "max": 10, "value": 0.02, "step": 0.001 }
                         },
                         {
                             "comment": "Max Size",
                             "type": "module-number-box-slider",
                             "label": "Max Size",
                             "value-channel": "MaxSize",
-                            "value-range": { "min": 0.001, "max": 0.2, "value": 1, "step": 0.001 }
+                            "value-range": { "min": 0.001, "max": 10, "value": 10, "step": 0.001 }
                         },
                         {
                             "comment": "Pointer Rate",
