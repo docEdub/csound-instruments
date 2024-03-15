@@ -210,10 +210,14 @@ instr 2
         kgoto end
     endif
 
-    a_source_1 = AF_Module_Source_A("Synth_2::Source_1", i_noteNumber)
-    a_source_2 = AF_Module_Source_A("Synth_2::Source_2", i_noteNumber)
-    a_source_3 = AF_Module_Source_A("Synth_2::Source_3", i_noteNumber)
-    a_source_4 = AF_Module_Source_A("Synth_2::Source_4", i_noteNumber)
+    i_noteNumberIncrement = 0.1 / kr
+    k_noteNumber init i_noteNumber + 12
+    k_noteNumber += i_noteNumberIncrement
+
+    a_source_1 = AF_Module_Source_A("Synth_2::Source_1", k_noteNumber)
+    a_source_2 = AF_Module_Source_A("Synth_2::Source_2", k_noteNumber)
+    a_source_3 = AF_Module_Source_A("Synth_2::Source_3", k_noteNumber)
+    a_source_4 = AF_Module_Source_A("Synth_2::Source_4", k_noteNumber)
     a_out = sum(a_source_1, a_source_2, a_source_3, a_source_4)
 
     a_out = AF_Module_Filter_A("Synth_2::Filter_1", a_out)
