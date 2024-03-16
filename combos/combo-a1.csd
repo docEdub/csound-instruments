@@ -210,7 +210,7 @@ instr 2
         kgoto end
     endif
 
-    i_noteNumberIncrement = 0.1 / kr
+    i_noteNumberIncrement = 10 / kr
     k_noteNumber init i_noteNumber + 12
     k_noteNumber += i_noteNumberIncrement
 
