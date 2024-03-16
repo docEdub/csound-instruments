@@ -213,6 +213,7 @@ instr 2
     i_noteNumberIncrement = 10 / kr
     k_noteNumber init i_noteNumber + 12
     k_noteNumber += i_noteNumberIncrement
+    k_noteNumber = min:k(k_noteNumber, 127)
 
     a_source_1 = AF_Module_Source_A("Synth_2::Source_1", k_noteNumber)
     a_source_2 = AF_Module_Source_A("Synth_2::Source_2", k_noteNumber)
