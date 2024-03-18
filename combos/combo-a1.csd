@@ -20,6 +20,8 @@ massign 0, 2
 pgmassign 0, 0
 
 
+gk_cpsOffset init 0
+
 ga_out_l init 0
 ga_out_r init 0
 
@@ -94,6 +96,9 @@ instr AF_Combo_A1_alwayson
     ; k_synth2_volumeAmp_mod = ampdb(lagud((limit(k_headPositionY, 0, 0.5) - 0) * 2, 5, 10) * 90) / 32000
     k_synth2_volumeAmp_mod = lagud(limit((k_headPositionZ - 0.2) * 1.25 * 5, 0, 1), 5, 5)
     AF_Module_Volume_A_setMod("Synth_2::Volume_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_synth2_volumeAmp_mod)
+
+    gk_cpsOffset = k_rightWristX * 200
+    ; {{LogDebug_k '("gk_cpsOffset = %f", gk_cpsOffset)'}}
 
     // Piano FX ...
 
@@ -210,15 +215,25 @@ instr 2
         kgoto end
     endif
 
-    i_noteNumberIncrement = 10 / kr
+    i_noteNumberIncrement = 0; 10 / kr
     k_noteNumber init i_noteNumber + 12
     k_noteNumber += i_noteNumberIncrement
     k_noteNumber = min:k(k_noteNumber, 127)
 
-    a_source_1 = AF_Module_Source_A("Synth_2::Source_1", k_noteNumber)
-    a_source_2 = AF_Module_Source_A("Synth_2::Source_2", k_noteNumber)
-    a_source_3 = AF_Module_Source_A("Synth_2::Source_3", k_noteNumber)
-    a_source_4 = AF_Module_Source_A("Synth_2::Source_4", k_noteNumber)
+    k_isFirstPass init $true
+    if (k_isFirstPass == $true) then
+        k_cpsOffsetStart = gk_cpsOffset
+        k_cpsOffset = 9
+        k_isFirstPass = $false
+    else
+        k_cpsOffset = gk_cpsOffset - k_cpsOffsetStart
+    endif
+    {{LogDebug_k '("k_cpsOffset = %f", k_cpsOffset)'}}
+
+    a_source_1 = AF_Module_Source_A("Synth_2::Source_1", k_noteNumber, k_cpsOffset)
+    a_source_2 = AF_Module_Source_A("Synth_2::Source_2", k_noteNumber, k_cpsOffset)
+    a_source_3 = AF_Module_Source_A("Synth_2::Source_3", k_noteNumber, k_cpsOffset)
+    a_source_4 = AF_Module_Source_A("Synth_2::Source_4", k_noteNumber, k_cpsOffset)
     a_out = sum(a_source_1, a_source_2, a_source_3, a_source_4)
 
     a_out = AF_Module_Filter_A("Synth_2::Filter_1", a_out)
