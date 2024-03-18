@@ -21,6 +21,8 @@ pgmassign 0, 0
 
 
 gk_cpsOffset init 0
+gk_noteRiseY init 0
+gi_noteRiseY_threshold init 0.2
 
 ga_out_l init 0
 ga_out_r init 0
@@ -64,6 +66,8 @@ instr AF_Combo_A1_alwayson
     k_rightFingerTip1X = k_bodyTrackingData[21]
     k_rightFingerTip1Y = k_bodyTrackingData[22]
 
+    k_rightFingerTip3Y = k_bodyTrackingData[25]
+
     k_rightFingerTip5X = k_bodyTrackingData[33]
     k_rightFingerTip5Y = k_bodyTrackingData[34]
 
@@ -97,8 +101,11 @@ instr AF_Combo_A1_alwayson
     k_synth2_volumeAmp_mod = lagud(limit((k_headPositionZ - 0.2) * 1.25 * 5, 0, 1), 5, 5)
     AF_Module_Volume_A_setMod("Synth_2::Volume_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_synth2_volumeAmp_mod)
 
-    gk_cpsOffset = k_rightWristX * 200
+    gk_cpsOffset = k_rightWristX * 50
     ; {{LogDebug_k '("gk_cpsOffset = %f", gk_cpsOffset)'}}
+
+    gk_noteRiseY = k_rightFingerTip3Y
+    ; {{LogDebug_k '("gk_noteRiseY = %f", gk_noteRiseY)'}}
 
     // Piano FX ...
 
@@ -183,6 +190,11 @@ scoreline_i("i\"AF_Combo_A1_alwayson\" 1 -1")
 
 
 instr 2
+    k_noteRise_amp init 1
+    if (k_noteRise_amp <= 0) then
+        kgoto end
+    endif
+
     i_noteNumber = notnum()
     i_noteNumber += AF_Module_MidiKeyTranspose_A:i("Common::KeyTranspose_G1")
 
@@ -215,11 +227,6 @@ instr 2
         kgoto end
     endif
 
-    i_noteNumberIncrement = 0; 10 / kr
-    k_noteNumber init i_noteNumber + 12
-    k_noteNumber += i_noteNumberIncrement
-    k_noteNumber = min:k(k_noteNumber, 127)
-
     k_isFirstPass init $true
     if (k_isFirstPass == $true) then
         k_cpsOffsetStart = gk_cpsOffset
@@ -228,7 +235,23 @@ instr 2
     else
         k_cpsOffset = gk_cpsOffset - k_cpsOffsetStart
     endif
-    {{LogDebug_k '("k_cpsOffset = %f", k_cpsOffset)'}}
+    ; {{LogDebug_k '("k_cpsOffset = %f", k_cpsOffset)'}}
+
+    k_noteRise_current init 0
+    k_noteRiseY_last init 0
+    if (gk_noteRiseY > gi_noteRiseY_threshold) then
+        if (k_noteRiseY_last == 0) then
+            k_noteRiseY_last = gi_noteRiseY_threshold
+        endif
+        k_noteRise_current = max(k_noteRise_current, gk_noteRiseY - k_noteRiseY_last)
+        k_noteRiseY_last = gk_noteRiseY
+    endif
+
+    k_noteNumber init i_noteNumber //+ 12
+    k_noteNumber += k_noteRise_current
+    k_noteNumber = min:k(k_noteNumber, 127)
+
+    k_noteRise_amp = k(1) - ((k_noteNumber - i_noteNumber) / (127 - i_noteNumber))
 
     a_source_1 = AF_Module_Source_A("Synth_2::Source_1", k_noteNumber, k_cpsOffset)
     a_source_2 = AF_Module_Source_A("Synth_2::Source_2", k_noteNumber, k_cpsOffset)
@@ -238,6 +261,7 @@ instr 2
 
     a_out = AF_Module_Filter_A("Synth_2::Filter_1", a_out)
     a_out *= a_envelope
+    a_out *= a(k_noteRise_amp)
     a_out = dcblock2(a_out, ksmps)
     a_out = AF_Module_PolyphonyControl_B_audioProcessing("Synth2::Polyphony_2", k_polyphonyControlNoteIndex, a_out)
 
