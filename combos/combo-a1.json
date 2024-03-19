@@ -159,6 +159,15 @@
                                                 "name": "VolumeClamp_1"
                                             }
                                         ]
+                                    },
+                                    {
+                                        "type": "module-group",
+                                        "children": [
+                                            {
+                                                "type": "fn-x-a-module",
+                                                "name": "NoteRise_1"
+                                            }
+                                        ]
                                     }
                                 ]
                             }

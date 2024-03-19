@@ -184,6 +184,14 @@ instr AF_Combo_A1_alwayson
 
     processSelectedChannels()
     updateModVisibilityChannels()
+
+    k_x init 0
+    k_x += 0.01
+    if (k_x > 1) then
+        k_x = 0
+    endif
+    k_y = AF_Module_FnX_A("Synth_2::NoteRise_1", k_x)
+    {{LogDebug_k '("f(%f) = %f", k_x, k_y)'}}
 endin
 
 
@@ -245,7 +253,7 @@ instr 2
         if (k_noteRiseY_last == 0) then
             k_noteRiseY_last = gi_noteRiseY_threshold
         endif
-        k_noteRise_current = max(k_noteRise_current, (gk_noteRiseY - gi_noteRiseY_threshold) / 5)
+        k_noteRise_current = max(k_noteRise_current, AF_Module_FnX_A("Synth_2::NoteRise_1", gk_noteRiseY - gi_noteRiseY_threshold))
         k_noteRiseY_last = gk_noteRiseY
 
         if (changed:k(k_noteRise_current) == 1) then
@@ -302,6 +310,7 @@ endin
 {{InitializeModule "Volume_A"             "Synth_2::Volume_1"}}
 {{InitializeModule "Offset_A"             "Synth_2::VolumeOffset_1"}}
 {{InitializeModule "Clamp_A"              "Synth_2::VolumeClamp_1"}}
+{{InitializeModule "FnX_A"                "Synth_2::NoteRise_1"}}
 
 {{InitializeModule "Volume_A"             "Master_FX::PianoMix_1"}}
 {{InitializeModule "Volume_A"             "Master_FX::Synth2Mix_1"}}

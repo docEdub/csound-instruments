@@ -6,7 +6,7 @@ include(FetchContent)
 FetchContent_Declare(
     CsoundTemplating
     GIT_REPOSITORY git@github.com:docEdub/CsoundTemplating.git
-    GIT_TAG a3f16b7b5b0832627ca2d55376d34ba3e1703927
+    GIT_TAG 6b15c9f533e09e97b65e878c66f7abbee9d35a7d
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 
@@ -23,6 +23,7 @@ macro(add_plugin NAME TYPE)
             "modules/delay-mono-a.orc"
             "modules/delay-stereo-a.orc"
             "modules/envelope-a.orc"
+            "modules/fn-x-a.orc"
             "modules/filter-a.orc"
             "modules/filter-b.orc"
             "modules/lfo-a.orc"
@@ -38,6 +39,7 @@ macro(add_plugin NAME TYPE)
             "modules/delay-mono-a.json"
             "modules/delay-stereo-a.json"
             "modules/envelope-a.json"
+            "modules/fn-x-a.json"
             "modules/filter-a.json"
             "modules/filter-b.json"
             "modules/lfo-a.json"

@@ -1,0 +1,56 @@
+{
+    "FnX_A": {
+        "Channel": {
+            "Enabled": 1,
+            "Algorithm": 2,
+            "MinX": 3,
+            "MaxX": 4,
+            "MinY": 5,
+            "MaxY": 6
+        }
+    },
+    "uiTypes": [
+        {
+            "type": "fn-x-a-module",
+            "extends": "module",
+            "height": 300,
+            "children": [
+                {
+                    "type": "module-main-label-and-enabled-checkbox",
+                    "value-default": "(tryInherit('value-default') ?? true)"
+                },
+                {
+                    "type": "module-row-group",
+                    "background": "(Constants.Module.Color.GreenGroup)",
+                    "row-count": 10,
+                    "children": [
+                        {
+                            "label": "Algorithm",
+                            "type": "module-text-input-popup"
+                        },
+                        {
+                            "label": "MinX",
+                            "type": "module-number-box-slider",
+                            "value-range": { "min": -1, "max": 1, "value": 0, "step": 0.001 }
+                        },
+                        {
+                            "label": "MaxX",
+                            "type": "module-number-box-slider",
+                            "value-range": { "min": -1, "max": 1, "value": 1, "step": 0.001 }
+                        },
+                        {
+                            "label": "MinY",
+                            "type": "module-number-box-slider",
+                            "value-range": { "min": -1, "max": 1, "value": 0, "step": 0.001 }
+                        },
+                        {
+                            "label": "MaxY",
+                            "type": "module-number-box-slider",
+                            "value-range": { "min": -1, "max": 1, "value": 1, "step": 0.001 }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

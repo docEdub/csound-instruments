@@ -120,6 +120,16 @@
                     "automatable": "(parent.json['automatable'] ?? null)"
                 }
             ]
-        }
+        },
+        {
+            "type": "styled-text-input",
+            "extends": "text-input",
+            "border": "(inherit())",
+            "border-color": "(inherit())",
+            "background": "(Constants.Color.TextInputBackground)",
+            "color": "(Constants.Color.TextInput)",
+            "channel": "(json['value-channel'])",
+            "automatable": "(parent.json['automatable'] ?? null)"
+}
     ]
 }
