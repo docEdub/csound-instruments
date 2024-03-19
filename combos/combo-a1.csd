@@ -245,7 +245,7 @@ instr 2
         if (k_noteRiseY_last == 0) then
             k_noteRiseY_last = gi_noteRiseY_threshold
         endif
-        k_noteRise_current = max(k_noteRise_current, gk_noteRiseY - k_noteRiseY_last)
+        k_noteRise_current = max(k_noteRise_current, (gk_noteRiseY - gi_noteRiseY_threshold) / 5)
         k_noteRiseY_last = gk_noteRiseY
 
         if (changed:k(k_noteRise_current) == 1) then
