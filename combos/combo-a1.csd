@@ -256,10 +256,10 @@ instr 2
         k_noteRise_current = max(k_noteRise_current, AF_Module_FnX_A("Synth_2::NoteRise_1", gk_noteRiseY - gi_noteRiseY_threshold))
         k_noteRiseY_last = gk_noteRiseY
 
-        if (changed:k(k_noteRise_current) == 1) then
-            {{LogDebug_k '("gk_noteRiseY = %f", gk_noteRiseY)'}}
-            {{LogDebug_k '("k_noteRise_current = %f", k_noteRise_current)'}}
-        endif
+        ; if (changed:k(k_noteRise_current) == 1) then
+        ;     {{LogDebug_k '("gk_noteRiseY = %f", gk_noteRiseY)'}}
+        ;     {{LogDebug_k '("k_noteRise_current = %f", k_noteRise_current)'}}
+        ; endif
     endif
 
     k_noteNumber init i_noteNumber //+ 12
@@ -267,9 +267,9 @@ instr 2
     k_noteNumber = min:k(k_noteNumber, 127)
 
     k_noteRise_amp = k(1) - ((k_noteNumber - i_noteNumber) / (127 - i_noteNumber)) * 2
-    if (changed:k(k_noteRise_amp) == 1) then
-        {{LogDebug_k '("k_noteRise_amp = %f", k_noteRise_amp)'}}
-    endif
+    ; if (changed:k(k_noteRise_amp) == 1) then
+    ;     {{LogDebug_k '("k_noteRise_amp = %f", k_noteRise_amp)'}}
+    ; endif
 
     a_source_1 = AF_Module_Source_A("Synth_2::Source_1", k_noteNumber)
     a_source_2 = AF_Module_Source_A("Synth_2::Source_2", k_noteNumber)
