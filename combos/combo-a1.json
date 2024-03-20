@@ -8,6 +8,7 @@
         "id": "c:a1",
         "width": 1200,
         "height": 625,
+        "auto-update": true,
         "children": [
             {
                 "type": "styled-tab-group",
