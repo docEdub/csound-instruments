@@ -190,7 +190,16 @@ endin
 // Start at 1 second to give the host time to set it's values.
 scoreline_i("i\"AF_Combo_A1_alwayson\" 1 -1")
 
-
+/*
+Notes:
+- Note volume depends on z-penetration depth into a plane slightly angled toward the performer.
+- Volume LFO depends on wrist height (or maybe 3rd finger tip height).
+- Pitch (vibrato) LFO depends on distance between thumb and pinky finger tips.
+- Filter frequency depends on wrist angle.
+    - Maybe there's a way to control a low-pass filter with left hand and a high-pass filter with right hand simultaneously?
+- Or maybe 8va doubling volume depends on wrist angle(s)?
+    - Left hand controls -8va for all notes below middle C and right hand controls +8va for all notes above middle C?
+*/
 instr 2
     k_noteRise_amp init 1
     if (k_noteRise_amp <= 0) then
