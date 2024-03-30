@@ -230,6 +230,10 @@ instr 2
     if (lastcycle() == $true) then
         gk_synthNoteOnCount[i_noteNumber] = gk_synthNoteOnCount[i_noteNumber] - 1
 
+        if (gk_synthNoteOnCount[i_noteNumber] < 0) then
+            gk_synthNoteOnCount[i_noteNumber] = 0
+        endif
+
         if (gk_synthNoteOnCount[i_noteNumber] == 0) then
             scoreline(gS_synthNoteScoreLines[i_noteNumber][$NoteOff], k(1))
         endif
@@ -250,17 +254,25 @@ Notes:
     - Left hand controls -8va for all notes below middle C and right hand controls +8va for all notes above middle C?
 */
 instr $SynthNoteInstrumentNumber
+    i_noteNumber = p4
+
     k_noteRise_amp init 1
     if (k_noteRise_amp <= 0) then
-        kgoto end
+        gk_synthNoteOnCount[i_noteNumber] = gk_synthNoteOnCount[i_noteNumber] - 1
+        if (gk_synthNoteOnCount[i_noteNumber] < 0) then
+            gk_synthNoteOnCount[i_noteNumber] = 0
+        endif
+        if (gk_synthNoteOnCount[i_noteNumber] == 0) then
+            scoreline(gS_synthNoteScoreLines[i_noteNumber][$NoteOff], k(1))
+        endif
+        turnoff2(k(p1), 4, $true)
     endif
 
-    i_noteNumber = p4
-    i_noteNumber += AF_Module_MidiKeyTranspose_A:i("Common::KeyTranspose_G1")
+    i_modifiedNoteNumber = i_noteNumber + AF_Module_MidiKeyTranspose_A:i("Common::KeyTranspose_G1")
 
-    i_isInMidiKeyRange = AF_Module_MidiKeyRange_A:i("Common::KeyRange_G1", i_noteNumber)
+    i_isInMidiKeyRange = AF_Module_MidiKeyRange_A:i("Common::KeyRange_G1", i_modifiedNoteNumber)
     if (i_isInMidiKeyRange == $false) then
-        {{LogTrace_i '("Note %d is out of range.", notnum())'}}
+        {{LogTrace_i '("Note %d is out of range.", i_modifiedNoteNumber)'}}
         goto end
     endif
 
@@ -292,17 +304,17 @@ instr $SynthNoteInstrumentNumber
         ; endif
     endif
 
-    k_noteNumber init i_noteNumber //+ 12
+    k_noteNumber init i_modifiedNoteNumber //+ 12
     k_noteNumber += k_noteRise_current
-    k_noteNumber = min:k(k_noteNumber, 127)
+    k_noteNumber = limit:k(k_noteNumber, 0, 127)
 
-    k_noteRise_amp = k(1) - ((k_noteNumber - i_noteNumber) / (127 - i_noteNumber)) * 2
+    k_noteRise_amp = k(1) - ((k_noteNumber - i_modifiedNoteNumber) / (127 - i_modifiedNoteNumber)) * 2
     ; if (changed:k(k_noteRise_amp) == 1) then
     ;     {{LogDebug_k '("k_noteRise_amp = %f", k_noteRise_amp)'}}
     ; endif
 
-    a_source_1 = AF_Module_Source_A("Synth_2::Source_1", k_noteNumberOffset * 50 + i_noteNumber)
-    a_source_2 = AF_Module_Source_A("Synth_2::Source_2", k_noteNumberOffset * 50 + i_noteNumber)
+    a_source_1 = AF_Module_Source_A("Synth_2::Source_1", limit:k(k_noteNumberOffset * 50 + i_modifiedNoteNumber, 0, 127))
+    a_source_2 = AF_Module_Source_A("Synth_2::Source_2", limit:k(k_noteNumberOffset * 50 + i_modifiedNoteNumber, 0, 127))
     a_source_3 = AF_Module_Source_A("Synth_2::Source_3", k_noteNumber)
     a_source_4 = AF_Module_Source_A("Synth_2::Source_4", k_noteNumber)
     a_out = sum(a_source_1, a_source_2, a_source_3, a_source_4)
