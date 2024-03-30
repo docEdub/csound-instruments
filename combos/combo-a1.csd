@@ -115,7 +115,8 @@ instr AF_Combo_A1_alwayson
     k_synth2_volumeAmp_mod += lag(limit(max(-k_leftFingerTip3Z, -k_rightFingerTip3Z), 0, 1), 2) * 3
     AF_Module_Volume_A_setMod("Synth_2::Volume_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_synth2_volumeAmp_mod)
 
-    k_synth2_delayMix_mod = lag(limit(k_leftFingerTip3Y, 0, 0.5), 2)
+    k_synth2_delayMix_mod = lag(limit(k_leftFingerTip3Y, 0, 0.3), 2)
+    k_synth2_delayMix_mod += lag(limit(-k_leftFingerTip3Z, 0, 0.3), 2) * 3
     AF_Module_DelayMono_A_setMod("Synth_2::Delay_1", {{eval '(Constants.DelayMono_A.Channel.Mix)'}}, k_synth2_delayMix_mod)
 
     ; k_piano_reverbSendAmp_mod = min(0, -((min(round((k_headPositionY + k_headPositionZ) * 3 * 1000) / 1000, 1.5)) - 0.5) * 2)
@@ -300,8 +301,8 @@ instr $SynthNoteInstrumentNumber
     ;     {{LogDebug_k '("k_noteRise_amp = %f", k_noteRise_amp)'}}
     ; endif
 
-    a_source_1 = AF_Module_Source_A("Synth_2::Source_1", k_noteNumberOffset * 24 + i_noteNumber)
-    a_source_2 = AF_Module_Source_A("Synth_2::Source_2", k_noteNumberOffset * 24 + i_noteNumber)
+    a_source_1 = AF_Module_Source_A("Synth_2::Source_1", k_noteNumberOffset * 50 + i_noteNumber)
+    a_source_2 = AF_Module_Source_A("Synth_2::Source_2", k_noteNumberOffset * 50 + i_noteNumber)
     a_source_3 = AF_Module_Source_A("Synth_2::Source_3", k_noteNumber)
     a_source_4 = AF_Module_Source_A("Synth_2::Source_4", k_noteNumber)
     a_out = sum(a_source_1, a_source_2, a_source_3, a_source_4)
