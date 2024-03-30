@@ -115,6 +115,9 @@ instr AF_Combo_A1_alwayson
     k_synth2_volumeAmp_mod += lag(limit(max(-k_leftFingerTip3Z, -k_rightFingerTip3Z), 0, 1), 2) * 3
     AF_Module_Volume_A_setMod("Synth_2::Volume_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_synth2_volumeAmp_mod)
 
+    k_synth2_delayMix_mod = lag(limit(k_leftFingerTip3Y, 0, 0.5), 2)
+    AF_Module_DelayMono_A_setMod("Synth_2::Delay_1", {{eval '(Constants.DelayMono_A.Channel.Mix)'}}, k_synth2_delayMix_mod)
+
     ; k_piano_reverbSendAmp_mod = min(0, -((min(round((k_headPositionY + k_headPositionZ) * 3 * 1000) / 1000, 1.5)) - 0.5) * 2)
     ; AF_Module_Volume_A_setMod("Master_FX::PianoReverb_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_piano_reverbSendAmp_mod) ; Range = [ 0.0, -0.5... ]
 
