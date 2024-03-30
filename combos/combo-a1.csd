@@ -24,6 +24,7 @@ gk_cpsOffset init 0
 gk_fingerTip3X init 0
 gi_noteRiseY_threshold init 0.2
 
+ga_synth2_out init 0
 ga_out_l init 0
 ga_out_r init 0
 
@@ -165,8 +166,8 @@ instr AF_Combo_A1_alwayson
     k_synth2_amp += AF_Module_Offset_A:k("Synth_2::VolumeOffset_1")
     k_synth2_amp = AF_Module_Clamp_A:k("Synth_2::VolumeClamp_1", k_synth2_amp)
 
-    ga_out_l *= k_synth2_amp
-    ga_out_r *= k_synth2_amp
+    ga_synth2_out *= k_synth2_amp
+    ga_synth2_out = AF_Module_DelayMono_A("Synth_2::Delay_1", ga_synth2_out)
 
 
     // Master FX ...
@@ -176,14 +177,14 @@ instr AF_Combo_A1_alwayson
 
     a_piano_l *= k_pianoMix
     a_piano_r *= k_pianoMix
-    ga_out_l *= k_synth2Mix
-    ga_out_r *= k_synth2Mix
+    ga_out_l = ga_synth2_out * k_synth2Mix
+    ga_out_r = ga_out_l
 
     k_pianoReverbAmp = AF_Module_Volume_A:k("Master_FX::PianoReverb_1")
     k_synth1ReverbAmp = AF_Module_Volume_A:k("Master_FX::Synth1Reverb_1")
     k_synth2ReverbAmp = AF_Module_Volume_A:k("Master_FX::Synth2Reverb_1")
 
-    a_reverbIn_l = a_piano_l * k_pianoReverbAmp + ga_out_l * k_synth2ReverbAmp
+    a_reverbIn_l = a_piano_l * k_pianoReverbAmp + ga_synth2_out * k_synth2ReverbAmp
     a_reverbIn_r = a_piano_r * k_pianoReverbAmp + ga_out_r * k_synth2ReverbAmp
 
     a_reverbOut_l, a_reverbOut_r AF_Module_Reverb_A "Master_FX::Reverb_1", a_reverbIn_l, a_reverbIn_r
@@ -198,7 +199,7 @@ instr AF_Combo_A1_alwayson
     // Output ...
 
     outs(ga_out_l, ga_out_r)
-    clear(ga_out_l, ga_out_r)
+    clear(ga_out_l, ga_out_r, ga_synth2_out)
 
 
     // UI updates ...
@@ -307,8 +308,7 @@ instr $SynthNoteInstrumentNumber
     a_out *= a(k_noteRise_amp)
     a_out = dcblock2(a_out, ksmps)
 
-    vincr(ga_out_l, a_out)
-    vincr(ga_out_r, a_out)
+    vincr(ga_synth2_out, a_out)
 end:
 endin
 
@@ -334,6 +334,7 @@ endin
 {{InitializeModule "Volume_A"             "Synth_2::Volume_1"}}
 {{InitializeModule "Offset_A"             "Synth_2::VolumeOffset_1"}}
 {{InitializeModule "Clamp_A"              "Synth_2::VolumeClamp_1"}}
+{{InitializeModule "DelayMono_A"          "Synth_2::Delay_1"}}
 
 {{InitializeModule "Volume_A"             "Master_FX::PianoMix_1"}}
 {{InitializeModule "Volume_A"             "Master_FX::Synth2Mix_1"}}
