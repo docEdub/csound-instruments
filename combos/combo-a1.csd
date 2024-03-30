@@ -194,10 +194,9 @@ scoreline_i("i\"AF_Combo_A1_alwayson\" 1 -1")
 Notes:
 - Note volume depends on z-penetration depth into a plane slightly angled toward the performer.
 - Volume LFO depends on wrist height (or maybe 3rd finger tip height).
-- Pitch (vibrato) LFO depends on distance between thumb and pinky finger tips.
-- Filter frequency depends on wrist angle.
+- Filter frequency depends on wrist angle around z axis.
     - Maybe there's a way to control a low-pass filter with left hand and a high-pass filter with right hand simultaneously?
-- Or maybe 8va doubling volume depends on wrist angle(s)?
+- 8va doubling volume depends on distance between thumb tip and pinky tip?
     - Left hand controls -8va for all notes below middle C and right hand controls +8va for all notes above middle C?
 */
 instr 2
