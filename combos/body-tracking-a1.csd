@@ -59,24 +59,25 @@ instr AF_BodyTracking_A1_alwayson
         {{LogDebug_k '("k_isPlaying = %d", k_isPlaying)'}}
     endif
 
-    if (k_isRecording == $true || k_isPlaying == $false) then
-        k_trackedLeftWrist = websocket_getArray_k(i_websocketPort, "/hands/left/wrist/position")
-        k_trackedRightWrist = websocket_getArray_k(i_websocketPort, "/hands/right/wrist/position")
+    ; if (k_isRecording == $true || k_isPlaying == $false) then
+    ;     k_trackedLeftWrist = websocket_getArray_k(i_websocketPort, "/hands/left/wrist/position")
+    ;     k_trackedRightWrist = websocket_getArray_k(i_websocketPort, "/hands/right/wrist/position")
 
-        // When recording starts or playback stops, the `changed2` opcode will always return `true`, so we make it
-        // return `true` twice in a row before considering body tracking to be active.
-        if (k_isBodyTrackingActive < 2) then
-            if (changed2:k( \
-                    k_trackedLeftWrist[0], k_trackedLeftWrist[1], k_trackedLeftWrist[2], \
-                    k_trackedRightWrist[0], k_trackedRightWrist[1], k_trackedRightWrist[2]) == $true) then
-                k_isBodyTrackingActive += 1
-                {{LogDebug_k '("k_isBodyTrackingActive = %d", k_isBodyTrackingActive)'}}
-            endif
-        endif
-    elseif (k_isBodyTrackingActive != $false) then
-        k_isBodyTrackingActive = $false
-        {{LogDebug_k '("k_isBodyTrackingActive = %d", k_isBodyTrackingActive)'}}
-    endif
+    ;     // When recording starts or playback stops, the `changed2` opcode will always return `true`, so we make it
+    ;     // return `true` twice in a row before considering body tracking to be active.
+    ;     if (k_isBodyTrackingActive < 2) then
+    ;         if (changed2:k( \
+    ;                 k_trackedLeftWrist[0], k_trackedLeftWrist[1], k_trackedLeftWrist[2], \
+    ;                 k_trackedRightWrist[0], k_trackedRightWrist[1], k_trackedRightWrist[2]) == $true) then
+    ;             k_isBodyTrackingActive += 1
+    ;             {{LogDebug_k '("k_isBodyTrackingActive = %d", k_isBodyTrackingActive)'}}
+    ;         endif
+    ;     endif
+    ; elseif (k_isBodyTrackingActive != $false) then
+    ;     k_isBodyTrackingActive = $false
+    ;     {{LogDebug_k '("k_isBodyTrackingActive = %d", k_isBodyTrackingActive)'}}
+    ; endif
+    k_isBodyTrackingActive = 2
 
     if (k_isBodyTrackingActive == 2) then
         k_leftWrist[0] = k_trackedLeftWrist[0]

@@ -72,7 +72,9 @@ instr AF_Combo_A1_alwayson
     k_leftFingerTip1X = k_bodyTrackingData[3]
     k_leftFingerTip1Y = k_bodyTrackingData[4]
 
+    k_leftFingerTip3X = k_bodyTrackingData[9]
     k_leftFingerTip3Y = k_bodyTrackingData[10]
+    k_leftFingerTip3Z = k_bodyTrackingData[11]
 
     k_leftFingerTip5X = k_bodyTrackingData[15]
     k_leftFingerTip5Y = k_bodyTrackingData[16]
@@ -84,7 +86,9 @@ instr AF_Combo_A1_alwayson
     k_rightFingerTip1X = k_bodyTrackingData[21]
     k_rightFingerTip1Y = k_bodyTrackingData[22]
 
+    k_rightFingerTip3X = k_bodyTrackingData[27]
     k_rightFingerTip3Y = k_bodyTrackingData[28]
+    k_rightFingerTip3Z = k_bodyTrackingData[29]
 
     k_rightFingerTip5X = k_bodyTrackingData[33]
     k_rightFingerTip5Y = k_bodyTrackingData[34]
@@ -106,8 +110,9 @@ instr AF_Combo_A1_alwayson
     ; k_synth2_filter_q_mod = limit(abs(k_rightFingerTip5Y - k_rightFingerTip1Y) * 70 * 0.5 + 0.5, 1, 7.5)
     ; AF_Module_Filter_A_setMod("Synth_2::Filter_1", {{eval '(Constants.Filter_A.Channel.Q)'}}, k_synth2_filter_q_mod)
 
-    ; k_synth2_volumeAmp_mod = lag(limit(max(k_leftWristY, k_rightWristY), 0, 1), 2)
-    ; AF_Module_Volume_A_setMod("Synth_2::Volume_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_synth2_volumeAmp_mod)
+    k_synth2_volumeAmp_mod = lag(limit(max(k_leftWristY, k_rightWristY), 0, 1), 2)
+    k_synth2_volumeAmp_mod += lag(limit(max(-k_leftFingerTip3Z, -k_rightFingerTip3Z), 0, 1), 2) * 3
+    AF_Module_Volume_A_setMod("Synth_2::Volume_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_synth2_volumeAmp_mod)
 
     ; k_piano_reverbSendAmp_mod = min(0, -((min(round((k_headPositionY + k_headPositionZ) * 3 * 1000) / 1000, 1.5)) - 0.5) * 2)
     ; AF_Module_Volume_A_setMod("Master_FX::PianoReverb_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_piano_reverbSendAmp_mod) ; Range = [ 0.0, -0.5... ]
@@ -122,7 +127,7 @@ instr AF_Combo_A1_alwayson
     gk_cpsOffset = k_rightWristX * 50
     ; {{LogDebug_k '("gk_cpsOffset = %f", gk_cpsOffset)'}}
 
-    gk_noteRiseY = max:k(k_leftFingerTip3Y, k_rightFingerTip3Y)
+    gk_noteRiseY = max:k(k_leftFingerTip3X, k_rightFingerTip3X)
     ; {{LogDebug_k '("gk_noteRiseY = %f", gk_noteRiseY)'}}
 
     // Piano FX ...
