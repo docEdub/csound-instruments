@@ -8,10 +8,11 @@
 
 /// Generates an ADSR envelope with linear attack and decay segments, and an exponential release segment.
 /// @param 1 Channel prefix used for host automation parameters.
+/// @param 2 Optional flag indicating whether the module is controlled by MIDI (default = true).
 /// @out A-rate envelope.
 ///
-opcode {{Module_public}}, a, S
-    S_channelPrefix xin
+opcode {{Module_public}}, a, Sp
+    S_channelPrefix, i_isMidi xin
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
     if ({{moduleGet:k 'Enabled'}} == $false) then
@@ -28,7 +29,11 @@ opcode {{Module_public}}, a, S
 
     if (release() == $false) then
         // Linear attack and decay segments.
-        a_out = madsr:a(i_a, i_d, i_s, 0);
+        if (i_isMidi == $true) then
+            a_out = madsr:a(i_a, i_d, i_s, 0);
+        else
+            a_out = adsr:a(i_a, i_d, i_s, 0);
+        endif
     else
         // Exponential release segment.
         k_releaseStartAmp init -1

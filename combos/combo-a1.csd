@@ -28,6 +28,22 @@ ga_out_l init 0
 ga_out_r init 0
 
 
+#define SynthNoteInstrumentNumber #100#
+#define NoteOn  #0#
+#define NoteOff #1#
+
+gk_synthNoteOnCount[] init 128
+gS_synthNoteScoreLines[][] init 128, 2 // [...][0] = note on, [...][1] = note off
+
+ii = 0
+while (ii < 128) do
+    gS_synthNoteScoreLines[ii][$NoteOn] = sprintf("i %d.%03d 0 -1 %d", $SynthNoteInstrumentNumber, ii, ii)
+    gS_synthNoteScoreLines[ii][$NoteOff] = sprintf("i -%d.%03d 0 0 %d", $SynthNoteInstrumentNumber, ii, ii)
+    ii += 1
+od
+
+
+
 instr AF_Combo_A1_alwayson
 
     // XR hands and head tracking ...
@@ -187,6 +203,30 @@ instr AF_Combo_A1_alwayson
 endin
 
 
+instr 2
+    i_noteNumber = notnum()
+
+    k_isFirstPass init $true
+
+    if (k_isFirstPass == $true) then
+        gk_synthNoteOnCount[i_noteNumber] = gk_synthNoteOnCount[i_noteNumber] + 1
+        k_isFirstPass = $false
+
+        if (gk_synthNoteOnCount[i_noteNumber] == 1) then
+            scoreline(gS_synthNoteScoreLines[i_noteNumber][$NoteOn], k(1))
+        endif
+    endif
+
+    if (lastcycle() == $true) then
+        gk_synthNoteOnCount[i_noteNumber] = gk_synthNoteOnCount[i_noteNumber] - 1
+
+        if (gk_synthNoteOnCount[i_noteNumber] == 0) then
+            scoreline(gS_synthNoteScoreLines[i_noteNumber][$NoteOff], k(1))
+        endif
+    endif
+endin
+
+
 // Start at 1 second to give the host time to set it's values.
 scoreline_i("i\"AF_Combo_A1_alwayson\" 1 -1")
 
@@ -199,13 +239,13 @@ Notes:
 - 8va doubling volume depends on distance between thumb tip and pinky tip?
     - Left hand controls -8va for all notes below middle C and right hand controls +8va for all notes above middle C?
 */
-instr 2
+instr $SynthNoteInstrumentNumber
     k_noteRise_amp init 1
     if (k_noteRise_amp <= 0) then
         kgoto end
     endif
 
-    i_noteNumber = notnum()
+    i_noteNumber = p4
     i_noteNumber += AF_Module_MidiKeyTranspose_A:i("Common::KeyTranspose_G1")
 
     i_isInMidiKeyRange = AF_Module_MidiKeyRange_A:i("Common::KeyRange_G1", i_noteNumber)
@@ -215,27 +255,7 @@ instr 2
     endif
 
     // NB: We call the envelope module UDO here so the polyphony control UDO's `lastcycle` init sees the envelope's release time.
-    a_envelope = AF_Module_Envelope_A("Synth_2::Envelope_1")
-
-    ; k_muted init $false
-    k_turnedOff init $false
-    if (k_turnedOff == $true) then
-        kgoto end
-    endif
-    k_polyphonyControlNoteIndex = AF_Module_PolyphonyControl_B_noteIndex("Synth_2::Polyphony_2")
-    k_polyphonyControlState = AF_Module_PolyphonyControl_B_state("Synth_2::Polyphony_2", k_polyphonyControlNoteIndex)
-    if (k_polyphonyControlState == {{eval '(Constants.PolyphonyControl_B.State.Muted)'}}) then
-        ; if (k_muted == $false || k_turnedOff == $true) then
-        ;     k_muted = $true
-        ;     {{LogTrace_k '("Synth 2 note %d muted.", notnum())'}}
-        ; endif
-        kgoto end
-    elseif (k_polyphonyControlState == {{eval '(Constants.PolyphonyControl_B.State.Off)'}}) then
-        {{LogTrace_k '("Synth 2 note %d turned off.", notnum())'}}
-        k_turnedOff = $true
-        ; turnoff()
-        kgoto end
-    endif
+    a_envelope = AF_Module_Envelope_A("Synth_2::Envelope_1", $false)
 
     ; k_isFirstPass init $true
     ; if (k_isFirstPass == $true) then
@@ -277,11 +297,10 @@ instr 2
     a_source_4 = AF_Module_Source_A("Synth_2::Source_4", k_noteNumber)
     a_out = sum(a_source_1, a_source_2, a_source_3, a_source_4)
 
-    a_out = AF_Module_Filter_A("Synth_2::Filter_1", a_out)
+    a_out = AF_Module_Filter_A("Synth_2::Filter_1", a_out, $false)
     a_out *= a_envelope
     a_out *= a(k_noteRise_amp)
     a_out = dcblock2(a_out, ksmps)
-    a_out = AF_Module_PolyphonyControl_B_audioProcessing("Synth2::Polyphony_2", k_polyphonyControlNoteIndex, a_out)
 
     vincr(ga_out_l, a_out)
     vincr(ga_out_r, a_out)
