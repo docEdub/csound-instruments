@@ -7,7 +7,7 @@
 <CsInstruments>
 
 {{Enable-LogTrace false}}
-{{Enable-LogDebug false}}
+{{Enable-LogDebug true}}
 
 sr = {{sr}}
 ksmps = {{ksmps}}
@@ -21,7 +21,7 @@ pgmassign 0, 0
 
 
 gk_cpsOffset init 0
-gk_noteRiseY init 0
+gk_fingerTip3X init 0
 gi_noteRiseY_threshold init 0.2
 
 ga_out_l init 0
@@ -124,11 +124,11 @@ instr AF_Combo_A1_alwayson
     ; k_synth2_volumeAmp_mod = lagud(limit((k_headPositionZ - 0.2) * 1.25 * 5, 0, 1), 5, 5)
     ; AF_Module_Volume_A_setMod("Synth_2::Volume_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_synth2_volumeAmp_mod)
 
-    gk_cpsOffset = k_rightWristX * 50
-    ; {{LogDebug_k '("gk_cpsOffset = %f", gk_cpsOffset)'}}
+    gk_noteNumberOffset = k_rightFingerTip3X
+    ; {{LogDebug_k '("gk_noteNumberOffset = %f", gk_noteNumberOffset)'}}
 
-    gk_noteRiseY = max:k(k_leftFingerTip3X, k_rightFingerTip3X)
-    ; {{LogDebug_k '("gk_noteRiseY = %f", gk_noteRiseY)'}}
+    gk_fingerTip3X = max:k(k_leftFingerTip3X, k_rightFingerTip3X)
+    ; {{LogDebug_k '("gk_fingerTip3X = %f", gk_fingerTip3X)'}}
 
     // Piano FX ...
 
@@ -262,27 +262,27 @@ instr $SynthNoteInstrumentNumber
     // NB: We call the envelope module UDO here so the polyphony control UDO's `lastcycle` init sees the envelope's release time.
     a_envelope = AF_Module_Envelope_A("Synth_2::Envelope_1", $false)
 
-    ; k_isFirstPass init $true
-    ; if (k_isFirstPass == $true) then
-    ;     k_cpsOffsetStart = gk_cpsOffset
-    ;     k_cpsOffset = 9
-    ;     k_isFirstPass = $false
-    ; else
-    ;     k_cpsOffset = gk_cpsOffset - k_cpsOffsetStart
-    ; endif
-    ; {{LogDebug_k '("k_cpsOffset = %f", k_cpsOffset)'}}
+    k_isFirstPass init $true
+    if (k_isFirstPass == $true) then
+        k_noteNumberOffsetStart = gk_noteNumberOffset
+        k_noteNumberOffset = 0
+        k_isFirstPass = $false
+    else
+        k_noteNumberOffset = gk_noteNumberOffset - k_noteNumberOffsetStart
+    endif
+    ; {{LogDebug_k '("k_noteNumberOffset = %f", k_noteNumberOffset)'}}
 
     k_noteRise_current init 0
     k_noteRiseY_last init 0
-    if (gk_noteRiseY > gi_noteRiseY_threshold) then
+    if (gk_fingerTip3X > gi_noteRiseY_threshold) then
         if (k_noteRiseY_last == 0) then
             k_noteRiseY_last = gi_noteRiseY_threshold
         endif
-        k_noteRise_current = max(k_noteRise_current, (gk_noteRiseY - gi_noteRiseY_threshold) / 10)
-        k_noteRiseY_last = gk_noteRiseY
+        k_noteRise_current = max(k_noteRise_current, (gk_fingerTip3X - gi_noteRiseY_threshold) / 10)
+        k_noteRiseY_last = gk_fingerTip3X
 
         ; if (changed:k(k_noteRise_current) == 1) then
-        ;     {{LogDebug_k '("gk_noteRiseY = %f", gk_noteRiseY)'}}
+        ;     {{LogDebug_k '("gk_fingerTip3X = %f", gk_fingerTip3X)'}}
         ;     {{LogDebug_k '("k_noteRise_current = %f", k_noteRise_current)'}}
         ; endif
     endif
@@ -296,8 +296,8 @@ instr $SynthNoteInstrumentNumber
     ;     {{LogDebug_k '("k_noteRise_amp = %f", k_noteRise_amp)'}}
     ; endif
 
-    a_source_1 = AF_Module_Source_A("Synth_2::Source_1", k_noteNumber)
-    a_source_2 = AF_Module_Source_A("Synth_2::Source_2", k_noteNumber)
+    a_source_1 = AF_Module_Source_A("Synth_2::Source_1", k_noteNumberOffset * 24 + i_noteNumber)
+    a_source_2 = AF_Module_Source_A("Synth_2::Source_2", k_noteNumberOffset * 24 + i_noteNumber)
     a_source_3 = AF_Module_Source_A("Synth_2::Source_3", k_noteNumber)
     a_source_4 = AF_Module_Source_A("Synth_2::Source_4", k_noteNumber)
     a_out = sum(a_source_1, a_source_2, a_source_3, a_source_4)

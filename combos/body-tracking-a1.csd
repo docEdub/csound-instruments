@@ -60,8 +60,8 @@ instr AF_BodyTracking_A1_alwayson
     endif
 
     ; if (k_isRecording == $true || k_isPlaying == $false) then
-    ;     k_trackedLeftWrist = websocket_getArray_k(i_websocketPort, "/hands/left/wrist/position")
-    ;     k_trackedRightWrist = websocket_getArray_k(i_websocketPort, "/hands/right/wrist/position")
+        k_trackedLeftWrist = websocket_getArray_k(i_websocketPort, "/hands/left/wrist/position")
+        k_trackedRightWrist = websocket_getArray_k(i_websocketPort, "/hands/right/wrist/position")
 
     ;     // When recording starts or playback stops, the `changed2` opcode will always return `true`, so we make it
     ;     // return `true` twice in a row before considering body tracking to be active.
