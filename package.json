@@ -11,6 +11,7 @@
         "verbose": true,
         "watch": [
             ".build/_deps/csoundtemplating-src",
+            "3rdparty",
             "combos",
             "effects",
             "instruments",

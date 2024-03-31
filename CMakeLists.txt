@@ -96,6 +96,15 @@ endmacro()
 add_csound_templates(
     PACKAGES
         cabbage-core
+    JSON
+        "3rdparty/Vendaval.json"
+    EFFECT_SOURCES
+        "3rdparty/Vendaval.csd"
+)
+
+add_csound_templates(
+    PACKAGES
+        cabbage-core
         cabbage-tab-group
         csound-core
     JSON
