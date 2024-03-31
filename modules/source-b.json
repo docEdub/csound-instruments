@@ -1,0 +1,21 @@
+{
+    "Source_B": {
+        "Channel": {
+            "Enabled": 1
+
+        }
+    },
+    "uiTypes": [
+        {
+            "type": "source-b-module",
+            "extends": "module",
+            "height": 50,
+            "children": [
+                {
+                    "type": "module-main-label-and-enabled-checkbox",
+                    "value-default": true
+                }
+            ]
+        }
+    ]
+}

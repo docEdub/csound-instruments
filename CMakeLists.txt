@@ -32,6 +32,7 @@ macro(add_plugin NAME TYPE)
             "modules/polyphony-control-b.orc"
             "modules/reverb-a.orc"
             "modules/source-a.orc"
+            "modules/source-b.orc"
             "modules/volume-a.orc"
         JSON
             "modules/clamp-a.json"
@@ -47,6 +48,7 @@ macro(add_plugin NAME TYPE)
             "modules/polyphony-control-b.json"
             "modules/reverb-a.json"
             "modules/source-a.json"
+            "modules/source-b.json"
             "modules/volume-a.json"
             "shared/common-ui-types.json"
             "shared/module-constants.json"
@@ -158,6 +160,7 @@ add_csound_templates(
 
 add_combo("combo-a1")
 # add_combo("combo-a2")
+add_combo("combo-b1")
 
 # add_instrument("synth-a1")
 # add_instrument("synth-a2")
