@@ -73,16 +73,19 @@ nchnls = 2
 seed 0
 massign 0, "Master"
 
+
 instr Wooing
     //CHNGET CHANNELS
-    kWooingVolume chnget"WooingVolume"
-    kCenterFrequency chnget "WooingFrequency"
+    kWooingVolume chnget"WooingVolume_withOffset"
+    kCenterFrequency chnget "WooingFrequency_withOffset"
     kWooingRangeMultiplier chnget "WooingRange"
     kRateIntensity chnget "WooingRate"
     kBandwidth chnget "WooingBandwidth"
     kResonance chnget "WooingResonance"
     kHarmonizerMultiplier chnget "WooingHarmonizerFreq"
     kHarmonizerVol chnget "WooingHarmonizerVol"
+
+    ; printsk("wooing frequency = %f\n", kCenterFrequency)
 
     //PORTK
     kWooingVolume portk kWooingVolume, 0.02
@@ -110,11 +113,12 @@ instr Wooing
     chnset aWooing, "GlobalMix"
 endin
 
+
 instr Background
     //CHNGET CHANNELS
-    kBackgroundVolume chnget "BackgroundVolume"
+    kBackgroundVolume chnget "BackgroundVolume_withOffset"
     kBandwidth chnget "BackgroundBandwidth"
-    kCenterFrequency chnget "BackgroundFrequency"
+    kCenterFrequency chnget "BackgroundFrequency_withOffset"
     kJitterRangeMultiplier chnget "BackgroundRange"
     kRateMultiplier chnget "BackgroundRate"
     kResonance chnget "BackgroundResonance"
@@ -147,6 +151,7 @@ instr Background
     aBackground = (aNoiseBalanced * kVolume) * kBackgroundVolume
     chnmix aBackground, "GlobalMix"
 endin
+
 
 instr Gusts
     //CHNGET CHANNELS
@@ -181,11 +186,12 @@ instr Gusts
     chnmix aGusts, "GlobalMix"
 endin
 
+
 instr Rumble
     //CHNGET CHANNELS
-    kRumbleVolume chnget "RumbleVolume"
+    kRumbleVolume chnget "RumbleVolume_withOffset"
     kRumbleDistortion chnget "RumbleDistortion"
-    kRumbleCutoff chnget "RumbleCutoff"
+    kRumbleCutoff chnget "RumbleCutoff_withOffset"
 
     //PORTK SMOOTHING
     kRumbleVolume portk kRumbleVolume, 0.02
@@ -199,6 +205,7 @@ instr Rumble
     aRumble = aLp * kRumbleVolume
     chnmix aRumble, "GlobalMix"
 endin
+
 
 instr Mixer
     //CHNGET CHANNELS
@@ -218,6 +225,7 @@ instr Mixer
 
     chnset aMixerLimiter, "MixerOut"
 endin
+
 
 instr Reverb
     //CHNGET CHANNELS
@@ -239,6 +247,7 @@ instr Reverb
     chnset aOutL, "OutL"
     chnset aOutR, "OutR"
 endin
+
 
 instr Master
     //CHNGET CHANNELS
@@ -272,6 +281,9 @@ instr Master
     schedwhen kMidiRls, "TurnOff", iReleaseTime, 0.1
 endin
 
+scoreline_i("i\"Master\" 1 -1")
+
+
 instr TurnOff
     turnoff2 1, 0, 0
     turnoff2 2, 0, 0
@@ -282,6 +294,109 @@ instr TurnOff
     turnoff2 7, 0, 0
     turnoff2 8, 0, 0
 endin
+
+instr Vendaval_alwayson
+
+    // XR hands and head tracking ...
+
+    a_bodyTrackingData = inch(1)
+    k_bodyTrackingId init -1
+    k_bodyTrackingData[] init 42
+    ki = 0
+    while (ki < ksmps) do
+        k_bodyTrackingValue = vaget(ki, a_bodyTrackingData)
+        if (k_bodyTrackingValue > 0.999999) then
+            k_bodyTrackingId = 0
+        elseif (k_bodyTrackingValue < -0.999999) then
+            k_bodyTrackingId = -1
+        elseif (k_bodyTrackingId >= 0 && k_bodyTrackingId < 42) then
+            k_bodyTrackingData[k_bodyTrackingId] = k_bodyTrackingValue
+            k_bodyTrackingId += 1
+        endif
+        ki += 1
+    od
+
+    k_leftWristX = k_bodyTrackingData[0]
+    k_leftWristY = k_bodyTrackingData[1]
+    k_leftWristZ = k_bodyTrackingData[2]
+
+    k_leftFingerTip1X = k_bodyTrackingData[3]
+    k_leftFingerTip1Y = k_bodyTrackingData[4]
+
+    k_leftFingerTip3X = k_bodyTrackingData[9]
+    k_leftFingerTip3Y = k_bodyTrackingData[10]
+    k_leftFingerTip3Z = k_bodyTrackingData[11]
+
+    k_leftFingerTip5X = k_bodyTrackingData[15]
+    k_leftFingerTip5Y = k_bodyTrackingData[16]
+
+    k_rightWristX = k_bodyTrackingData[18]
+    k_rightWristY = k_bodyTrackingData[19]
+    k_rightWristZ = k_bodyTrackingData[20]
+
+    k_rightFingerTip1X = k_bodyTrackingData[21]
+    k_rightFingerTip1Y = k_bodyTrackingData[22]
+
+    k_rightFingerTip2X = k_bodyTrackingData[24]
+
+    k_rightFingerTip3X = k_bodyTrackingData[27]
+    k_rightFingerTip3Y = k_bodyTrackingData[28]
+    k_rightFingerTip3Z = k_bodyTrackingData[29]
+
+    k_rightFingerTip4X = k_bodyTrackingData[30]
+
+    k_rightFingerTip5X = k_bodyTrackingData[33]
+    k_rightFingerTip5Y = k_bodyTrackingData[34]
+
+    k_headPositionX = k_bodyTrackingData[36]
+    k_headPositionY = k_bodyTrackingData[37]
+    k_headPositionZ = k_bodyTrackingData[38]
+
+    i_volumeLag = 1
+
+    // Wooing volume
+    i_wooingVolume_scale = 2
+    k_wooingVolume_offset = lag(max(0, k_rightFingerTip3Y * i_wooingVolume_scale), i_volumeLag)
+    k_wooingVolume = chnget:k("WooingVolume")
+    chnset(k_wooingVolume + k_wooingVolume_offset, "WooingVolume_withOffset")
+    ; printsk("wooing volume offset = %f\n", k_wooingVolume_offset)
+
+    // Wooing frequency
+    i_wooingFrequency_scale = 400
+    k_wooingFrequency_offset = k_rightFingerTip3X * i_wooingFrequency_scale
+    k_wooingFrequency = chnget:k("WooingFrequency")
+    chnset(k_wooingFrequency + k_wooingFrequency_offset, "WooingFrequency_withOffset")
+
+    // Rumble volume
+    i_rumbleVolume_scale = 2
+    k_rumbleVolume_offset = lag(max(0, k_leftFingerTip3Y * i_rumbleVolume_scale), i_volumeLag)
+    k_rumbleVolume = chnget:k("RumbleVolume")
+    chnset(k_rumbleVolume + k_rumbleVolume_offset, "RumbleVolume_withOffset")
+
+    // Background volume
+    i_backgroundVolume_scale = 2
+    k_backgroundVolume_offset = lag(max(0, k_leftFingerTip3Y * i_backgroundVolume_scale), i_volumeLag)
+    k_backgroundVolume = chnget:k("BackgroundVolume")
+    chnset(k_backgroundVolume + k_backgroundVolume_offset, "BackgroundVolume_withOffset")
+
+    // Background frequency
+    i_backgroundFrequency_scale = 500
+    k_backgroundFrequency_offset = k_leftFingerTip3X * i_backgroundFrequency_scale
+    k_backgroundFrequency = chnget:k("BackgroundFrequency")
+    chnset(k_backgroundFrequency + k_backgroundFrequency_offset, "BackgroundFrequency_withOffset")
+
+    // Rumble cutoff frequency
+    i_rumbleCutoff_scale = 150
+    k_rumbleCutoff_offset = k_leftFingerTip3X * i_rumbleCutoff_scale
+    k_rumbleCutoff = chnget:k("RumbleCutoff")
+    chnset(k_rumbleCutoff + k_rumbleCutoff_offset, "RumbleCutoff_withOffset")
+    ; printsk("rumble cutoff offset = %f\n", k_rumbleCutoff_offset)
+
+endin
+
+// Start at 1 second to give the host time to set it's values.
+scoreline_i("i\"Vendaval_alwayson\" 1 -1")
+
 
 </CsInstruments>
 <CsScore>
