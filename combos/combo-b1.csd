@@ -19,8 +19,13 @@ nchnls_i = 2
 massign 0, 2
 pgmassign 0, 0
 
+gk_source_pitchOffset init 0
 
-gk_fingerTip3X init 0
+gk_source1_pitchOffset init 0
+gk_source2_pitchOffset init 0
+gk_source3_pitchOffset init 0
+gk_source4_pitchOffset init 0
+
 gi_noteRiseY_threshold init 0.2
 
 ga_out init 0
@@ -68,9 +73,13 @@ instr AF_Combo_B1_alwayson
     k_rightFingerTip1X = k_bodyTrackingData[21]
     k_rightFingerTip1Y = k_bodyTrackingData[22]
 
+    k_rightFingerTip2X = k_bodyTrackingData[24]
+
     k_rightFingerTip3X = k_bodyTrackingData[27]
     k_rightFingerTip3Y = k_bodyTrackingData[28]
     k_rightFingerTip3Z = k_bodyTrackingData[29]
+
+    k_rightFingerTip4X = k_bodyTrackingData[30]
 
     k_rightFingerTip5X = k_bodyTrackingData[33]
     k_rightFingerTip5Y = k_bodyTrackingData[34]
@@ -88,11 +97,13 @@ instr AF_Combo_B1_alwayson
     k_synth_delayMix_mod += lag(limit(-k_leftFingerTip3Z, 0, 0.3), 2) * 3
     AF_Module_DelayMono_A_setMod("Synth::Delay_1", {{eval '(Constants.DelayMono_A.Channel.Mix)'}}, k_synth_delayMix_mod)
 
-    gk_noteNumberOffset = k_rightFingerTip3X
-    ; {{LogDebug_k '("gk_noteNumberOffset = %f", gk_noteNumberOffset)'}}
+    gk_source_pitchOffset = lag(k_rightFingerTip3X, 1)
+    ; {{LogDebug_k '("gk_source_pitchOffset = %f", gk_source_pitchOffset)'}}
 
-    gk_fingerTip3X = max:k(k_leftFingerTip3X, k_rightFingerTip3X)
-    ; {{LogDebug_k '("gk_fingerTip3X = %f", gk_fingerTip3X)'}}
+    gk_source1_pitchOffset = lag(k_rightFingerTip1X, 1)
+    gk_source2_pitchOffset = lag(k_rightFingerTip2X, 1)
+    gk_source4_pitchOffset = lag(k_rightFingerTip4X, 1)
+    gk_source5_pitchOffset = lag(k_rightFingerTip5X, 1)
 
 
     // Synth ...
@@ -121,66 +132,69 @@ endin
 // Start at 1 second to give the host time to set it's values.
 scoreline_i("i\"AF_Combo_B1_alwayson\" 1 -1")
 
-/*
-Notes:
-- Note volume depends on z-penetration depth into a plane slightly angled toward the performer.
-- Volume LFO depends on wrist height (or maybe 3rd finger tip height).
-- Filter frequency depends on wrist angle around z axis.
-    - Maybe there's a way to control a low-pass filter with left hand and a high-pass filter with right hand simultaneously?
-- 8va doubling volume depends on distance between thumb tip and pinky tip?
-    - Left hand controls -8va for all notes below middle C and right hand controls +8va for all notes above middle C?
-*/
+
 instr 2
     i_noteNumber = p4
-    i_modifiedNoteNumber = i_noteNumber + AF_Module_MidiKeyTranspose_A:i("Synth::KeyTranspose_G1")
+    i_noteNumber = i_noteNumber + AF_Module_MidiKeyTranspose_A:i("Synth::KeyTranspose_G1")
 
-    {{LogTrace_i '("Note: i_modifiedNoteNumber = %d.", i_modifiedNoteNumber)'}}
+    {{LogTrace_i '("Note: i_noteNumber = %d.", i_noteNumber)'}}
 
-    i_isInMidiKeyRange = AF_Module_MidiKeyRange_A:i("Synth::KeyRange_G1", i_modifiedNoteNumber)
+    i_isInMidiKeyRange = AF_Module_MidiKeyRange_A:i("Synth::KeyRange_G1", i_noteNumber)
     if (i_isInMidiKeyRange == $false) then
-        {{LogTrace_i '("Note %d is out of range.", i_modifiedNoteNumber)'}}
+        {{LogTrace_i '("Note %d is out of range.", i_noteNumber)'}}
         goto end
     endif
 
-    // NB: We call the envelope module UDO here so the polyphony control UDO's `lastcycle` init sees the envelope's release time.
-    a_envelope = AF_Module_Envelope_A("Synth::Envelope_1")
-
     k_isFirstPass init $true
     if (k_isFirstPass == $true) then
-        k_noteNumberOffsetStart = gk_noteNumberOffset
+        k_noteNumberOffsetStart = gk_source_pitchOffset
         k_noteNumberOffset = 0
         k_isFirstPass = $false
     else
-        k_noteNumberOffset = gk_noteNumberOffset - k_noteNumberOffsetStart
+        k_noteNumberOffset = gk_source_pitchOffset - k_noteNumberOffsetStart
     endif
+
+    k_noteNumber = i_noteNumber + k_noteNumberOffset * 24
+    a_source_3 = AF_Module_Source_B("Synth::Source_3", k_noteNumber)
+    a_source_1 = AF_Module_Source_B("Synth::Source_1", k_noteNumber + gk_source1_pitchOffset * 50)
+    a_source_2 = AF_Module_Source_B("Synth::Source_2", k_noteNumber + gk_source2_pitchOffset * 50)
+    a_source_4 = AF_Module_Source_B("Synth::Source_4", k_noteNumber + gk_source4_pitchOffset * 50)
+    a_source_5 = AF_Module_Source_B("Synth::Source_5", k_noteNumber + gk_source5_pitchOffset * 50)
+    a_out = sum(a_source_1, a_source_2, a_source_3, a_source_4, a_source_5)
+    a_out *= 0.1
+
 
     k_noteRise_current init 0
     k_noteRiseY_last init 0
-    if (gk_fingerTip3X > gi_noteRiseY_threshold) then
+    if (gk_source_pitchOffset > gi_noteRiseY_threshold) then
         if (k_noteRiseY_last == 0) then
             k_noteRiseY_last = gi_noteRiseY_threshold
         endif
-        k_noteRise_current = max(k_noteRise_current, (gk_fingerTip3X - gi_noteRiseY_threshold) / 10)
-        k_noteRiseY_last = gk_fingerTip3X
-  endif
+        k_noteRise_current = max(k_noteRise_current, (gk_source_pitchOffset - gi_noteRiseY_threshold) / 10)
+        k_noteRiseY_last = gk_source_pitchOffset
+    endif
 
-    k_noteNumber init i_modifiedNoteNumber //+ 12
-    k_noteNumber += k_noteRise_current
-    k_noteNumber = limit:k(k_noteNumber, 0, 127)
-    ; {{LogTrace_k '("k_noteNumber = %f", k_noteNumber)'}}
+    k_noteNumber_rising init i_noteNumber //+ 12
+    k_noteNumber_rising += k_noteRise_current
+    k_noteNumber_rising = limit:k(k_noteNumber_rising, 0, 127)
+    ; {{LogTrace_k '("k_noteNumber_rising = %f", k_noteNumber_rising)'}}
+
+    a_source_3 = AF_Module_Source_B("Synth::Source_3", k_noteNumber_rising)
+    a_source_1 = AF_Module_Source_B("Synth::Source_1", k_noteNumber_rising + gk_source1_pitchOffset * 50)
+    a_source_2 = AF_Module_Source_B("Synth::Source_2", k_noteNumber_rising + gk_source2_pitchOffset * 50)
+    a_source_4 = AF_Module_Source_B("Synth::Source_4", k_noteNumber_rising + gk_source4_pitchOffset * 50)
+    a_source_5 = AF_Module_Source_B("Synth::Source_5", k_noteNumber_rising + gk_source5_pitchOffset * 50)
+    a_out_rising = sum(a_source_1, a_source_2, a_source_3, a_source_4, a_source_5)
 
     k_noteRise_amp init 1
-    k_noteRise_amp = k(1) - ((k_noteNumber - i_modifiedNoteNumber) / (127 - i_modifiedNoteNumber)) * 2
+    k_noteRise_amp = k(1) - ((k_noteNumber_rising - i_noteNumber) / (127 - i_noteNumber)) * 2
+    a_out_rising *= a(k_noteRise_amp)
 
-    a_source_1 = AF_Module_Source_B("Synth::Source_1", limit:k(k_noteNumberOffset * 50 + i_modifiedNoteNumber, 0, 127))
-    a_source_2 = AF_Module_Source_B("Synth::Source_2", limit:k(k_noteNumberOffset * 50 + i_modifiedNoteNumber, 0, 127))
-    a_source_3 = AF_Module_Source_B("Synth::Source_3", k_noteNumber)
-    a_source_4 = AF_Module_Source_B("Synth::Source_4", k_noteNumber)
-    a_source_5 = AF_Module_Source_B("Synth::Source_5", k_noteNumber)
-    a_out = sum(a_source_1, a_source_2, a_source_3, a_source_4, a_source_5)
 
+    a_envelope = AF_Module_Envelope_A("Synth::Envelope_1")
     a_out *= a_envelope
-    a_out *= a(k_noteRise_amp)
+
+    a_out = a_out + a_out_rising
     a_out = dcblock2(a_out, ksmps)
 
     vincr(ga_out, a_out)
