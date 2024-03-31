@@ -20,29 +20,12 @@ massign 0, 2
 pgmassign 0, 0
 
 
-gk_cpsOffset init 0
-gk_fingerTip3X init 0
-gi_noteRiseY_threshold init 0.2
+gk_leftVolume init 0
+gk_leftNoteNumber init 0
+gk_rightVolume init 0
+gk_rightNoteNumber init 0
 
-ga_synth2_out init 0
-ga_out_l init 0
-ga_out_r init 0
-
-
-#define SynthNoteInstrumentNumber #100#
-#define NoteOn  #0#
-#define NoteOff #1#
-
-gk_synthNoteOnCount[] init 128
-gS_synthNoteScoreLines[][] init 128, 2 // [...][0] = note on, [...][1] = note off
-
-ii = 0
-while (ii < 128) do
-    gS_synthNoteScoreLines[ii][$NoteOn] = sprintf("i %d.%03d 0 -1 %d", $SynthNoteInstrumentNumber, ii, ii)
-    gS_synthNoteScoreLines[ii][$NoteOff] = sprintf("i -%d.%03d 0 0 %d", $SynthNoteInstrumentNumber, ii, ii)
-    ii += 1
-od
-
+ga_out init 0
 
 
 instr AF_Combo_A1_alwayson
@@ -99,53 +82,24 @@ instr AF_Combo_A1_alwayson
     k_headPositionZ = k_bodyTrackingData[38]
 
 
-    ; k_synth2_filterFreq_mod = limit(k_leftWristX, -1, 1) * 0.5 + 0.5
-    ; AF_Module_Filter_A_setMod("Synth_2::Filter_1", {{eval '(Constants.Filter_A.Channel.Frequency)'}}, k_synth2_filterFreq_mod)
+    k_leftAngle = abs(taninv2(k_leftFingerTip5Y - k_leftFingerTip1Y, k_leftFingerTip5X - k_leftFingerTip1X))
+    k_rightAngle = abs(taninv2(k_rightFingerTip5Y - k_rightFingerTip1Y, k_rightFingerTip1X - k_rightFingerTip5X))
+    ; {{LogDebug_k '("Left angle: %f, Right angle: %f", k_leftAngle, k_rightAngle)'}}
 
-    ; k_synth2_filterEnv_mod = limit(k_rightWristX, 0, 1) * 2
-    ; AF_Module_Filter_A_setMod("Synth_2::Filter_1", {{eval '(Constants.Filter_A.Channel.EnvelopeAmount)'}}, k_synth2_filterEnv_mod)
+    i_volumeScale = 0.333333
+    i_volumeLagTime_up = 1
+    i_volumeLagTimedown = 60
+    gk_leftVolume = k(1) - lagud(limit(k_leftAngle * i_volumeScale, 0, 1), i_volumeLagTimedown, i_volumeLagTime_up)
+    gk_rightVolume = k(1) - lagud(limit(k_rightAngle * i_volumeScale, 0, 1), i_volumeLagTimedown, i_volumeLagTime_up)
+    ; {{LogDebug_k '("Left volume: %f, Right volume: %f", gk_leftVolume, gk_rightVolume)'}}
 
-    ; k_synth2_source1_subAmp_mod = limit(abs(k_leftFingerTip5Y - k_leftFingerTip1Y) * 7, -1, 1) * 0.5 + 0.5
-    ; AF_Module_Source_A_setMod("Synth_2::Source_1", {{eval '(Constants.Source_A.Channel.SubAmp)'}}, k_synth2_source1_subAmp_mod)
-
-    ; k_synth2_filter_q_mod = limit(abs(k_rightFingerTip5Y - k_rightFingerTip1Y) * 70 * 0.5 + 0.5, 1, 7.5)
-    ; AF_Module_Filter_A_setMod("Synth_2::Filter_1", {{eval '(Constants.Filter_A.Channel.Q)'}}, k_synth2_filter_q_mod)
-
-    k_synth2_volumeAmp_mod = lag(limit(max(k_leftWristY, k_rightWristY), 0, 1), 2)
-    k_synth2_volumeAmp_mod += lag(limit(max(-k_leftFingerTip3Z, -k_rightFingerTip3Z), 0, 1), 2) * 3
-    AF_Module_Volume_A_setMod("Synth_2::Volume_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_synth2_volumeAmp_mod)
-
-    k_synth2_delayMix_mod = lag(limit(k_leftFingerTip3Y, 0, 0.3), 2)
-    k_synth2_delayMix_mod += lag(limit(-k_leftFingerTip3Z, 0, 0.3), 2) * 3
-    AF_Module_DelayMono_A_setMod("Synth_2::Delay_1", {{eval '(Constants.DelayMono_A.Channel.Mix)'}}, k_synth2_delayMix_mod)
-
-    ; k_piano_reverbSendAmp_mod = min(0, -((min(round((k_headPositionY + k_headPositionZ) * 3 * 1000) / 1000, 1.5)) - 0.5) * 2)
-    ; AF_Module_Volume_A_setMod("Master_FX::PianoReverb_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_piano_reverbSendAmp_mod) ; Range = [ 0.0, -0.5... ]
-
-    ; k_reverb_cutoff_mod = limit:k(round((k_headPositionX * 0.5 + 0.5) * 1000) / 1000, 0, 1)
-    ; AF_Module_Reverb_A_setMod("Master_FX::Reverb_1", {{eval '(Constants.Reverb_A.Channel.Cutoff)'}}, k_reverb_cutoff_mod) ; Range = [ 0.0, 1.0 ]
-
-    ; k_synth2_volumeAmp_mod = ampdb(lagud((limit(k_headPositionY, 0, 0.5) - 0) * 2, 5, 10) * 90) / 32000
-    ; k_synth2_volumeAmp_mod = lagud(limit((k_headPositionZ - 0.2) * 1.25 * 5, 0, 1), 5, 5)
-    ; AF_Module_Volume_A_setMod("Synth_2::Volume_1", {{eval '(Constants.Volume_A.Channel.Amp)'}}, k_synth2_volumeAmp_mod)
-
-    gk_noteNumberOffset = k_rightFingerTip3X
-    ; {{LogDebug_k '("gk_noteNumberOffset = %f", gk_noteNumberOffset)'}}
-
-    gk_fingerTip3X = max:k(k_leftFingerTip3X, k_rightFingerTip3X)
-    ; {{LogDebug_k '("gk_fingerTip3X = %f", gk_fingerTip3X)'}}
-
-    // Piano FX ...
-
-    a_piano_l = inch(2)
-
-    a_piano_l = AF_Module_DelayMono_A("Piano_FX::Delay_1", a_piano_l)
-    a_piano_l, a_piano_r AF_Module_DelayStereo_A "Piano_FX::Delay_2", a_piano_l
-
-    k_piano_amp = AF_Module_Volume_A:k("Piano_FX::Volume_1")
-    a_piano_l *= k_piano_amp
-    a_piano_r *= k_piano_amp
-
+    i_noteNumber_min = 0
+    i_noteNumber_max = 127
+    i_leftNoteNumber_range = 60 - i_noteNumber_min
+    i_rightNoteNumber_range = i_noteNumber_max - 60
+    gk_leftNoteNumber = lag(k(60) + k_leftFingerTip3X * i_leftNoteNumber_range, 1)
+    gk_rightNoteNumber = lag(k(60) + k_rightFingerTip3X * i_rightNoteNumber_range, 1)
+    ; {{LogDebug_k '("Left note number(%f): %f, Right note number(%f): %f", k_leftFingerTip3X, gk_leftNoteNumber, k_rightFingerTip3X, gk_rightNoteNumber)'}}
 
     // Common ...
 
@@ -170,40 +124,32 @@ instr AF_Combo_A1_alwayson
     k_synth2_amp += AF_Module_Offset_A:k("Synth_2::VolumeOffset_1")
     k_synth2_amp = AF_Module_Clamp_A:k("Synth_2::VolumeClamp_1", k_synth2_amp)
 
-    ga_synth2_out *= k_synth2_amp
-    ga_synth2_out = AF_Module_DelayMono_A("Synth_2::Delay_1", ga_synth2_out)
+    ga_out *= k_synth2_amp
+    ga_out = AF_Module_DelayMono_A("Synth_2::Delay_1", ga_out)
 
 
     // Master FX ...
 
-    k_pianoMix = AF_Module_Volume_A:k("Master_FX::PianoMix_1")
     k_synth2Mix = AF_Module_Volume_A:k("Master_FX::Synth2Mix_1")
 
-    a_piano_l *= k_pianoMix
-    a_piano_r *= k_pianoMix
-    ga_out_l = ga_synth2_out * k_synth2Mix
-    ga_out_r = ga_out_l
+    ga_out *= k_synth2Mix
 
-    k_pianoReverbAmp = AF_Module_Volume_A:k("Master_FX::PianoReverb_1")
-    k_synth1ReverbAmp = AF_Module_Volume_A:k("Master_FX::Synth1Reverb_1")
-    k_synth2ReverbAmp = AF_Module_Volume_A:k("Master_FX::Synth2Reverb_1")
+    ; k_synth1ReverbAmp = AF_Module_Volume_A:k("Master_FX::Synth1Reverb_1")
+    ; k_synth2ReverbAmp = AF_Module_Volume_A:k("Master_FX::Synth2Reverb_1")
 
-    a_reverbIn_l = a_piano_l * k_pianoReverbAmp + ga_synth2_out * k_synth2ReverbAmp
-    a_reverbIn_r = a_piano_r * k_pianoReverbAmp + ga_out_r * k_synth2ReverbAmp
+    ; a_reverbIn_l = ga_out * k_synth2ReverbAmp
+    ; a_reverbIn_r = ga_out_r * k_synth2ReverbAmp
 
-    a_reverbOut_l, a_reverbOut_r AF_Module_Reverb_A "Master_FX::Reverb_1", a_reverbIn_l, a_reverbIn_r
+    ; a_reverbOut_l, a_reverbOut_r AF_Module_Reverb_A "Master_FX::Reverb_1", a_reverbIn_l, a_reverbIn_r
 
-    vincr(ga_out_l, a_reverbOut_l)
-    vincr(ga_out_r, a_reverbOut_r)
-
-    vincr(ga_out_l, a_piano_l)
-    vincr(ga_out_r, a_piano_r)
+    ; vincr(ga_out_l, a_reverbOut_l)
+    ; vincr(ga_out_r, a_reverbOut_r)
 
 
     // Output ...
 
-    outs(ga_out_l, ga_out_r)
-    clear(ga_out_l, ga_out_r, ga_synth2_out)
+    outs(ga_out, ga_out)
+    clear(ga_out)
 
 
     // UI updates ...
@@ -213,118 +159,43 @@ instr AF_Combo_A1_alwayson
 endin
 
 
-instr 2
-    i_noteNumber = notnum()
-
-    k_isFirstPass init $true
-
-    if (k_isFirstPass == $true) then
-        gk_synthNoteOnCount[i_noteNumber] = gk_synthNoteOnCount[i_noteNumber] + 1
-        k_isFirstPass = $false
-
-        if (gk_synthNoteOnCount[i_noteNumber] == 1) then
-            scoreline(gS_synthNoteScoreLines[i_noteNumber][$NoteOn], k(1))
-        endif
-    endif
-
-    if (lastcycle() == $true) then
-        gk_synthNoteOnCount[i_noteNumber] = gk_synthNoteOnCount[i_noteNumber] - 1
-
-        if (gk_synthNoteOnCount[i_noteNumber] < 0) then
-            gk_synthNoteOnCount[i_noteNumber] = 0
-        endif
-
-        if (gk_synthNoteOnCount[i_noteNumber] == 0) then
-            scoreline(gS_synthNoteScoreLines[i_noteNumber][$NoteOff], k(1))
-        endif
-    endif
-endin
-
-
 // Start at 1 second to give the host time to set it's values.
 scoreline_i("i\"AF_Combo_A1_alwayson\" 1 -1")
 
-/*
-Notes:
-- Note volume depends on z-penetration depth into a plane slightly angled toward the performer.
-- Volume LFO depends on wrist height (or maybe 3rd finger tip height).
-- Filter frequency depends on wrist angle around z axis.
-    - Maybe there's a way to control a low-pass filter with left hand and a high-pass filter with right hand simultaneously?
-- 8va doubling volume depends on distance between thumb tip and pinky tip?
-    - Left hand controls -8va for all notes below middle C and right hand controls +8va for all notes above middle C?
-*/
-instr $SynthNoteInstrumentNumber
-    i_noteNumber = p4
+instr 2
+    i_noteNumber = p4 + AF_Module_MidiKeyTranspose_A:i("Common::KeyTranspose_G1")
 
-    k_noteRise_amp init 1
-    if (k_noteRise_amp <= 0) then
-        gk_synthNoteOnCount[i_noteNumber] = gk_synthNoteOnCount[i_noteNumber] - 1
-        if (gk_synthNoteOnCount[i_noteNumber] < 0) then
-            gk_synthNoteOnCount[i_noteNumber] = 0
-        endif
-        if (gk_synthNoteOnCount[i_noteNumber] == 0) then
-            scoreline(gS_synthNoteScoreLines[i_noteNumber][$NoteOff], k(1))
-        endif
-        turnoff2(k(p1), 4, $true)
-    endif
-
-    i_modifiedNoteNumber = i_noteNumber + AF_Module_MidiKeyTranspose_A:i("Common::KeyTranspose_G1")
-
-    i_isInMidiKeyRange = AF_Module_MidiKeyRange_A:i("Common::KeyRange_G1", i_modifiedNoteNumber)
+    i_isInMidiKeyRange = AF_Module_MidiKeyRange_A:i("Common::KeyRange_G1", i_noteNumber)
     if (i_isInMidiKeyRange == $false) then
-        {{LogTrace_i '("Note %d is out of range.", i_modifiedNoteNumber)'}}
+        {{LogTrace_i '("Note %d is out of range.", i_noteNumber)'}}
         goto end
     endif
 
     // NB: We call the envelope module UDO here so the polyphony control UDO's `lastcycle` init sees the envelope's release time.
     a_envelope = AF_Module_Envelope_A("Synth_2::Envelope_1", $false)
 
-    k_isFirstPass init $true
-    if (k_isFirstPass == $true) then
-        k_noteNumberOffsetStart = gk_noteNumberOffset
-        k_noteNumberOffset = 0
-        k_isFirstPass = $false
-    else
-        k_noteNumberOffset = gk_noteNumberOffset - k_noteNumberOffsetStart
-    endif
-    ; {{LogDebug_k '("k_noteNumberOffset = %f", k_noteNumberOffset)'}}
-
-    k_noteRise_current init 0
-    k_noteRiseY_last init 0
-    if (gk_fingerTip3X > gi_noteRiseY_threshold) then
-        if (k_noteRiseY_last == 0) then
-            k_noteRiseY_last = gi_noteRiseY_threshold
-        endif
-        k_noteRise_current = max(k_noteRise_current, (gk_fingerTip3X - gi_noteRiseY_threshold) / 10)
-        k_noteRiseY_last = gk_fingerTip3X
-
-        ; if (changed:k(k_noteRise_current) == 1) then
-        ;     {{LogDebug_k '("gk_fingerTip3X = %f", gk_fingerTip3X)'}}
-        ;     {{LogDebug_k '("k_noteRise_current = %f", k_noteRise_current)'}}
-        ; endif
-    endif
-
-    k_noteNumber init i_modifiedNoteNumber //+ 12
-    k_noteNumber += k_noteRise_current
-    k_noteNumber = limit:k(k_noteNumber, 0, 127)
-
-    k_noteRise_amp = k(1) - ((k_noteNumber - i_modifiedNoteNumber) / (127 - i_modifiedNoteNumber)) * 2
-    ; if (changed:k(k_noteRise_amp) == 1) then
-    ;     {{LogDebug_k '("k_noteRise_amp = %f", k_noteRise_amp)'}}
-    ; endif
-
-    a_source_1 = AF_Module_Source_A("Synth_2::Source_1", limit:k(k_noteNumberOffset * 50 + i_modifiedNoteNumber, 0, 127))
-    a_source_2 = AF_Module_Source_A("Synth_2::Source_2", limit:k(k_noteNumberOffset * 50 + i_modifiedNoteNumber, 0, 127))
+    k_noteNumber = i_noteNumber
+    a_source_1 = AF_Module_Source_A("Synth_2::Source_1", k_noteNumber)
+    a_source_2 = AF_Module_Source_A("Synth_2::Source_2", k_noteNumber)
     a_source_3 = AF_Module_Source_A("Synth_2::Source_3", k_noteNumber)
     a_source_4 = AF_Module_Source_A("Synth_2::Source_4", k_noteNumber)
     a_out = sum(a_source_1, a_source_2, a_source_3, a_source_4)
 
     a_out = AF_Module_Filter_A("Synth_2::Filter_1", a_out, $false)
     a_out *= a_envelope
-    a_out *= a(k_noteRise_amp)
     a_out = dcblock2(a_out, ksmps)
 
-    vincr(ga_synth2_out, a_out)
+    k_volume init 0
+    if (i_noteNumber < 60) then
+        // .333 = amount of hand rotation needed to start increasing volume.
+        k_volume = expcurve(max(0, (gk_leftVolume - 0.333) * 1.333) * (k(1) - min(1, abs(gk_leftNoteNumber - i_noteNumber) / 18)), 3)
+    else
+        k_volume = expcurve(max(0, (gk_rightVolume - 0.333) * 1.333) * (k(1) - min(1, abs(gk_rightNoteNumber - i_noteNumber) / 18)), 3)
+    endif
+
+    a_out *= a(k_volume)
+
+    vincr(ga_out, a_out)
 end:
 endin
 
