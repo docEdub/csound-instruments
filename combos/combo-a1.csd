@@ -28,6 +28,21 @@ gk_rightNoteNumber init 0
 ga_out init 0
 
 
+#define SynthNoteInstrumentNumber #100#
+#define NoteOn  #0#
+#define NoteOff #1#
+
+gk_synthNoteOnCount[] init 128
+gS_synthNoteScoreLines[][] init 128, 2 // [...][0] = note on, [...][1] = note off
+
+ii = 0
+while (ii < 128) do
+    gS_synthNoteScoreLines[ii][$NoteOn] = sprintf("i %d.%03d 0 -1 %d", $SynthNoteInstrumentNumber, ii, ii)
+    gS_synthNoteScoreLines[ii][$NoteOff] = sprintf("i -%d.%03d 0 0 %d", $SynthNoteInstrumentNumber, ii, ii)
+    ii += 1
+od
+
+
 instr AF_Combo_A1_alwayson
 
     // XR hands and head tracking ...
@@ -163,7 +178,32 @@ endin
 // Start at 1 second to give the host time to set it's values.
 scoreline_i("i\"AF_Combo_A1_alwayson\" 1 -1")
 
+
 instr 2
+    i_noteNumber = notnum()
+
+    k_isFirstPass init $true
+
+    if (k_isFirstPass == $true) then
+        gk_synthNoteOnCount[i_noteNumber] = gk_synthNoteOnCount[i_noteNumber] + 1
+        k_isFirstPass = $false
+
+        if (gk_synthNoteOnCount[i_noteNumber] == 1) then
+            scoreline(gS_synthNoteScoreLines[i_noteNumber][$NoteOn], k(1))
+        endif
+    endif
+
+    if (lastcycle() == $true) then
+        gk_synthNoteOnCount[i_noteNumber] = gk_synthNoteOnCount[i_noteNumber] - 1
+
+        if (gk_synthNoteOnCount[i_noteNumber] == 0) then
+            scoreline(gS_synthNoteScoreLines[i_noteNumber][$NoteOff], k(1))
+        endif
+    endif
+endin
+
+
+instr $SynthNoteInstrumentNumber
     i_noteNumber = p4 + AF_Module_MidiKeyTranspose_A:i("Common::KeyTranspose_G1")
 
     i_isInMidiKeyRange = AF_Module_MidiKeyRange_A:i("Common::KeyRange_G1", i_noteNumber)
