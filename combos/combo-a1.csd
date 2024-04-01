@@ -105,8 +105,8 @@ instr AF_Combo_A1_alwayson
     i_volumeMax = 0.5
     i_volumeLagTime_up = 1
     i_volumeLagTimedown = 60
-    gk_leftVolume = k(1) - lagud(limit(k_leftAngle * i_volumeScale, 0, i_volumeMax), i_volumeLagTimedown, i_volumeLagTime_up)
-    gk_rightVolume = k(1) - lagud(limit(k_rightAngle * i_volumeScale, 0, i_volumeMax), i_volumeLagTimedown, i_volumeLagTime_up)
+    gk_leftVolume = k(1) - lagud(limit(k_leftAngle * i_volumeScale, i_volumeMax, 1), i_volumeLagTimedown, i_volumeLagTime_up)
+    gk_rightVolume = k(1) - lagud(limit(k_rightAngle * i_volumeScale, i_volumeMax, 1), i_volumeLagTimedown, i_volumeLagTime_up)
     ; {{LogDebug_k '("Left volume: %f, Right volume: %f", gk_leftVolume, gk_rightVolume)'}}
 
     i_noteNumber_min = 0
