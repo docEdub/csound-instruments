@@ -352,11 +352,12 @@ instr Vendaval_alwayson
     k_headPositionY = k_bodyTrackingData[37]
     k_headPositionZ = k_bodyTrackingData[38]
 
-    i_volumeLag = 1
+    i_volumeLag_up = 1
+    i_volumeLag_down = 30
 
     // Wooing volume
     i_wooingVolume_scale = 2
-    k_wooingVolume_offset = lag(max(0, k_rightFingerTip3Y * i_wooingVolume_scale), i_volumeLag)
+    k_wooingVolume_offset = expcurve(lagud(max(0, k_rightFingerTip3Y * i_wooingVolume_scale), i_volumeLag_up, i_volumeLag_down), 3)
     k_wooingVolume = chnget:k("WooingVolume")
     chnset(k_wooingVolume + k_wooingVolume_offset, "WooingVolume_withOffset")
     ; printsk("wooing volume offset = %f\n", k_wooingVolume_offset)
@@ -369,13 +370,13 @@ instr Vendaval_alwayson
 
     // Rumble volume
     i_rumbleVolume_scale = 2
-    k_rumbleVolume_offset = lag(max(0, k_leftFingerTip3Y * i_rumbleVolume_scale), i_volumeLag)
+    k_rumbleVolume_offset = expcurve(lagud(max(0, k_leftFingerTip3Y * i_rumbleVolume_scale), i_volumeLag_up, i_volumeLag_down), 3)
     k_rumbleVolume = chnget:k("RumbleVolume")
     chnset(k_rumbleVolume + k_rumbleVolume_offset, "RumbleVolume_withOffset")
 
     // Background volume
     i_backgroundVolume_scale = 2
-    k_backgroundVolume_offset = lag(max(0, k_leftFingerTip3Y * i_backgroundVolume_scale), i_volumeLag)
+    k_backgroundVolume_offset = expcurve(lagud(max(0, k_leftFingerTip3Y * i_backgroundVolume_scale), i_volumeLag_up, i_volumeLag_down), 3)
     k_backgroundVolume = chnget:k("BackgroundVolume")
     chnset(k_backgroundVolume + k_backgroundVolume_offset, "BackgroundVolume_withOffset")
 
