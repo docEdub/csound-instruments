@@ -103,7 +103,7 @@ instr AF_Combo_A1_alwayson
 
     i_volumeScale = 0.333333
     i_volumeMax = 0.5
-    i_volumeLagTime_up = 1
+    i_volumeLagTime_up = 15
     i_volumeLagTimedown = 60
     gk_leftVolume = k(1) - lagud(limit(k_leftAngle * i_volumeScale, i_volumeMax, 1), i_volumeLagTimedown, i_volumeLagTime_up)
     gk_rightVolume = k(1) - lagud(limit(k_rightAngle * i_volumeScale, i_volumeMax, 1), i_volumeLagTimedown, i_volumeLagTime_up)
@@ -229,9 +229,9 @@ instr $SynthNoteInstrumentNumber
     k_volume init 0
     if (i_noteNumber < 60) then
         // .333 = amount of hand rotation needed to start increasing volume.
-        k_volume = expcurve(max(0, (gk_leftVolume - 0.333) * 1.333) * (k(1) - min(1, abs(gk_leftNoteNumber - i_noteNumber) / 18)), 3)
+        k_volume = expcurve(max(0, (gk_leftVolume - 0.333) * 1.333) * lagud((k(1) - min(1, abs(gk_leftNoteNumber - i_noteNumber) / 18)), 0, 20), 3)
     else
-        k_volume = expcurve(max(0, (gk_rightVolume - 0.333) * 1.333) * (k(1) - min(1, abs(gk_rightNoteNumber - i_noteNumber) / 18)), 3)
+        k_volume = expcurve(max(0, (gk_rightVolume - 0.333) * 1.333) * lagud((k(1) - min(1, abs(gk_rightNoteNumber - i_noteNumber) / 18)), 0, 20), 3)
     endif
 
     a_out *= a(k_volume)
