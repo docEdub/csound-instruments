@@ -6,7 +6,7 @@
 </CsOptions>
 <CsInstruments>
 
-{{Enable-LogTrace false}}
+{{Enable-LogTrace true}}
 {{Enable-LogDebug true}}
 
 sr = {{sr}}
@@ -16,9 +16,12 @@ nchnls_i = 2
 
 {{CsInstruments}}
 
-massign 0, 2
-pgmassign 0, 0
+#define AlwaysOnInstrumentNumber #2#
+#define MidiNoteInstrumentNumber #3#
+#define SynthNoteInstrumentNumber #100#
 
+massign 0, $MidiNoteInstrumentNumber
+pgmassign 0, 0
 
 gk_leftVolume init 0
 gk_leftNoteNumber init 0
@@ -27,23 +30,25 @@ gk_rightNoteNumber init 0
 
 ga_out init 0
 
+gi_synthNoteIsOn[] init 128
+gS_synthNoteOnScoreLines[] init 128
 
-#define SynthNoteInstrumentNumber #100#
-#define NoteOn  #0#
-#define NoteOff #1#
-
-gk_synthNoteOnCount[] init 128
-gS_synthNoteScoreLines[][] init 128, 2 // [...][0] = note on, [...][1] = note off
+gk_synthNoteVolume[] init 128
 
 ii = 0
 while (ii < 128) do
-    gS_synthNoteScoreLines[ii][$NoteOn] = sprintf("i %d.%03d 0 -1 %d", $SynthNoteInstrumentNumber, ii, ii)
-    gS_synthNoteScoreLines[ii][$NoteOff] = sprintf("i -%d.%03d 0 0 %d", $SynthNoteInstrumentNumber, ii, ii)
+    gS_synthNoteOnScoreLines[ii] = sprintf("i %d.%03d 0 -1 %d", $SynthNoteInstrumentNumber, ii, ii)
     ii += 1
 od
 
 
-instr AF_Combo_A1_alwayson
+instr $AlwaysOnInstrumentNumber
+    // Clear synth note volumes. They will be reset by the MIDI note instrument every k-pass.
+    ki = 0
+    while (ki < 128) do
+        gk_synthNoteVolume[ki] = 0
+        ki += 1
+    od
 
     // XR hands and head tracking ...
 
@@ -176,41 +181,32 @@ endin
 
 
 // Start at 1 second to give the host time to set it's values.
-scoreline_i("i\"AF_Combo_A1_alwayson\" 1 -1")
+scoreline_i("i$AlwaysOnInstrumentNumber 1 -1")
 
 
-instr 2
-    i_noteNumber = notnum()
+instr $MidiNoteInstrumentNumber
+    i_noteNumber = notnum() + AF_Module_MidiKeyTranspose_A:i("Common::KeyTranspose_G1")
 
-    k_isFirstPass init $true
-
-    if (k_isFirstPass == $true) then
-        gk_synthNoteOnCount[i_noteNumber] = gk_synthNoteOnCount[i_noteNumber] + 1
-        k_isFirstPass = $false
-
-        if (gk_synthNoteOnCount[i_noteNumber] == 1) then
-            scoreline(gS_synthNoteScoreLines[i_noteNumber][$NoteOn], k(1))
-        endif
+    i_isInMidiKeyRange = AF_Module_MidiKeyRange_A:i("Common::KeyRange_G1", i_noteNumber)
+    if (i_isInMidiKeyRange == $false) then
+        ; {{LogTrace_i '("Note %d is out of range.", i_noteNumber)'}}
+        goto end
     endif
 
-    if (lastcycle() == $true) then
-        gk_synthNoteOnCount[i_noteNumber] = gk_synthNoteOnCount[i_noteNumber] - 1
-
-        if (gk_synthNoteOnCount[i_noteNumber] == 0) then
-            scoreline(gS_synthNoteScoreLines[i_noteNumber][$NoteOff], k(1))
-        endif
+    if (gi_synthNoteIsOn[i_noteNumber] == $false) then
+        gi_synthNoteIsOn[i_noteNumber] = $true
+        scoreline_i(gS_synthNoteOnScoreLines[i_noteNumber])
     endif
+
+    gk_synthNoteVolume[i_noteNumber] = gk_synthNoteVolume[i_noteNumber] + AF_Module_Envelope_A:k("Synth_2::Envelope_1")
+end:
 endin
 
 
 instr $SynthNoteInstrumentNumber
-    i_noteNumber = p4 + AF_Module_MidiKeyTranspose_A:i("Common::KeyTranspose_G1")
+    i_noteNumber = p4
 
-    i_isInMidiKeyRange = AF_Module_MidiKeyRange_A:i("Common::KeyRange_G1", i_noteNumber)
-    if (i_isInMidiKeyRange == $false) then
-        {{LogTrace_i '("Note %d is out of range.", i_noteNumber)'}}
-        goto end
-    endif
+    {{LogTrace_i '("Synth note %d is on.", i_noteNumber)'}}
 
     // NB: We call the envelope module UDO here so the polyphony control UDO's `lastcycle` init sees the envelope's release time.
     a_envelope = AF_Module_Envelope_A("Synth_2::Envelope_1", $false)
@@ -222,7 +218,6 @@ instr $SynthNoteInstrumentNumber
     a_source_4 = AF_Module_Source_A("Synth_2::Source_4", k_noteNumber)
     a_out = sum(a_source_1, a_source_2, a_source_3, a_source_4)
 
-    a_out = AF_Module_Filter_A("Synth_2::Filter_1", a_out, $false)
     a_out *= a_envelope
     a_out = dcblock2(a_out, ksmps)
 
@@ -235,9 +230,13 @@ instr $SynthNoteInstrumentNumber
     endif
 
     a_out *= a(k_volume)
+    a_out *= a(min:k(gk_synthNoteVolume[i_noteNumber], 1))
 
     vincr(ga_out, a_out)
-end:
+
+    if (lastcycle() == $true) then
+        {{LogTrace_k '("Synth note %d: last cycle.", i_noteNumber)'}}
+    endif
 endin
 
 
