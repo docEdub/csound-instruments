@@ -223,16 +223,18 @@ instr $SynthNoteInstrumentNumber
     a_source_3 = AF_Module_Source_A("Synth_2::Source_3", k_noteNumber)
     a_source_4 = AF_Module_Source_A("Synth_2::Source_4", k_noteNumber)
     a_out = sum(a_source_1, a_source_2, a_source_3, a_source_4)
-
     a_out = dcblock2(a_out, ksmps)
 
-    k_volume init 0
     if (i_noteNumber < 60) then
-        // .333 = amount of hand rotation needed to start increasing volume.
-        k_volume = expcurve(max(0, (gk_leftVolume - 0.333) * 1.333) * lagud((k(1) - min(1, abs(gk_leftNoteNumber - i_noteNumber) / 18)), 0, 20), 3)
+        k_noteNumberProximity = gk_leftNoteNumber
+        k_noteRotationVolume = gk_leftVolume
     else
-        k_volume = expcurve(max(0, (gk_rightVolume - 0.333) * 1.333) * lagud((k(1) - min(1, abs(gk_rightNoteNumber - i_noteNumber) / 18)), 0, 20), 3)
+        k_noteNumberProximity = gk_rightNoteNumber
+        k_noteRotationVolume = gk_rightVolume
     endif
+    k_handProximityVolume = lagud((k(1) - min(1, abs(k_noteNumberProximity - i_noteNumber) / 18)), 2, 20)
+    k_handRotationVolume = max(0, (k_noteRotationVolume - 0.333) * 1.333)
+    k_volume = expcurve(k_handProximityVolume , 3)
 
     a_out *= a(k_volume)
     a_out *= a(min:k(gk_synthNoteVolume[i_noteNumber], 1))
