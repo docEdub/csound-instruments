@@ -233,7 +233,7 @@ instr $SynthNoteInstrumentNumber
         k_noteRotationVolume = gk_rightVolume
     endif
     k_handProximityVolume = lagud((k(1) - min(1, abs(k_noteNumberProximity - i_noteNumber) / 18)), 2, 20)
-    k_handRotationVolume = lagud(limit((k_noteRotationVolume - 0.333) * 2, 0, 1), 5, 20)
+    k_handRotationVolume = lagud(limit((k_noteRotationVolume - 0.333) * 2, 0, 1), 10, 20)
     k_volume = min((k_handProximityVolume * 0.1) + (expcurve(k_handRotationVolume * 0.25 * k_handProximityVolume , 3)), 1)
     ; {{LogDebug_k '("Hand proximity volume: %f, Hand rotation volume: %f", k_handProximityVolume, k_handRotationVolume)'}}
 
