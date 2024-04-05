@@ -110,8 +110,8 @@ instr $AlwaysOnInstrumentNumber
     i_volumeMax = 0.5
     i_volumeLagTime_up = 15
     i_volumeLagTimedown = 60
-    gk_leftVolume = k(1) - lagud(limit(k_leftAngle * i_volumeScale, i_volumeMax, 1), i_volumeLagTimedown, i_volumeLagTime_up)
-    gk_rightVolume = k(1) - lagud(limit(k_rightAngle * i_volumeScale, i_volumeMax, 1), i_volumeLagTimedown, i_volumeLagTime_up)
+    gk_leftVolume = k(1) - limit(k_leftAngle * i_volumeScale, i_volumeMax, 1)
+    gk_rightVolume = k(1) - limit(k_rightAngle * i_volumeScale, i_volumeMax, 1)
     ; {{LogDebug_k '("Left volume: %f, Right volume: %f", gk_leftVolume, gk_rightVolume)'}}
 
     i_noteNumber_min = 0
@@ -233,8 +233,9 @@ instr $SynthNoteInstrumentNumber
         k_noteRotationVolume = gk_rightVolume
     endif
     k_handProximityVolume = lagud((k(1) - min(1, abs(k_noteNumberProximity - i_noteNumber) / 18)), 2, 20)
-    k_handRotationVolume = max(0, (k_noteRotationVolume - 0.333) * 1.333)
-    k_volume = expcurve(k_handProximityVolume , 3)
+    k_handRotationVolume = lagud(limit((k_noteRotationVolume - 0.333) * 2, 0, 1), 2, 20)
+    k_volume = min((k_handProximityVolume * 0.1) + expcurve(k_handRotationVolume * k_handProximityVolume , 3), 1)
+    ; {{LogDebug_k '("Hand proximity volume: %f, Hand rotation volume: %f", k_handProximityVolume, k_handRotationVolume)'}}
 
     a_out *= a(k_volume)
     a_out *= a(min:k(gk_synthNoteVolume[i_noteNumber], 1))
