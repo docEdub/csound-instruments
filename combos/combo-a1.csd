@@ -185,20 +185,24 @@ scoreline_i("i$AlwaysOnInstrumentNumber 1 -1")
 
 
 instr $MidiNoteInstrumentNumber
-    i_noteNumber = notnum() + AF_Module_MidiKeyTranspose_A:i("Common::KeyTranspose_G1")
+    ; i_noteNumber = notnum() + AF_Module_MidiKeyTranspose_A:i("Common::KeyTranspose_G1")
 
-    i_isInMidiKeyRange = AF_Module_MidiKeyRange_A:i("Common::KeyRange_G1", i_noteNumber)
-    if (i_isInMidiKeyRange == $false) then
-        ; {{LogTrace_i '("Note %d is out of range.", i_noteNumber)'}}
-        goto end
-    endif
+    ; i_isInMidiKeyRange = AF_Module_MidiKeyRange_A:i("Common::KeyRange_G1", i_noteNumber)
+    ; if (i_isInMidiKeyRange == $false) then
+    ;     ; {{LogTrace_i '("Note %d is out of range.", i_noteNumber)'}}
+    ;     goto end
+    ; endif
+
+    i_noteNumber = notnum()
 
     if (gi_synthNoteIsOn[i_noteNumber] == $false) then
         gi_synthNoteIsOn[i_noteNumber] = $true
         scoreline_i(gS_synthNoteOnScoreLines[i_noteNumber])
     endif
 
-    gk_synthNoteVolume[i_noteNumber] = gk_synthNoteVolume[i_noteNumber] + AF_Module_Envelope_A:k("Synth_2::Envelope_1")
+    if (gk_synthNoteVolume[i_noteNumber] < 1) then
+        gk_synthNoteVolume[i_noteNumber] = gk_synthNoteVolume[i_noteNumber] + AF_Module_Envelope_A:k("Synth_2::Envelope_1")
+    endif
 end:
 endin
 
@@ -206,10 +210,12 @@ endin
 instr $SynthNoteInstrumentNumber
     i_noteNumber = p4
 
-    {{LogTrace_i '("Synth note %d is on.", i_noteNumber)'}}
-
-    // NB: We call the envelope module UDO here so the polyphony control UDO's `lastcycle` init sees the envelope's release time.
-    a_envelope = AF_Module_Envelope_A("Synth_2::Envelope_1", $false)
+    k_noteVolume = gk_synthNoteVolume[i_noteNumber]
+    k_lastNoteVolume = 0
+    if (k_noteVolume == 0 && k_lastNoteVolume == 0) then
+        kgoto end
+    endif
+    k_lastNoteVolume = k_noteVolume
 
     k_noteNumber = i_noteNumber
     a_source_1 = AF_Module_Source_A("Synth_2::Source_1", k_noteNumber)
@@ -218,7 +224,6 @@ instr $SynthNoteInstrumentNumber
     a_source_4 = AF_Module_Source_A("Synth_2::Source_4", k_noteNumber)
     a_out = sum(a_source_1, a_source_2, a_source_3, a_source_4)
 
-    a_out *= a_envelope
     a_out = dcblock2(a_out, ksmps)
 
     k_volume init 0
@@ -233,10 +238,7 @@ instr $SynthNoteInstrumentNumber
     a_out *= a(min:k(gk_synthNoteVolume[i_noteNumber], 1))
 
     vincr(ga_out, a_out)
-
-    if (lastcycle() == $true) then
-        {{LogTrace_k '("Synth note %d: last cycle.", i_noteNumber)'}}
-    endif
+end:
 endin
 
 
