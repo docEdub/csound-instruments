@@ -23,7 +23,7 @@ opcode {{Module_public}}, k, Sp
     i_a = {{moduleGet:i 'Attack'}}
     i_d = {{moduleGet:i 'Decay'}}
     i_s = {{moduleGet:i 'Sustain'}}
-    i_r = {{moduleGet:i 'Release'}}
+    i_r = {{moduleGet:i 'Release'}} * 2
 
     k_out init 0
 
