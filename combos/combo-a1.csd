@@ -6,8 +6,8 @@
 </CsOptions>
 <CsInstruments>
 
-{{Enable-LogTrace true}}
-{{Enable-LogDebug true}}
+{{Enable-LogTrace false}}
+{{Enable-LogDebug false}}
 
 sr = {{sr}}
 ksmps = {{ksmps}}
@@ -146,12 +146,13 @@ instr $AlwaysOnInstrumentNumber
     k_synth2_amp = AF_Module_Clamp_A:k("Synth_2::VolumeClamp_1", k_synth2_amp)
 
     ga_out *= k_synth2_amp
-    ga_out = AF_Module_DelayMono_A("Synth_2::Delay_1", ga_out)
+    ; ga_out = AF_Module_DelayMono_A("Synth_2::Delay_1", ga_out)
 
 
     // Master FX ...
 
-    k_synth2Mix = AF_Module_Volume_A:k("Master_FX::Synth2Mix_1")
+    ; k_synth2Mix = AF_Module_Volume_A:k("Master_FX::Synth2Mix_1")
+    k_synth2Mix = 0.3
 
     ga_out *= k_synth2Mix
 
@@ -175,8 +176,8 @@ instr $AlwaysOnInstrumentNumber
 
     // UI updates ...
 
-    processSelectedChannels()
-    updateModVisibilityChannels()
+    ; processSelectedChannels()
+    ; updateModVisibilityChannels()
 endin
 
 
@@ -245,9 +246,9 @@ end:
 endin
 
 
-{{InitializeModule "DelayMono_A"          "Piano_FX::Delay_1"}}
-{{InitializeModule "DelayStereo_A"        "Piano_FX::Delay_2"}}
-{{InitializeModule "Volume_A"             "Piano_FX::Volume_1"}}
+; {{InitializeModule "DelayMono_A"          "Piano_FX::Delay_1"}}
+; {{InitializeModule "DelayStereo_A"        "Piano_FX::Delay_2"}}
+; {{InitializeModule "Volume_A"             "Piano_FX::Volume_1"}}
 
 {{InitializeModule "LFO_A"                "Common::LFO_G1"}}
 {{InitializeModule "LFO_A"                "Common::LFO_G2"}}
@@ -261,19 +262,19 @@ endin
 {{InitializeModule "Source_A"             "Synth_2::Source_3"}}
 {{InitializeModule "Source_A"             "Synth_2::Source_4"}}
 {{InitializeModule "Envelope_A"           "Synth_2::Envelope_1"}}
-{{InitializeModule "Filter_A"             "Synth_2::Filter_1"}}
-{{InitializeModule "PolyphonyControl_B"   "Synth_2::Polyphony_2"}}
+; {{InitializeModule "Filter_A"             "Synth_2::Filter_1"}}
+; {{InitializeModule "PolyphonyControl_B"   "Synth_2::Polyphony_2"}}
 {{InitializeModule "Volume_A"             "Synth_2::Volume_1"}}
-{{InitializeModule "Offset_A"             "Synth_2::VolumeOffset_1"}}
-{{InitializeModule "Clamp_A"              "Synth_2::VolumeClamp_1"}}
-{{InitializeModule "DelayMono_A"          "Synth_2::Delay_1"}}
+; {{InitializeModule "Offset_A"             "Synth_2::VolumeOffset_1"}}
+; {{InitializeModule "Clamp_A"              "Synth_2::VolumeClamp_1"}}
+; {{InitializeModule "DelayMono_A"          "Synth_2::Delay_1"}}
 
-{{InitializeModule "Volume_A"             "Master_FX::PianoMix_1"}}
-{{InitializeModule "Volume_A"             "Master_FX::Synth2Mix_1"}}
-{{InitializeModule "Volume_A"             "Master_FX::PianoReverb_1"}}
-{{InitializeModule "Volume_A"             "Master_FX::Synth1Reverb_1"}}
-{{InitializeModule "Volume_A"             "Master_FX::Synth2Reverb_1"}}
-{{InitializeModule "Reverb_A"             "Master_FX::Reverb_1"}}
+; {{InitializeModule "Volume_A"             "Master_FX::PianoMix_1"}}
+; {{InitializeModule "Volume_A"             "Master_FX::Synth2Mix_1"}}
+; {{InitializeModule "Volume_A"             "Master_FX::PianoReverb_1"}}
+; {{InitializeModule "Volume_A"             "Master_FX::Synth1Reverb_1"}}
+; {{InitializeModule "Volume_A"             "Master_FX::Synth2Reverb_1"}}
+; {{InitializeModule "Reverb_A"             "Master_FX::Reverb_1"}}
 
 
 </CsInstruments>
