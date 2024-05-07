@@ -6,7 +6,7 @@ include(FetchContent)
 FetchContent_Declare(
     CsoundTemplating
     GIT_REPOSITORY git@github.com:docEdub/CsoundTemplating.git
-    GIT_TAG a3f16b7b5b0832627ca2d55376d34ba3e1703927
+    GIT_TAG d0fead6865895a6fbf4da633c79212fb25cec4b7
 )
 FetchContent_MakeAvailable(CsoundTemplating)
 
@@ -32,6 +32,7 @@ macro(add_plugin NAME TYPE)
             "modules/polyphony-control-b.orc"
             "modules/reverb-a.orc"
             "modules/source-a.orc"
+            "modules/source-b.orc"
             "modules/volume-a.orc"
         JSON
             "modules/clamp-a.json"
@@ -47,6 +48,7 @@ macro(add_plugin NAME TYPE)
             "modules/polyphony-control-b.json"
             "modules/reverb-a.json"
             "modules/source-a.json"
+            "modules/source-b.json"
             "modules/volume-a.json"
             "shared/common-ui-types.json"
             "shared/module-constants.json"
@@ -94,6 +96,15 @@ endmacro()
 add_csound_templates(
     PACKAGES
         cabbage-core
+    JSON
+        "3rdparty/Vendaval.json"
+    EFFECT_SOURCES
+        "3rdparty/Vendaval.csd"
+)
+
+add_csound_templates(
+    PACKAGES
+        cabbage-core
         cabbage-tab-group
         csound-core
     JSON
@@ -104,8 +115,61 @@ add_csound_templates(
         "combos/body-tracking-a1.csd"
 )
 
+add_csound_templates(
+    PACKAGES
+        cabbage-core
+        cabbage-tab-group
+        csound-core
+        csound-module
+    EFFECT_SOURCES
+        "effects/reverb-a1.csd"
+    JSON
+        "effects/reverb-a1.json"
+
+        "modules/reverb-a.json"
+        "shared/common-ui-types.json"
+        "shared/module-constants.json"
+        "shared/module-ui-types.json"
+        "styles/default.json"
+    OPCODES
+        "modules/reverb-a.orc"
+)
+
+add_csound_templates(
+    PACKAGES
+        cabbage-core
+        cabbage-tab-group
+        csound-core
+        csound-module
+    EFFECT_SOURCES
+        "instruments/hand-grains-a4.csd"
+    JSON
+        "instruments/hand-grains-a4.json"
+
+        "modules/diskgrain-a.json"
+        "shared/common-ui-types.json"
+        "shared/module-constants.json"
+        "shared/module-ui-types.json"
+        "styles/default.json"
+    OPCODES
+        "modules/diskgrain-a.orc"
+)
+
+add_csound_templates(
+    PACKAGES
+        cabbage-core
+        csound-core
+    JSON
+        "shared/common-ui-types.json"
+        "styles/default.json"
+        "instruments/hand-sines-a3.json"
+    EFFECT_SOURCES
+        "instruments/hand-sines-a3.csd"
+)
+
 add_combo("combo-a1")
 # add_combo("combo-a2")
+add_combo("combo-b1")
 
 # add_instrument("synth-a1")
 # add_instrument("synth-a2")

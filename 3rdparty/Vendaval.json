@@ -1,0 +1,10 @@
+{
+    "ui": {
+        "type": "combo-form",
+        "name": "Unused",
+        "id": "----",
+        "width": 1,
+        "height": 1,
+        "children": []
+    }
+}

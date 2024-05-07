@@ -6,7 +6,7 @@
         "type": "combo-form",
         "name": "Combo A1",
         "id": "c:a1",
-        "width": 1200,
+        "width": 1205,
         "height": 625,
         "children": [
             {
@@ -157,6 +157,15 @@
                                             {
                                                 "type": "clamp-a-module",
                                                 "name": "VolumeClamp_1"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "type": "module-group",
+                                        "children": [
+                                            {
+                                                "type": "delay-mono-a-module",
+                                                "name": "Delay_1"
                                             }
                                         ]
                                     }

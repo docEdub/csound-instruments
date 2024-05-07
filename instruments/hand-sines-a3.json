@@ -1,0 +1,13 @@
+{
+    "cabbage-output-config": {
+        "debug": false
+    },
+    "ui": {
+        "type": "form",
+        "name": "Hand Sines A3",
+        "id": "i:a3",
+        "width": 1200,
+        "height": 625,
+        "children": [{ "type": "styled-console", "width": "100%", "height": "100%" }]
+    }
+}

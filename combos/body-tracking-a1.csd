@@ -77,6 +77,7 @@ instr AF_BodyTracking_A1_alwayson
         k_isBodyTrackingActive = $false
         {{LogDebug_k '("k_isBodyTrackingActive = %d", k_isBodyTrackingActive)'}}
     endif
+    ; k_isBodyTrackingActive = 2
 
     if (k_isBodyTrackingActive == 2) then
         k_leftWrist[0] = k_trackedLeftWrist[0]

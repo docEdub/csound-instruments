@@ -220,6 +220,14 @@
             "extends": "styled-spacer",
             "width": "100%",
             "height": "((tryInherit('row-height') ?? 27) / 2)"
+        },
+        {
+            "type": "module-text-input-popup",
+            "extends": "styled-text-input",
+            "width": "100%",
+            "height": "(inherit('row-height'))",
+            "comment": "(json['label'])",
+            "value-channel": "(inherit('channel-prefix') + '::' + json['label'])"
         }
     ]
 }

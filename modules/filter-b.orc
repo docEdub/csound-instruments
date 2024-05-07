@@ -21,10 +21,11 @@ gi_{{Module_private}}_frequencyChannelMap[] = fillarray(
 /// Filter module with several options implemented using the `zdf_2pole` opcode.
 /// @param 1 String channel prefix used for host automation parameters.
 /// @param 2 A-rate input signal.
+/// @param 3 Optional flag indicating whether the module is controlled by MIDI (default = true).
 /// @out A-rate envelope.
 ///
-opcode {{Module_public}}, a, Sa
-    S_channelPrefix, a_in xin
+opcode {{Module_public}}, a, Sap
+    S_channelPrefix, a_in, i_isMidi xin
     i_instanceIndex = {{hostValueGet}}:i(S_channelPrefix)
 
     if ({{moduleGet:k 'Enabled'}} == $false) then
@@ -35,7 +36,7 @@ opcode {{Module_public}}, a, Sa
     i_hostFilterType        = {{moduleGet:i 'FilterType'}}
     k_hostQ                 = {{moduleGet:k 'Q'}}
 
-    k_frequency = _af_shared_filter_frequency:k(gS_{{Module_private}}_channels, i_instanceIndex, gi_{{Module_private}}_frequencyChannelMap)
+    k_frequency = _af_shared_filter_frequency:k(gS_{{Module_private}}_channels, i_instanceIndex, gi_{{Module_private}}_frequencyChannelMap, i_isMidi)
     i_mode = \
         i_hostFilterType == {{FilterType.LowPass}} ? {{../zdf_2pole.Mode.LowPass}} : \
         i_hostFilterType == {{FilterType.HighPass}} ? {{../zdf_2pole.Mode.HighPass}} : \
