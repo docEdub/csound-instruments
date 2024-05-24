@@ -1,0 +1,50 @@
+{
+    "cabbage-output-config": {
+        "debug": false
+    },
+    "ui": {
+        "type": "combo-form",
+        "name": "Body Tracking B1",
+        "id": "btb1",
+        "width": 1200,
+        "height": 625,
+        "layout": "TopToBottom",
+        "children": [
+            {
+                "type": "styled-group",
+                "width": "100%",
+                "height": "50%",
+                "layout": "LeftToRight",
+                "children": [
+                    {
+                        "type": "styled-button",
+                        "text": "Hands",
+                        "width": "50%",
+                        "height": "100%",
+                        "color-active": "black",
+                        "color-inactive": "black",
+                        "background-color-active": "red",
+                        "background-color-inactive": "rgb(127, 255, 127)",
+                        "font-size": "20px"
+                    },
+                    {
+                        "type": "styled-button",
+                        "text": "Head",
+                        "width": "50%",
+                        "height": "100%",
+                        "color-active": "black",
+                        "color-inactive": "black",
+                        "background-color-active": "red",
+                        "background-color-inactive": "rgb(255, 255, 127)",
+                        "font-size": "20px"
+                    }
+                ]
+            },
+            {
+                "type": "styled-console",
+                "width": "100%",
+                "height": "50%"
+            }
+        ]
+    }
+}
