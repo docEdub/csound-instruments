@@ -11,34 +11,16 @@
         "layout": "TopToBottom",
         "children": [
             {
-                "type": "styled-group",
+                "type": "styled-button",
+                "text": "Set initial pose",
+                "channel": "(json['text'])",
                 "width": "100%",
                 "height": "50%",
-                "layout": "LeftToRight",
-                "children": [
-                    {
-                        "type": "styled-button",
-                        "text": "Hands",
-                        "width": "50%",
-                        "height": "100%",
-                        "color-active": "black",
-                        "color-inactive": "black",
-                        "background-color-active": "red",
-                        "background-color-inactive": "rgb(127, 255, 127)",
-                        "font-size": "20px"
-                    },
-                    {
-                        "type": "styled-button",
-                        "text": "Head",
-                        "width": "50%",
-                        "height": "100%",
-                        "color-active": "black",
-                        "color-inactive": "black",
-                        "background-color-active": "red",
-                        "background-color-inactive": "rgb(255, 255, 127)",
-                        "font-size": "20px"
-                    }
-                ]
+                "color-active": "black",
+                "color-inactive": "black",
+                "background-color-active": "red",
+                "background-color-inactive": "rgb(127, 255, 127)",
+                "font-size": "20px"
             },
             {
                 "type": "styled-console",
