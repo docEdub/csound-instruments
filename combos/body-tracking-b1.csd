@@ -78,7 +78,7 @@ instr $I_SetInitialPose
         // Calculate initial pose transform's translation and rotation.
         k_translation[] = (gk_L1_tip + gk_R1_tip) / 2
         k_rotation[] fillarray 0, 0, 0
-        k_rotation[2] = taninv2(gk_R1_tip[1] - gk_L1_tip[1], gk_R1_tip[0] - gk_L1_tip[0])
+        k_rotation[2] = -taninv2(gk_R1_tip[1] - gk_L1_tip[1], gk_R1_tip[0] - gk_L1_tip[0])
 
         {{LogDebug_k '("Translation = [%.3f, %.3f, %.3f]", k_translation[0], k_translation[1], k_translation[2])'}}
         {{LogDebug_k '("Rotation = %.3f", 360 * (k_rotation[2] / (2 * $M_PI)))'}}
@@ -87,9 +87,9 @@ instr $I_SetInitialPose
         gk_initialHead_position = websocket_getArray_k(i_websocketPort, $Channel_Head_position)
         gk_initialHead_rotation = websocket_getArray_k(i_websocketPort, $Channel_Head_rotation)
         gk_initialPose_transform = DaGLMath_Mat4_fromEulerAnglesXYZ(k_rotation)
-        gk_initialPose_transform[12] = k_translation[0]
-        gk_initialPose_transform[13] = k_translation[1]
-        gk_initialPose_transform[14] = k_translation[2]
+        gk_initialPose_transform[12] = -k_translation[0]
+        gk_initialPose_transform[13] = -k_translation[1]
+        gk_initialPose_transform[14] = -k_translation[2]
 
         {{LogDebug_k '("Initial head position: [%.3f, %.3f, %.3f]", gk_initialHead_position[0], gk_initialHead_position[1], gk_initialHead_position[2])'}}
         {{LogDebug_k '("Initial head rotation: [%.3f, %.3f, %.3f]", gk_initialHead_rotation[0], gk_initialHead_rotation[1], gk_initialHead_rotation[2])'}}
@@ -111,6 +111,15 @@ instr $I_SendPoseOffsets
     ;     k_tick += 1
     ; endif
 
+    k_L1_tip[] = DaGLMath_Mat4_multiplyVec3(gk_L1_tip, gk_initialPose_transform)
+    k_R1_tip[] = DaGLMath_Mat4_multiplyVec3(gk_R1_tip, gk_initialPose_transform)
+
+    if (metro($metro_OneTickEverySecond) == $true) then
+        if (changed2(k_L1_tip) == $true || changed2(k_R1_tip) == $true) then
+            {{LogDebug_k '("L1 tip = [%.3f, %.3f, %.3f], R1 tip = [%.3f, %.3f, %.3f]", k_L1_tip[0], k_L1_tip[1], k_L1_tip[2], k_R1_tip[0], k_R1_tip[1], k_R1_tip[2])'}}
+        endif
+    endif
+
     k_setInitialPose = cabbageGetValue:k($Channel_SetInitialPoseButton)
     if (k_setInitialPose == $true) then
         turnoff()
@@ -125,6 +134,12 @@ instr $I_AlwaysOn
     gk_L2_tip = websocket_getArray_k(i_websocketPort, $Channel_L2_tip)
     gk_R1_tip = websocket_getArray_k(i_websocketPort, $Channel_R1_tip)
     gk_R2_tip = websocket_getArray_k(i_websocketPort, $Channel_R2_tip)
+
+    ; if (metro($metro_OneTickEverySecond) == $true) then
+    ;     if (changed2(gk_L1_tip) == $true || changed2(gk_R1_tip) == $true) then
+    ;         {{LogDebug_k '("L1 tip = [%.3f, %.3f, %.3f], R1 tip = [%.3f, %.3f, %.3f]", gk_L1_tip[0], gk_L1_tip[1], gk_L1_tip[2], gk_R1_tip[0], gk_R1_tip[1], gk_R1_tip[2])'}}
+    ;     endif
+    ; endif
 
     k_iteration init 0
 
