@@ -383,12 +383,14 @@ instr $I_SetInitialPose
         k_tick += 1
     endif
 
+    k_pinchDetected init $false
     if (k_pinchDistanceL < $PinchDistanceThreshold && k_pinchDistanceR < $PinchDistanceThreshold) then
-        cabbageSetValue($Channel_SetInitialPoseButton, k($false))
+        k_pinchDetected = $true
     endif
 
-    k_setInitialPose = cabbageGetValue:k($Channel_SetInitialPoseButton)
-    if (k_setInitialPose == $false) then
+    // Only update the initial pose if a pinch is detected.
+    // This allows the user to press the "Set initial pose" button again to cancel the operation.
+    if (k_pinchDetected == $true) then
         k_headPosition[] init 3
         k_headRotation[] init 3
 
@@ -405,6 +407,12 @@ instr $I_SetInitialPose
         setInitialPoseChannelValues()
         printInitialPoseValues()
 
+        // Turn the "Set initial pose" button off programmatically.
+        cabbageSetValue($Channel_SetInitialPoseButton, k($false))
+    endif
+
+    k_setInitialPose = cabbageGetValue:k($Channel_SetInitialPoseButton)
+    if (k_setInitialPose == $false) then
         turnoff()
     endif
 endin
