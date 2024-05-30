@@ -459,7 +459,8 @@ instr $I_SendPoseOffsets
     endif
 
     k_isRecording = chnget:k("IS_RECORDING")
-    if (k_isRecording == $false) then
+    k_isPlaying = chnget:k("IS_PLAYING")
+    if (k_isRecording == $false && k_isPlaying == $true) then
         turnoff()
     endif
 endin
@@ -469,7 +470,8 @@ instr $I_PassThrough
     outs(inch(1), inch(2))
 
     k_isRecording = chnget:k("IS_RECORDING")
-    if (k_isRecording == $true) then
+    k_isPlaying = chnget:k("IS_PLAYING")
+    if (k_isRecording == $true || k_isPlaying == $false) then
         turnoff()
     endif
 endin
@@ -480,15 +482,17 @@ instr $I_AlwaysOn
 
     k_setInitialPose = cabbageGetValue:k($Channel_SetInitialPoseButton)
     k_isRecording = chnget:k("IS_RECORDING")
-    if (changed2(k_setInitialPose) == $true || changed2(k_isRecording) == $true || k_iteration == 0) then
+    k_isPlaying = chnget:k("IS_PLAYING")
+    if (changed2(k_setInitialPose) == $true || changed2(k_isRecording) == $true || changed2(k_isPlaying) == $true || k_iteration == 0) then
         {{LogDebug_k '("k_setInitialPose = %d", k_setInitialPose)'}}
         {{LogDebug_k '("k_isRecording    = %d", k_isRecording)'}}
+        {{LogDebug_k '("k_isPlaying      = %d", k_isPlaying)'}}
 
 
         if (k_setInitialPose == $true) then
             event("i", $I_SetInitialPose, 0, -1)
         else
-            if (k_isRecording == $true) then
+            if (k_isRecording == $true || k_isPlaying == $false) then
                 event("i", $I_SendPoseOffsets, 0, -1)
             else
                 event("i", $I_PassThrough, 0, -1)
