@@ -16,7 +16,6 @@ nchnls_i = 2
 
 {{CsInstruments}}
 
-#define I_MidiNote #2#
 #define I_SetInitialPose #3#
 #define I_SendPoseOffsets #4#
 #define I_AlwaysOn #5#
@@ -38,9 +37,6 @@ nchnls_i = 2
 #define metro_OneTickEveryTenSeconds #0.1#
 #define metro_SkipFirstTick #0.00000001#
 
-massign 0, $I_MidiNote
-pgmassign 0, 0
-
 gk_websocketPort init 12345
 gk_initialHead_position[] init 3
 gk_initialHead_rotation[] init 3
@@ -50,9 +46,6 @@ gk_L2_tip[] init 3
 gk_R1_tip[] init 3
 gk_L1_tip[] init 3
 gk_R2_tip[] init 3
-
-instr $I_MidiNote
-endin
 
 
 instr $I_SetInitialPose
