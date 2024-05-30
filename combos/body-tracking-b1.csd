@@ -23,12 +23,13 @@ nchnls_i = 2
 
 #define Channel_SetInitialPoseButton #"Set initial pose"#
 
-#define Channel_Head_position #"/head/position"#
-#define Channel_Head_rotation #"/head/rotation"#
-#define Channel_L1_tip #"/hands/left/finger/1/tip/position"#
-#define Channel_L2_tip #"/hands/left/finger/2/tip/position"#
-#define Channel_R1_tip #"/hands/right/finger/1/tip/position"#
-#define Channel_R2_tip #"/hands/right/finger/2/tip/position"#
+#define WebSocketPath_Head_position #"/head/position"#
+#define WebSocketPath_Head_rotation #"/head/rotation"#
+
+#define WebSocketPath_L1_tip #"/hands/left/finger/1/tip/position"#
+#define WebSocketPath_L2_tip #"/hands/left/finger/2/tip/position"#
+#define WebSocketPath_R1_tip #"/hands/right/finger/1/tip/position"#
+#define WebSocketPath_R2_tip #"/hands/right/finger/2/tip/position"#
 
 #define PinchDistanceThreshold #0.015#
 
@@ -84,8 +85,8 @@ instr $I_SetInitialPose
         {{LogDebug_k '("Rotation = %.3f", 360 * (k_rotation[2] / (2 * $M_PI)))'}}
 
         // Update global pose variables.
-        gk_initialHead_position = websocket_getArray_k(i_websocketPort, $Channel_Head_position)
-        gk_initialHead_rotation = websocket_getArray_k(i_websocketPort, $Channel_Head_rotation)
+        gk_initialHead_position = websocket_getArray_k(i_websocketPort, $WebSocketPath_Head_position)
+        gk_initialHead_rotation = websocket_getArray_k(i_websocketPort, $WebSocketPath_Head_rotation)
         gk_initialPose_transform = DaGLMath_Mat4_fromEulerAnglesXYZ(k_rotation)
         gk_initialPose_transform[12] = -k_translation[0]
         gk_initialPose_transform[13] = -k_translation[1]
@@ -130,10 +131,10 @@ endin
 instr $I_AlwaysOn
     i_websocketPort = i(gk_websocketPort)
 
-    gk_L1_tip = websocket_getArray_k(i_websocketPort, $Channel_L1_tip)
-    gk_L2_tip = websocket_getArray_k(i_websocketPort, $Channel_L2_tip)
-    gk_R1_tip = websocket_getArray_k(i_websocketPort, $Channel_R1_tip)
-    gk_R2_tip = websocket_getArray_k(i_websocketPort, $Channel_R2_tip)
+    gk_L1_tip = websocket_getArray_k(i_websocketPort, $WebSocketPath_L1_tip)
+    gk_L2_tip = websocket_getArray_k(i_websocketPort, $WebSocketPath_L2_tip)
+    gk_R1_tip = websocket_getArray_k(i_websocketPort, $WebSocketPath_R1_tip)
+    gk_R2_tip = websocket_getArray_k(i_websocketPort, $WebSocketPath_R2_tip)
 
     ; if (metro($metro_OneTickEverySecond) == $true) then
     ;     if (changed2(gk_L1_tip) == $true || changed2(gk_R1_tip) == $true) then
