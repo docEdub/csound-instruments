@@ -7,7 +7,7 @@
 <CsInstruments>
 
 {{Enable-LogTrace false}}
-{{Enable-LogDebug false}}
+{{Enable-LogDebug true}}
 
 sr = {{sr}}
 ksmps = 1
