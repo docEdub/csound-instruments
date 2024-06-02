@@ -54,19 +54,21 @@ instr $AlwaysOnInstrumentNumber
 
     a_bodyTrackingData_L = inch(1)
     a_bodyTrackingData_R = inch(2)
-    k_bodyTrackingId init -1
+    k_bodyTrackingIndex init -1
     k_bodyTrackingData_L[] init 78
     k_bodyTrackingData_R[] init 78
     ki = 0
     while (ki < ksmps) do
-        k_bodyTrackingValue = vaget(ki, a_bodyTrackingData)
-        if (k_bodyTrackingValue > 0.9999) then
-            k_bodyTrackingId = 0
-        elseif (k_bodyTrackingValue < -0.9999) then
-            k_bodyTrackingId = -1
-        elseif (k_bodyTrackingId >= 0 && k_bodyTrackingId < 80) then
-            k_bodyTrackingData[k_bodyTrackingId] = k_bodyTrackingValue
-            k_bodyTrackingId += 1
+        k_bodyTrackingValue_L = vaget(ki, a_bodyTrackingData_L)
+        k_bodyTrackingValue_R = vaget(ki, a_bodyTrackingData_R)
+        if (k_bodyTrackingValue_L > 0.9999) then
+            k_bodyTrackingIndex = 0
+        elseif (k_bodyTrackingValue_L < -0.9999) then
+            k_bodyTrackingIndex = -1
+        elseif (k_bodyTrackingIndex >= 0 && k_bodyTrackingIndex < 78) then
+            k_bodyTrackingData_L[k_bodyTrackingIndex] = k_bodyTrackingValue_L
+            k_bodyTrackingData_R[k_bodyTrackingIndex] = k_bodyTrackingValue_R
+            k_bodyTrackingIndex += 1
         endif
         ki += 1
     od

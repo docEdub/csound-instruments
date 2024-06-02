@@ -14,45 +14,45 @@ macro(add_plugin NAME TYPE)
     add_csound_templates(
         PACKAGES
             cabbage-core
-            # cabbage-tab-group
+            cabbage-tab-group
             csound-core
-            # csound-module
+            csound-module
         OPCODES
-            # "modules/shared/filter.orc"
-            # "modules/clamp-a.orc"
-            # "modules/delay-mono-a.orc"
-            # "modules/delay-stereo-a.orc"
-            # "modules/envelope-a.orc"
-            # "modules/filter-a.orc"
-            # "modules/filter-b.orc"
-            # "modules/lfo-a.orc"
-            # "modules/midi-key-range-a.orc"
-            # "modules/midi-key-transpose-a.orc"
-            # "modules/offset-a.orc"
-            # "modules/polyphony-control-b.orc"
-            # "modules/reverb-a.orc"
-            # "modules/source-a.orc"
-            # "modules/source-b.orc"
-            # "modules/volume-a.orc"
+            "modules/shared/filter.orc"
+            "modules/clamp-a.orc"
+            "modules/delay-mono-a.orc"
+            "modules/delay-stereo-a.orc"
+            "modules/envelope-a.orc"
+            "modules/filter-a.orc"
+            "modules/filter-b.orc"
+            "modules/lfo-a.orc"
+            "modules/midi-key-range-a.orc"
+            "modules/midi-key-transpose-a.orc"
+            "modules/offset-a.orc"
+            "modules/polyphony-control-b.orc"
+            "modules/reverb-a.orc"
+            "modules/source-a.orc"
+            "modules/source-b.orc"
+            "modules/volume-a.orc"
         JSON
-            # "modules/clamp-a.json"
-            # "modules/delay-mono-a.json"
-            # "modules/delay-stereo-a.json"
-            # "modules/envelope-a.json"
-            # "modules/filter-a.json"
-            # "modules/filter-b.json"
-            # "modules/lfo-a.json"
-            # "modules/midi-key-range-a.json"
-            # "modules/midi-key-transpose-a.json"
-            # "modules/offset-a.json"
-            # "modules/polyphony-control-b.json"
-            # "modules/reverb-a.json"
-            # "modules/source-a.json"
-            # "modules/source-b.json"
-            # "modules/volume-a.json"
+            "modules/clamp-a.json"
+            "modules/delay-mono-a.json"
+            "modules/delay-stereo-a.json"
+            "modules/envelope-a.json"
+            "modules/filter-a.json"
+            "modules/filter-b.json"
+            "modules/lfo-a.json"
+            "modules/midi-key-range-a.json"
+            "modules/midi-key-transpose-a.json"
+            "modules/offset-a.json"
+            "modules/polyphony-control-b.json"
+            "modules/reverb-a.json"
+            "modules/source-a.json"
+            "modules/source-b.json"
+            "modules/volume-a.json"
             "shared/common-ui-types.json"
-            # "shared/module-constants.json"
-            # "shared/module-ui-types.json"
+            "shared/module-constants.json"
+            "shared/module-ui-types.json"
             "styles/default.json"
             "${NAME}.json"
         ${TYPE}_SOURCES
@@ -60,24 +60,24 @@ macro(add_plugin NAME TYPE)
     )
 endmacro()
 
-# macro(add_module_test NAME)
-#     add_csound_templates(
-#         PACKAGES
-#             cabbage-core
-#             csound-core
-#             csound-module
-#             csound-test
-#         OPCODES
-#             "modules/${NAME}.orc"
-#         JSON
-#             "modules/${NAME}.json"
-#         EFFECT_SOURCES
-#             "tests/modules/${NAME}--test.csd"
-#         NO_CABBAGE_PLUGIN
-#     )
+macro(add_module_test NAME)
+    add_csound_templates(
+        PACKAGES
+            cabbage-core
+            csound-core
+            csound-module
+            csound-test
+        OPCODES
+            "modules/${NAME}.orc"
+        JSON
+            "modules/${NAME}.json"
+        EFFECT_SOURCES
+            "tests/modules/${NAME}--test.csd"
+        NO_CABBAGE_PLUGIN
+    )
 
-#     add_test(NAME "${NAME}" COMMAND csound "${CMAKE_CURRENT_BINARY_DIR}/.output/tests/modules/${NAME}--test.csd")
-# endmacro()
+    add_test(NAME "${NAME}" COMMAND csound "${CMAKE_CURRENT_BINARY_DIR}/.output/tests/modules/${NAME}--test.csd")
+endmacro()
 
 macro(add_combo NAME)
     add_plugin("combos/${NAME}" "EFFECT")
@@ -93,14 +93,14 @@ endmacro()
 
 #######################################################################################################################
 
-# add_csound_templates(
-#     PACKAGES
-#         cabbage-core
-#     JSON
-#         "3rdparty/Vendaval.json"s
-#     EFFECT_SOURCES
-#         "3rdparty/Vendaval.csd"
-# )
+add_csound_templates(
+    PACKAGES
+        cabbage-core
+    JSON
+        "3rdparty/Vendaval.json"
+    EFFECT_SOURCES
+        "3rdparty/Vendaval.csd"
+)
 
 add_csound_templates(
     PACKAGES
@@ -115,25 +115,25 @@ add_csound_templates(
         "combos/body-tracking-b1.csd"
 )
 
-# add_csound_templates(
-#     PACKAGES
-#         cabbage-core
-#         cabbage-tab-group
-#         csound-core
-#         csound-module
-#     EFFECT_SOURCES
-#         "effects/reverb-a1.csd"
-#     JSON
-#         "effects/reverb-a1.json"
+add_csound_templates(
+    PACKAGES
+        cabbage-core
+        cabbage-tab-group
+        csound-core
+        csound-module
+    EFFECT_SOURCES
+        "effects/reverb-a1.csd"
+    JSON
+        "effects/reverb-a1.json"
 
-#         "modules/reverb-a.json"
-#         "shared/common-ui-types.json"
-#         "shared/module-constants.json"
-#         "shared/module-ui-types.json"
-#         "styles/default.json"
-#     OPCODES
-#         "modules/reverb-a.orc"
-# )
+        "modules/reverb-a.json"
+        "shared/common-ui-types.json"
+        "shared/module-constants.json"
+        "shared/module-ui-types.json"
+        "styles/default.json"
+    OPCODES
+        "modules/reverb-a.orc"
+)
 
 # add_csound_templates(
 #     PACKAGES
@@ -167,7 +167,7 @@ add_csound_templates(
 #         "instruments/hand-sines-a3.csd"
 # )
 
-# add_combo("combo-a1")
+add_combo("combo-a1")
 # add_combo("combo-a2")
 # add_combo("combo-b1")
 
