@@ -505,7 +505,6 @@ instr $I_AlwaysOn
         {{LogDebug_k '("k_isRecording    = %d", k_isRecording)'}}
         {{LogDebug_k '("k_isPlaying      = %d", k_isPlaying)'}}
 
-
         if (k_setInitialPose == $true) then
             event("i", $I_SetInitialPose, 0, -1)
         else
