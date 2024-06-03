@@ -34,6 +34,7 @@ macro(add_plugin NAME TYPE)
             "modules/source-a.orc"
             "modules/source-b.orc"
             "modules/volume-a.orc"
+            "shared/csound/macros/common-body-tracking-macros.orc"
         JSON
             "modules/clamp-a.json"
             "modules/delay-mono-a.json"
@@ -50,9 +51,9 @@ macro(add_plugin NAME TYPE)
             "modules/source-a.json"
             "modules/source-b.json"
             "modules/volume-a.json"
-            "shared/common-ui-types.json"
-            "shared/module-constants.json"
-            "shared/module-ui-types.json"
+            "shared/json/common-ui-types.json"
+            "shared/json/module-constants.json"
+            "shared/json/module-ui-types.json"
             "styles/default.json"
             "${NAME}.json"
         ${TYPE}_SOURCES
@@ -107,8 +108,10 @@ add_csound_templates(
         cabbage-core
         # cabbage-tab-group
         csound-core
+    OPCODES
+        "shared/csound/macros/common-body-tracking-macros.orc"
     JSON
-        "shared/common-ui-types.json"
+        "shared/json/common-ui-types.json"
         "styles/default.json"
         "combos/body-tracking-b1.json"
     EFFECT_SOURCES
@@ -127,9 +130,9 @@ add_csound_templates(
         "effects/reverb-a1.json"
 
         "modules/reverb-a.json"
-        "shared/common-ui-types.json"
-        "shared/module-constants.json"
-        "shared/module-ui-types.json"
+        "shared/json/common-ui-types.json"
+        "shared/json/module-constants.json"
+        "shared/json/module-ui-types.json"
         "styles/default.json"
     OPCODES
         "modules/reverb-a.orc"
@@ -147,9 +150,9 @@ add_csound_templates(
 #         "instruments/hand-grains-a4.json"
 
 #         "modules/diskgrain-a.json"
-#         "shared/common-ui-types.json"
-#         "shared/module-constants.json"
-#         "shared/module-ui-types.json"
+#         "shared/json/common-ui-types.json"
+#         "shared/json/module-constants.json"
+#         "shared/json/module-ui-types.json"
 #         "styles/default.json"
 #     OPCODES
 #         "modules/diskgrain-a.orc"
@@ -160,7 +163,7 @@ add_csound_templates(
 #         cabbage-core
 #         csound-core
 #     JSON
-#         "shared/common-ui-types.json"
+#         "shared/json/common-ui-types.json"
 #         "styles/default.json"
 #         "instruments/hand-sines-a3.json"
 #     EFFECT_SOURCES
