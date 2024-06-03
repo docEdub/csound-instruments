@@ -1,3 +1,5 @@
+{{includeGuardStart}}
+
 
 #define BodyTracking_arrayLength    #78#
 
@@ -161,3 +163,6 @@
 #define WebSocketPath_Head_rotation             #"/head/rotation"#
 
 /// endregion
+
+
+{{includeGuardEnd}}
