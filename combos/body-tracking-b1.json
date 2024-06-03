@@ -1,0 +1,88 @@
+{
+    "cabbage-output-config": {
+        "debug": false
+    },
+    "ui": {
+        "type": "combo-form",
+        "name": "Body Tracking B1",
+        "id": "btb1",
+        "width": 1200,
+        "height": 625,
+        "layout": "TopToBottom",
+        "children": [
+            {
+                "type": "styled-button",
+                "text": "Set initial pose",
+                "channel": "(json['text'])",
+                "width": "100%",
+                "height": "50%",
+                "color-active": "black",
+                "color-inactive": "black",
+                "background-color-active": "red",
+                "background-color-inactive": "rgb(127, 255, 127)",
+                "font-size": "20px",
+                "preset-ignore": true
+            },
+            {
+                "type": "styled-console",
+                "width": "100%",
+                "height": "50%"
+            },
+            {
+                "type": "group",
+                "width": 0,
+                "height": 0,
+                "children": [
+                    {
+                        "type": "number-box-slider",
+                        "channel": "Initial head position x"
+                    },
+                    {
+                        "type": "number-box-slider",
+                        "channel": "Initial head position y"
+                    },
+                    {
+                        "type": "number-box-slider",
+                        "channel": "Initial head position z"
+                    },
+                    {
+                        "type": "number-box-slider",
+                        "channel": "Initial head rotation x"
+                    },
+                    {
+                        "type": "number-box-slider",
+                        "channel": "Initial head rotation y"
+                    },
+                    {
+                        "type": "number-box-slider",
+                        "channel": "Initial head rotation z"
+                    },
+                    {
+                        "type": "number-box-slider",
+                        "channel": "Initial left thumb tip x"
+                    },
+                    {
+                        "type": "number-box-slider",
+                        "channel": "Initial left thumb tip y"
+                    },
+                    {
+                        "type": "number-box-slider",
+                        "channel": "Initial left thumb tip z"
+                    },
+                    {
+                        "type": "number-box-slider",
+                        "channel": "Initial right thumb tip x"
+                    },
+                    {
+                        "type": "number-box-slider",
+                        "channel": "Initial right thumb tip y"
+                    },
+                    {
+                        "type": "number-box-slider",
+                        "channel": "Initial right thumb tip z"
+                    }
+                ]
+            }
+        ]
+    }
+}

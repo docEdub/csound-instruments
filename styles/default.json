@@ -10,6 +10,12 @@
     },
     "uiTypes": [
         {
+            "type": "styled-button",
+            "extends": "button",
+            "border": "(inherit())",
+            "border-color": "(inherit())"
+        },
+        {
             "type": "styled-checkbox",
             "extends": "checkbox",
             "border": "(inherit())",
@@ -130,6 +136,6 @@
             "color": "(Constants.Color.TextInput)",
             "channel": "(json['value-channel'])",
             "automatable": "(parent.json['automatable'] ?? null)"
-}
+        }
     ]
 }

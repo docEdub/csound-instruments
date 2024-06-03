@@ -11,6 +11,9 @@
 {{#with Source_A}}
 
 
+i_dummy = vco2init(31)
+
+
 /// @internal
 opcode {{Module_private}}_audio_generator, a, kkik
     k_amp, k_cps, i_mode, k_pulseWidth xin

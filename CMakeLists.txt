@@ -105,14 +105,14 @@ add_csound_templates(
 add_csound_templates(
     PACKAGES
         cabbage-core
-        cabbage-tab-group
+        # cabbage-tab-group
         csound-core
     JSON
         "shared/common-ui-types.json"
         "styles/default.json"
-        "combos/body-tracking-a1.json"
+        "combos/body-tracking-b1.json"
     EFFECT_SOURCES
-        "combos/body-tracking-a1.csd"
+        "combos/body-tracking-b1.csd"
 )
 
 add_csound_templates(
@@ -135,47 +135,47 @@ add_csound_templates(
         "modules/reverb-a.orc"
 )
 
-add_csound_templates(
-    PACKAGES
-        cabbage-core
-        cabbage-tab-group
-        csound-core
-        csound-module
-    EFFECT_SOURCES
-        "instruments/hand-grains-a4.csd"
-    JSON
-        "instruments/hand-grains-a4.json"
+# add_csound_templates(
+#     PACKAGES
+#         cabbage-core
+#         cabbage-tab-group
+#         csound-core
+#         csound-module
+#     EFFECT_SOURCES
+#         "instruments/hand-grains-a4.csd"
+#     JSON
+#         "instruments/hand-grains-a4.json"
 
-        "modules/diskgrain-a.json"
-        "shared/common-ui-types.json"
-        "shared/module-constants.json"
-        "shared/module-ui-types.json"
-        "styles/default.json"
-    OPCODES
-        "modules/diskgrain-a.orc"
-)
+#         "modules/diskgrain-a.json"
+#         "shared/common-ui-types.json"
+#         "shared/module-constants.json"
+#         "shared/module-ui-types.json"
+#         "styles/default.json"
+#     OPCODES
+#         "modules/diskgrain-a.orc"
+# )
 
-add_csound_templates(
-    PACKAGES
-        cabbage-core
-        csound-core
-    JSON
-        "shared/common-ui-types.json"
-        "styles/default.json"
-        "instruments/hand-sines-a3.json"
-    EFFECT_SOURCES
-        "instruments/hand-sines-a3.csd"
-)
+# add_csound_templates(
+#     PACKAGES
+#         cabbage-core
+#         csound-core
+#     JSON
+#         "shared/common-ui-types.json"
+#         "styles/default.json"
+#         "instruments/hand-sines-a3.json"
+#     EFFECT_SOURCES
+#         "instruments/hand-sines-a3.csd"
+# )
 
 add_combo("combo-a1")
 # add_combo("combo-a2")
-add_combo("combo-b1")
+# add_combo("combo-b1")
 
 # add_instrument("synth-a1")
 # add_instrument("synth-a2")
 
-enable_testing()
-add_module_test("polyphony-control-b")
+# enable_testing()
+# add_module_test("polyphony-control-b")
 
 #######################################################################################################################
 
