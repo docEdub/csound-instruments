@@ -316,10 +316,8 @@ instr $I_SetInitialPose
     k_R1_tip = websocket_getArray_k(i_websocketPort, $WebSocketPath_R1_tip)
     k_R2_tip = websocket_getArray_k(i_websocketPort, $WebSocketPath_R2_tip)
 
-    k_L1to2[] = k_L2_tip - k_L1_tip
-    k_R1to2[] = k_R2_tip - k_R1_tip
-    k_pinchDistanceL = sqrt(k_L1to2[$x] * k_L1to2[$x]) + sqrt(k_L1to2[$y] * k_L1to2[$y]) + sqrt(k_L1to2[$z] * k_L1to2[$z])
-    k_pinchDistanceR = sqrt(k_R1to2[$x] * k_R1to2[$x]) + sqrt(k_R1to2[$y] * k_R1to2[$y]) + sqrt(k_R1to2[$z] * k_R1to2[$z])
+    k_pinchDistanceL = DaGLMath_Vec3_distance(k_L1_tip, k_L2_tip)
+    k_pinchDistanceR = DaGLMath_Vec3_distance(k_R1_tip, k_R2_tip)
 
     k_tick init 1
     if (metro($metro_OneTickEverySecond) == $true) then

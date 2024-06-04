@@ -53,7 +53,6 @@ opcode {{Module_public}}, k, S
     k_finger_1[$y] = k_bodyTrackingData[$IndexOf_1_tip_y]
     k_finger_1[$z] = k_bodyTrackingData[$IndexOf_1_tip_z]
 
-    k_tipToTip[] init 3
     k_distance init 1
     k_isTriggered = $false
 
@@ -62,8 +61,7 @@ opcode {{Module_public}}, k, S
         k_finger_4[$x] = k_bodyTrackingData[$IndexOf_4_tip_x]
         k_finger_4[$y] = k_bodyTrackingData[$IndexOf_4_tip_y]
         k_finger_4[$z] = k_bodyTrackingData[$IndexOf_4_tip_z]
-        k_tipToTip = k_finger_3 - k_finger_4
-        k_distance = sqrt(k_tipToTip[$x] * k_tipToTip[$x] + k_tipToTip[$y] * k_tipToTip[$y] + k_tipToTip[$z] * k_tipToTip[$z])
+        k_distance = DaGLMath_Vec3_distance(k_finger_3, k_finger_4)
         if (k_distance < k_distanceThreshold) then
             k_isTriggered = $true
         endif
@@ -72,8 +70,7 @@ opcode {{Module_public}}, k, S
         k_finger_1[$x] = k_bodyTrackingData[$IndexOf_1_tip_x]
         k_finger_1[$y] = k_bodyTrackingData[$IndexOf_1_tip_y]
         k_finger_1[$z] = k_bodyTrackingData[$IndexOf_1_tip_z]
-        k_tipToTip = k_finger_3 - k_finger_1
-        k_distance = sqrt(k_tipToTip[$x] * k_tipToTip[$x] + k_tipToTip[$y] * k_tipToTip[$y] + k_tipToTip[$z] * k_tipToTip[$z])
+        k_distance = DaGLMath_Vec3_distance(k_finger_3, k_finger_1)
         if (k_distance < k_distanceThreshold) then
             k_isPrimed = $true
         endif
