@@ -97,26 +97,26 @@ endmacro()
 
 #######################################################################################################################
 
-add_csound_templates(
-    PACKAGES
-        cabbage-core
-    JSON
-        "3rdparty/Vendaval.json"
-    EFFECT_SOURCES
-        "3rdparty/Vendaval.csd"
-)
+# add_csound_templates(
+#     PACKAGES
+#         cabbage-core
+#     JSON
+#         "3rdparty/Vendaval.json"
+#     EFFECT_SOURCES
+#         "3rdparty/Vendaval.csd"
+# )
 
 add_csound_templates(
     PACKAGES
         cabbage-core
-        # cabbage-tab-group
         csound-core
     OPCODES
         "shared/csound/macros/common-body-tracking-macros.orc"
+        "shared/csound/macros/common-math-defines.orc"
     JSON
+        "combos/body-tracking-b1.json"
         "shared/json/common-ui-types.json"
         "styles/default.json"
-        "combos/body-tracking-b1.json"
     EFFECT_SOURCES
         "combos/body-tracking-b1.csd"
 )
@@ -124,22 +124,42 @@ add_csound_templates(
 add_csound_templates(
     PACKAGES
         cabbage-core
-        cabbage-tab-group
         csound-core
         csound-module
-    EFFECT_SOURCES
-        "effects/reverb-a1.csd"
+    OPCODES
+        "modules/snap-trigger-a.orc"
+        "shared/csound/macros/common-body-tracking-macros.orc"
+        "shared/csound/macros/common-math-defines.orc"
     JSON
-        "effects/reverb-a1.json"
-
-        "modules/reverb-a.json"
+        "combos/snap-drums-a1.json"
+        "modules/snap-trigger-a.json"
         "shared/json/common-ui-types.json"
         "shared/json/module-constants.json"
         "shared/json/module-ui-types.json"
         "styles/default.json"
-    OPCODES
-        "modules/reverb-a.orc"
+    EFFECT_SOURCES
+        "combos/snap-drums-a1.csd"
 )
+
+# add_csound_templates(
+#     PACKAGES
+#         cabbage-core
+#         cabbage-tab-group
+#         csound-core
+#         csound-module
+#     EFFECT_SOURCES
+#         "effects/reverb-a1.csd"
+#     JSON
+#         "effects/reverb-a1.json"
+
+#         "modules/reverb-a.json"
+#         "shared/json/common-ui-types.json"
+#         "shared/json/module-constants.json"
+#         "shared/json/module-ui-types.json"
+#         "styles/default.json"
+#     OPCODES
+#         "modules/reverb-a.orc"
+# )
 
 # add_csound_templates(
 #     PACKAGES
@@ -173,7 +193,7 @@ add_csound_templates(
 #         "instruments/hand-sines-a3.csd"
 # )
 
-add_combo("combo-a1")
+# add_combo("combo-a1")
 # add_combo("combo-a2")
 # add_combo("combo-b1")
 
