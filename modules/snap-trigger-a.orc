@@ -6,8 +6,8 @@
 
 {{DeclareModule 'SnapTrigger_A'}}
 
-{{Enable-LogTrace true}}
-{{Enable-LogDebug true}}
+{{Enable-LogTrace false}}
+{{Enable-LogDebug false}}
 
 {{#with SnapTrigger_A}}
 
@@ -30,7 +30,8 @@ opcode {{Module_public}}, k, S
 
     k_handChirality         = {{moduleGet:k 'HandChirality'}}
     k_distanceThreshold     = {{moduleGet:k 'DistanceThreshold'}}
-    k_handToHeadDotMin      = {{moduleGet:k 'HandToHeadDotMin'}}
+    k_palmToHeadDotMin      = {{moduleGet:k 'PalmToHeadDotMin'}}
+    k_finger3ToHeadDotMax   = {{moduleGet:k 'Finger3ToHeadDotMax'}}
     k_handSpeedMax          = {{moduleGet:k 'HandSpeedMax'}}
     k_deduplicationTime     = {{moduleGet:k 'DeduplicationTime'}}
 
@@ -119,7 +120,7 @@ opcode {{Module_public}}, k, S
     endif
     ; {{LogDebug_k '("k_handToHead_dot = %f", k_handToHead_dot)'}}
 
-    if (k_handToHead_dot < k_handToHeadDotMin) then
+    if (k_handToHead_dot < k_palmToHeadDotMin) then
         {{LogTrace_k '("Hand is not facing head.")'}}
         kgoto end
     endif
@@ -206,7 +207,7 @@ opcode {{Module_public}}, k, S
         k_finger3ToHead_dot = DaGLMath_Vec3_dot(k_finger_3_normal, k_headToFinger3_normal)
         {{LogDebug_k '("k_finger3ToHead_dot = %f", k_finger3ToHead_dot)'}}
 
-        if (k_finger3ToHead_dot > k_handToHeadDotMin) then
+        if (k_finger3ToHead_dot > k_finger3ToHeadDotMax) then
             {{LogTrace_k '("3rd finger is facing head.")'}}
             k_isPrimed = $false
         endif
