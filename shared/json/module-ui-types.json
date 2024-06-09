@@ -13,6 +13,13 @@
             "row-value-width": "(tryInherit() ?? '60%')"
         },
         {
+            "type": "module-1.5",
+            "extends": "module",
+            "width": "(1.5 * Constants.Module.Width)",
+            "row-label-width": "(tryInherit() ?? '60%')",
+            "row-value-width": "(tryInherit() ?? '40%')"
+        },
+        {
             "type": "module-checkbox",
             "extends": "styled-group",
             "width": "100%",
@@ -23,14 +30,14 @@
             "children": [
                 {
                     "type": "styled-label",
-                    "width": "80%",
+                    "width": "(parent.width - inherit('row-height'))",
                     "height": "100%",
                     "text": "(parent.json['label'] ?? '')",
                     "align": "left"
                 },
                 {
                     "type": "styled-checkbox",
-                    "width": "20%",
+                    "width": "(inherit('row-height'))",
                     "height": "100%",
                     "channel": "(inherit('channel-prefix') + '::' + inherit('value-channel'))",
                     "checked": "(inherit('value-default'))",
