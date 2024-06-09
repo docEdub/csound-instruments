@@ -15,10 +15,15 @@
                 "type": "module-group",
                 "width": "100%",
                 "height": "50%",
+                "layout": "LeftToRight",
                 "children": [
                     {
                         "type": "snap-trigger-a-module",
                         "name": "SnapTrigger_1"
+                    },
+                    {
+                        "type": "snap-trigger-a-module",
+                        "name": "SnapTrigger_2"
                     }
                 ]
             },
