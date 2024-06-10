@@ -55,17 +55,17 @@ instr $AlwaysOnInstrumentNumber
     a_bodyTrackingData_L = inch(1)
     a_bodyTrackingData_R = inch(2)
     k_bodyTrackingIndex init -1
-    k_bodyTrackingData_L[] init 78
-    k_bodyTrackingData_R[] init 78
+    k_bodyTrackingData_L[] init $BodyTracking_arrayLength
+    k_bodyTrackingData_R[] init $BodyTracking_arrayLength
     ki = 0
     while (ki < ksmps) do
         k_bodyTrackingValue_L = vaget(ki, a_bodyTrackingData_L)
         k_bodyTrackingValue_R = vaget(ki, a_bodyTrackingData_R)
-        if (k_bodyTrackingValue_L > 0.9999) then
+        if (k_bodyTrackingValue_L > $BodyTracking_maxValue_withEpsilon) then
             k_bodyTrackingIndex = 0
-        elseif (k_bodyTrackingValue_L < -0.9999) then
+        elseif (k_bodyTrackingValue_L < $BodyTracking_minValue_withEpsilon) then
             k_bodyTrackingIndex = -1
-        elseif (k_bodyTrackingIndex >= 0 && k_bodyTrackingIndex < 78) then
+        elseif (k_bodyTrackingIndex >= 0 && k_bodyTrackingIndex < $BodyTracking_arrayLength) then
             k_bodyTrackingData_L[k_bodyTrackingIndex] = k_bodyTrackingValue_L
             k_bodyTrackingData_R[k_bodyTrackingIndex] = k_bodyTrackingValue_R
             k_bodyTrackingIndex += 1
@@ -73,37 +73,37 @@ instr $AlwaysOnInstrumentNumber
         ki += 1
     od
 
-    k_leftWristX = k_bodyTrackingData_L[0]
-    k_leftWristY = k_bodyTrackingData_L[1]
-    k_leftWristZ = k_bodyTrackingData_L[2]
+    k_leftWristX = k_bodyTrackingData_L[$IndexOf_Wrist_x]
+    k_leftWristY = k_bodyTrackingData_L[$IndexOf_Wrist_y]
+    k_leftWristZ = k_bodyTrackingData_L[$IndexOf_Wrist_z]
 
-    k_leftFingerTip1X = k_bodyTrackingData_L[12]
-    k_leftFingerTip1Y = k_bodyTrackingData_L[13]
+    k_leftFingerTip1X = k_bodyTrackingData_L[$IndexOf_1_tip_x]
+    k_leftFingerTip1Y = k_bodyTrackingData_L[$IndexOf_1_tip_y]
 
-    k_leftFingerTip3X = k_bodyTrackingData_L[42]
-    k_leftFingerTip3Y = k_bodyTrackingData_L[43]
-    k_leftFingerTip3Z = k_bodyTrackingData_L[44]
+    k_leftFingerTip3X = k_bodyTrackingData_L[$IndexOf_3_tip_x]
+    k_leftFingerTip3Y = k_bodyTrackingData_L[$IndexOf_3_tip_y]
+    k_leftFingerTip3Z = k_bodyTrackingData_L[$IndexOf_3_tip_z]
 
-    k_leftFingerTip5X = k_bodyTrackingData_L[72]
-    k_leftFingerTip5Y = k_bodyTrackingData_L[73]
+    k_leftFingerTip5X = k_bodyTrackingData_L[$IndexOf_5_tip_x]
+    k_leftFingerTip5Y = k_bodyTrackingData_L[$IndexOf_5_tip_y]
 
-    k_rightWristX = k_bodyTrackingData_R[0]
-    k_rightWristY = k_bodyTrackingData_R[1]
-    k_rightWristZ = k_bodyTrackingData_R[2]
+    k_rightWristX = k_bodyTrackingData_R[$IndexOf_Wrist_x]
+    k_rightWristY = k_bodyTrackingData_R[$IndexOf_Wrist_y]
+    k_rightWristZ = k_bodyTrackingData_R[$IndexOf_Wrist_z]
 
-    k_rightFingerTip1X = k_bodyTrackingData_R[12]
-    k_rightFingerTip1Y = k_bodyTrackingData_R[13]
+    k_rightFingerTip1X = k_bodyTrackingData_R[$IndexOf_1_tip_x]
+    k_rightFingerTip1Y = k_bodyTrackingData_R[$IndexOf_1_tip_y]
 
-    k_rightFingerTip3X = k_bodyTrackingData_R[42]
-    k_rightFingerTip3Y = k_bodyTrackingData_R[43]
-    k_rightFingerTip3Z = k_bodyTrackingData_R[44]
+    k_rightFingerTip3X = k_bodyTrackingData_R[$IndexOf_3_tip_x]
+    k_rightFingerTip3Y = k_bodyTrackingData_R[$IndexOf_3_tip_y]
+    k_rightFingerTip3Z = k_bodyTrackingData_R[$IndexOf_3_tip_z]
 
-    k_rightFingerTip5X = k_bodyTrackingData_R[72]
-    k_rightFingerTip5Y = k_bodyTrackingData_R[73]
+    k_rightFingerTip5X = k_bodyTrackingData_R[$IndexOf_5_tip_x]
+    k_rightFingerTip5Y = k_bodyTrackingData_R[$IndexOf_5_tip_y]
 
-    k_headPositionX = k_bodyTrackingData_R[75]
-    k_headPositionY = k_bodyTrackingData_R[76]
-    k_headPositionZ = k_bodyTrackingData_R[77]
+    k_headPositionX = k_bodyTrackingData_R[$IndexOf_Head_x]
+    k_headPositionY = k_bodyTrackingData_R[$IndexOf_Head_y]
+    k_headPositionZ = k_bodyTrackingData_R[$IndexOf_Head_z]
 
 
     k_leftAngle = abs(taninv2(k_leftFingerTip5Y - k_leftFingerTip1Y, k_leftFingerTip5X - k_leftFingerTip1X))

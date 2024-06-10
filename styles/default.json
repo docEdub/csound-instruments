@@ -28,8 +28,8 @@
             "extends": "combobox",
             "border": "(inherit())",
             "border-color": "(inherit())",
-            "background-color-active": "(Constants.Color.TextInputBackground)",
-            "background-color-inactive": "(Constants.Color.Inactive)",
+            "background-color": "(Constants.Color.TextInputBackground)",
+            "background-menu-color": "(Constants.Color.TextInputBackground)",
             "color": "(Constants.Color.TextInput)",
             "font-weight": "normal"
         },
