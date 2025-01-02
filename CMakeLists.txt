@@ -105,14 +105,14 @@ add_csound_templates(
 add_csound_templates(
     PACKAGES
         cabbage-core
-        cabbage-tab-group
+        # cabbage-tab-group
         csound-core
     JSON
         "shared/common-ui-types.json"
         "styles/default.json"
-        "combos/body-tracking-a1.json"
+        "combos/body-tracking-b1.json"
     EFFECT_SOURCES
-        "combos/body-tracking-a1.csd"
+        "combos/body-tracking-b1.csd"
 )
 
 add_csound_templates(
