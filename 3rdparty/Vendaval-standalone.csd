@@ -63,20 +63,22 @@ csoundoutput bounds(1, 551, 998, 248) colour("black") corners(0) fontColour("gre
 <CsoundSynthesizer>
 <CsOptions>
 -n -+rtmidi=NULL -M0 -dm0
+--hardwarebufsamps=8192
+--iobufsamps=8192
 </CsOptions>
 <CsInstruments>
 
-ksmps = 32
+sr = 48000
+ksmps = 1024
 nchnls = 2
 0dbfs	= 1
 
 seed 0
 massign 0, "Master"
 
-
 instr Wooing
     //CHNGET CHANNELS
-    kWooingVolume chnget"WooingVolume_withOffset"
+    kWooingVolume chnget "WooingVolume_withOffset"
     kCenterFrequency chnget "WooingFrequency_withOffset"
     kWooingRangeMultiplier chnget "WooingRange"
     kRateIntensity chnget "WooingRate"
@@ -84,8 +86,6 @@ instr Wooing
     kResonance chnget "WooingResonance"
     kHarmonizerMultiplier chnget "WooingHarmonizerFreq"
     kHarmonizerVol chnget "WooingHarmonizerVol"
-
-    ; printsk("wooing frequency = %f\n", kCenterFrequency)
 
     //PORTK
     kWooingVolume portk kWooingVolume, 0.02
@@ -149,7 +149,8 @@ instr Background
     aNoiseBalanced balance aNoiseLp + aNoiseLpHarm, aNoiseBp
 
     aBackground = (aNoiseBalanced * kVolume) * kBackgroundVolume
-    chnmix aBackground, "GlobalMix"
+    ; chnmix aBackground, "GlobalMix"
+    chnset aBackground, "GlobalMix"
 endin
 
 
@@ -239,10 +240,12 @@ instr Reverb
 
     //BODY
     aDryHp butterhp aMixerOut, 150
-    aVerbL, aVerbR reverbsc aDryHp, aDryHp, kReverbSize, 4000, 44100, 5
+    ; aVerbL, aVerbR reverbsc aDryHp, aDryHp, kReverbSize, 4000, 44100, 5
 
-    aOutL ntrpol aDryHp, aVerbL, kReverbMix
-    aOutR ntrpol aDryHp, aVerbR, kReverbMix
+    ; aOutL ntrpol aDryHp, aVerbL, kReverbMix
+    ; aOutR ntrpol aDryHp, aVerbR, kReverbMix
+    aOutL = aDryHp * 0.1
+    aOutR = aDryHp * 0.1
 
     chnset aOutL, "OutL"
     chnset aOutR, "OutR"
@@ -259,12 +262,12 @@ instr Master
     aOutL chnget "OutL"
     aOutR chnget "OutR"
 
-    event_i "i", 1, 0, -1
-    event_i "i", 2, 0, -1
-    event_i "i", 3, 0, -1
-    event_i "i", 4, 0, -1
-    event_i "i", 5, 0, -1
-    event_i "i", 6, 0, -1
+    ; event_i "i", 1, 0, -1   // Wooing
+    event_i "i", 2, 0, -1   // Background
+    ; event_i "i", 3, 0, -1 // Gusts
+    ; event_i "i", 4, 0, -1 // Rumble
+    event_i "i", 5, 0, -1 // Mixer
+    event_i "i", 6, 0, -1 // Reverb
 
     //BODY
     aEnv madsr iAttackTime, iDecayTime, iSustainLevel, iReleaseTime
@@ -396,13 +399,43 @@ instr Vendaval_alwayson
 endin
 
 // Start at 1 second to give the host time to set it's values.
-scoreline_i("i\"Vendaval_alwayson\" 1 -1")
+; scoreline_i("i\"Vendaval_alwayson\" 1 -1")
+
+
+instr Vendaval_initChannels
+    // Background
+    chnset 1, "BackgroundVolume_withOffset"
+    chnset 600, "BackgroundFrequency_withOffset"
+    chnset 1, "BackgroundRange"
+    chnset 0.5, "BackgroundRate"
+    chnset 100, "BackgroundBandwidth"
+    chnset 0, "BackgroundResonance"
+    chnset 1, "BackgroundHarmonizerFreq"
+    chnset 0, "BackgroundHarmonizerVol"
+
+    // Master
+    chnset 6.1, "GlobalAttack"
+    chnset 0.9, "GlobalDecay"
+    chnset 1, "GlobalSustain"
+    chnset 1.9, "GlobalRelease"
+
+    // Mixer
+    chnset 1, "GlobalVolume"
+    chnset 10000, "GlobalCutoff"
+
+    // Reverb
+    chnset 0.88, "ReverbMix"
+    chnset 0.58, "ReverbSize"
+
+    // Rumble
+endin
 
 
 </CsInstruments>
 <CsScore>
 f0 36000
-;i "Master" 0 -1
+i "Vendaval_initChannels" 0 1
+i "Master" 1 -1
 </CsScore>
 </CsoundSynthesizer>
 <bsbPanel>
