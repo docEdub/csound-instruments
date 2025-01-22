@@ -114,8 +114,10 @@ instr $AlwaysOnInstrumentNumber
     i_volumeMax = 0.5
     i_volumeLagTime_up = 15
     i_volumeLagTimedown = 60
-    gk_leftVolume = k(1) - limit(k_leftAngle * i_volumeScale, i_volumeMax, 1)
-    gk_rightVolume = k(1) - limit(k_rightAngle * i_volumeScale, i_volumeMax, 1)
+    ; gk_leftVolume = k(1) - limit(k_leftAngle * i_volumeScale, i_volumeMax, 1)
+    ; gk_rightVolume = k(1) - limit(k_rightAngle * i_volumeScale, i_volumeMax, 1)
+    gk_leftVolume = lagud(k(1) - limit(k_leftAngle * i_volumeScale, i_volumeMax, 1), i_volumeLagTime_up, i_volumeLagTimedown)
+    gk_rightVolume = lagud(k(1) - limit(k_rightAngle * i_volumeScale, i_volumeMax, 1), i_volumeLagTime_up, i_volumeLagTimedown)
     ; {{LogDebug_k '("Left volume: %f, Right volume: %f", gk_leftVolume, gk_rightVolume)'}}
 
     i_noteNumber_min = 0
